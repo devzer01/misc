@@ -1,0 +1,23 @@
+<?php
+
+class Hb_Transaction_Account_Account 
+{
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $id
+	 * @return Hb_Data_Account_Account
+	 */
+	public static function 	GetAccountDetail($id)
+	{
+		$account = Hb_Data_Account_HbAccount::getInstance($id);
+		
+		$raw_account = array_pop(Hb_Db_MySQL_Account_Account::Get($id));
+		
+		$account->id       = $raw_account['account_id'];
+		$account->name = $raw_account['account_name'];
+		
+		return $account;
+	}
+}
+?>

@@ -1,0 +1,84 @@
+<?php
+/**
+ * Mapper for StudyContact
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @updated 09-Aug-2007 10:58:50 AM
+ */
+	
+	
+class Hb_Mapper_Study_StudyContact extends Hb_Mapper_Mapper
+{
+	protected $table = 'study_contact';
+	
+	protected $primary_key = 'study_contact_id';
+	
+		
+	/**
+	 * Finds the study_contact by it's contact_id
+	 *
+	 * @param int $id Id 
+	 * @return object Instance of a study domain 
+	 */
+	protected function doFindById($id)
+	{
+
+		$select = $this->GetBaseSelect();
+		
+		$select->where('a.study_contact_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(array('a' =>'study_contact'), array('study_contact_id' , 'study_id' , 'study_account_id' , 
+			'study_contact_type_id' , 'contact_id' , 'first_name' , 'middle_initial' , 'last_name' , 
+			'phone' , 'fax' , 'email' , 'salutation' , 'schedule_sent_date' , 'tcm_recipient'));
+			
+		return $select;
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyContact($row->study_contact_id, $row->email , $row->fax , 
+			$row->first_name , $row->last_name , $row->middle_initial , $row->phone , 
+			$row->salutation , $row->schedule_sent_date , $row->study_account_id , $row->contact_id , 
+			$row->study_contact_type_id ,  $row->study_id , $row->tcm_recipient);	
+	}
+	
+	/**
+	 * Saves a study_contact
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app study_contact 
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->email 					= $obj->GetEmail();
+		$row->fax						= $obj->GetFax();
+		$row->first_name				= $obj->GetFirstName();
+		$row->last_name					= $obj->GetLastName();
+		$row->middle_initial			= $obj->GetMiddleInitial();
+		$row->phone						= $obj->GetPhone(); 
+		$row->salutation				= $obj->GetSalutation();
+		$row->schedule_sent_date 		= $obj->GetScheduleSentDate();
+		$row->study_account_id 			= $obj->GetStudyAccountId();
+		$row->contact_id 				= $obj->GetContactId();
+		$row->study_contact_type_id 	= $obj->GetStudyContactTypeId();
+		$row->study_id 					= $obj->GetStudyId();
+		$row->tcm_recipient 			= $obj->GetTcmRecipient();
+
+		$row->Save();
+		
+		$obj->SetStudyContactId($row->study_contact_id);
+	}	
+}
+?>

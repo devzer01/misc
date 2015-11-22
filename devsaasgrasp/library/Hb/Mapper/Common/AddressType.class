@@ -1,0 +1,93 @@
+<?php 
+/**
+ * Mapper class of Account Hierarchy Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Common
+ */  
+class Hb_Mapper_Common_AddressType extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Common_AddressType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'address_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'address_type';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Address Type Id
+    * @return Hb_App_Common_AddressType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('at.address_type_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('at' => 'address_type'), array('address_type_id', 'address_type_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Common_AddressType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Common_AddressType($row->address_type_id, $row->address_type_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Common_AddressType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array('address_type_description'	=> $obj->GetTypeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('address_type', $data);
+			$obj->SetTypeId($db->lastInsertId());
+	  	} else {
+			$db->update('address_type', $data, 'address_type_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

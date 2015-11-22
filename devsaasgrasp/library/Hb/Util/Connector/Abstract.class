@@ -1,0 +1,27 @@
+<?php
+
+abstract class Hb_Util_Connector_Abstract {
+
+	protected  $__configuration = array();
+	
+	public function ParseConf($conf)
+	{
+		
+		$confs = split(":", $conf);
+		
+		foreach ($confs as $conf) {
+			
+			list($key, $value) = split("=", $conf);
+			
+			$this->__configuration[$key] = $value;
+			
+		}
+	}
+	
+	function GetServer()
+	{
+		return $this->__configuration['server'];
+	}
+
+}
+?>

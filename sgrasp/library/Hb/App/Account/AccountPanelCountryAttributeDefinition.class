@@ -1,0 +1,87 @@
+<?php 
+/**
+ * Domain class Account Panel Country Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountPanelCountryAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{ 
+	/**
+	 * The Panel Country Type Id
+	 *
+	 * @var string
+	 */
+	protected $account_panel_country_type_id = null;
+	
+	/**
+	 * The Country Code
+	 *
+	 * @var string
+	 */
+	protected $country_code = null;
+	
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Account Panel Country  Attribute Definition Id
+	 * @param string $attribute_name Account  Attribute Name
+	 * @param string $description Account  Attribute Description
+	 */ 
+	function __construct($id = null, $account_panel_country_type_id = null, $country_code = null, $attribute_name = null , $description = null) 
+	{ 
+		$this->account_panel_country_type_id 	= $account_panel_country_type_id;
+		$this->country_code 							= $country_code;
+		
+		parent::__construct($id, $attribute_name , $description );
+	}
+  
+   /**
+    * Return the Account Panel Country Type Id for the Account Panle Country Attribute Definition
+    *
+    * @return int Account Panel Country Type Id 
+    */
+   public function GetAccountPanelCountryTypeId()
+   {
+   	return $this->account_panel_country_type_id;
+   }
+   
+   /**
+    * Return the Country Code for the Account Panle Country Attribute Definition
+    *
+    * @return string Country Code
+    */
+   public function GetCountryCode()
+   {
+   	return $this->country_code;
+   }
+   
+   /**
+    * Sets the Account Panel Country Type Id for the Account Panle Country Attribute Definition
+    * 
+    * @param int $account_panel_country_type_id Account Panel Country Type Id
+    */
+   public function SetAccountPanelCountryTypeId($account_panel_country_type_id)
+   {
+   	$this->account_panel_country_type_id		= $account_panel_country_type_id;
+   	
+   	$this->MarkDirty();
+   }
+
+   /**
+    * Sets the Country Code for the Account Panle Country Attribute Definition
+    * 
+    * @param int $country_code Country Code
+    */
+   public function SetCountryCode($country_code)
+   {
+   	$this->country_code	= $country_code;
+   	
+   	$this->MarkDirty();
+   }   
+   	
+}
+?>

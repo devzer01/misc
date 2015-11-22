@@ -1,0 +1,17 @@
+<?php 
+/**
+ * Mapper Object for Account Type Recruiter
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_Recruiter extends Hb_Mapper_Account_Account
+{
+	
+}
+
+?>

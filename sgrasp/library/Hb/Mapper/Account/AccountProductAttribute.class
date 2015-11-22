@@ -1,0 +1,117 @@
+<?php 
+/**
+ * Mapper Object for Billing Report Group Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_AccountProductAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'account_product_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'account_product_attr';
+	
+	/**
+	 * Builds and returns the Account Product Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the armc_attr table
+	 * @return object An instance of the Account Product Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountProductAttribute($row->account_product_attr_id,
+									$row->account_product_id,
+									$row->account_product_attr_name,
+									$row->account_product_attr_value
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('apa' => 'account_product_attr'), array('account_product_attr_id',
+																		'account_product_id',
+																		'account_product_attr_name',
+																		'account_product_attr_value')
+						  );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Billing Report Group Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the armc_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('apa.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Billing Report Group Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		
+		require_once('class/Hb/Util/Db/Query.class');
+
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO account_product_attr 
+							(account_product_id, 
+							 account_product_attr_name, 
+							 account_product_attr_value ) "
+               			. "VALUES (" . $obj->GetAccountProductId() . ", 
+               			 			  '" . $db->escapeString($obj->GetAttributeName()) . "', 
+               			 			  '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetAccountProductAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			
+			$query = "UPDATE account_product_attr "
+						. "SET account_product_id = " . $obj->GetAccountProductId() . ", "
+							. " account_product_attr_name = '" 	. $db->escapeString($obj->GetAttributeName()) . "', "
+							. " account_product_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+							. "WHERE account_product_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+				
+	}
+}
+
+?>

@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 19-Jul-2007 1:39:00 PM
+ */
+class Hb_Mapper_Common_Country extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'country_code';
+	
+	protected $table       = 'country';
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $this->GetBaseSelect();
+		$select->where('country_code = ?', $id);
+		return $db->fetchRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Country($row->country_id, $row->country_code, $row->country_description, $row->region_id);
+	}
+
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('country', array('country_id', 'country_code', 'country_description', 'region_id'));
+
+		return $select;
+	}
+	
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+}
+?>

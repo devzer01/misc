@@ -1,0 +1,24 @@
+<?php
+
+class Hb_Mapper_List_ListCountry 
+{
+	public static function GetList () 
+	 {
+		$db = Hb_Util_Db_Query::getInstance();
+
+		$query = "SELECT * FROM country ORDER BY sort_order";
+		
+		$rs = $db->q($query);
+		
+		$list = new Hb_App_List_ListCountry();
+		
+		while(($r = $db->getAssoc($rs))) {
+			$list->AddItem(new Hb_App_List_Country($r['country_code'], $r['country_description']));
+		}
+		
+		return $list;
+		
+	 }
+}
+
+?>

@@ -1,0 +1,26 @@
+<?php 
+/**
+ * Domain Object for Account File Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+class Hb_App_Account_AccountFileType extends Hb_App_Common_Type
+{	
+	/**
+	 * Create Account File Type Object
+	 *
+	 * @param int $id account File type id
+	 * @param string $description study file type description
+	 */
+	public function __construct($id 				= null,
+									     $description = null
+									   )
+   {
+   	parent::__construct($id, $description);	
+   }
+}
+?>

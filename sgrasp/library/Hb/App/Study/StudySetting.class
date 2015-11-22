@@ -1,0 +1,39 @@
+<?php 
+/**
+ * Domain class Study Setting
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App 
+ * @subpackage Study
+ */  
+class Hb_App_Study_StudySetting extends Hb_App_Common_Setting
+{ 
+  /**
+    * Constructor of Domain class
+    *
+    * @param int $id Study Setting Id
+    * @param string $name Study Setting Name
+    * @param string $value Study Setting Value
+    * @param string $description Study Setting Description
+    */ 
+   function __construct($id = null, $name = null, $value = null, $description = null) 
+   { 
+   	parent::__construct($id, $name, $value, $description);
+   } 
+  
+    /**
+    * 
+    *
+    * @param data type var name var description
+    * @return data_type desciption
+    */  
+   public static function GetSetting($setting_name) 
+   { 
+   	$mapper = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudySetting');
+   	return $mapper->Find($setting_name)->GetSettingValue();
+   	
+   }
+}
+?>

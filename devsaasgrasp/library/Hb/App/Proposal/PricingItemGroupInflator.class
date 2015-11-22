@@ -1,0 +1,271 @@
+<?php 
+/**
+ * Domain class PricingItemGroupInflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_PricingItemGroupInflator extends Hb_App_Object
+{
+	/**
+	 * Effective Date
+	 *
+	 * @var string 
+	 */ 
+	protected $effective_date = null;
+	
+	/**
+	 * Expire Date
+	 *
+	 * @var string 
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * Inflator Amount
+	 *
+	 * @var float 
+	 */
+	protected $inflator_amount = null;
+	
+	/**
+	 * License Level Id
+	 *
+	 * @var int 
+	 */ 
+	protected $license_level_id = null;
+	
+	/**
+	 * Licence Level
+	 *
+	 * @var Object 
+	 */ 
+	protected $license_level = null;
+	
+	/**
+	 * Pricing Item Group Id
+	 *
+	 * @var int 
+	 */ 
+	protected $pricing_item_group_id = null;
+	
+	/**
+	 * Pricing Item Group
+	 *
+	 * @var Object 
+	 */ 
+	protected $pricing_item_group = null;
+	
+	/**
+	 * Pricing Item Group Inflator Id
+	 *
+	 * @var int 
+	 */ 
+	protected $pricing_item_group_inflator_id = null;
+
+	/**
+	 * Class constructor
+	 *
+	 * @param int $id Pricing Item Group Inflator Id
+	 * @param int $pricing_item_group_id Pricing Item Group Id
+	 * @param object $pricing_item_group Domain Object of Pricing Item Group
+	 * @param int licence_level_id Licence Level Id
+	 * @param float	$inflator_amount Inflator Amount
+	 * @param string $effective_date Date of Effective
+	 * @param string $expire_date Date of Expiry
+	 */  
+	function __construct($id = null,
+				$pricing_item_group_id = null,
+				$pricing_item_group = null,
+				$licence_level_id = null,
+				$licence_level = null,
+				$inflator_amount = null,
+				$effective_date = null,
+				$expire_date = null)
+	{
+		$this->pricing_item_group_inflator_id	= $id;
+		$this->pricing_item_group_id			= $pricing_item_group_id;
+		$this->pricing_item_group				= $pricing_item_group;
+		$this->licence_level_id					= $licence_level_id;
+		$this->licence_level					= $licence_level;
+		$this->inflator_amount					= $inflator_amount;
+		$this->expire_date						= $expire_date;
+		$this->effective_date					= $effective_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Effective Date
+	 *
+	 * @return string Effective Date
+	 */ 
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+	
+	/**
+	 * Returns Expire Date
+	 *
+	 * @return string Date of Expire
+	 */ 
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Returns Inflator Amount
+	 *
+	 * @return float Inflator Amount
+	 */
+	public function GetInflatorAmount()
+	{
+		return $this->inflator_amount;
+	}
+
+	/**
+	 * Returns Licence Level Id
+	 *
+	 * @return int Licence Level Id
+	 */
+	public function GetLicenseLevelId()
+	{
+		return $this->license_level_id;
+	}
+	
+	/**
+	 * Returns Licence Level Domain Object
+	 *
+	 * @return object Licence Level Domain Object
+	 */
+	public function GetLicenseLevel()
+	{
+		return $this->license_level;
+	}
+	
+	/**
+	 * Returns Pricing Item Group Id
+	 *
+	 * @return int Pricing Item Group Id
+	 */
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+	
+	/**
+	 * Returns Pricing Item Group Domain Object
+	 *
+	 * @return object Pricing Item Group Domain Object
+	 */
+	public function GetPricingItemGroup()
+	{
+		return $this->pricing_item_group;
+	}
+
+	/**
+	 * Returns Pricing Item Group Inflator Id
+	 *
+	 * @return int Pricing Item Group Inflator Id
+	 */
+	public function GetPricingItemGroupInflatorId()
+	{
+		return $this->pricing_item_group_inflator_id;
+	}
+
+	/**
+	 * Sets Effective Date
+	 *
+	 * @param string $effective_date Date of Effect
+	 */  
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Expire Date
+	 *
+	 * @param string $expire_date Date of Expiry
+	 */ 
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Inflator Amount
+	 *
+	 * @param float $amount Inflator Amount
+	 */ 
+	public function SetInflatorAmount($amount)
+	{
+		$this->inflator_amount = $amount;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Licence Level Id
+	 *
+	 * @param int $licence_level_id Licence Level Id
+	 */ 
+	public function SetLicenseLevelId($license_level_id)
+	{
+		$this->license_level_id = (int)$license_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Licence Level
+	 *
+	 * @param object $licence_level Licence Level
+	 */ 
+	public function SetLicenseLevel($license_level)
+	{
+		$this->license_level = $license_level;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Pricing Item Group Id
+	 *
+	 * @param int $item_group_id Pricing Item Group Id
+	 */ 
+	public function SetPricingItemGroupId($item_group_id)
+	{
+		$this->pricing_item_group_id = (int)$item_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Pricing Item Group
+	 *
+	 * @param object $item_group Pricing Item Group
+	 */ 
+	public function SetPricingItemGroup($item_group)
+	{
+		$this->pricing_item_group = $item_group;
+	}
+
+	/**
+	 * Sets Pricing Item Group Inflator Id
+	 *
+	 * @param int $inflator_id Pricing Item Group Inflator Id
+	 */ 
+	public function SetPricingItemGroupInflatorId($inflator_id)
+	{
+		$this->pricing_item_group_inflator_id 	= (int)$inflator_id;
+		$this->__id							  	= (int)$inflator_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,148 @@
+<?php
+/**
+ * Domain Object for Proposal Revision Budget Line Item
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalRevisionBudgetLineItem extends Hb_App_Object
+{
+	/**
+	 * Proposal revision budget line item Amount
+	 *
+	 * @var double
+	 **/
+	protected $amount = null;
+
+	/**
+	 * Proposal budget line item Id
+	 *
+	 * @var int
+	 **/
+	protected $proposal_budget_line_item_id = null;
+
+	/**
+	 * Proposal revision budget line item Id
+	 *
+	 * @var int
+	 **/
+	protected $proposal_revision_budget_line_item_id = null;
+	
+	/**
+	 * Proposal revision option id
+	 *
+	 * @var int
+	 **/
+	protected $proposal_revision_option_id = null;
+
+	/**
+	 * Create ProposalRevisionBudgetLineItem Object
+	 *
+	 * @param int $id Proposal revision budget line item Id
+	 * @param int $proposal_budget_line_item_id Proposal budget line item Id
+	 * @param int $proposal_revision_option_id Proposal revision option Id 
+	 * @param int $amount Proposal revision buget line item amount	 
+	 */
+	function __construct($id = null,
+				  				$proposal_budget_line_item_id = null,
+				  				$proposal_revision_option_id = null,
+				  				$amount = null )
+	{
+		$this->proposal_revision_budget_line_item_id = $id;
+		$this->proposal_budget_line_item_id = $proposal_budget_line_item_id;
+		$this->proposal_revision_option_id = $proposal_revision_option_id;
+		$this->amount = $amount;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Proposal revision budget line item amount
+ 	* 
+	* @return int The Proposal revision budget line item amount
+	**/
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	* Returns the Proposal budget line item Id
+ 	* 
+	* @return int The Proposal budget line item Id
+	**/
+	public function GetProposalBudgetLineItemId()
+	{
+		return $this->proposal_budget_line_item_id;
+	}
+
+	/**
+	* Returns the Proposal revision budget line item Id
+ 	* 
+	* @return int The Proposal revision budget line item Id
+	**/
+	public function GetProposalRevisionBudgetLineItemId()
+	{
+		return $this->proposal_revision_budget_line_item_id;
+	}
+
+	/**
+	* Returns the Proposal revision option Id
+ 	* 
+	* @return int The Proposal revision option Id
+	**/
+	public function GetProposalRevisionOptionId()
+	{
+		return $this->proposal_revision_option_id;
+	}
+
+	/**
+	 * Sets the Proposal revision budget line item amount
+ 	 * 
+	 * @param double $amount The Proposal revision budget line item amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = (double) $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal budget line item Id
+ 	 * 
+	 * @param int $proposal_budget_line_item_id The Proposal budget line item Id
+	 */
+	public function SetProposalBudgetLineItemId($proposal_budget_line_item_id)
+	{
+		$this->proposal_budget_line_item_id = (int) $proposal_budget_line_item_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal revision budget line item Id
+ 	 * 
+	 * @param int $proposal_revision_budget_line_item_id The Proposal revision budget line item Id
+	 */
+	public function SetProposalRevisionBudgetLineItemId($proposal_revision_budget_line_item_id)
+	{
+		$this->proposal_revision_budget_line_item_id = (int) $proposal_revision_budget_line_item_id;
+		$this->__id = (int) $proposal_revision_budget_line_item_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal revision option Id
+ 	 * 
+	 * @param int $proposal_revision_option_id The Proposal revision option Id
+	 */
+	public function SetProposalRevisionOptionId($proposal_revision_option_id)
+	{
+		$this->proposal_revision_option_id = (int) $proposal_revision_option_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

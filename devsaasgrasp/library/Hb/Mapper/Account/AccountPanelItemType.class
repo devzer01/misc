@@ -1,0 +1,98 @@
+<?php 
+/**
+ * Mapper class of Account Panel Item Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountPanelItemType extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountPanelItemType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_panel_item_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_panel_item_type';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Panel Item Type Id
+    * @return Hb_App_Account_AccountPanelItemType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('apit.account_panel_item_type_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('apit' => 'account_panel_item_type'), array('account_panel_item_type_id', 'sample_type_id', 
+	  	'account_panel_item_type_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountPanelItemType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Account_AccountPanelItemType($row->account_panel_item_type_id, 
+   			$row->account_panel_item_type_description,
+   	 		$row->sample_type_id);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountPanelItemType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'account_panel_item_type_description'	=> $obj->GetTypeDescription(),
+      	'sample_type_id'								=> $obj->GetSampleTypeId());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('account_panel_item_type', $data);
+			$obj->SetTypeId($db->lastInsertId());
+	  	} else {
+			$db->update('account_panel_item_type', $data, 'account_panel_item_type_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

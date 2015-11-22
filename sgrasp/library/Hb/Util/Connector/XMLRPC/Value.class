@@ -1,0 +1,13 @@
+<?php
+
+require_once("XML/RPC.php");
+
+class Hb_Util_Connector_XMLRPC_Value extends XML_RPC_Value {
+	
+	
+	public static function EncodeData($data) 
+	{
+		return array(XML_RPC_encode($data));
+	}
+}
+?>

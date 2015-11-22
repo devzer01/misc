@@ -1,0 +1,10 @@
+<?php
+include_once 'class/Hb/View/View.class';
+
+class Hb_View_Footer_ExternalFooter extends Hb_View_View 
+{	
+	protected  $__template_name = 'common/ext/v2/footer.tpl';
+	
+	protected  $__handler = 'Smarty';	
+}
+?>

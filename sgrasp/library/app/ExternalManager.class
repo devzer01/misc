@@ -1,0 +1,443 @@
+<?php
+
+class acm_ExternalManager extends Acm {
+
+	/**
+	 * Designated External Connector Class Object
+	 * @var db_ext_atm_ora_Account
+	 */
+	private $__connector;
+
+	/**
+	* __construct()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.2 - Fri Jun 08 19:27:26 PDT 2007
+	*/
+	public function __construct()
+	{
+		$config_obj = Hb_Util_Config_SystemConfigReader::Read();
+		$this->__connector = db_ext_atm_Factory::GetInstance($config_obj->billing->system, "Account");
+	}
+
+	/**
+	* __SyncOracleAccount()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.2 - Fri Jun 08 19:15:07 PDT 2007
+	*/
+	private function __SyncOracleAccount($acct, $ret)
+	{
+		$accountDB = new accountDB();
+		$accountDB->SetAccountId($acct["account_id"]);
+      $logger = Hb_Util_Log_Logger::GetInstance("oracle");
+		$logger->LogInfo("Oracle Account Synchronization", "Synchronizing account : ".$acct["company_name"]." (".$acct["account_id"].")");
+
+		$acct["company_name"] = str_replace("'", "`", $acct["company_name"]);
+
+		if (isset($acct["cust_account_id"]) && ($acct["cust_account_id"])) {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccount(".$acct["cust_account_id"].")");
+			$ora_account = $this->__connector->GetCustAccount($acct["cust_account_id"]);
+			if ($ora_account["error_code"]) {
+				$accountDB->UpdateAccountAttr("ARMC_ORA_ACCOUNT_ID", "");
+				return $ora_account;
+			}
+
+			if (($ora_account["data"]["COMPANY_NAME"] != strtoupper($acct["company_name"]) ||
+			($ora_account["data"]["TAX_ID"] != strtoupper($acct["tax_id"])) ||
+			($ora_account["data"]["TAX_REGISTRATION_NUMBER"] != strtoupper($acct["tax_registration_number"])) ||
+			($ora_account["data"]["PAYMENT_TERM"] != strtoupper($acct["payment_term"])))) {
+				if ($acct["ora_update_acct_approval_required"] && !$acct["ora_update_acct_approved"]) {
+					return array("error_code"=>-1, "error_message"=>"Accounting approval required for Oracle Update");
+				}
+				$logger->LogDebug2("Oracle Account Synchronization", "UpdateCustAccount(".$acct["cust_account_id"].", ".$acct["company_name"].", ".$acct["tax_id"].", ".$acct["tax_registration_number"].", ".$acct["payment_term"].")");
+				$update = $this->__connector->UpdateCustAccount($acct["cust_account_id"], $acct["company_name"], $acct["tax_id"], $acct["tax_registration_number"], $acct["payment_term"]);
+				if ($update["error_code"]) {
+					return $update;
+				}
+				$ret["status"] = "update";
+			}
+		} else {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountByName(".$acct["company_name"].")");
+			$ora_account = $this->__connector->GetCustAccountByName($acct["company_name"]);
+			if ($ora_account["error_code"]) {
+				if ($acct["ora_update_acct_approval_required"] && !$acct["ora_update_acct_approved"]) {
+					return array("error_code"=>-1, "error_message"=>"Accounting approval required for Oracle Update");
+				}
+				$logger->LogDebug2("Oracle Account Synchronization", "CreateCustAccount(".$acct["company_name"].", ".$acct["tax_id"].", ".$acct["tax_registration_number"].", ".$acct["payment_term"].")");
+				$insert = $this->__connector->CreateCustAccount($acct["company_name"], $acct["tax_id"], $acct["tax_registration_number"], $acct["payment_term"]);
+				if ($insert["error_code"]) {
+					return $insert;
+				}
+				$ret["status"] = "new";
+				$acct["cust_account_id"] = $insert["data"]["cust_account_id"];
+			} else {
+				$acct["cust_account_id"] = $ora_account["data"]["CUST_ACCOUNT_ID"];
+			}
+			if ($accountDB->GetAccountAttrByAttrName("ARMC_ORA_ACCOUNT_ID") !== false) {
+				$accountDB->UpdateAccountAttr("ARMC_ORA_ACCOUNT_ID", $acct["cust_account_id"]);
+			} else {
+				$accountDB->SetAccountAttr("ARMC_ORA_ACCOUNT_ID", $acct["cust_account_id"]);
+			}
+		}
+		$ret["cust_account_id"] = $acct["cust_account_id"];
+		return array("error_code"=>0, "error_message"=>"success", "data"=>$ret);
+	}
+
+	/**
+	* __SyncOracleAccountContact()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.2 - Fri Jun 08 19:26:36 PDT 2007
+	*/
+	private function __SyncOracleAccountContact($acct, $contact, $ret)
+	{
+		$commonDB = new commonDB();
+      $logger = Hb_Util_Log_Logger::GetInstance("oracle");
+		$logger->LogInfo("Oracle Account Synchronization", "Synchronizing contact : ".$contact["first_name"]." ".$contact["last_name"]);
+
+		$contact["address1"] = str_replace("'", "`", $contact["address1"]);
+		$contact["address2"] = str_replace("'", "`", $contact["address2"]);
+		$contact["city"] = str_replace("'", "`", $contact["city"]);
+		$contact["first_name"] = str_replace("'", "`", $contact["first_name"]);
+		$contact["last_name"] = str_replace("'", "`", $contact["last_name"]);
+		$contact["email"] = str_replace("'", "`", $contact["email"]);
+
+		$address_key = strtoupper($contact["address1"]."//".$contact["city"]."//".$contact["zip"]."//".$contact["country"]);
+		$contact_key = strtoupper($contact["first_name"]."//".$contact["last_name"]."//".$contact["email"]);
+		$ret["addresses"][$address_key]["address"] = $contact["address1"]." ".$contact["address2"].", ".$contact["city"].", ".$contact["state"].", ".$contact["zip"].", ".$contact["country"];
+		$ret["addresses"][$address_key]["contacts"][$contact_key] = array("contact"=>$contact["first_name"]." ".$contact["last_name"]." (".$contact["email"].")");
+		if (isset($contact["cust_account_site_id"]) && ($contact["cust_account_site_id"])) {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountSite(".$acct["cust_account_id"].", ".$contact["cust_account_site_id"].")");
+			$ora_site = $this->__connector->GetCustAccountSite($acct["cust_account_id"], $contact["cust_account_site_id"]);
+			if ($ora_site["error_code"]) {
+				$commonDB->UpdateContactAttr($contact["contact_id"], "ORA_SITE_ID", "");
+				return $ora_site;
+			}
+			if (($ora_site["data"]["ADDRESS1"] != strtoupper($contact["address1"])) ||
+			($ora_site["data"]["CITY"] != strtoupper($contact["city"])) ||
+			($ora_site["data"]["ZIP"] != strtoupper($contact["zip"])) ||
+			($ora_site["data"]["COUNTRY"] != strtoupper($contact["country"])) ||
+			($ora_site["data"]["TAX_CODE"] != $acct["tax_code"])) {
+            $logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountSiteByAddress(".$acct["cust_account_id"].", ".$contact["address1"].")");
+				$ora_site = $this->__connector->GetCustAccountSiteByAddress($acct["cust_account_id"], $contact["address1"]);
+				if ($ora_site["error_code"]) {
+					$logger->LogDebug2("Oracle Account Synchronization", "CreateCustAccountSite(".$acct["cust_account_id"].", ".$contact["address1"].", ".$contact["address2"].", ".$contact["city"].", ".$contact["county"].", ".$contact["zip"].", ".$contact["state"].", ".$contact["country"].", ".$acct["tax_code"].", ".$contact["prim"].")");
+					$insert = $this->__connector->CreateCustAccountSite($acct["cust_account_id"], $contact["address1"], $contact["address2"], $contact["city"], $contact["county"], $contact["zip"], $contact["state"], $contact["country"], $acct["tax_code"], $contact["prim"]);
+					if ($insert["error_code"]) {
+						return $insert;
+					}
+					$ret["addresses"][$address_key]["status"]="new";
+					if (!isset($ret["status"])) {
+						$ret["status"] = "update";
+					}
+					$contact["cust_account_site_id"] = $insert["data"]["site_id"];
+				} else {
+					if ($ora_site["data"]["TAX_CODE"] != $acct["tax_code"]) {
+						if ($acct["ora_update_acct_approval_required"] && !$acct["ora_update_acct_approved"]) {
+							return array("error_code"=>-1, "error_message"=>"Accounting approval required for Oracle Update");
+						}
+						$logger->LogDebug2("Oracle Account Synchronization", "UpdateCustAccountSite(".$acct["cust_account_id"].", ".$ora_site["data"]["CUST_ACCOUNT_SITE_ID"].", ".$contact["address1"].", ".$contact["address2"].", ".$contact["city"].", ".$contact["county"].", ".$contact["zip"].", ".$contact["state"].", ".$contact["country"].", ".$acct["tax_code"].", ".$contact["prim"].")");
+						$update = $this->__connector->UpdateCustAccountSite($acct["cust_account_id"], $ora_site["data"]["CUST_ACCOUNT_SITE_ID"], $contact["address1"], $contact["address2"], $contact["city"], $contact["county"], $contact["zip"], $contact["state"], $contact["country"], $acct["tax_code"], $contact["prim"]);
+						if ($update["error_code"]) {
+							return $update;
+						}
+						$ret["addresses"][$address_key]["status"]="update";
+						if (!isset($ret["status"])) {
+							$ret["status"] = "update";
+						}
+					}
+					$contact["cust_account_site_id"] = $ora_site["data"]["CUST_ACCOUNT_SITE_ID"];
+				}
+				$commonDB->UpdateContactAttr($contact["contact_id"], "ORA_SITE_ID", $contact["cust_account_site_id"]);
+			}
+		} else {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountSiteByAddress(".$acct["cust_account_id"].", ".$contact["address1"].")");
+			$ora_site = $this->__connector->GetCustAccountSiteByAddress($acct["cust_account_id"], $contact["address1"]);
+			if ($ora_site["error_code"]) {
+				$logger->LogDebug2("Oracle Account Synchronization", "CreateCustAccountSite(".$acct["cust_account_id"].", ".$contact["address1"].", ".$contact["address2"].", ".$contact["city"].", ".$contact["county"].", ".$contact["zip"].", ".$contact["state"].", ".$contact["country"].", ".$acct["tax_code"].", ".$contact["prim"].")");
+				$insert = $this->__connector->CreateCustAccountSite($acct["cust_account_id"], $contact["address1"], $contact["address2"], $contact["city"], $contact["county"], $contact["zip"], $contact["state"], $contact["country"], $acct["tax_code"], $contact["prim"]);
+				if ($insert["error_code"]) {
+					return $insert;
+				}
+				$ret["addresses"][$address_key]["status"]="new";
+				if (!isset($ret["status"])) {
+					$ret["status"] = "update";
+				}
+				$contact["cust_account_site_id"] = $insert["data"]["site_id"];
+			} else {
+				if ($ora_site["data"]["TAX_CODE"] != $acct["tax_code"]) {
+					if ($acct["ora_update_acct_approval_required"] && !$acct["ora_update_acct_approved"]) {
+						return array("error_code"=>-1, "error_message"=>"Accounting approval required for Oracle Update");
+					}
+					$logger->LogDebug2("Oracle Account Synchronization", "UpdateCustAccountSite(".$acct["cust_account_id"].", ".$ora_site["data"]["CUST_ACCOUNT_SITE_ID"].", ".$contact["address1"].", ".$contact["address2"].", ".$contact["city"].", ".$contact["county"].", ".$contact["zip"].", ".$contact["state"].", ".$contact["country"].", ".$acct["tax_code"].", ".$contact["prim"].")");
+					$update = $this->__connector->UpdateCustAccountSite($acct["cust_account_id"], $ora_site["data"]["CUST_ACCOUNT_SITE_ID"], $contact["address1"], $contact["address2"], $contact["city"], $contact["county"], $contact["zip"], $contact["state"], $contact["country"], $acct["tax_code"], $contact["prim"]);
+					if ($update["error_code"]) {
+						return $update;
+					}
+					$ret["addresses"][$address_key]["status"]="update";
+					if (!isset($ret["status"])) {
+						$ret["status"] = "update";
+					}
+				}
+				$contact["cust_account_site_id"] = $ora_site["data"]["CUST_ACCOUNT_SITE_ID"];
+			}
+			if ($commonDB->GetContactAttr($contact["contact_id"], "ORA_SITE_ID") !== false) {
+				$commonDB->UpdateContactAttr($contact["contact_id"], "ORA_SITE_ID", $contact["cust_account_site_id"]);
+			} else {
+				$commonDB->SetContactAttr($contact["contact_id"], "ORA_SITE_ID", $contact["cust_account_site_id"]);
+			}
+		}
+
+		if (isset($contact["ora_contact_id"]) && ($contact["ora_contact_id"])) {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountSiteContact(".$acct["cust_account_id"].", ".$contact["cust_account_site_id"].", ".$contact["ora_contact_id"].")");
+			$ora_contact = $this->__connector->GetCustAccountSiteContact($acct["cust_account_id"], $contact["cust_account_site_id"], $contact["ora_contact_id"]);
+			if ($ora_contact["error_code"]) {
+				$commonDB->UpdateContactAttr($contact["contact_id"], "ORA_CONTACT_ID", "");
+				return $ora_contact;
+			}
+
+			if (($ora_contact["data"]["FIRST_NAME"] != strtoupper($contact["first_name"])) ||
+			($ora_contact["data"]["LAST_NAME"] != strtoupper($contact["last_name"])) ||
+			($ora_contact["data"]["EMAIL"] != strtoupper($contact["email"])) ||
+			($ora_contact["data"]["PHONE"] != $contact["phone"]) ||
+			($ora_contact["data"]["FAX"] != $contact["fax"])) {
+				$logger->LogDebug2("Oracle Account Synchronization", "UpdateCustAccountSiteContact(".$acct["cust_account_id"].", ".$contact["cust_account_site_id"].", ".$contact["ora_contact_id"].", ".$contact["first_name"].", ".$contact["last_name"].", ".$contact["email"].", ".$contact["phone"].", ".$contact["fax"].")");
+				$update = $this->__connector->UpdateCustAccountSiteContact($acct["cust_account_id"], $contact["cust_account_site_id"], $contact["ora_contact_id"], $contact["first_name"], $contact["last_name"], $contact["email"], $contact["phone"], $contact["fax"]);
+				if ($update["error_code"]) {
+					return $update;
+				}
+				$ret["addresses"][$address_key]["contacts"][$contact_key]["status"] = "update";
+				if (!isset($ret["addresses"][$address_key]["status"])) {
+					$ret["addresses"][$address_key]["status"]="update";
+				}
+				if (!isset($ret["status"])) {
+					$ret["status"] = "update";
+				}
+			}
+		} else {
+			$logger->LogDebug2("Oracle Account Synchronization", "GetCustAccountSiteContactByNameEmail(".$acct["cust_account_id"].", ".$contact["cust_account_site_id"].", ".$contact["first_name"].", ".$contact["last_name"].", ".$contact["email"].")");
+			$ora_contact = $this->__connector->GetCustAccountSiteContactByNameEmail($acct["cust_account_id"], $contact["cust_account_site_id"], $contact["first_name"], $contact["last_name"], $contact["email"]);
+			if ($ora_contact["error_code"]) {
+				$logger->LogDebug2("Oracle Account Synchronization", "CreateCustAccountSiteContact(".$acct["cust_account_id"].", ".$contact["cust_account_site_id"].", ".$contact["first_name"].", ".$contact["last_name"].", ".$contact["email"].", ".$contact["phone"].", ".$contact["fax"].")");
+				$insert = $this->__connector->CreateCustAccountSiteContact($acct["cust_account_id"], $contact["cust_account_site_id"], $contact["first_name"], $contact["last_name"], $contact["email"], $contact["phone"], $contact["fax"]);
+				if ($insert["error_code"]) {
+					return $insert;
+				}
+				$ret["addresses"][$address_key]["contacts"][$contact_key]["status"] = "new";
+				if (!isset($ret["addresses"][$address_key]["status"])) {
+					$ret["addresses"][$address_key]["status"]="update";
+				}
+				if (!isset($ret["status"])) {
+					$ret["status"] = "update";
+				}
+				$contact["ora_contact_id"] = $insert["data"]["contact_id"];
+			} else {
+				$contact["ora_contact_id"] = $ora_contact["data"]["CONTACT_ID"];
+			}
+			if ($commonDB->GetContactAttr($contact["contact_id"], "ORA_CONTACT_ID") !== false) {
+				$commonDB->UpdateContactAttr($contact["contact_id"], "ORA_CONTACT_ID", $contact["ora_contact_id"]);
+			} else {
+				$commonDB->SetContactAttr($contact["contact_id"], "ORA_CONTACT_ID", $contact["ora_contact_id"]);
+			}
+		}
+
+		return array("error_code"=>0, "error_message"=>"success", "data"=>$ret);
+	}
+
+	/**
+	* __GetDefaultPaymentTerm()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.2 - Thu Jun 14 20:45:22 PDT 2007
+	*/
+	private function __GetDefaultPaymentTerm()
+	{
+	   $commDB = new commonDB();
+	   $r = $commDB->GetPaymentTerms();
+	   while ($pt = mysql_fetch_assoc($r)) {
+	      if ($pt["payment_term_name"]=="NET 30") return $pt["accounting_payment_term_id"];
+	   }
+	   return 0;
+	}
+
+	/**
+	* SyncOracleCustomer()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - Fri Jun 08 15:07:49 PDT 2007
+	*/
+	public function SyncOracleCustomer($account_id)
+	{
+
+	   $commonDB = new commonDB();
+	   $accountDB = new accountDB();
+	   $accountDB->SetAccountID($account_id);
+
+	   $acct = $accountDB->GetAccountAccountingDetails();
+	   if (!$acct["payment_term"]) {
+	      $acct["payment_term"] = $this->__GetDefaultPaymentTerm();
+	      if ($accountDB->GetAccountAttrByAttrName("ARMC_ORA_PAYMENT_TERM") !== false) {
+	         $accountDB->UpdateAccountAttr("ARMC_ORA_PAYMENT_TERM", $acct["payment_term"]);
+	      } else {
+	         $accountDB->SetAccountAttr("ARMC_ORA_PAYMENT_TERM", $acct["payment_term"]);
+	      }
+	   }
+
+	   $config_obj = Hb_Util_Config_SystemConfigReader::Read();
+	   $ora = db_ext_atm_Factory::GetInstance($config_obj->billing->system, "Account");
+
+	   if (!$acct) {
+	      return array("error_code"=>-1, "error_message"=>"Account $account_id not found !!!");
+	   }
+	   if (!$acct["customer"]) {
+	      return array("error_code"=>-1, "error_message"=>"Account ".$acct["account_name"]." is NOT a customer !!!");
+	   }
+
+
+	   $acct['contacts'] = array();
+	   $rst = $accountDB->GetAccountContactsAccountingDetails();
+	   while ($contact = mysql_fetch_assoc($rst)) {
+	      $acct["contacts"][] = $contact;
+	   }
+
+
+	   $ret = array("account_name"=>$acct["company_name"], "addresses"=>array());
+
+	   if ($acct["company_name"] !== "") {
+	      $acct_sync = $this->__SyncOracleAccount($acct, $ret);
+	      if ($acct_sync["error_code"]) {
+	         return $acct_sync;
+	      }
+	      $ret = $acct_sync["data"];
+	      $acct["cust_account_id"] = $ret["cust_account_id"];
+
+	      foreach ($acct["contacts"] AS $contact) {
+	         if ($contact["address1"] !== "" && $contact["country"] !== "") {
+	            $contact_sync = $this->__SyncOracleAccountContact($acct, $contact, $ret);
+	            if ($contact_sync["error_code"]) {
+	               return $contact_sync;
+	            }
+	            $ret = $contact_sync["data"];
+	         }
+	      }
+	   }
+
+	   $accountDB->UpdateAccountAttr("ORA_UPDATE_ACCT_APPROVED", 0);
+	   return array("error_code"=>0, "error_message"=>"success", "data"=>$ret);
+	}
+
+	/**
+	* UpdateOracleCustomer()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.2 - Mon Jun 11 15:39:17 PDT 2007
+	*/
+	public function UpdateOracleCustomer()
+	{
+		global $smarty, $encryption;
+		$accountDB = new accountDB();
+
+		$accountDB->SetAccountId($this->__o["account_id"]);
+		$account = $accountDB->GetAccountDetail();
+
+		$counts = array("new"=>array("accounts"=>0, "sites"=>0, "contacts"=>0), "update"=>array("accounts"=>0, "sites"=>0, "contacts"=>0));
+		$errors = array();
+		$results = array();
+
+		$logger = Hb_Util_Log_Logger::GetInstance("oracle");
+
+		$sync = $this->SyncOracleCustomer($this->__o["account_id"]);
+
+		if ($sync["error_code"]) {
+			$account["error_message"] = $sync["error_message"];
+			$errors[] = $account;
+			$logger->LogError("Oracle Account Synchronization", $account["error_message"]);
+		} else {
+			if (isset($sync["data"]["status"])) {
+				$counts[$sync["data"]["status"]]["accounts"]++;
+				foreach ($sync["data"]["addresses"] AS $key=>$address) {
+					if (isset($address["status"])) {
+						$counts[$address["status"]]["sites"]++;
+						foreach ($address["contacts"] AS $contact_key=>$contact) {
+							if (isset($contact["status"])) {
+								$counts[$contact["status"]]["contacts"]++;
+							} else {
+								unset($sync["data"]["addresses"][$key]["contacts"][$contact_key]);
+							}
+						}
+					} else {
+						unset($sync["data"]["addresses"][$key]);
+					}
+				}
+				$results[] = $sync["data"];
+			}
+		}
+
+		if (count($errors) || count($results)) {		
+			
+			//display error message on the Account details page
+			if(count($errors)) {			
+				$error_message = '';
+				foreach ($errors as $error) {
+					$error_message .= $error['error_message']. " <br>";
+				}		
+				
+				$_SESSION['error_message']	= $error_message;
+				$_SESSION['error_code'] 	= 'oracle_synchronize_contact_error';
+			}			
+			
+			//send the error message mail
+			$smarty->assign("num_account", $counts);
+			$smarty->assign("account", $results);
+			$smarty->assign("error", $errors);
+			$body = $smarty->fetch("app/acm/email_oracle_batch_result.tpl");
+
+			$rcpt = array();
+			$rcpt[] = $_SESSION["admin_id"];
+			$rst = $accountDB->GetAccountUsers();
+			while ($user = mysql_fetch_assoc($rst)) {
+				$rcpt[] = $user["user_id"];				
+			}		
+			
+			$param = array("message_type_id"		=>ACM_MESSAGE_TYPE_ORACLE_MANUAL_SYNC,
+								"rcpt"					=>$rcpt,
+								"msg"						=>array(
+										"subject"				=> "Oracle Manual Account Sync Results",
+										"body"					=> $body),
+								"attr"					=> array(
+										"account_id"					=> $account["account_id"],
+										"new_accounts_count"			=> $counts["new"]["accounts"],
+										"updated_accounts_count"	=> $counts["update"]["accounts"],
+										"new_account_sites_count"	=> $counts["new"]["sites"],
+										"updated_account_sites_count"	=> $counts["update"]["sites"],
+										"new_account_contacts_count"	=> $counts["new"]["contacts"],
+										"updated_account_contacts_count"	=> $counts["update"]["contacts"],
+										"errors"									=> count($errors)));
+//		   echo ("<pre>".print_r($param, true)."</pre>");
+		   $d = HBRPCCall("com", "QueueMessage", $param);
+		   
+		   if ($d["error_code"]) {
+   			$logger->LogError("Oracle Account Synchronization", "COM:QueueMessage error : ".$d["error_message"]);
+		   } else {
+   			$logger->LogInfo("Oracle Account Synchronization", "Account Sync Results message sent");
+		   }
+		}		
+		
+		header("Location: ?e=".$encryption->Encrypt("action=display_account_detail&account_id=".$this->__o["account_id"]));
+	}
+}
+
+?>

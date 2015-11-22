@@ -1,0 +1,331 @@
+<?php 
+/**
+ * Domain class of AccountPanelDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountPanelDiscount extends Hb_App_Object
+{  
+	/**
+	 * Account Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_id = null;
+	
+	/**
+	 * Account
+	 *
+	 * @var Object
+	 */ 
+	protected $account = null;
+	
+	/**
+	 * Account Panel Discount Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_panel_discount_id = null;
+	
+	/**
+	 * Discount Amount
+	 *
+	 * @var float 
+	 */ 	
+	protected $discount_amount = null;
+	
+	/**
+	 * Effective Date
+	 *
+	 * @var string 
+	 */ 	
+	protected $effective_date = null;
+	
+	/**
+	 * Expiry Date
+	 *
+	 * @var string 
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * Panel Cost Type Id
+	 *
+	 * @var int 
+	 */
+	protected $panel_cost_type_id = null;
+	
+	/**
+	 * Panel Cost Type
+	 *
+	 * @var Object 
+	 */
+	protected $panel_cost_type = null;
+	
+	/**
+	 * Pricing Discount Type Id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_discount_type_id = null;
+	
+	/**
+	 * Pricing Discount Type Id
+	 *
+	 * @var Object 
+	 */
+	protected $pricing_discount_type = null;
+
+	/**
+	 * Domain Class Constructor
+	 *
+	 * @param int $id Account Panel Discount Id
+	 * @param int $account_id Account Id
+	 * @param float $discount_amount Discount Amount
+	 * @param string $effective_date Date of Effect
+	 * @param string $expire_date Date of Expiry
+	 * @param int $panel_cost_type_id Panel Cost Type Id
+	 * @param int $pricing_discount_type_id Pricing Discount Type Id
+	 */ 
+	function __construct($id = null,
+				$account_id = null,
+				$account = null,
+				$discount_amount = null,
+				$effective_date = null,
+				$expire_date = null,
+				$panel_cost_type_id = null,
+				$panel_cost_type = null,
+				$pricing_discount_type_id = null,
+				$pricing_discount_type = null)
+	{
+		$this->account_panel_discount_id 	= $id;
+		$this->account_id					= $account_id;
+		$this->account						= $account;
+		$this->discount_amount				= $discount_amount;
+		$this->effective_date				= $effective_date;
+		$this->expire_date					= $expire_date;
+		$this->panel_cost_type_id			= $panel_cost_type_id;
+		$this->panel_cost_type				= $panel_cost_type;
+		$this->pricing_discount_type_id		= $pricing_discount_type_id;
+		$this->pricing_discount_type		= $pricing_discount_type;
+		
+		parent::__construct($id);
+	}
+
+   /**
+    * Returns Discount Amount
+    *
+    * @return float Discount Amount
+    */ 
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+   /**
+    * Returns Effective Date
+    *
+    * @return string Effective Date
+    */ 
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+   /**
+    * Returns Expire Date
+    *
+    * @return string Expire Date
+    */	
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+   /**
+    * Returns Panel Cost Type Id
+    *
+    * @return int Panel Cost Type Id
+    */	
+	public function GetPanelCostTypeId()
+	{
+		return $this->panel_cost_type_id;
+	}
+	
+   /**
+    * Returns Panel Cost Type
+    *
+    * @return Object Panel Cost Type
+    */	
+	public function GetPanelCostType()
+	{
+		return $this->panel_cost_type;
+	}
+
+   /**
+    * Returns Account Id
+    *
+    * @return int Account Id
+    */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+   /**
+    * Returns Account
+    *
+    * @return Object
+    */
+	public function GetAccount()
+	{
+		return $this->account;
+	}
+
+   /**
+    * Returns Account Panel Discount Id
+    *
+    * @return int Account Panel Discount Id
+    */
+	public function GetAccountPanelDiscountId()
+	{
+		return $this->account_panel_discount_id;
+	}
+
+   /**
+    * Returns Pricing Discount Type Id
+    *
+    * @return int Pricing Discount Type Id
+    */
+	public function GetPricingDiscountTypeId()
+	{
+		return $this->pricing_discount_type_id;
+	}
+
+   /**
+    * Returns Pricing Discount Type
+    *
+    * @return Object Pricing Discount Type
+    */
+	public function GetPricingDiscountType()
+	{
+		return $this->pricing_discount_type;
+	}
+	
+   /**
+    * Sets Discount Amount
+    *
+    * @param float $discount_amount Discount Amount
+    */ 
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = $discount_amount;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Effective Date
+    *
+    * @param string $effective_date Date of Effect
+    */ 
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Expire Date
+    *
+    * @param string $expire_date Date of Expire
+    */ 
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Panel Cost Type Id
+    *
+    * @param int $cost_type_id Panel Cost Type Id
+    */ 
+	public function SetPanelCostTypeId($cost_type_id)
+	{
+		$this->panel_cost_type_id = (int)$cost_type_id;
+		$this->MarkDirty();
+	}
+	
+   /**
+    * Sets Panel Cost Type
+    *
+    * @param Object $cost_type Panel Cost Type
+    */ 
+	public function SetPanelCostType($cost_type)
+	{
+		$this->panel_cost_type = $cost_type;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Account Id
+    *
+    * @param int $account_id Account Id
+    */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Account
+    *
+    * @param Object $account Account
+    */
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Account Panel Discount Id
+    *
+    * @param int $discount_id Discount Id
+    */
+	public function SetAccountPanelDiscountId($discount_id)
+	{
+		$this->account_panel_discount_id 	= (int)$discount_id;
+		$this->__id							= (int)$discount_id;
+		
+		$this->MarkDirty();
+	}
+
+   /**
+    * Sets Pricing Discount Type Id
+    *
+    * @param int $discount_type_id Discount Type Id
+    */
+	public function SetPricingDiscountTypeId($discount_type_id)
+	{
+		$this->pricing_discount_type_id = (int)$discount_type_id;
+		$this->MarkDirty();
+	} 
+	
+   /**
+    * Sets Pricing Discount Type
+    *
+    * @param $discount_type Discount Type
+    */
+	public function SetPricingDiscountType($discount_type)
+	{
+		$this->pricing_discount_type = $discount_type;
+		$this->MarkDirty();
+	} 
+} 
+?>

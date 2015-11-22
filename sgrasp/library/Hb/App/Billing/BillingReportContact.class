@@ -1,0 +1,148 @@
+<?php
+require_once ('BillingReport.class');
+
+/**
+ * Domain object for the Billing Report Contact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */ 
+class Hb_App_Billing_BillingReportContact extends Hb_App_Object
+{
+	/**
+	 * Billing Report Contact ID
+	 *
+	 * @var int  
+	 */
+	protected $armc_contact_id = null;
+	
+	/**
+	 * Billing Report Contact Type ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_contact_type_id = null;
+	
+	/**
+	 * Billing Report ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_id = null;
+	
+	/**
+	 * Contact ID
+	 *
+	 * @var int 
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Constructor for the BillingReportContact
+	 *
+	 * @param int $id billing report contact id
+	 * @param int $armc_contact_type_id billing report contact type it
+	 * @param int $armc_id billing report id
+	 * @param int $contact_id contact id
+	 */	
+	function __construct($id = null,
+								$armc_contact_type_id= null,
+								$armc_id = null,
+								$contact_id = null)
+	{
+		$this->armc_contact_id 			= $id;
+		$this->armc_contact_type_id	= $armc_contact_type_id;
+		$this->armc_id						= $armc_id;
+		$this->contact_id					= $contact_id;
+		
+		parent::__construct($id);
+	}	
+	
+	/**
+	 * Return the Billing Report Contact ID for Billing Report Contact
+	 *	 
+	 * @return int  billing report contact id
+	 */
+	public function GetBillingReportContactID()
+	{
+		return $this->armc_contact_id;
+	}
+
+	/**
+	 * Return the Billing Report Contact Type ID for Billing Report Contact
+	 *	 
+	 * @return int billing report contact type id
+	 */
+	public function GetBillingReportContactTypeID()
+	{
+		return $this->armc_contact_type_id;
+	}
+
+	/**
+	 * Return the Billing Report ID for Billing Report Contact
+	 *	 
+	 * @return int billing report id
+	 */
+	public function GetBillingReportID()
+	{
+		return $this->armc_id;
+	}
+
+	/**
+	 * Return the Contact ID for Billing Report Contact
+	 *
+	 * @return int contact id
+	 */	
+	public function GetContactID()
+	{
+		return $this->contact_id;
+	}
+	
+	/**
+	 * Set the Billing Report Contact ID for Billing Report Contact
+	 *
+	 * @param int $armc_contact_id billing report contact id 
+	 */
+	public function SetBillingReportContactID($armc_contact_id)
+	{
+		$this->armc_contact_id = $armc_contact_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Billing Report Contact Type ID for Billing Report Contact
+	 *
+	 * @param int $armc_contact_type_id billing report contact type id
+	 */
+	public function SetBillingReportContactTypeID($armc_contact_type_id)
+	{
+		$this->armc_contact_type_id = $armc_contact_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report ID for Billing Report Contact
+	 *
+	 * @param int $armc_id billing report id
+	 */
+	public function SetBillingReportID($armc_id)
+	{
+		$this->armc_id = $armc_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact ID for Billing Report Contact
+	 *
+	 * @param int $contact_id billing report contact id
+	 */
+	public function SetContactID($contact_id)
+	{
+		$this->contact_id = $contact_id;
+		$this->MarkDirty();
+	}
+}
+?>

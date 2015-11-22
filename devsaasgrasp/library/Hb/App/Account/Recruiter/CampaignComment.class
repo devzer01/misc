@@ -1,0 +1,144 @@
+<?php
+/**
+ * Domain Object for Account Recruiter Campaign Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+class Hb_App_Account_Recruiter_CampaignComment extends Hb_App_Object 
+{
+	/**
+	 * Account Recruiter Campaign Comment Id
+	 *
+	 * @var int
+	 */
+	protected $account_recruiter_campaign_comment_id = null;
+	/**
+	 * Account Recruiter Campaign Id
+	 *
+	 * @var int
+	 */	
+	protected $account_recruiter_campaign_id = null;
+	/**
+	 * Account Recruiter Comment Type Id
+	 *
+	 * @var int
+	 */		
+	protected $account_recruiter_comment_type_id  = null;
+	/**
+	 * Comment
+	 *
+	 * @var string
+	 */		
+	protected $comment = null;
+
+	/**
+	 * Create an AccountRecruiterCampaignComment Object
+	 *
+	 * @param int $id Account Recruiter Campaign Comment Id
+	 * @param int $account_recruiter_campaign_id Account Recruiter Campaign Id
+	 * @param int $comment_type_id  Account Recruiter Comment Type Id
+	 * @param string $comment Comment
+	 */
+	public function __construct($id = null, $account_recruiter_campaign_id = null, $account_recruiter_comment_type_id = null, $comment = null)
+	{
+		$this->account_recruiter_campaign_comment_id	 = $id;
+		$this->account_recruiter_campaign_id          = $account_recruiter_campaign_id;
+		$this->account_recruiter_comment_type_id 		 = $account_recruiter_comment_type_id ;
+		$this->comment      							 		 = $comment;
+		
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Account Recruiter Campaign Comment Id
+	 * 
+	 * @return int Account Recruiter Campaign Comment Id
+	 */	
+	function GetAccountRecruiterCampaignCommentId()
+	{
+		return $this->account_recruiter_campaign_comment_id;
+	}
+
+	/**
+	 * Sets the Account Recruiter Campaign Comment Id
+	 * 
+	 * @param int $id Account Recruiter Campaign Comment Id
+	 */
+	function SetAccountRecruiterCampaignCommentId($id)
+	{
+		$this->__id = $id;
+		$this->account_recruiter_campaign_comment_id = $id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Account Recruiter Campaign Id
+	 * 
+	 * @return int Account Recruiter Campaign Id
+	 */	
+	function GetAccountRecruiterCampaignId()
+	{
+		return $this->account_recruiter_campaign_id;
+	}
+
+	/**
+	 * Sets the Account Recruiter Campaign Id
+	 * 
+	 * @param int $id Account Recruiter Campaign Id
+	 */
+	function SetAccountRecruiterCampaignId($id)
+	{
+		$this->account_recruiter_campaign_id = $id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns the Account Recruiter Comment Type Id
+	 * 
+	 * @return int Account Recruiter Comment Type Id
+	 */	
+	function GetAccountRecruiterCommentTypeId()
+	{
+		return $this->account_recruiter_comment_type_id;
+	}
+
+	/**
+	 * Sets the Account Recruiter Comment Type Id
+	 * 
+	 * @param int $id Account Recruiter Comment Type Id
+	 */
+	function SetAccountRecruiterCommentTypeId($id)
+	{
+		$this->account_recruiter_comment_type_id = $id;
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Returns the Comment
+	 * 
+	 * @return string Comment
+	 */	
+	function GetComment()
+	{
+		return $this->comment;
+	}
+
+	/**
+	 * Sets the Comment
+	 * 
+	 * @param string $comment Comment
+	 */
+	function SetComment($comment)
+	{
+		$this->comment = $comment;
+		$this->MarkDirty();
+	}	
+	
+}
+?>

@@ -1,0 +1,129 @@
+<?php 
+/**
+ * Domain Object for Study Time Line User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */  
+class Hb_App_Study_StudyTimeLineUser extends Hb_App_Object 
+{
+	/**
+	 * Study Time Line User Id
+	 * 
+	 * @var int
+	 */
+	protected $study_timeline_user_id = null;
+
+	/**
+	 * Study Time Line  Id
+	 * 
+	 * @var int
+	 */
+	protected $study_timeline_id = null;
+	
+	/**
+	 * Study Time Line User Login
+	 * 
+	 * @var int
+	 */
+	protected $login = null;
+		
+	
+	/**
+	* Contructor of the Study Time Line User Domain
+	* 
+	* @param int $id Study Time Line User Id
+	* @param int $study_timeline_id Study Time Line  Id
+	* @param int $login Study Time Line User Login
+	*/		
+	function __construct($id 					= null,	
+							   $study_timeline_id= null,
+							   $login 				= null )
+	{		 					
+		
+		$this->study_timeline_user_id = $id;
+		$this->study_timeline_id      = $study_timeline_id;
+		$this->login 						= $login ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Study Time Line User Id
+	 *	
+	 * @return int $study_timeline_user_id Study Time Line User Id
+	 */
+	public function GetStudyTimeLineUserId()
+	{
+		return $this->study_timeline_user_id;
+	}
+
+	
+	/**
+	 * Get Study Time Line  Id
+	 *	
+	 * @return int $study_timeline_id Study Time Line  Id
+	 */
+
+	public function GetStudyTimeLineId()	
+	{
+		return $this->study_timeline_id;
+	}
+	
+	
+	/**	
+	 * Get Study Time Line  Id
+	 *
+	 * @return int $login Study Time Line User Login	
+	 */
+	public function GetStudyTimeLineUserLogin()
+	{
+		return $this->login;
+	}
+
+	
+	/**
+	 * Sets the Study Time Line User Id
+	 *
+	 * @param int $study_timeline_user_id Study Time Line User Id
+	 */
+	public function SetStudyTimeLineUserId($study_timeline_user_id)
+	{
+		$this->study_timeline_user_id = (int) $study_timeline_user_id;
+
+		$this->__id = (int) $study_timeline_user_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Study Time Line  Id
+	 *
+	 * @param int $study_timeline_id Study Time Line  Id
+	 */
+	public function SetStudyTimeLineId($study_timeline_id)
+	{
+		$this->study_timeline_id = (int) $study_timeline_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Study Time Line User Login
+	 * 
+	 * @param int $login Study Time Line User Login
+	 */
+	public function SetStudyTimeLineUserLogin($login)
+	{
+		$this->login = (int) $login;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

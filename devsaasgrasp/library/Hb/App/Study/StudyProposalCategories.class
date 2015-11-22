@@ -1,0 +1,60 @@
+<?php 
+/**
+ * Domain Object for Study Proposal categories
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyProposalCategories extends Hb_App_Collection 
+{
+	/**
+	 * Study Proposal Category instance
+	 *
+	 * @var HB_App_Study_StudyProposalCategory
+	 */
+	protected $study_proposal_category = null;
+	
+	/**
+	 * Study Proposal Category Id
+	 *
+	 * @var int 
+	 */
+	protected $study_proposal_category_id	= null;
+	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 * @var obj Hb_App_Study_StudyProposalCategory
+	 */
+	public function AddItem(Hb_App_Study_StudyProposalCategory $study_proposal_category) 
+	{
+		try {
+			parent::AddItem($study_proposal_category);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Proposal Category Already Exists In Collection For Study Proposal Categories ". $study_proposal_category->GetStudyProposalCategoryID(),
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($study_proposal_category_id)
+	{
+		try {
+			return parent::GetItem($study_proposal_category_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Proposal Category Not Found For Study Proposal Category Collection" . $study_proposal_category_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+}
+?>

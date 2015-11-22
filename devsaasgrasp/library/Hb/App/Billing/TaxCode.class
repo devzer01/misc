@@ -1,0 +1,220 @@
+<?php
+/**
+ * Domain Object for Tax Code 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_TaxCode extends Hb_App_Object
+{
+
+	/**
+	 * Tax Code
+	 *
+	 * @var string
+	 */
+	protected $tax_code = null;
+	
+	/**
+	 * Tax Code Description
+	 *
+	 * @var string
+	 */
+	protected $tax_code_description = null;
+	
+	/**
+	 * Tax Code Id
+	 *
+	 * @var int 
+	 */
+	protected $tax_code_id = null;
+	
+	/**
+	 * Tax Rate
+	 *
+	 * @var double
+	 */
+	protected $tax_rate = null;
+	
+	/**
+	 * Tax Type
+	 *
+	 * @var string
+	 */
+	protected $tax_type = null;
+	
+	/**
+	 * Vat Tax Id
+	 *
+	 * @var int
+	 */
+	protected $vat_tax_id = null;
+
+	/**
+	 * Create TaxCode Object
+	 *
+	 * @param int $id
+	 * @param int $vat_tax_id
+	 * @param string $tax_code
+	 * @param string $tax_code_description
+	 * @param double $tax_rate
+	 * @param string $tax_type
+	 */
+	function __construct($id = null,
+								$vat_tax_id = null,
+								$tax_code = null,
+								$tax_code_description = null,
+								$tax_rate = null,
+								$tax_type = null
+								)
+	{
+		$this->tax_code_id 				= $id;
+		$this->vat_tax_id 				= $vat_tax_id;
+		$this->tax_code 					= $tax_code;
+		$this->tax_code_description 	= $tax_code_description;
+		$this->tax_rate 					= $tax_rate;
+		$this->tax_type  					= $tax_type;
+		
+		parent::__construct($id);
+	}
+
+
+	/**
+	 * Returns The Tax Code 
+	 *
+	 * @return string The Tax Code
+	 */
+	public function GetTaxCode()
+	{
+		return $this->tax_code;
+	}
+
+	/**
+	 * Returns The Tax Code Description
+	 *
+	 * @return string The Tax Code Description
+	 */
+	public function GetTaxCodeDescription()
+	{
+		return $this->tax_code_description;
+	}
+
+	/**
+	 * Returns The Tax Code Id
+	 *
+	 * @return int The Tax Code Id
+	 */
+	public function GetTaxCodeId()
+	{
+		return $this->tax_code_id;
+	}
+
+	/**
+	 * Returns The Tax Rate
+	 *
+	 * @return double The Tax Rate
+	 */
+	public function GetTaxRate()
+	{
+		return $this->tax_rate;
+	}
+
+	/**
+	 * Returns The Tax Type
+	 *
+	 * @return string The Tax Type
+	 */
+	public function GetTaxType()
+	{
+		return $this->tax_type;
+	}
+
+	/**
+	 * Returns The Vat Tax Id
+	 *
+	 * @return int The Vat Tax Id
+	 */
+	public function GetVatTaxId()
+	{
+		return $this->vat_tax_id;
+	}
+
+	/**
+	 * Sets The Tax Code 
+	 * 
+	 * @param string $tax_code
+	 */
+	public function SetTaxCode($tax_code)
+	{
+		$this->tax_code = $tax_code;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Code Description
+	 * 
+	 * @param string $tax_code_description
+	 */
+	public function SetTaxCodeDescription($tax_code_description)
+	{
+		$this->tax_code_description = $tax_code_description;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Code Id
+	 * 
+	 * @param int $tax_code_id The Tax Code Id
+	 */
+	public function SetTaxCodeId($tax_code_id)
+	{
+		$this->tax_code_id = $tax_code_id;
+		$this->__id =  $tax_code_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Rate
+	 * 
+	 * @param double $tax_rate The Tax Rate
+	 */
+	public function SetTaxRate($tax_rate)
+	{
+		$this->tax_rate = $tax_rate;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Type
+	 * 
+	 * @param string $tax_type The Tax Type
+	 */
+	public function SetTaxType($tax_type)
+	{
+		$this->tax_type = $tax_type;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Vat Tax Id
+	 * 
+	 * @param int $vat_tax_id The Vat Tax Id
+	 */
+	public function SetVatTaxId($vat_tax_id)
+	{
+		$this->vat_tax_id = $vat_tax_id;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

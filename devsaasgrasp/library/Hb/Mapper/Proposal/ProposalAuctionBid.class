@@ -1,0 +1,113 @@
+<?php
+/**
+ * Mapper for ProposalAuctionBid
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalAuctionBid extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalAuctionBid';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalAuctionBid';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_auction_bid_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_auction_bid";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAuctionBid( $row->proposal_auction_bid_id,$row->proposal_auction_id,$row->proposal_auction_account_contact_id,$row->cost_per_complete,$row->number_of_completes,$row->notify_outbid,$row->notify_outbid_date,$row->bid_accepted,$row->bid_accepted_date);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('proposal_auction_bid', array(  'proposal_auction_bid_id',
+													'proposal_auction_id',
+													'proposal_auction_account_contact_id',
+													'cost_per_complete',
+													'number_of_completes',
+													'notify_outbid',
+													'notify_outbid_date',
+													'bid_accepted',
+													'bid_accepted_date'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a proposal_auction_bid by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_auction_bid_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+		
+		$row->proposal_auction_id 					= $obj->GetProposalAuctionId();
+		$row->proposal_auction_account_contact_id 	= $obj->GetProposalAuctionAccountContactId();
+		$row->cost_per_complete 					= $obj->GetCostPerComplete();
+		$row->number_of_completes 					= $obj->GetNumberOfCompletes();
+		$row->notify_outbid 						= $obj->GetNotifyOutbid();
+		$row->notify_outbid_date					= $obj->GetNotifyOutbidDate();
+		$row->bid_accepted 							= $obj->GetBidAccepted();
+		$row->bid_accepted_date 					= $obj->GetBidAcceptedDate();
+		
+		$row->save();				
+
+		$obj->SetProposalAuctionBidId($row->proposal_auction_bid_id);				
+	}	
+	
+}
+?>

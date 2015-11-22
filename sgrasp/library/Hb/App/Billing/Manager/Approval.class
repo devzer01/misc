@@ -1,0 +1,15 @@
+<?php
+
+class Hb_App_Billing_Manager_Approval {
+
+   public function SaveStudyCostApprovals() 
+   {
+   	$request = Hb_Util_Request_Request::GetInstance();
+   	$encryption = Hb_Util_Encryption_Encryption::GetInstance();
+   	Hb_App_Study_Manager_Cost::SaveStudyCostApprovals();
+   	
+   	header("Location: ?e=".$encryption->Encrypt("action=display_armc_details&armc_id=".$request->getParam("armc_id")."&dont_log_view=1"));
+   }
+}
+
+?>

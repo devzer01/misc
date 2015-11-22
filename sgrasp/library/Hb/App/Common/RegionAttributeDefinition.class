@@ -1,0 +1,30 @@
+<?php
+/**
+ * Domain Object for RegionAttributeDefinition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */
+class Hb_App_Common_RegionAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{
+	/**
+	 * Create RegionAttributeDefinition Object
+	 *
+	 * @param int $id Region Attribute Definition Id
+	 * @param string $attr_def_desc Region Attribute description
+	 * @param string $attr_name Region Attribute name
+	 */ 
+	public function __construct(
+											$id 					= null,
+											$attr_name 			= null,
+											$attr_def_desc 	= null
+									   )
+   {
+   	parent::__construct($id, $attr_name, $attr_def_desc);
+   }
+
+}
+?>

@@ -1,0 +1,111 @@
+<?php
+/**
+ * Mapper Class for PricingItemGroupDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Proposal_PricingItemGroupDiscount extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Pricing Item Group Discount table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'pricing_item_group_discount_id';
+	
+	/**
+	 * Variable for Pricing Item Group Discount table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'pricing_item_group_discount';
+	
+	/**
+	 * Build the PricingItemGroupDiscount Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_PricingItemGroupDiscount
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PricingItemGroupDiscount
+		(	$row->pricing_item_group_discount_id,
+			$row->pricing_item_group_id,
+			$row->license_level_id,
+			$row->pricing_discount_type_id,
+			$row->discount_amount,
+			$row->effective_date,
+			$row->expire_date );
+	}
+	
+	/**
+	 * Returns Pricing Item Group Discount data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('pig' => 'pricing_item_group_discount'), 
+							array(	'pricing_item_group_discount_id',
+										'pricing_item_group_id',
+										'license_level_id',
+										'pricing_discount_type_id',
+										'discount_amount',
+										'effective_date',
+										'expire_date'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('pig.pricing_item_group_discount_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Proposal_PricingItemGroupDiscount  
+		$data = array(
+			'pricing_item_group_id'					=> $obj->GetPricingItemGroupId(),
+			'license_level_id'  						=> $obj->GetLicenseLevelId(),
+			'pricing_discount_type_id'				=> $obj->GetPricingDiscountTypeId(),
+			'discount_amount' 						=> $obj->GetDiscountAmount(),
+			'effective_date' 							=> $obj->GetEffectiveDate(),
+			'expire_date' 								=> $obj->GetExpireDate()
+		);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('pricing_item_group_discount', $data);
+			$obj->SetPricingItemGroupDiscountId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('pricing_item_group_discount', $data, 'pricing_item_group_discount_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

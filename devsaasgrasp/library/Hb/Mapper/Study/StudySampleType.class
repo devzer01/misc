@@ -1,0 +1,100 @@
+<?php 
+/**
+ * Mapper Object for Study Sample Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudySampleType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_sample_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_sample_type';
+	
+	/**
+	 * Builds and returns the Study Sample Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_sample_type table
+	 * @return object An instance of the Study Sample Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudySampleType($row->study_sample_type_id,
+															 $row->study_id,
+															 $row->sample_type_id,
+														 	 null
+															);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sst' => 'study_sample_type'), array('study_sample_type_id',
+	 																				'study_id',
+	 																				'sample_type_id'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Sample Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_sample_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sst.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_sample_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		 	
+	 	$data  = array(
+			'study_id' 			=> $obj->GetStudyId(),
+			'sample_type_id' 	=> $obj->GetSampleTypeId()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) 
+	 	{
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}
+	 	else 
+	 	{
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

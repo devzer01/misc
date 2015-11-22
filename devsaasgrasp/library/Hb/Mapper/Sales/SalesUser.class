@@ -1,0 +1,107 @@
+<?php 
+/**
+ * Mapper Object for Sales User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Sales
+ *
+ */ 
+class Hb_Mapper_Sales_SalesUser extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key 	= 'sam_user_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'sam_user';
+	
+	/**
+	 * Builds and returns the Sales User domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the sam_user table
+	 * @return object An instance of the Sales User domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Sales_SalesUser($row->sam_user_id,
+													 $row->amount,
+													 $row->region_id,
+													 $row->sam_date,
+													 $row->sam_type_id,
+													 $row->user_id
+													 );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('su' => 'sam_user'), array('sam_user_id',
+																	  'region_id',
+																	  'user_id',
+																	  'sam_type_id',
+																	  'sam_date',
+																	  'amount')
+						  );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Sales User by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the sam_user table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('su.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Sales User domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Sales_SalesUser   */
+		 	
+	 	$data  = array(
+			'region_id'		=> $obj->GetRegionId(),
+			'user_id'		=> $obj->GetUserId(),
+			'sam_type_id'	=> $obj->GetSalesTypeId(),
+			'sam_date'		=> $obj->GetSalesDate(),
+			'amount'			=> $obj->GetAmount()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetSalesUserId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

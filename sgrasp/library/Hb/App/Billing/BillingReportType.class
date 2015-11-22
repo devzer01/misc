@@ -1,0 +1,94 @@
+<?php 
+/**
+ * Domain Object for Billing Report Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportType extends Hb_App_Common_Type 
+{
+
+	
+	/**
+	 * Billing Report Type prefix
+	 *
+	 * @var string 
+	 */
+	protected $armc_type_prefix = null;
+	
+	/**
+	 * Product id
+	 *
+	 * @var int 
+	 */
+	protected $product_id = null;
+	
+	/**
+	 * Create Billing Report Type Object
+	 *
+	 * @param int $id Billing report type id
+	 * @param string $armc_type_prefix Billing report type prefix
+	 * @param int $product_id Product id
+	 * @param string $description Billing report type description
+	 */
+	public function __construct($id = null,
+										 $armc_type_prefix = null,
+										 $product_id = null,
+									    $description = null
+									   )
+   {
+   	$this->armc_type_prefix		= $armc_type_prefix;
+   	$this->product_id				= $product_id;
+   	
+   	parent::__construct($id, $description);	
+   }   
+   
+   
+   /**
+    * Return the Billing Report Type prefix for the Billing Report Type
+    *
+    * @return string Billing Report Type prefix
+    */
+   public function GetBillingReportTypePrefix()
+   {
+   	return $this->armc_type_prefix;
+   }
+
+   /**
+    * Return the Product id for the Billing Report Type
+    *
+    * @return int Product id 
+    */
+   public function GetProductId()
+   {
+   	return $this->product_id;
+   }      
+   
+   /**
+    * Set the Product id for the Billing Report Type
+    * 
+    * @param int $product_id Product id
+    */
+   public function SetProductId($product_id)
+   {
+   	$this->product_id	= $product_id;
+   	$this->MarkDirty();
+   }
+
+   /**
+    * Set the Billing Report Type prefix for the Billing Report Type
+    * 
+    * @param string $armc_type_prefix Billing Report Type prefix
+    */
+   public function SetBillingReportTypePrefix($armc_type_prefix)
+   {
+   		$this->armc_type_prefix	= $armc_type_prefix;
+   		$this->MarkDirty();
+   }  
+}
+
+?>

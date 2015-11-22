@@ -1,0 +1,75 @@
+<?php
+   /**
+    * Data extraction class for the Report Builder framework 
+    * Author : jsadique@gmi-mr.com
+    * Date   : 05/08/2007
+    * 
+    */
+  
+   class Hb_Util_Report_DataExtractor
+   {     	
+      var $m_report_function_name  = '';
+      var $m_report_filename       = '';
+      var $m_report_output_path    = '';
+      var $m_report_output_type    = 'CSV';
+      var $m_report_output_file    = '';
+      
+   	/**
+   	 * Loads report information from the System Config Reader for a given report
+   	 *
+   	 * @param char $report_name
+   	 * @return void
+   	 */               
+      public function LoadReportDefinitions($report_name)
+      {
+      	//read the ini file to get the report params.
+      	$config_obj = Hb_Util_Config_SystemConfigReader::Read();
+            	
+      	$this->m_report_filename        = $config_obj->report->$report_name->filename;
+      	$this->m_report_function_name   = $config_obj->report->$report_name->function_name;
+      	$this->m_report_output_path     = $config_obj->report->$report_name->report_output_path;      	              
+      	$this->m_report_output_file     = $config_obj->report->$report_name->report_output_file;      	              
+      	$this->m_report_output_type     = $config_obj->report->$report_name->report_output_type;
+      	
+      	if( "" == $this->m_report_output_path )
+      	  throw new Exception("Report output path not specified");
+      	
+      	if( "" == $this->m_report_output_file )
+      	  throw new Exception("Report output file not specified");
+      	  
+      	if( "" == $this->m_report_function_name )
+      	  throw new Exception("Report function not specified");
+      	  
+      	if( "" == $this->m_report_filename )
+      	  throw new Exception("Report filename not specified");
+      	
+      }
+      
+   	/**
+   	 * Executes the report function for a report and returns the result set.
+   	 *
+   	 * @return array
+   	 */                     
+      public function GetData()
+      {      	      
+      	
+      	//does the report file actually exist?
+      	if( !file_exists($this->m_report_filename) ) 
+      	  throw new Exception("Report file not found: ".$this->m_report_filename);
+      
+      	include_once($this->m_report_filename);
+      	        	 
+         //execute the report function and return the rows.
+         $results = @call_user_func($this->m_report_function_name);
+         
+         
+         if ( FALSE == $results ) //function does not exist perhaps? throw exception..
+            throw new Exception("Error running the report function ".$report_function."() in report file ".$report_filename);
+         else 
+            return $results;            
+      }
+           
+  }       
+      
+  
+?>

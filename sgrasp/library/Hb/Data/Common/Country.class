@@ -1,0 +1,26 @@
+<?php
+
+class Hb_Data_Common_Country
+{
+	public $code;
+
+	public $name;
+	
+	private static $__instance;
+	
+	private function __construct($code, $name)
+	{
+		$this->code  = $code;
+		$this->name = $name;
+	}
+	
+	public static function getInstance($code, $name)
+	{
+		if (!isset(self::$__instance[$code])) {
+			self::$__instance[$code] = new Hb_Data_Common_Country($code, $name);
+		}
+		
+		return self::$__instance[$code];
+	}
+}
+?>

@@ -1,0 +1,47 @@
+<?php 
+/**
+ * Domain Object for Account Recruiter Demographics
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_Demographics extends Hb_App_Collection 
+{
+   protected $account_recruiter_demographic_id = null;  
+
+	public function AddItem(Hb_App_Account_Recruiter_Demographic $account_recruiter_demographic) 
+	{
+		try {
+			parent::AddItem($account_recruiter_demographic);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Recruiter Demographic Already Exists In Collection ". $account_recruiter_demographic_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetItem($account_recruiter_demographic_id)
+	{
+		try {
+			return parent::GetItem($account_recruiter_demographic_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Recruiter Demographic Not Found In Collection" . $recruiter_campaign_metrics_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+
+	public function SetAccountRecruiterDemographicId($account_recruiter_demographic_id)
+	{
+	    $this->account_recruiter_demographic_id = $account_recruiter_demographic_id;
+	}
+	
+
+	public function GetAccountRecruiterDemographicId()
+	{
+	    return $this->account_recruiter_demographic_id;
+	}	
+}
+?>

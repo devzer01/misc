@@ -1,0 +1,28 @@
+<?php
+/**
+ * Domain Object for StudyType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyType extends Hb_App_Common_Type
+{
+	/**
+	 * Create StudyType Object
+	 *
+	 * @param int $id Study Type Id
+	 * @param string $description study type description
+	 */ 
+	public function __construct(
+											$id = null,
+							   			$description 	= null
+									   )
+   {
+   	parent::__construct($id, $description);	   	   	
+   }
+}
+?>

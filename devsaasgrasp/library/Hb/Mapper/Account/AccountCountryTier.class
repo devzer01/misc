@@ -1,0 +1,100 @@
+<?php
+/**
+ * Mapper Class for AccountCountry
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+class  Hb_Mapper_Account_AccountCountryTier extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Account Country Tier table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'partner_country_tier_id';
+	
+	/**
+	 * Variable for Account Country Tier table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'partner_country_tier';
+	
+	/**
+	 * Build the AccountCountryTier Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Account_AccountCountryTier
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountCountryTier
+		(	$row->partner_country_tier_id,
+			$row->partner_id,
+			$row->country_code,
+			$row->country_tier_id );
+	}
+	
+	/**
+	 * Returns Account Country Tier data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('act' => 'partner_country_tier'), 
+							array(	'partner_country_tier_id', 
+										'partner_id', 
+										'country_code', 
+										'country_tier_id'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('act.partner_country_tier_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Account_AccountCountryTier  
+		$data = array(
+			'partner_id' 					=> $obj->GetAccountId(),
+			'country_code' 				=> $obj->GetCountryCode(),
+			'country_tier_id' 			=> $obj->GetCountryTierId());
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('partner_country_tier', $data);
+			$obj->SetAccountCountryTierId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('partner_country_tier', $data, 'partner_country_tier_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

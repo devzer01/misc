@@ -1,0 +1,22 @@
+<?php
+
+
+
+class Hb_View_Header_Header
+{
+	/**
+	 * @return Hb_Util_View_View
+	 */
+	public static function factory($module_name, $module_code, $action)
+	{
+		if ($_SESSION['user_type_id'] == USER_TYPE_EXTERNAL) 
+		{
+			include_once 'class/Hb/View/Header/ExternalHeader.class';
+			return new Hb_View_Header_ExternalHeader($module_name, $module_code, $action);
+		}
+
+		include_once 'class/Hb/View/Header/InternalHeader.class';
+		return new Hb_View_Header_InternalHeader($module_name, $module_code, $action);
+	}
+}
+?>

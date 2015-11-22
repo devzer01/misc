@@ -1,0 +1,115 @@
+<?php
+global $cfg;
+require_once($cfg['base_dir'].'/class/dbConnect.php');
+require_once($cfg['base_dir'].'/class/dbClass/commonDB.class');
+
+class Hb_Util_File_File
+{
+	protected $name;
+	
+	protected $physical_name;
+	
+	protected $size;
+	
+	protected $type = null;
+	
+	protected $type_id = null;
+	
+	protected $data = null;
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function __construct()
+	{
+		
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function getFileTypeId()
+	{
+		if (is_null($this->type_id)) 
+		{
+	   	$common = new commonDB();
+	
+	  		$this->type_id = $common->GetFileTypeIdByName($this->type);
+			
+	  		if(!$this->type_id) 
+	   	{
+	      	$common->SetFileType($this->type, $_SESSION['admin_id']);
+	      	$this->type_id = $common->lastID;
+	   	}
+		}
+   	
+   	return $this->type_id;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function getFileName()
+	{
+		return $this->name;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function getFileData()
+	{
+		if (is_null($this->data)) 
+		{
+			if (!$p = fopen($this->physical_name, 'r')) 
+			{
+				throw new Hb_Exception(); //replace with Hb_Util_File_Exception
+			}
+			
+   		$this->data = fread($p, $this->size);
+   		fclose($p);
+		}
+		
+		return $this->data;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function getFileSize()
+	{
+		return $this->size;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $name
+	 * @param unknown_type $physical_name
+	 * @param unknown_type $type
+	 */
+	public static function getInstance($name, $physical_name, $type = 'text/plain')
+	{
+		if (!file_exists($physical_name)) 
+		{
+			throw new Hb_Exception();
+		}
+		
+		$file = new Hb_Util_File_File();
+		$file->name          = $name;
+		$file->physical_name = $physical_name;
+		$file->size          = filesize($physical_name);
+		$file->type          = $type;
+		return $file;
+	}
+}
+?>

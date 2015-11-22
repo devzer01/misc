@@ -1,0 +1,160 @@
+<?php
+/**
+ * Domain Object for ProjectFile
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */ 
+
+class Hb_App_Project_ProjectFile extends Hb_App_Object
+{		
+	/**
+	 * Project File Id
+	 * 
+	 * @var int
+	 */
+	protected $project_file_id = null;	
+	
+	/**
+	 * Project File Type Id
+	 * 
+	 * @var string 
+	 */
+	protected $project_file_type_id = null;
+	
+	/**
+	 * Project Id
+	 * 
+	 * @var int
+	 */
+	protected $project_id = null;
+	
+	/**
+	 * Project File
+	 *
+	 * @var Hb_App_Common_File instance of Hb_App_Common_File 
+	 */
+	protected $project_file = null;
+
+	/**
+	 * Create a ProjectFile Object
+	 * 	
+	 * @param int $id Project File Id		
+	 * @param int $project_file_type_id  Project File Type Id
+	 * @param int $project_id Project Id
+	 * @param Hb_App_Common_File $project_file instance of Hb_App_Common_File 
+	 */	
+	function __construct($id 							= null,
+								$project_file_type_id 	= null,
+								$project_id 				= null,
+								Hb_App_Common_File $project_file = null
+								)
+	{
+		$this->project_file_id		 	=  $id;
+		$this->project_file_type_id	=  $project_file_type_id;
+		$this->project_id		 			=  $project_id;
+		$this->project_file				= $project_file;			
+		
+		if(!is_null($project_file))
+			$this->project_file->RegisterFileOwner('Hb_App_Project_ProjectFile');
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Project File Id
+	 * 
+    * @author krathnayake
+	 * @return int Project File Id
+	 */
+	public function GetProjectFileId()
+	{
+		return  $this->project_file_id;
+	}	
+
+	/**
+	 * Returns the Project File Type Id
+	 * 
+    * @author krathnayake
+	 * @return int Project File Type Id
+	 */
+	public function GetProjectFileTypeId()
+	{
+		return $this->project_file_type_id;
+	}
+
+	/**
+	 * Returns Project Id
+	 * 
+    * @author krathnayake
+	 * @return int Project Id
+	 */
+	public function GetProjectId()
+	{
+		return $this->project_id;
+	}
+	
+	/**
+	 * Return the Project File for the Project File
+	 *
+	 * @return Hb_App_Common_File Project File
+	 */
+	public function GetFile()
+	{
+		return $this->project_file;
+	}	
+
+	/**
+	 * Sets the Project File Id
+	 * 
+    * @author krathnayake
+	 * @param int $project_file_id Project File Id
+	 */
+	public function SetProjectFileId($project_file_id)
+	{
+		$this->project_file_id 	=  $project_file_id;
+		$this->__id 				=  $project_file_id;		
+		$this->MarkDirty();
+	}	
+
+	/**
+	 * Sets the Project File Type Id
+	 * 
+    * @author krathnayake
+	 * @param int $project_file_type_id Project File Type Id
+	 */
+	public function SetProjectFileTypeId($project_file_type_id)
+	{
+		$this->project_file_type_id =  $project_file_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project Id
+	 * 
+    * @author krathnayake
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id =  $project_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Project File instance for the  Project File
+	 * 
+	 * @param Hb_App_Common_File $project_file Project File instance
+	 */
+	public function SetFile(Hb_App_Common_File $project_file)
+	{
+		$this->project_file		= $project_file;
+		$this->project_file_id	= $project_file->GetFileId();
+		$this->__id					= $project_file->GetFileId();
+		$this->MarkDirty();
+	}
+}
+?>

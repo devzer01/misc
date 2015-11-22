@@ -1,0 +1,67 @@
+<?php
+
+abstract class Hb_View_View
+{
+	/**
+	 * Account Data
+	 *
+	 * @var Hb_Data_Account_Account
+	 */
+	protected $__data;
+	
+	protected $__template_name;
+	
+	protected  $__handler;
+	
+	public function __construct()
+	{
+		
+	}
+	
+	protected  function __AddData($data)
+	{
+		$this->__data[] = $data;
+	}
+	
+	public function GetHandler()
+	{
+		return $this->__handler;
+	}
+	
+	public function GetTemplateName()
+	{
+		return $this->__template_name;
+	}
+	
+	public function GetBindMap()
+	{
+		$map = array();
+		
+		foreach ($this->__data as $data)
+		 {
+			if ($data instanceof Hb_Data_Account_Account )
+			 {
+				$map['account'] = array(
+					'account_id'        => $data->id,
+					'account_name'  => $data->name	
+				);
+			
+			}
+			
+			if ($data instanceof Hb_Data_Common_List) 
+			{
+				
+				foreach ($data as $item) 
+				{
+					if ($item instanceof Hb_Data_Common_Country) 
+					{
+						$map['country'][$item->code] = $item->name;
+					}
+				}
+			}
+		}
+		
+		return $map;
+	}
+}
+?>

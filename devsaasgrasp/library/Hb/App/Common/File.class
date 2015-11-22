@@ -1,0 +1,246 @@
+<?php
+/**
+ * Common File domain class 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */ 
+
+class Hb_App_Common_File extends Hb_App_Object  
+{
+	/**
+	 * File Id
+	 * 
+	 * @var int
+	 */			
+	protected $file_id = null;
+	
+	/**
+	 * Type Id
+	 * 
+	 * @var int
+	 */				
+	protected $file_type_id = null;
+	
+	/**
+	 * File name
+	 * 
+	 * @var int
+	 */				
+	protected $file_name = null;
+	
+	/**
+	 * File title
+	 * 
+	 * @var int
+	 */				
+	protected $file_title = null;
+
+	
+	/**
+	 * File size
+	 * 
+	 * @var int
+	 */				
+	protected $file_size = null;
+	
+/**
+	 * File data
+	 * 
+	 * @var int
+	 */				
+	protected $file_data = null;	
+	
+	/**
+	 * File owner
+	 * 
+	 * @var int
+	 */				
+	private $file_owner = null;
+	
+	/**
+	 * Create a File object
+	 *
+	 * @param int $id File id
+	 * @param int $file_type_id File type id
+	 * @param $file_name $armc_file File name
+	 * @param $file_title $armc_file File title
+	 * @param $file_size $armc_file File size
+	 */		
+	function __construct(
+								$id = null,
+								$file_type_id = null,
+								$file_name = null,
+								$file_title = null,								
+								$file_size = null
+								)
+	{
+		$this->file_id 		= $id;
+		$this->file_type_id 	= $file_type_id;
+		$this->file_name 		= $file_name;
+		$this->file_title		= $file_title;
+		$this->file_size 		= $file_size;
+			
+		parent::__construct($id);		
+	}
+	
+	/**
+	 * Returns File Id
+	 * 
+	 * @return int File id
+	 */						
+	function GetFileId()
+	{
+		return $this->file_id;
+	}
+	
+	/**
+	 * Returns file type Id
+	 * 
+	 * @return int File id
+	 */							
+	function GetFileTypeId()
+	{
+		return $this->file_type_id;
+	}
+	
+	/**
+	 * Returns file filename
+	 * 
+	 * @return int File id
+	 */							
+	function GetFileName()
+	{
+		return $this->file_name;
+	}
+	
+	/**
+	 * Returns file title
+	 * 
+	 * @return int File id
+	 */							
+	function GetFileTitle()
+	{
+		return $this->file_title;
+	}
+	
+	/**
+	 * Returns file data
+	 * 
+	 * @return string File data (blob)
+	 */							
+	function GetFileData()
+	{
+		if( !is_null($this->file_data) ) 
+			return $this->file_data;
+		else 
+		{		
+			if( is_null($this->file_owner) ) throw new Exception("File owner not set");
+			$mapper = Hb_App_ObjectHelper::GetMapper($this->file_owner);		
+			$file_mini_mapper  = Hb_App_ObjectHelper::GetMapper("Hb_App_Common_File");		
+				
+			return $file_mini_mapper->GetFileData($this->file_id, $mapper);	
+		}
+	}
+	
+	/**
+	 * Returns file size
+	 * 
+	 * @return double File size
+	 */								
+	function GetFileSize()
+	{
+		return $this->file_size;
+	}
+	
+	/**
+	 * Sets file id
+	 * 
+	 * @param int $file_id File id
+	 */					
+	function SetFileId($file_id)
+	{
+		$this->file_id = $file_id;
+		$this->__id = $file_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets file id
+	 * 
+	 * @param int $file_id File id
+	 */						
+	function SetTypeId($type_id)
+	{
+		$this->file_type_id = $type_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets file name
+	 * 
+	 * @param int $filename File name
+	 */						
+	function SetFileName($filename)
+	{
+		$this->file_name = $filename;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets file title
+	 * 
+	 * @param int $file_title File title
+	 */						
+	function SetFileTitle($file_title)
+	{
+		$this->file_title = $file_title;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets file data
+	 * 
+	 * @param int $file_title File title
+	 */								
+	function SetFileData($data)
+	{
+		$this->file_data = $data;
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets file size
+	 * 
+	 * @param int $file_size Set file size
+	 */						
+	function SetFileSize($file_size)
+	{
+		$this->file_size = $file_size;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Registers file owner
+	 * 
+	 * @param string $owner Owner of the file object
+	 */						
+	public function RegisterFileOwner($owner)
+	{
+		$this->file_owner = $owner;		
+	}
+	
+
+}
+
+?>

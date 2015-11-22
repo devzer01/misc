@@ -1,0 +1,125 @@
+<?php 
+/**
+ * Mapper Object for Contact Phone
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_ContactPhone extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'contact_phone_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'contact_phone';
+	
+	/**
+	 * Builds and returns the Contact Phone domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the contact_phone table
+	 * @return object An instance of the Contact Phone domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_ContactPhone($row->contact_phone_id,
+									$row->contact_phone_ext ,
+									$row->contact_id ,
+									$row->contact_phone_number ,
+									$row->phone_country_code,
+									$row->phone_type_id
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('cp' => 'contact_phone'), array('contact_phone_id', 
+  																			'contact_id',
+  																			'phone_type_id',
+  																			'phone_country_code',
+  																			'contact_phone_number',
+  																			'contact_phone_ext'	  																			
+  																			));	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Contact Phone by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the contact_phone table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('cp.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	protected  function doFindContactByPhoneType($id, $phone_type_id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('cp.contact_id = ?', $id);
+		$select->where('cp.phone_type_id = ?', $phone_type_id);
+		 	
+		return $this->getRow($select);
+	}
+		
+	public function FindContactByPhoneType($id, $phone_type_id)
+	{
+		$result = $this->doFindContactByPhoneType($id, $phone_type_id);
+		if(!$result) {
+			throw new Hb_App_Common_Exception_CommonContactNotFoundException();
+			return false;
+		}
+		
+		return $this->doBuildObject($result);
+	}	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Contact Phone domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Common_ContactPhone   */	 	
+	 	
+	 	$data  = array(
+			'contact_id'				=> $obj->GetContactId(),
+			'phone_type_id'			=> $obj->GetPhoneTypeId(),
+			'phone_country_code'		=> $obj->GetPhoneCountryCode(),
+			'contact_phone_number'	=> $obj->GetContactPhoneNumber(),
+			'contact_phone_ext'	 	=> $obj->GetContactPhoneExt()
+	 	);	 	
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetContactPhoneId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+?>

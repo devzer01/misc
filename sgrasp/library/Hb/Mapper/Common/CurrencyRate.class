@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 19-Jul-2007 1:39:00 PM
+ */
+class Hb_Mapper_Common_CurrencyRate extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'currency_rate_id';
+	
+	protected $table       = 'currency_rate';
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('currency_rate_id = ?', $id);
+		return $this->getRow($select);
+	}
+	
+	protected function doFindByCode($code)
+	{		
+		$select = $this->GetBaseSelect();
+		$select->where('primary_currency_code = ?', $code);
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_CurrencyRate($row->currency_rate_id, $row->primary_currency_code, $row->currency_code, $row->exchange_rate);
+	}
+
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('currency_rate', array('currency_rate_id', 'primary_currency_code', 'currency_code', 'exchange_rate'));
+
+		return $select;
+	}
+	
+	public function FindByCode($code){
+		$result = $this->doFindByCode($code);
+		return $this->doBuildObject($result);
+	}
+	
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+}
+?>

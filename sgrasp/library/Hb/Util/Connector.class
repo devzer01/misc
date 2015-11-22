@@ -1,0 +1,17 @@
+<?php
+class Hb_Util_Connector
+{
+
+	public static function factory($type, $conf)
+	{
+		if ( !is_file (dirname(__FILE__) . "/Connector/" . $type . ".class" )) {
+			throw new Hb_Util_Connector_Exception("Connector Driver Not Found", -1);
+		}
+
+		$class = "Hb_Util_Connector_" . $type;
+
+		return new $class($conf); 
+	}
+
+}
+?>

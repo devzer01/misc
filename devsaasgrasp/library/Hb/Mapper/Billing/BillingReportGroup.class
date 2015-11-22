@@ -1,0 +1,112 @@
+<?php
+/**
+ * Mapper Class for BillingReportGroup
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+
+class Hb_Mapper_Billing_BillingReportGroup extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Billing report group
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_group_id';
+
+	/**
+	 * Billing report group table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_group';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Billing_BillingReportGroup';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Billing_BillingReportGroup';
+	
+	/**
+	 * Build the BillingReportGroup Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReportGroup
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportGroup($row->armc_group_id,
+																   $row->armc_group_description,
+																   $row->armc_group_date);
+	}
+	
+	/**
+	 * Get the base data set for BillingReportGroup
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('ag' => 'armc_group'), array('armc_group_id',
+																		 'armc_group_description',
+																	    'armc_group_date'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Billing report group
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('ag.armc_group_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Billing report group
+	 *
+	 * @param Hb_App_Object BillingReportGroup
+	 * @return object Billing report group
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'armc_group_description' 	=> $obj->GetBillingReportGroupDescription(),
+							'armc_group_date' 			=> $obj->GetBillingReportGroupDate()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('armc_group', $data);
+			$obj->SetBillingReportGroupId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('armc_group', $data, 'armc_group_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

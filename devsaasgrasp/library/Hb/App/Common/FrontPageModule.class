@@ -1,0 +1,81 @@
+<?php 
+/**
+ * Domain Object for FrontPage Module
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_FrontPageModule extends Hb_App_Object 
+{
+	/**
+	 * Front Page Module Id
+	 *
+	 * @var int 
+	 */
+	private $frontpage_module_id = null;
+	
+	/**
+	 * FrontPage Module Description
+	 *
+	 * @var string 
+	 */
+	private $description = null;
+	
+	
+	function __construct($id	= null, $description = null) 
+	{
+		$this->frontpage_module_id	= $id;
+		$this->description			= $description;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Front Page Module ID for the FrontPage Module
+	 *
+	 * @return int Front Page Module ID
+	 */
+	public function GetFrontPageModuleID()
+	{
+		return $this->frontpage_module_id;
+	}
+	
+	/**
+	 * Return the Description for the FrontPage Module
+	 *
+	 * @return string Description
+	 */
+	public function GetDescription()
+	{
+		return $this->description;
+	}
+	
+	/**
+	 * Set the FrontPage Module ID for the  FrontPage Module
+	 * 
+	 * @param int $frontpage_module_id FrontPage Module ID
+	 */
+	public function SetFrontPageModuleID($frontpage_module_id)
+	{
+		$this->frontpage_module_id	= $frontpage_module_id;
+		$this->__id						= $frontpage_module_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Description for the  FrontPage Module
+	 * 
+	 * @param string $description Description
+	 */
+	public function SetDescription($description)
+	{
+		$this->description	= $description;
+		$this->MarkDirty();
+	}
+}
+
+?>

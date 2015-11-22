@@ -1,0 +1,37 @@
+<?php
+/**
+ * Mapper Object for Recruiter comment Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_Demographics extends Hb_Mapper_Account_Recruiter_Demographic  
+{
+		
+   /**
+    * Wrapper to List all Demographics
+    *
+    * @return Hb_App_Account_Recruiter_Demographics
+    */
+  public function FindByAll()
+  {
+  		$rows = $this->doFindByAll();
+  		return $this->BuildCollection($rows);
+  }
+  
+  /**
+   * List all Demographics
+   *
+   * @return Zend_Db Select objects
+   */
+  private function doFindByAll()
+  {
+  		$result = $this->GetBaseSelect();
+  		return $this->getRows($result);
+  }	
+}
+?>

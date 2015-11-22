@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @todo  This abstraction should be moved until Util, 
+ *
+ */
+abstract class Hb_Connector_External_Abstract 
+{
+
+	protected static function XmlRpcCall($server, $path, $method, $data, $port = 80)
+	{
+		$config = "server=" . $server . ":port=" . $port . ":path=". $path;
+		
+		$client = Hb_Util_Connector::factory("XMLRPC", $config);
+		
+		$message = new Hb_Util_Connector_XMLRPC_Message($method, $data);
+		
+		$response = $client->Query($message);
+		
+		return $response->GetResponse();
+	}
+}
+?>

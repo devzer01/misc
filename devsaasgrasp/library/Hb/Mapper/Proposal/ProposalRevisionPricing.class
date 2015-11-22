@@ -1,0 +1,128 @@
+<?php
+/**
+ * Mapper for ProposalRevisionPricing
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 13-Aug-2007 12:30:50 AM
+ */
+class Hb_Mapper_Proposal_ProposalRevisionPricing extends Hb_Mapper_Mapper
+{
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalRevisionPricing';
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionPricing';
+
+	/**
+	 * Variable for the Primary Key Field of Proposal revision pricing
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'proposal_revision_pricing_id';
+	
+	/**
+	 * Variable for Proposal revision pricing table
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'proposal_revision_pricing';
+
+	/**
+	 * Build the Proposal Revision Pricing Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalRevisionPricing
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Proposal_ProposalRevisionPricing($row->proposal_revision_pricing_id, 
+																											 $row->ad_hoc_discount, 
+																											 $row->contracted_discount, 
+																											 $row->inflator, 
+																											 $row->license_level_price, 
+																											 $row->net_price, 
+																											 $row->non_contracted_discount, 
+																											 $row->pricing_item_id, 
+																											 $row->promotional_discount, 
+																											 $row->proposal_revision_id);
+
+	}
+	
+	/**
+	 * Get the base data set for Proposal Revision Pricing
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('a' =>'proposal_revision_pricing'), array('proposal_revision_pricing_id',
+																																	'proposal_revision_id',
+																																	'pricing_item_id',
+																																	'license_level_price',
+																																	'inflator',
+																																	'contracted_discount',
+																																	'non_contracted_discount',
+																																	'promotional_discount',
+																																	'ad_hoc_discount',
+																																	'net_price'));
+		return $select;	
+
+	}
+	
+	/**
+	 * Returns a tuple by given Proposal revision pricing Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+	
+		$select = $this->GetBaseSelect();        
+		$select->where('proposal_revision_pricing_id = ?', $id);				
+
+		return $this->getRow($select);		
+
+	} 
+	
+	/**
+	 * Saving the Data set
+	 *
+	 * @param int $id Proposal Revision Pricing Id
+	 * @return object Proposal Revision Pricing
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+	
+		$row->ad_hoc_discount					= $obj->GetAdHocDiscount();
+		$row->contracted_discount			= $obj->GetContractedDiscount();
+		$row->inflator								= $obj->GetInflator();
+		$row->license_level_price			= $obj->GetLicenseLevelPrice();
+		$row->net_price								= $obj->GetNetPrice();
+		$row->non_contracted_discount	= $obj->GetNonContractedDiscount();
+		$row->pricing_item_id					= $obj->GetPricingItemId();
+		$row->promotional_discount 		= $obj->GetPromotionalDiscount();
+		$row->proposal_revision_id 		= $obj->GetProposalRevisionId();
+
+		$row->Save();
+		
+		$obj->SetProposalRevisionPricingId($row->proposal_revision_pricing_id);
+
+	}
+
+}
+?>

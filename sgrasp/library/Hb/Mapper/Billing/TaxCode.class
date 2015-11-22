@@ -1,0 +1,118 @@
+<?php
+/**
+ * Mapper for Tax Code
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Billing_TaxCode extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Billing_TaxCode';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Billing_TaxCode';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "tax_code_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "tax_code";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_TaxCode($row->tax_code_id,$row->vat_tax_id,$row->tax_code,
+											 $row->tax_code_description , $row->tax_rate,$row->tax_type);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('tax_code', array(
+													'tax_code_id', 	
+													'vat_tax_id',
+													'tax_code',
+													'tax_code_description',
+													'tax_rate',
+													'tax_type'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Tax Code by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('tax_code_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'vat_tax_id' => $obj->GetVatTaxId(),
+					'tax_code' => $obj->GetTaxCode(),
+					'tax_code_description' => $obj->GetTaxCodeDescription(),
+					'tax_rate' => $obj->GetTaxRate(),
+					'tax_type' => $obj->GetTaxType());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('tax_code', $data);
+
+			$obj->SetTaxCodeId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('tax_code', $data, 'tax_code_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

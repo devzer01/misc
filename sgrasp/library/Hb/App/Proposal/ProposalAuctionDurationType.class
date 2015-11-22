@@ -1,0 +1,59 @@
+<?php 
+/**
+ * Domain Object for Proposal Auction Duration Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAuctionDurationType extends Hb_App_Common_Type 
+{	
+	/**
+	 * Proposal auction duration
+	 *
+	 * @var int 
+	 */
+	protected $proposal_auction_duration = null;
+	
+	/**
+	 * Create Proposal Auction Duration Type Object
+	 *
+	 * @param int $id Proposal auciton duration type id
+	 * @param int $proposal_auction_duration Proposal auction duration
+	 * @param string $description Proposal auction duration type description
+	 */
+	public function __construct($id = null,
+										 $proposal_auction_duration = null,
+									    $description = null
+									   )
+   {
+   	$this->proposal_auction_duration	= $proposal_auction_duration;
+   	
+   	parent::__construct($id, $description);	
+   }     
+   
+   /**
+    * Return the Proposal auction duration for the Proposal Auction Duration Type
+    *
+    * @return int Proposal auction duration
+    */
+   public function GetProposalAuctionDuration()
+   {
+   	return $this->proposal_auction_duration;
+   }     
+   
+   /**
+    * Set the Proposal auction duration for the  Proposal Auction Duration Type
+    * 
+    * @param int $proposal_auction_duration Proposal auction duration
+    */
+   public function SetProposalAuctionDuration($proposal_auction_duration)
+   {
+   	$this->proposal_auction_duration	= $proposal_auction_duration;
+   	$this->MarkDirty();
+   }  
+}
+?>

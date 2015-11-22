@@ -1,0 +1,126 @@
+<?php 
+/**
+ * Domain Object for Billing Report Group Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportGroupAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Billing Report Group instance
+	 *
+	 * @var HB_App_Billing_BillingReportGroup
+	 */
+	protected $billing_report_group = null;
+	
+	/**
+	 * Billing Report Group Id
+	 *
+	 * @var int 
+	 */
+	protected $billing_report_group_id	= null;
+	
+	/**
+	 * Create Billing Report Group Attribute Object
+	 *
+	 * @param int $id Billing report group attribute id
+	 * @param int $billing_report_id Billing group report id
+	 * @param string $name Billing report group attribute name
+	 * @param string $value Billing report gropu attribute value
+	 */
+	function __construct($id 								= null,
+								$billing_report_group_id 	= null,
+								$group_name						= null,
+								$group_value 					= null
+								)
+	{
+		
+		$this->billing_report_group_id	= $billing_report_group_id;
+
+		parent::__construct($id, $group_name, $group_value);	
+	}
+	
+	/**
+	 * Set the Billing report group attribute id for the  Billing Report Group Attribute
+	 * 
+	 * @param int $billing_report_group_attribute_id Billing report group attribute id
+	 */
+	public function SetBillingReportGroupAttributeId($billing_report_group_attribute_id)
+	{
+		$this->__id	= $billing_report_group_attribute_id;
+	}
+	
+	/**
+	 * Set the Billing  Report Group for the  Billing Group Report Attribute
+	 * 
+	 * @param HB_App_Billing_BiilingReportGroup $billing_report_group Billing Report Group
+	 */
+	public function SetBillingReportGroup(Hb_App_Billing_BillingReportGroup $billing_report_group)
+	{
+		$this->billing_report_group		= $billing_report_group;
+		$this->billing_report_group_id	= $billing_report_group->GetBillingReportGroupId();
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Billing report object for the Billing Report Attribute
+	 *
+	 * @return HB_App_Billing_BiilingReportGroup Billing report object
+	 */
+	protected function doGetBillingReportGroup()
+	{
+		if(is_null($this->billing_report_group)) {
+			
+			if(is_null($this->billing_report_group_id)) {				
+				throw new Hb_App_Billing_Exception_BillingReportGroupNotFoundException();
+			}
+			$this->billing_report_group	= Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportGroup')->Find($this->billing_report_group_id);
+		}
+		
+		return $this->billing_report_group;
+	}
+	
+	/**
+	 * Return the Billing Report Group id for the Billing Report Group Attribute
+	 *
+	 * @return int Billing Report Group id
+	 */
+	public function GetBillingReportGroupId()
+	{
+		
+		if(is_null($this->billing_report_group_id)) {
+			$this->billing_report_group_id	= $this->doGetBillingReportGroup()->GetBillingReportGroupId();
+		}
+
+		return $this->billing_report_group_id;
+	}
+	
+	/**
+	 * Return the Billing Report Group instance for the Billing Report Group Attribute
+	 *
+	 * @return HB_App_Billing_BiilingReportGroup Billing Report Group instance
+	 */
+	public function GetBillingReportGroup()
+	{  		
+		return $this->doGetBillingReportGroup();
+	}
+	
+	/**
+	 * Set the Billing Report Group Id for the  Billing Report Group Attribute
+	 * 
+	 * @param int $billing_report_group_id Billing Report Group Id
+	 */
+	public function SetBillingReportGroupId($billing_report_group_id)
+	{
+		
+		$this->billing_report_group_id	= $billing_report_group_id;
+	}
+	
+}
+
+?>

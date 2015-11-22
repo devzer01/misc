@@ -1,0 +1,128 @@
+<?php 
+/**
+ * Mapper of Recruiter Campaign 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_Recruiter_Campaign extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_Recruiter_Campaign'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_recruiter_campaign_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_recruiter_campaign';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Recruiter Campaign  Id
+    * @return Hb_App_Account_Recruiter_Campaign returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('rc.account_recruiter_campaign_id = ?', $id);
+	  	$select->where('rc.status = ?', 'A');
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('rc' => 'account_recruiter_campaign'), array('account_recruiter_campaign_id', 'campaign_code', 
+	  	'account_id','campaign_start_date','campaign_end_date','campaign_description','quality_rating','profit_share','revenue_share','conversion_rate',
+		'cost_per_complete','cost_per_acquisition','status'));
+
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_Recruiter_Campaign Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Account_Recruiter_Campaign
+   							(
+					   			$row->account_recruiter_campaign_id, 
+					   			$row->campaign_code,
+					   	 		$row->account_id,
+					   	 		$row->campaign_start_date, 
+					   			$row->campaign_end_date,
+					   	 		$row->campaign_description,
+					   	 		$row->quality_rating, 
+					   			$row->profit_share,
+					   	 		$row->revenue_share,
+					   	 		$row->conversion_rate, 
+					   			$row->cost_per_complete,
+					   	 		$row->cost_per_acquisition,
+					   	 		$row->status					   	 		
+				   	 		);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_Recruiter_Campaign
+    */ 
+   protected function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+				      	'campaign_code' 			=> $obj->GetRecruiterCampaignCode(),
+				      	'account_id'				=> $obj->GetAccountId(),
+      					'campaign_start_date'	=> $obj->GetCampaignStartDate(),
+				      	'campaign_end_date'		=> $obj->GetCampaignEndDate(),
+				      	'campaign_description'	=> $obj->GetCampaignDescription(),
+				      	'quality_rating' 			=> $obj->GetQualityRating(),
+				      	'profit_share'				=> $obj->GetProfitShare(),
+      					'revenue_share'			=> $obj->GetRevenueShare(),
+      					'conversion_rate'			=> $obj->GetConversionRate(),
+				      	'cost_per_complete'		=> $obj->GetCostPerComplete(),
+				      	'cost_per_acquisition'	=> $obj->GetCostPerAcquisition(),
+				      	'status'						=> $obj->GetStatus()
+      				 );
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+      	$data['created_by'] 		= ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+	 		$data['created_date'] 	= date("Y-m-d h:i:s");
+			$db->insert('account_recruiter_campaign', $data);
+			$obj->SetRecruiterCampaignId($db->lastInsertId());
+	  	} else {
+	  		$data['modified_by'] 	= ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+         $data['modified_date'] 	= date("Y-m-d h:i:s");
+			$db->update('account_recruiter_campaign', $data, 'account_recruiter_campaign_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

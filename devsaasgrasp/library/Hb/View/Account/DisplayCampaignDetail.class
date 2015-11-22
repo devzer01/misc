@@ -1,0 +1,45 @@
+<?php
+
+require_once ('class/Hb/Util/View/View.class') ;
+
+class Hb_View_Account_DisplayCampaignDetail extends Hb_Util_View_View {
+	
+	protected  $__template_name = 'app/acm/recruiter/vw_campaign_detail.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $account 	= null;
+	protected $campaign 	= null;
+	protected $recruiter_term = null;
+	protected $display	= array('display_save_button' => 1);	
+	
+	protected function LoadData () 
+	{
+		$rating =array("1" =>"*", "2" =>"**", "3" =>"***","4" => "****", "5" => "*****");
+		
+		$this->SetData('account', $this->account);
+		$this->SetData('campaign', $this->campaign);
+		$this->SetData('rating', $rating);
+		$this->SetData('recruiter_term', $this->recruiter_term);
+		$this->SetData('display', $this->display);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account	= $account;
+	}
+	
+	public function SetCampaign($campaign)
+	{
+		$this->campaign	= $campaign;
+	}
+	
+	public function SetRectuiterTerm($recruiter_term)
+	{
+		$this->recruiter_term = $recruiter_term;
+	}
+	
+	
+}
+
+?>

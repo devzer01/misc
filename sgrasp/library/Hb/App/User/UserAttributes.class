@@ -1,0 +1,63 @@
+<?php 
+/**
+ * Domain Object for User Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */ 
+class Hb_App_User_UserAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * User instance
+	 *
+	 * @var Hb_App_User_User 
+	 */
+	protected $user = null;
+	
+	/**
+	 * User id
+	 *
+	 * @var int 
+	 */
+	protected $user_id = null;
+	
+	public function AddAttribute(Hb_App_User_UserAttribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		}catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For User". $this->user_id, HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Billing Report " . $this->user_id, HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);			
+		}
+	}
+	
+	public function AddUser(Hb_App_User_User $user)
+	{
+		$this->user		= $user;
+		$this->user_id	= $user->GetUserId();
+	}
+	
+	public function GetUser()
+	{
+		return $this->user;
+	}
+	
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+}
+
+?>

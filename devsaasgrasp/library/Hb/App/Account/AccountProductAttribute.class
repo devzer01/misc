@@ -1,0 +1,122 @@
+<?php 
+/**
+ * Domain Object for Account Product Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountProductAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Account Product instance
+	 *
+	 * @var Hb_App_Account_AccountProduct
+	 */
+	protected $account_product = null;
+	
+	/**
+	 * Account product id
+	 *
+	 * @var int 
+	 */
+	protected $account_product_id = null;
+	
+	/**
+	 * Create Account Product Attribute Object
+	 *
+	 * @param int $id Account product attribute id
+	 * @param int $account_product_id Account product id
+	 * @param string $name Account product attribute name
+	 * @param string $value Account product attribute value
+	 */
+	public function __construct($id 						= null,
+										 $account_product_id = null,
+										 $name 					= null,
+										 $value 					= null
+										 )
+	{	
+		$this->account_product_id	= $account_product_id;
+		
+		parent::__construct($id, $name, $value);	
+	}
+	
+	/**
+	 * Set the Account product attribute id for the  Account Product Attribute
+	 * 
+	 * @param int $account_product_attribute_id Account product attribute id
+	 */
+	public function SetAccountProductAttributeId($account_product_attribute_id)
+	{
+		$this->__id	= $account_product_attribute_id;
+	}
+	
+	/**
+	 * Set the Account Product for the  Account Product Attribute
+	 * 
+	 * @param Hb_App_Account_AccountProduct $account_product Account Product
+	 */
+	public function SetAccountProduct(Hb_App_Account_AccountProduct $account_product)
+	{
+		$this->account_product		= $account_product;
+		$this->account_product_id	= $account_product->GetAccountProductId();
+		$this->MarkDirty();		
+	}
+	
+	/**
+	 * Return the Account Product object for the Account Product Attribute
+	 *
+	 * @return Hb_App_Account_AccountProduct 
+	 * @throws Hb_App_Account_Exception_AccountProductNotFoundException
+	 */
+	protected function doGetAccountProduct()
+	{
+		if(is_null($this->account_product)) {
+			if(is_null($this->account_product_id))
+				throw new Hb_App_Account_Exception_AccountProductNotFoundException();
+			$this->account_product	= Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountProduct')->Find($this->account_product_id);
+		}
+		return $this->account_product;
+	}
+	
+	/**
+	 * Return the Account product id for the Account Product Attribute
+	 *
+	 * @return int Account product id
+	 */
+	public function GetAccountProductId()
+	{
+		if(is_null($this->account_product_id)) {
+			$this->account_product_id	= $this->doGetAccountProduct()->GetAccountProductId();
+		}
+		
+		return $this->account_product_id;		
+	}
+	
+	/**
+	 * Return the Account Product for the Account Product Attribute
+	 *
+	 * @return Hb_App_Account_AccountProduct Account Product
+	 */
+	public function GetAccountProduct()
+	{
+		return $this->doGetAccountProduct();
+	}
+	
+	/**
+	 * Set the Account product id for the  Account Product Attribute
+	 * 
+	 * @param int $account_product_id Account product id
+	 */
+	public function SetAccountProductId($account_product_id)
+	{
+		$this->account_product_id	= $account_product_id;
+	}
+	
+}
+
+
+?>

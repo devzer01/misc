@@ -1,0 +1,120 @@
+<?php 
+/**
+ * Domain Object for Proposal Auction Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAuctionAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Proposal Auction instance
+	 *
+	 * @var Hb_App_Proposal_ProposalAuction 
+	 */
+	protected $proposal_auction = null;
+	
+	/**
+	 * Proposal Auction Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_auction_id	= null;
+	
+	/**
+	 * Create Proposal Auction Attribute Object
+	 *
+	 * @param int $id Proposal auction attribute id
+	 * @param int $proposal_auction_id Proposal auction id
+	 * @param string $name Proposal auction attribute name
+	 * @param string $value Proposal auction attribute value
+	 */
+	function __construct($id 						= null,
+								$proposal_auction_id = null,
+								$name						= null,
+								$value 					= null
+								)
+	{
+		$this->proposal_auction_id = $proposal_auction_id;
+
+		parent::__construct($id, $name, $value);	
+	}
+	
+	/**
+	 * Set the Proposal auction attribute id for the Proposal Auction Attribute
+	 * 
+	 * @param int $proposal_auction_attribute_id Proposal auction attribute id
+	 */
+	public function SetProposalAuctionAttributeId($proposal_auction_attribute_id)
+	{
+		$this->__id	= $proposal_auction_attribute_id;
+	}
+	
+	/**
+	 * Set the Proposal Auction for the Proposal Auction Attribute
+	 * 
+	 * @param HB_App_Proposal_ProposalAuction $proposal_auction Proposal Auction
+	 */
+	public function SetProposalAuction(Hb_App_Proposal_ProposalAuction $proposal_auction)
+	{
+		$this->proposal_auction		= $proposal_auction;
+		$this->proposal_auction_id	= $proposal_auction->GetProposalAuctionId();
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the ProposalAuction object for the Proposal Auction Attribute
+	 *
+	 * @return HB_App_Proposal_ProposalAuction Proposal Auction object
+	 */
+	protected function doGetProposalAuction()
+	{
+		if(is_null($this->proposal_auction)) {
+			if(is_null($this->proposal_auction_id))
+				throw new Hb_App_Proposal_Exception_ProposalAuctionNotFoundException();
+			$this->proposal_auction = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalAuction')->Find($this->proposal_auction_id);
+		}
+		
+		return $this->proposal_auction;
+	}
+	
+	/**
+	 * Return the Proposal auction id for the Proposal Auction Attribute
+	 *
+	 * @return int Proposal auction id
+	 */
+	public function GetProposalAuctionId()
+	{
+		if(is_null($this->proposal_auction_id)) {
+			$this->proposal_auction_id	= $this->doGetProposalAuction()->GetProposalAuctionId();
+		}
+		return $this->proposal_auction_id;
+	}
+	
+	/**
+	 * Return the Proposal Auction instance for the Proposal Auction Attribute
+	 *
+	 * @return HB_App_Proposal_ProposalAuction Proposal Auction instance
+	 */
+	public function GetProposalAuction()
+	{
+		return $this->doGetProposalAuction();
+	}
+	
+	/**
+	 * Set the Proposal auction Id for the Proposal Auction Attribute
+	 * 
+	 * @param int $proposal_auction_id Proposal Auction Id
+	 */
+	public function SetProposalAuctionId($proposal_auction_id)
+	{
+		$this->proposal_auction_id	= $proposal_auction_id;
+	}
+	
+}
+
+?>

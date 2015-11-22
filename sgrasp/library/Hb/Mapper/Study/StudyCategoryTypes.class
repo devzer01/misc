@@ -1,0 +1,69 @@
+<?php 
+/**
+ * Mapper Object for Study Category Types Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyCategoryTypes extends Hb_Mapper_Study_StudyCategoryType 
+{
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sct.'. $this->primary_key .'= ?', $id);
+		return $this->getRows($select);
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Study_StudyCategoryTypes');
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+	
+	protected function doFindAllLevel()
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sct.parent_study_category_type_id = ?', 0);
+		$select->where('sct.status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+	
+	public function FindAllLevel1()
+	{
+		$result = $this->doFindAllLevel();
+		
+		return $this->BuildCollection($result);
+	}
+	
+	protected function doFindAllByParentId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sct.parent_study_category_type_id = ?', $id);
+		$select->where('sct.status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+	
+	public function FindAllByParentId($id)
+	{ 
+		$result = $this->doFindAllByParentId($id);
+		
+		return $this->BuildCollection($result);
+	}
+	
+}
+
+?>

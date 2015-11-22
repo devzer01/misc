@@ -1,0 +1,42 @@
+<?php
+
+class Hb_App_Common_PricingRegime extends Hb_App_Object
+{
+
+	protected $regime_id = null;
+	
+	private $description = null;
+	
+	public function __construct($id = null, $description = null)
+	{
+		$this->regime_id 				= $id;
+		$this->description	      = $description;
+		
+		parent::__construct($id);
+	}
+	
+	public function GetRegimeId()
+	{
+		return $this->regime_id;
+	}
+
+	public function SetRegimeId($id)
+	{
+		$this->regime_id = $id;
+		parent::__construct($id);
+		$this->MarkDirty();
+	}
+	
+	public function GetDescription()
+	{
+		return $this->description;
+	}
+	
+	public function SetDescription($description)
+	{
+		$this->description = $description;
+		$this->MarkDirty();
+	}
+	
+}
+?>

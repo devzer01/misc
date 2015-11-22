@@ -1,0 +1,25 @@
+<?php 
+/**
+ * Domain class Account Panel Cost Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountPanelCostAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{ 
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Account Panel Cost Attribute Definition Id
+	 * @param string $attribute_name Account Panel Cost Attribute Name
+	 * @param string $description Account Panel Cost Attribute Description
+	 */ 
+	public function __construct($id=null, $attr_name=null, $attr_def_desc=null)
+	{
+		parent::__construct($id, $attr_name, $attr_def_desc);
+	}
+}
+?>

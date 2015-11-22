@@ -1,0 +1,238 @@
+<?php
+/**
+ * Domain Object for study_cost_file
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+class Hb_App_Study_StudyCostFile extends Hb_App_Object
+{
+	/**
+	 * Study Cost File Id
+	 *
+	 * @var int
+	 */	
+	protected $study_cost_file_id = null;	
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;	
+	
+	/**
+	 * Study Cost Id
+	 *
+	 * @var int
+	 */
+	protected $study_cost_id = null;	
+	
+	/**
+	 * Study Cost File
+	 *
+	 * @var Hb_App_Common_File 
+	 */
+	protected $study_cost_file = null;
+	
+	/**
+     * Instance of Study cost file type 
+     *
+     * @var Hb_App_Study_StudyCostFileType 
+     */
+    protected $study_cost_file_type = null;
+    
+	/**
+	 * Instance of Hb_App_Study_StudyCost
+	 *
+	 * @var Hb_App_Study_StudyCost 
+	 */
+	protected $study_cost = null;
+	
+	/**
+    * Study cost file type id 
+    *
+    * @var int 
+    */
+    protected $study_cost_file_type_id = null;
+	
+	/**
+	 * Create study_cost_file Object
+	 * 
+	 * @param int $id Study Cost File Id	
+	 * @param int $study_id Study Id 
+	 * @param int $study_cost_id Study Cost Id
+	 * @param int $study_cost_file_type_id Stduy cost file type id
+	 * @param Hb_App_Common_File $study_cost_file Study Cost File object		 
+	 */
+	function __construct($id 										   = null, 
+								$study_id									= null, 								
+								$study_cost_id								= null, 								 
+								Hb_App_Common_File $study_cost_file	= null,
+								$study_cost_file_type_id 				= null
+								)
+	{
+		$this->study_cost_file_id 		 = $id;	
+		$this->study_id		  	  		 = $study_id;	
+		$this->study_cost_id		  		 = $study_cost_id;
+		$this->study_cost_file	  		 = $study_cost_file;
+		$this->study_cost_file_type_id = $study_cost_file_type_id;	
+		
+		if(!is_null($this->study_cost_file))
+			$this->study_cost_file->RegisterFileOwner('Hb_App_Study_StudyCostFile');				
+		
+		parent::__construct($id);
+	}
+	
+   	
+	/**
+	 * Returns the Study Cost File Id
+	 *
+	 * @return int Study Cost File Id
+	 */
+	public function GetStudyCostFileId()
+	{
+		return $this->study_cost_file_id;
+	}	
+	
+	/**
+	 * Returns the Study Id
+	 *
+	 * @return int Study Id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+	
+	
+	/**
+	 * Returns the Study Cost Id
+	 *
+	 * @return int Study Cost Id
+	 */
+	public function GetStudyCostId()
+	{
+		if (is_null($this->study_cost_id)) {
+			
+			$this->study_cost_id = $this->study_cost->GetStudyCostId();
+		}
+		
+		return $this->study_cost_id;
+	}
+	
+	
+	/**
+     * Return the Instance of Study Cost File Type for the Study Cost File
+     *
+     * @return Hb_App_Study_StudyCostFileType Instance of Study Cost File Type
+     */
+    public function GetStudyCostFileType()
+    {
+        if (is_null($this->study_cost_file_type)) {
+            if (is_null($this->study_cost_file_type_id))
+                throw new Hb_App_Study_Exception_StudyCostFileTypeNotFoundException();
+            
+            $this->study_cost_file_type = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCostFileType')->Find($this->study_cost_file_type_id);
+        }
+        
+        return $this->study_cost_file_type;
+    }
+    
+
+	/**
+	 * 
+	 */
+	public function SetStudyCost(Hb_App_Study_StudyCost $study_cost)
+	{
+		$this->study_cost        = $study_cost;
+		$this->study_cost_id     = $study_cost->GetStudyCostId();
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Study Cost File object for the Study Cost
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->study_cost_file;
+	}
+	
+   	
+	/**
+	 * Sets the Study Cost File Id
+	 * 
+	 * @param int $study_cost_file_id Study Cost File Id
+	 */
+	public function SetStudyCostFileId($study_cost_file_id)
+	{
+		$this->study_cost_file_id 	= $study_cost_file_id;		
+		$this->__id 					= $study_cost_file_id;
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets the Study Id
+	 * 
+	 * @param int $study_id Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+		
+	/**
+	 * Sets the Study Cost Id
+	 * 
+	 * @param int $study_cost_id Study Cost Id
+	 */
+	public function SetStudyCostId($study_cost_id)
+	{
+		$this->study_cost_id = $study_cost_id;
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Set the Study Cost file
+	 * 
+	 * @param Hb_App_Common_File $study_cost_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $study_cost_file)
+	{
+		$this->study_cost_file_id	= $study_cost_file->GetFileId();
+//		$this->__id						= $study_cost_file->GetFileId();
+		$this->study_cost_file		= $study_cost_file;
+		$this->MarkDirty();
+	}	
+	
+	/**
+     * Set the study cost  file type id for the  study cost file
+     * 
+     * @param int $study_cost_file_type_id study cost file type id
+     */
+    public function SetStudyCostFileTypeId ($study_cost_file_type_id)
+    {
+       $this->study_cost_file_type_id = $study_cost_file_type_id;
+       $this->MarkDirty();
+    }
+    
+    /**
+     * Return the Study cost file type id for the Study cost file
+     *
+     * @return int Study cost file type id
+     */
+    public function GetStudyCostFileTypeId()
+    {
+    	return $this->study_cost_file_type_id;
+    }
+}
+?>

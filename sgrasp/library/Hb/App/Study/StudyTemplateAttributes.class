@@ -1,0 +1,56 @@
+<?php 
+/**
+ * Domain Object for Study Tempalte Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyTemplateAttributes extends Hb_App_Attributes 
+{
+	
+	/**
+	 * Study template
+	 *
+	 * @var object Hb_App_Study_StudyTemplate
+	 */
+	protected $study_template = null;
+	
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 */
+	protected $study_template_id = null;
+	
+	public function AddAttribute(Hb_App_Study_StudyTemplateAttribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Study Template ". $this->study_template_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Study Template " . $this->study_template_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddStudyTemplate(Hb_App_Study_StudyTemplateAttribute $study_template)
+	{
+		$this->study_template		= $study_template;
+		$this->study_template_id	= $study_template->GetStudyTemplateId();
+	}
+}
+
+?>

@@ -1,0 +1,24 @@
+<?php
+/**
+ * Factory for returning the Address Validation Service object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Util
+ * @subpackage Service
+ *
+ */ 
+class Hb_Util_Service_AddressValidation_AddressValidationFactory
+{
+	public static function GetInstance($address)
+	{		
+		$avs = Hb_Util_Service_AddressValidation_Configuration::GetInstance($address->GetAddressCountryCode());
+		$avs_class = "Hb_Util_Service_AddressValidation_".$avs; 
+		$avs_obj = new $avs_class;
+		$avs_obj->SetAddress($address);
+		
+		return $avs_obj ;
+	}
+}
+?>

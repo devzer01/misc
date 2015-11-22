@@ -1,0 +1,148 @@
+<?php
+/**
+ * Domain Object for Study Template Attribute Memo
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyTemplateAttributeMemo extends Hb_App_Object
+{
+	/**
+	 * Study attribute
+	 *
+	 * @var string
+	 **/
+	protected $study_attr = null;
+
+	/**
+	 * Study template attribute memo id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_attr_memo_id = null;
+
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_id = null;
+
+	/**
+	 * Study value
+	 *
+	 * @var string
+	 **/
+	protected $study_value = null;
+
+	/**
+	 * Create StudyTemplateAttributeMemo Object
+	 *
+	 * @param int $id Study template attribute memo id
+	 * @param int $study_template_id Study template id
+	 * @param string $study_attr Study attribute
+	 * @param string $study_value Study value
+	 */
+	function __construct($id = null,
+  							   $study_template_id = null,
+  							   $study_attr = null, 
+  							   $study_value = null )
+	{
+		$this->study_template_attr_memo_id 	= $id;
+		$this->study_template_id 				= $study_template_id;
+		$this->study_attr 						= $study_attr;
+		$this->study_value						= $study_value;
+		parent::__construct($id);
+	}
+	
+	/**
+	* Returns the Study Attribute
+ 	* 
+	* @return String The Study Attribute
+	**/
+	public function GetStudyAttribute()
+	{
+		return $this->study_attr;
+	}
+
+	/**
+	* Returns the Study template attribute memo id
+ 	* 
+	* @return int The Study template attribute memo id
+	**/
+	public function GetStudyTemplateAttributeMemoId()
+	{
+		return $this->study_template_attr_memo_id;
+	}
+
+	/**
+	* Returns the Study template id
+ 	* 
+	* @return int The Study template id
+	**/
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	* Returns the Study value
+ 	* 
+	* @return int The Study value
+	**/
+	public function GetStudyValue()
+	{
+		return $this->study_value;
+	}
+
+	/**
+	 * Sets the Study attribute
+ 	 * 
+	 * @param string $study_attr Study attribute
+	 */
+	public function SetStudyAttribute($study_attr)
+	{
+		$this->study_attr = $study_attr;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Study template attribute memo id
+ 	 * 
+	 * @param int $study_template_attr_memo_id Study template attribute memo id
+	 */
+	public function SetStudyTemplateAttributeMemoId($study_template_attr_memo_id)
+	{
+		$this->study_template_attr_memo_id = $study_template_attr_memo_id;
+		$this->__id = $study_template_attr_memo_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study template id
+ 	 * 
+	 * @param int $study_template_id Study template id
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study value
+ 	 * 
+	 * @param string $study_value Study value
+	 */
+	public function SetStudyValue($study_value)
+	{
+		$this->study_value = $study_value;
+		$this->MarkDirty();
+	}
+}
+?>

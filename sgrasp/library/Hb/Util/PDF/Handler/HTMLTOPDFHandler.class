@@ -1,0 +1,83 @@
+<?php 
+class Hb_Util_PDF_Handler_HTMLTOPDFHandler implements Hb_Util_PDF_Generator_PDFGeneratorInterface 
+{
+	private $options 		= array();
+	private $html_data 	= '';
+	private $output_file = '';
+	
+	
+	function __construct()
+	{
+		$this->options['domain'] 	= SERVER_NAME;
+		$this->options['use_css']	= true;
+		$this->options['use_color']	= true;			
+		$this->options['user_underline_links']	= true;
+	}	
+	
+	public function SetOption($key, $value)
+	{
+		$this->options[$key]	= $value;		
+	}
+	
+	public function GetOption($key)
+	{
+		if(isset($this->options[$key])) return $this->options[$key];
+	}	
+	
+	public function GetOptions()
+	{
+		return $this->options;
+	}
+		
+	public function SetOutputFile($file)
+	{
+		$this->output_file = $file;
+	}	
+	
+	public function SetHTML($html)
+	{
+		$this->html_data = $html;
+	}	
+	
+	public function Generate()
+	{	
+		$hash 		= md5(time());
+		$in_file  	= sys_get_temp_dir()."/proposal_input_". $hash .".html";
+		
+		//write html data on temparray file
+		$fp = fopen($in_file, 'w+');
+		fputs($fp, $this->html_data);
+		fclose($fp);		
+		
+		//create HTML_ToPDF object
+		$pdf = new HTML_ToPDF($in_file, $this->options['domain'] );	
+	
+		//set headers
+		if(isset($this->options['header']) && count($this->options['header']) > 0 ) {		
+	   	foreach ($this->options['header'] as $align => $text) {
+	      	$pdf->setHeader($align, $text);
+	   	}		
+		}
+		// Set that we do want to use the page's css
+		$pdf->setUseCSS($this->options['use_css']);
+		// We want to underline links
+		$pdf->setUnderlineLinks($this->options['user_underline_links']);
+		// Make the page not black and light
+		$pdf->setUseColor($this->options['use_color']);
+		// Convert the file
+		$result = $pdf->convert();	
+		
+		// Check if the result was an error
+		if (is_a($result, 'HTML_ToPDFException')) {
+		    throw new Exception($result->getMessage());
+		}
+		else 
+		{
+			$fp = fopen($result, 'r');
+			file_put_contents($this->output_file, $fp);	
+			fclose($fp);		
+		}	
+	}
+}
+
+?>

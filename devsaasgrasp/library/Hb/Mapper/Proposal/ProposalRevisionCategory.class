@@ -1,0 +1,105 @@
+<?php 
+/**
+ * Mapper Object for Proposal Revision Category
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author sujith
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalRevisionCategory extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key  = 'proposal_revision_category_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var sring 
+	 */
+	protected $table = 'proposal_revision_category';
+	
+	/**
+	 * Builds and returns the Account Task domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the account_task table
+	 * @return object An instance of the Hb_App_Proposal_ProposalRevisionCategory 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return  new Hb_App_Proposal_ProposalRevisionCategory($row->proposal_revision_category_id, 
+																			 $row->proposal_revision_id, 
+																			 $row->proposal_category_type_id 
+																			 );
+																			 
+											
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 	$db 		= Hb_Util_Db_Connection::GetInstance();
+	 	$select 	= $db->select();
+	 	
+	 	$select->from(array('prc' => $this->table), array('proposal_revision_category_id',
+															     		 'proposal_revision_id',
+																		 'proposal_category_type_id',
+																		 'status'));
+		$select->where('status = ?', 'A');
+		return $select;
+	}
+	
+	/**
+	 * Finds a Proposal Revision Category by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the account_task table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+	 	$select->where('prc.'. $this->primary_key. '= ?', $id);
+	 	
+	 	return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of Hb_App_Proposal_ProposalRevisionCategory domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Proposal_ProposalRevisionCategory */
+	 	
+	 	$data = array(
+	 		'proposal_revision_id'			=> $obj->GetProposalRevisionId(),
+	 		'proposal_category_type_id'	=> $obj->GetProposalCategoryTypeId(),
+	 		'status'								=> $obj->GetStatus()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$data['created_by'] 		= ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+	 		$data['created_date'] 	= date("Y-m-d h:i:s");
+	 		$db->insert($this->table, $data);
+	 		$obj->GetProposalRevisionCategoryId($db->lastInsertId());
+	 	}else {
+	 		$data['modified_by'] 	= ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+         $data['modified_date'] 	= date("Y-m-d h:i:s");
+	 		$db->update($this->table, $data, $this->primary_key. '='. $obj->GetId());
+	 	}
+	}
+}
+?>

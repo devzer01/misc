@@ -1,0 +1,30 @@
+<?php
+
+class Hb_Mapper_Account_AccountContacts extends Hb_Mapper_Account_AccountContact  
+{
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountContacts');
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

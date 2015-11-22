@@ -1,0 +1,12 @@
+<?php
+
+interface Hb_App_Report_ReportInterface 
+{
+	public function Execute();
+	
+	public function GetConditionFields();
+	
+	public function GetColumnFields();
+}
+
+?>

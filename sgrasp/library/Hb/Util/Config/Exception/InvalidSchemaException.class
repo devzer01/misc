@@ -1,0 +1,12 @@
+<?php
+/**
+ *  Hb_Util_Config_InvalidSchemaException - thrown when an invalid configuration type is requested from the config object
+ *
+ * @package  Util
+ * @subpackage  Config
+ */
+class Hb_Util_Config_InvalidSchemaException extends Hb_Util_Config_Exception
+{
+
+}
+?>

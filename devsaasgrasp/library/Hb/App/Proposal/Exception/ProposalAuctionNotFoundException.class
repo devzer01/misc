@@ -1,0 +1,9 @@
+<?php
+
+require_once ('class/Hb/Exception.class') ;
+
+class Hb_App_Proposal_Exception_ProposalAuctionNotFoundException extends Hb_Exception {
+
+}
+
+?>

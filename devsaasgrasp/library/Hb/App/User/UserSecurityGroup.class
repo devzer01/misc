@@ -1,0 +1,119 @@
+<?php
+/**
+ * Domain Object for User Security Group
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */ 
+class Hb_App_User_UserSecurityGroup extends Hb_App_Object 
+{
+	/**
+	 * Login
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Security group id
+	 *
+	 * @var int 
+	 */
+	protected $security_group_id = null;
+	
+	/**
+	 * User security group id
+	 *
+	 * @var int 
+	 */
+	protected $user_security_group_id = null;
+
+	/**
+	 * Create User Security Group Object
+	 *
+	 * @param int $id user security group id
+	 * @param int $security_group_id Security group id
+	 * @param int $login Login
+	 */
+	function __construct($id 						= null,
+								$login 					= null,
+								$security_group_id 	= null
+								)
+	{
+		$this->login						= $login;
+		$this->security_group_id		= $security_group_id;
+		$this->user_security_group_id	= $id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Login for the User Security Group
+	 *
+	 * @return int Login
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return the Security group id for the User Security Group
+	 *
+	 * @return int Security group id
+	 */
+	public function GetSecurityGroupId()
+	{
+		return $this->security_group_id;
+	}
+
+	/**
+	 * Return the User security group id for the User Security Group
+	 *
+	 * @return int User security group id
+	 */
+	public function GetUserSecurityGroupId()
+	{
+		return $this->user_security_group_id;
+	}
+
+	/**
+	 * Set the LOgin for the  User Security Group
+	 * 
+	 * @param int $login LOgin
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Security group id for the  User Security Group
+	 * 
+	 * @param int $security_group_id Security group id
+	 */
+	public function SetSecurityGroupId($security_group_id)
+	{
+		$this->security_group_id = $security_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User security group id for the  User Security Group
+	 * 
+	 * @param int $user_security_group_id User security group id
+	 */
+	public function SetUserSecurityGroupId($user_security_group_id)
+	{
+		$this->user_security_group_id = $user_security_group_id;
+		$this->__id							= $user_security_group_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

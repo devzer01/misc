@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Billing Report Event Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportEventType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Billing Report Event Type Object
+	 *
+	 * @param int $id Billing report event type id
+	 * @param string $description Billing report event type
+	 */
+	public function __construct($id = null,
+									     $description 	= null
+									    )
+  {  	
+   	parent::__construct($id, $description);	
+  }
+}
+
+?>

@@ -1,0 +1,20 @@
+<?php
+
+include_once 'class/Hb/View/Footer/ExternalFooter.class';
+include_once 'class/Hb/View/Footer/InternalFooter.class';
+
+class Hb_View_Footer_Footer
+{
+	/**
+	 * @return Hb_Util_View_View
+	 */
+	public static function factory()
+	{
+		if ($_SESSION['user_type_id'] == USER_TYPE_EXTERNAL) 
+		{
+			return new Hb_View_Footer_ExternalFooter();
+		}
+		return new Hb_View_Footer_InternalFooter();
+	}
+}
+?>

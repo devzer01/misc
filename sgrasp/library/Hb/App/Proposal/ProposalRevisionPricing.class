@@ -1,0 +1,358 @@
+<?php
+/**
+ * Domain Object for ProposalRevisionPricing
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Propsal
+ */ 
+
+class Hb_App_Proposal_ProposalRevisionPricing extends Hb_App_Object 
+{
+	/**
+	 * Ad hoc Discount
+	 * 
+	 * @var int
+	 */
+	protected $ad_hoc_discount = null;
+	
+	/**
+	 * Contracted Discount
+	 * 
+	 * @var int
+	 */
+	protected $contracted_discount = null;
+
+	/**
+	 * Inflator
+	 * 
+	 * @var int
+	 */
+	
+	protected $inflator = null;
+	
+	/**
+	 * License Level Price
+	 * 
+	 * @var int
+	 */
+	protected $license_level_price = null;
+	
+	/**
+	 * Net Price
+	 * 
+	 * @var int
+	 */
+	protected $net_price = null;
+	
+	/**
+	 * Non Contracted Discount
+	 * 
+	 * @var int
+	 */
+	protected $non_contracted_discount = null;
+	
+	/**
+	 * Pricing Item Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_id = null;
+	
+	/**
+	 * Promotional Discount
+	 * 
+	 * @var int
+	 */
+	protected $promotional_discount = null;
+	
+	/**
+	 * Proposal Revision Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+
+	/**
+	 * Proposal Revision Pricing Id
+	 * 
+	 * @var int
+	 */	
+	protected $proposal_revision_pricing_id = null;
+	
+	/**
+	 * Create an ProposalRevision Object
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $id Proposal Revision Pricing Id
+	 * @param int $ad_hoc_discount Ad hoc Discount 
+	 * @param int $contracted_discount Contracted Discount
+	 * @param int $inflator Inflator
+	 * @param int $license_level_price License Level Price
+	 * @param int $net_price net Price
+	 * @param int $non_contracted_discount Non Contracted Discount
+	 * @param int $pricing_item_id Pricing Item Id
+	 * @param int $promotional_discount Promotional Discount
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */	
+	function __construct($id = null, 
+								$ad_hoc_discount = null,
+								$contracted_discount = null,
+								$inflator = null,
+								$license_level_price = null,
+								$net_price = null,
+								$non_contracted_discount = null,
+								$pricing_item_id = null,
+								$promotional_discount = null,
+								$proposal_revision_id = null
+								)
+	{
+		$this->proposal_revision_pricing_id = $id;
+		$this->ad_hoc_discount 					= $ad_hoc_discount;
+		$this->contracted_discount 			= $contracted_discount;
+		$this->inflator							= $inflator;
+		$this->license_level_price 			= $license_level_price;
+		$this->net_price						 	= $net_price;
+		$this->non_contracted_discount 		= $non_contracted_discount;
+		$this->pricing_item_id					= $pricing_item_id;
+		$this->promotional_discount		  	= $promotional_discount;
+		$this->proposal_revision_id		  	= $proposal_revision_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Ad hoc Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Ad hoc Discount
+	 */
+	public function GetAdHocDiscount()
+	{
+		return $this->ad_hoc_discount;
+	}
+
+	/**
+	 * Returns Contracted Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Contracted Discount
+	 */
+	public function GetContractedDiscount()
+	{
+		return $this->contracted_discount;
+	}
+
+	/**
+	 * Returns Inflator
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Inflator
+	 */
+	public function GetInflator()
+	{
+		return $this->inflator;
+	}
+
+	/**
+	 * Returns License Level Price
+	 * 
+ 	 * @author krathnayake	
+	 * @return int License Level Price
+	 */
+	public function GetLicenseLevelPrice()
+	{
+		return $this->license_level_price;
+	}
+
+	/**
+	 * Returns Net Price
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Net Price
+	 */
+	public function GetNetPrice()
+	{
+		return $this->net_price;
+	}
+
+	/**
+	 * Returns Non Contracted Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Non Contracted Discount
+	 */
+	public function GetNonContractedDiscount()
+	{
+		return $this->non_contracted_discount;
+	}
+	
+	/**
+	 * Returns Pricing Item Id
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Pricing Item Id
+	 */
+	public function GetPricingItemId()
+	{
+		return $this->pricing_item_id;
+	}
+
+	/**
+	 * Returns Promotional Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Promotional Discount
+	 */
+	public function GetPromotionalDiscount()
+	{
+		return $this->promotional_discount;
+	}
+
+	/**
+	 * Returns Proposal Revision Id
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Returns Proposal Revision Pricing Id
+	 * 
+ 	 * @author krathnayake	
+	 * @return int Proposal Revision Pricing Id
+	 */
+	public function GetProposalRevisionPricingId()
+	{
+		return $this->proposal_revision_pricing_id;
+	}
+
+	/**
+	 * Sets Ad hoc Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @param $ad_hoc_discount Ad hoc Discount
+	 */
+	public function SetAdHocDiscount($ad_hoc_discount)
+	{
+		$this->ad_hoc_discount = $ad_hoc_discount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Contracted Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $contracted_discount Contracted Discount
+	 */
+	public function SetContractedDiscount($contracted_discount)
+	{
+		$this->contracted_discount = $contracted_discount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Inflator
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $inflator Inflator
+	 */
+	public function SetInflator($inflator)
+	{
+		$this->inflator = $inflator;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets License Level Price
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $license_level_price License Level Price
+	 */
+	public function SetLicenseLevelPrice($license_level_price)
+	{
+		$this->license_level_price = $license_level_price;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Net Price
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $net_price Net Price
+	 */
+	public function SetNetPrice($net_price)
+	{
+		$this->net_price = $net_price;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Non Contracted Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $non_contracted_discount Non Contracted Discount
+	 */
+	public function SetNonContractedDiscount($non_contracted_discount)
+	{
+		$this->non_contracted_discount = $non_contracted_discount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Pricing Item Id
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $pricing_item_id Pricing Item Id
+	 */
+	public function SetPricingItemId($pricing_item_id)
+	{
+		$this->pricing_item_id = $pricing_item_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Promotional Discount
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $promotional_discount Promotional Discount
+	 */
+	public function SetPromotionalDiscount($promotional_discount)
+	{
+		$this->promotional_discount = $promotional_discount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Id
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Pricing Id
+	 * 
+ 	 * @author krathnayake	
+	 * @param int $proposal_revision_pricing_id Proposal Revision Pricing Id
+	 */
+	public function SetProposalRevisionPricingId($proposal_revision_pricing_id)
+	{
+		$this->proposal_revision_pricing_id = (int) $proposal_revision_pricing_id;
+		$this->__id = (int) $proposal_revision_pricing_id;
+		$this->MarkDirty();
+		
+	}
+}
+?>

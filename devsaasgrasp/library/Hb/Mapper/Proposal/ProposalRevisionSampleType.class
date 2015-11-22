@@ -1,0 +1,92 @@
+<?php
+/**
+ * Mapper Class for ProposalRevisionSampleType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+class Hb_Mapper_Proposal_ProposalRevisionSampleType extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'proposal_revision_sample_type_id';
+	
+	protected $table = 'proposal_revision_sample_type';
+	
+	/**
+	 * Domain ProposalRevisionSampleType
+	 * 
+	 * @var object
+	 */
+	protected static $__domain = 'Hb_App_Proposal_ProposalRevisionSampleType';
+	
+	/**
+	 * ProposalRevisionSampleType Row Gateway 
+	 * 
+	 * @var object
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionSampleType';
+	
+	/**
+	 * Build the ProposalRevisionSampleType Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return object Hb_App_Proposal_ProposalRevisionSampleType 
+	 */
+	protected function doBuildobject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevisionSampleType(
+																$row->proposal_revision_sample_type_id,
+																$row->proposal_revision_id,
+																$row->sample_type_id
+															);
+	}
+	
+	/**
+	 * Get the base data set selection for ProposalRevisionSampleType object
+	 *
+	 * @return Zend_Db_Select object
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(
+						array('prst' => 'proposal_revision_sample_type'), 
+						array('proposal_revision_sample_type_id', 'proposal_revision_id', 'sample_type_id')
+					);
+
+		return $select;
+	}
+	
+	/**
+	 * Find the proposal revision sample type object by id
+	 *
+	 * @param int $id
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('prst.proposal_revision_sample_type_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$prst_row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$prst_row->proposal_revision_id = $obj->GetProposalRevisionId();
+		$prst_row->sample_type_id = $obj->GetSampleTypeId();
+		
+		$prst_row->Save();
+		
+		$obj->SetProposalRevisionSampleTypeId($prst_row->proposal_revision_sample_type_id);
+	}
+
+}
+
+?>

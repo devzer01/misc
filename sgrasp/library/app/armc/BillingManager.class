@@ -1,0 +1,768 @@
+<?php
+/**
+ * atm_armc_BillingManager
+ * 
+ * This is re-factored BillingManager Component from app/atm/armc/functions.inc
+ * This contains
+ * 	DisplayARMCDetails()
+ * 	DisplayGroupARMCDetails()
+ * 
+ * @author (re-factoring) msilva
+ * 
+ * @since 05/05/2007
+ */
+class atm_armc_BillingManager extends Common {
+
+//	private $__o;
+	
+	/* @var atmDB */
+	private $__atm_db;
+	private $__common_db;
+	private $__db_atm_armc_filemanager;
+	private $__db_atm_armc_contactsmanager;
+	
+	function __construct()
+	{
+	   $this->__atm_db =new atmDB();
+	   $this->__common_db =new commonDB();
+	   $this->__db_atm_armc_filemanager =new db_atm_armc_FileManager();
+	   $this->__db_atm_armc_contactsmanager =new db_atm_armc_ContactsManager();
+	}
+	
+	/**
+	 * DisplayARMCDetails()
+	 *
+	 * @param array $this->__o
+	 * @since  - Mon Jan 30 10:46:09 PST 2006
+	 */
+	public function DisplayARMCDetails()
+	{
+		global $smarty, $userRights, $encryption;
+	   // $atmDB = new atmDB();
+	   // $commonDB = new commonDB();
+		$flags['view_comment'] = 0;
+		$flags['oracle_exception_error'] = 0;
+		$display = array();
+		
+	   $header_rst = $this->__atm_db->GetARMCHeader($this->__o["armc_id"]);
+	   if ($header = mysql_fetch_assoc($header_rst)) {
+	      //print_r($header);
+	      //echo (GetExternalPrimaryAccount());
+	      //Only display the study cost section for Net-MR study BRs.
+	      $flags["DISPLAY_STUDY_COST"] = ($header["armc_type_id"] == ARMC_TYPE_BR_STUDY);
+	      if (isInternalUser() || (isExternalUser() && (GetExternalPrimaryAccount() == $header["account_id"]) && IsVisibleByEXT($header["armc_status_id"]))) {
+	      if (!isset($this->__o["dont_log_view"])) $this->__atm_db->WriteARMCEvent($this->__o["armc_id"], ARMC_EVENT_TYPE_VIEWED);
+	      $header["armc_date"] = substr($header["armc_date"], 0, 10);
+	      if ($header["armc_status_id"]==ARMC_STATUS_STALLED) {
+	         $header["stall_reason"] = $this->__atm_db->GetARMCLastEvent($header["armc_id"], ARMC_EVENT_TYPE_STALLED);
+	         $header["stall_reason"] = ($header["stall_reason"]?$header["stall_reason"]["comment"]:"Unknown");
+	      }
+	
+	      if (IsCreditMemo($header["armc_type_id"])) {
+	         $header["cm_applied_to"] = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "CMAPPTO");
+	      }
+	      $reportees = GetReportees($_SESSION['admin_id'], 0);
+	      //$this->__atm_db->debugPrint("Reportees : ".print_r($reportees, true));
+	      $armc_users_rst = $this->__atm_db->GetARMCUsers($this->__o["armc_id"]);
+	      while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	      	$armc_users[$armc_user['role_id'].$armc_user['login']] = $armc_user['login'];
+	      	$header["users"][] = $armc_user;
+	      }
+	      $armc_users[] = $header["created_by"];
+	      $armc_users_rst = $this->__atm_db->GetARMCUsers($this->__o["armc_id"], array(ROLE_ACCOUNT_EXECUTIVE, ROLE_PRIMARY_ACCT_EXEC, ROLE_SECONDARY_ACCT_EXEC));
+	      $armc_aes = array();
+	      while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	         $armc_aes[] = $armc_user['login'];
+	      }
+	      $armc_users_rst = $this->__atm_db->GetARMCUsers($this->__o["armc_id"], array(ROLE_ACCOUNT_MANAGER, ROLE_PRIMARY_ACCT_MGR, ROLE_PROJECT_MANAGER, ROLE_PRIMARY_PROJECT_MANAGER, ROLE_SECONDARY_PROJECT_MANAGER, ROLE_SECONDARY_ACCT_MGR));
+	      $armc_ams = array();
+	      while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	         $armc_ams[] = $armc_user['login'];
+	      }
+	      $armc_users_rst = $this->__atm_db->GetARMCUsers($this->__o["armc_id"], array(ROLE_ACCOUNTING));
+	      $armc_accts = array();
+	      while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	         $armc_accts[] = $armc_user['login'];
+	      }
+	      $armc_users_rst = $this->__atm_db->GetARMCUsers($this->__o["armc_id"], array(ROLE_CREATOR));
+	      $armc_creators = array($header["created_by"]);
+	      while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	         $armc_creators[] = $armc_user['login'];
+	      }
+
+         $proposal_id = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "PROPOSAL_ID");
+         if ($proposal_id) {
+            $proposal_name = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "PROPOSAL_NAME");
+            $proposal_revision_id = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "PROPOSAL_REVISION_ID");
+            $proposal_revision_num = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "PROPOSAL_REVISION_NUM");
+            $smarty->assign("proposal", array("PROPOSAL_ID"=>$proposal_id, "PROPOSAL_NAME"=>$proposal_name, "PROPOSAL_REVISION_ID"=>$proposal_revision_id, "PROPOSAL_REVISION_NUM"=>$proposal_revision_num));
+         }
+	
+	      $invoice_rst = $this->__atm_db->GetARMCInvoice($this->__o["armc_id"]);
+	      $invoice = mysql_fetch_assoc($invoice_rst);
+	
+	//      $this->__atm_db->debugPrint("ARMC Users : ".print_r($armc_users, true));
+	//      $this->__atm_db->debugPrint("ARMC AEs : ".print_r($armc_aes, true));
+	//      $this->__atm_db->debugPrint("ARMC AMs : ".print_r($armc_ams, true));
+	//      $this->__atm_db->debugPrint("ARMC Accountants : ".print_r($armc_accts, true));
+	      //If the currently logged in user, or one of his/her reportees is one of the users for this ARMC record, he/she can edit
+	      //the details on the Billing Report. NO EXCEPTIONS.
+	     
+	      $i18n_currency = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "I18N_CURRENCY_CODE");
+	      if ($i18n_currency) {
+	         $i18n_rate = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "I18N_EXCHANGE_RATE");
+	         $i18n_edit = $this->__atm_db->GetARMCAttr($this->__o["armc_id"], "I18N_CURRENCY_EDIT");
+	      }else{
+	         $i18n_currency = "USD";
+	         $i18n_rate = 1;
+	         $i18n_edit = false;
+	      }
+	      $i18n_currency_unicode = $this->__common_db->GetUnicodeCurrencySymbol($i18n_currency);
+	      $i18n_message = "";
+	      if ($i18n_currency != "USD") {
+	         if (IsInvoiced($header["armc_status_id"])) {
+	            $i18n_message = "This Billing Reports was invoiced in $i18n_currency, at an exchange rate of ".number_format($i18n_rate, 4)." USD for 1 $i18n_currency !!!<br>To switch between $i18n_currency and USD views, use the links to the right !!!";
+	         }elseif ($i18n_edit) {
+	            $i18n_message = "This Billing Report was created and will be invoiced in $i18n_currency, at an exchange rate of ".number_format($i18n_rate, 4)." USD for 1 $i18n_currency !!!<br>To switch between $i18n_currency (editable) and USD views, use the links to the right !!!";
+	         }else{
+	            $i18n_message = "This Billing Report was created in USD, but the account requires it to be invoiced in $i18n_currency. The exchange rate will be ".number_format($i18n_rate, 4)." USD for 1 $i18n_currency !!!<br>To switch between USD (editable) and $i18n_currency views, use the links to the right !!!";
+	         }
+	      }
+	      
+	      $total_proposed = 0;
+	      $total_actual = 0;
+	      $total_net = 0;
+	      $total_proposed_i18n = 0;
+	      $total_actual_i18n = 0;
+	      $total_net_i18n = 0;
+	      $total_delta = 0;
+	      $lines = array();
+	      $lines_rst = $this->__atm_db->GetARMCLines($this->__o["armc_id"]);
+	      while ($line = mysql_fetch_assoc($lines_rst)) {
+	         if ($line['proposed_amount']=="")
+	            $line['proposed_amount'] = 0;
+	         if ($line["proposed_amount_i18n"]=="")
+	            $line["proposed_amount_i18n"]=0;
+	         if ($line['actual_amount']=="")
+	            $line['actual_amount'] = 0;
+	         if ($line['actual_amount_i18n']=="")
+	            $line['actual_amount_i18n'] = 0;
+	         $line['net'] = $line['actual_amount'] - $line['proposed_amount'];
+	         $line['net_i18n'] = $line['actual_amount_i18n'] - $line['proposed_amount_i18n'];
+	   		if ($line['proposed_amount']!=0) {
+		  		   $line['delta'] = $line['net'] * 100 / $line['proposed_amount'];
+			   }else{
+				   $line['delta'] = 0;
+			   }
+			   $line["am_approved"] = $this->__atm_db->ARMCLineIsApproved($line["armc_budget_line_item_id"], ARMC_ACTION_TYPE_AM_APPROVED_LINE);
+			   $line["ae_approved"] = $this->__atm_db->ARMCLineIsApproved($line["armc_budget_line_item_id"], ARMC_ACTION_TYPE_AE_APPROVED_LINE);
+			   $line["acct_approved"] = $this->__atm_db->ARMCLineIsApproved($line["armc_budget_line_item_id"], ARMC_ACTION_TYPE_ACCT_APPROVED_LINE);
+	
+			   $total_proposed += $line['proposed_amount'];
+			   $total_proposed_i18n += $line["proposed_amount_i18n"];
+			   $total_actual += $line['actual_amount'];
+			   $total_actual_i18n += $line["actual_amount_i18n"];
+			   $total_net += $line['net'];
+			   $total_net_i18n += $line["net_i18n"];
+	         $lines[] = $line;
+	      }
+	      if ($total_proposed != 0)
+	         $total_delta = $total_net * 100 / $total_proposed;
+	      else
+	         $total_delta = 0;
+	
+	      $new_lines = array();
+		   for($k=0; $k<NUM_BUDGET_LINES; $k++) {
+			   $new_lines[] = array(
+				   "armc_budget_line_item_id"=>$k,
+				);
+	   	}
+	
+	      //$lines_defs = CreateSmartyArray($this->__atm_db->GetARMCLineDefinitions(), 'armc_budget_line_item_def_id', 'armc_budget_line_item_description');
+	      $line_def_rst = $this->__atm_db->GetARMCLineDefinitions($header["armc_type_id"]);
+	      while ($line_def = mysql_fetch_assoc($line_def_rst)) {
+	      	$lines_defs[$line_def['armc_budget_line_item_def_id']] = $line_def['armc_budget_line_item_description'];
+	      	$lines_defs_rate[$line_def['armc_budget_line_item_def_id']] = $line_def['default_rate'];
+	      	$lines_defs_quantity[$line_def['armc_budget_line_item_def_id']] = $line_def['default_quantity'];
+	      }
+	
+	      $this->__o["can_see_log"] = $userRights->userSecCheck("ARMC_SEE_EVENT_LOG");
+	      if ($this->__o["can_see_log"]) {
+	         $event_log_rst = $this->__atm_db->GetARMCEvents($this->__o["armc_id"]);
+	         while ($event = mysql_fetch_assoc($event_log_rst)) {
+	            $events[] = $event;
+	         }
+	         $smarty->assign("events", $events);
+	      }
+	
+	      $this->__o["can_see_comments"] = $userRights->userSecCheck("ARMC_SEE_COMMENTS");
+	      if ($this->__o["can_see_comments"]) {
+	         $comments_rst = $this->__atm_db->GetARMCComments($this->__o["armc_id"]);
+	         while ($comment = mysql_fetch_assoc($comments_rst)) {
+	         	$comments[] = $comment;
+	         }
+	         foreach($lines AS $index=>$line) {
+	            $line_comments_rst = $this->__atm_db->GetARMCLineComments($line["armc_budget_line_item_id"]);
+	            while ($line_comment = mysql_fetch_assoc($line_comments_rst)) {
+	            	$lines[$index]["comments"][] = $line_comment;
+	            }
+	         }
+	
+	         $smarty->assign("comments", $comments);
+	//         $smarty->assign("line_comments", $line_comments);
+	      }
+	
+	      if ($this->__o["change_billing_contact"]) {
+//	         @runkit_function_remove("HBRPC_GetPortlet");
+//	         @runkit_function_remove("HBRPC_GetAttrValues");
+	         $contact_type_ids = $this->__atm_db->GetARMCSetting("BILLING_CONTACT_TYPES");
+	         $billing_contacts = HBRPCCall('acm', 'GetAccountContactsDetails', array('account_id'=>$header["account_id"], "address_type_id"=>"1", "contact_type_id"=>explode(",", $contact_type_ids["armc_setting_value"])));
+	         if ($billing_contacts["error_code"]!=0) {
+	            $header["billing_contacts"][] = $billing_contacts["error_code"]." - ".$billing_contacts["error_message"];
+	         }else{
+	            //$this->__atm_db->debugPrint(print_r($billing_contacts, true));
+	            $details_array = "new Array(";
+	            foreach($billing_contacts as $billing_contact) {
+	               if (is_array($billing_contact)) {
+	               $details_array .=
+	               "new Array("
+	               ."'".mysql_real_escape_string($billing_contact["contact_title"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["contact_first_name"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["contact_last_name"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_street_1"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_street_2"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_city"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_state"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_zip"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["address_country_code"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["country_description"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["contact_phone_number"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["contact_fax_number"])."', "
+	               ."'".mysql_real_escape_string($billing_contact["contact_email"])."'), ";
+	//               $set = false;
+	//               //echo ("<pre>");
+	//               //print_r($billing_contact["phone"]);
+	//               //echo ("</pre>");
+	//               if (is_array($billing_contact["phone"])) {
+	//               foreach($billing_contact["phone"] AS $phone) {
+	//                  if ($phone["phone_type_id"]==2 || $phone["phone_type_id"]==3) {
+	//                     if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	//                     $set = true;
+	//                  }
+	//               }
+	//               }
+	//               //echo ("Details : ".$details_array.", Set : ".$set."<br>");
+	//               if (!$set) $details_array .= "'', ";
+	//
+	//               $set = false;
+	//               if (is_array($billing_contact["phone"])) {
+	//               foreach($billing_contact["phone"] AS $phone) {
+	//                  if ($phone["phone_type_id"]==4) {
+	//                     if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	//                     $set = true;
+	//                  }
+	//               }
+	//               }
+	//               if (!$set) $details_array .= "'', ";
+	//               $details_array .= "'".$billing_contact["contact_email"]."'), ";
+	               $header["billing_contacts"][$billing_contact["contact_id"]] = $billing_contact["contact_title"]." ".$billing_contact["contact_first_name"]." ".$billing_contact["contact_last_name"];
+	               }
+	            }
+	         $billing_contacts_details_array = substr($details_array, 0, strlen($details_array)-2).")";
+	         $smarty->assign("contacts_details_array", $billing_contacts_details_array);
+	         }
+	
+	      }
+	
+	      if ($this->__o["change_project_contact"]) {
+//	         @runkit_function_remove("HBRPC_GetPortlet");
+//	         @runkit_function_remove("HBRPC_GetAttrValues");
+	         $contact_type_ids = $this->__atm_db->GetARMCSetting("PROJECT_CONTACT_TYPES");
+	         $project_contacts = HBRPCCall('acm', 'GetAccountContactsDetails', array('account_id'=>$header["account_id"], "address_type_id"=>"1", "contact_type_id"=>explode(",", $contact_type_ids["armc_setting_value"])));
+	         //$this->__atm_db->debugPrint(print_r($project_contacts, true));
+	         if ($project_contacts["error_code"]!=0) {
+	            $header["project_contacts"][] = $project_contacts["error_code"]." - ".$project_contacts["error_message"];
+	         }else{
+	            $details_array = "new Array(";
+	            foreach($project_contacts as $project_contact) {
+	               if (is_array($project_contact)) {
+	               $details_array .=
+	               "new Array("
+	               ."'".mysql_real_escape_string($project_contact["contact_title"])."', "
+	               ."'".mysql_real_escape_string($project_contact["contact_first_name"])."', "
+	               ."'".mysql_real_escape_string($project_contact["contact_last_name"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_street_1"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_street_2"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_city"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_state"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_zip"])."', "
+	               ."'".mysql_real_escape_string($project_contact["address_country_code"])."', "
+	               ."'".mysql_real_escape_string($project_contact["country_description"])."', "
+	               ."'".mysql_real_escape_string($project_contact["contact_phone_number"])."', "
+	               ."'".mysql_real_escape_string($project_contact["contact_fax_number"])."', "
+	               ."'".mysql_real_escape_string($project_contact["contact_email"])."'), ";
+	//               echo ($details_array);
+	//               $set = false;
+	//               if (is_array($project_contact["phone"])) {
+	//               foreach($project_contact["phone"] AS $phone) {
+	//                  if ($phone["phone_type_id"]==2 || $phone["phone_type_id"]==3) {
+	//                     if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	//                     $set = true;
+	//                  }
+	//               }
+	//               }
+	//               if (!$set) $details_array .= "'', ";
+	//
+	//               $set = false;
+	//               if (is_array($project_contact["phone"])) {
+	//               foreach($project_contact["phone"] AS $phone) {
+	//                  if ($phone["phone_type_id"]==4) {
+	//                     if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	//                     $set = true;
+	//                  }
+	//               }
+	//               }
+	//               if (!$set) $details_array .= "'', ";
+	//               $details_array .= "'".$project_contact["contact_email"]."'), ";
+	               $header["project_contacts"][$project_contact["contact_id"]] = $project_contact["contact_title"]." ".$project_contact["contact_first_name"]." ".$project_contact["contact_last_name"];
+	               }
+	            }
+	
+	            $project_contacts_details_array = substr($details_array, 0, strlen($details_array)-2).")";
+	            $smarty->assign("contacts_details_array", $project_contacts_details_array);
+	         }
+	      }
+	
+	      $stall_comment_values = array();
+	      $delete_comment_values = array();
+	      $correct_comment_values = array();
+	      $rst = $this->__atm_db->GetARMCCommentTypeValues(array(ARMC_COMMENT_TYPE_STALL, ARMC_COMMENT_TYPE_DELETE, ARMC_COMMENT_TYPE_CORRECT));
+	      while ($comment = mysql_fetch_assoc($rst)) {
+	         switch ($comment["armc_comment_type_id"]) {
+	         	case ARMC_COMMENT_TYPE_STALL :
+	              $stall_comment_values[] = "'".$comment["armc_comment_type_value_description"]."'";
+	        		  break;
+	        		case ARMC_COMMENT_TYPE_DELETE :
+	        		  $delete_comment_values[] = "'".$comment["armc_comment_type_value_description"]."'";
+	        		  break;
+	        		case ARMC_COMMENT_TYPE_CORRECT :
+	        		  $correct_comment_values[] = "'".$comment["armc_comment_type_value_description"]."'";
+	        		  break;
+	         }
+	      }
+	
+	      $header['am_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_AM_APPROVED_HEADER);
+	      $header['ae_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_AE_APPROVED_HEADER);
+	      $header['acct_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_ACCT_APPROVED_HEADER);
+	
+	      $invoice['am_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_AM_APPROVED_INVOICE);
+	      $invoice['ae_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_AE_APPROVED_INVOICE);
+	      $invoice['acct_approved'] = $this->__atm_db->ARMCIsApproved($header['armc_id'], ARMC_ACTION_TYPE_ACCT_APPROVED_INVOICE);
+	
+	      $this->__o["can_change_roles"] = $userRights->userSecCheck("ATM_ARMC_CHG_ROLES");
+	      $this->__o["can_see_account"] = $userRights->userSecCheck("ACM_CUST_VIEW_PARTNER");
+	      $this->__o["can_change_invoice_date"] = $userRights->userSecCheck("ATM_ARMC_CHG_INV_DATE");
+	      $this->__o['can_delete'] = $userRights->userSecCheck("CANDELBR");
+	      $this->__o['can_stall'] = $userRights->userSecCheck("CANSTALL");
+	      $this->__o['can_invoice'] = $userRights->userSecCheck("CINVOICE")&&(($header['armc_status_id']==ARMC_STATUS_READY_FOR_INVOICE) || ($header['armc_status_id']==ARMC_STATUS_ORACLE_EXPORT_FAILED));
+	      $this->__o["is_invoiced"] = IsInvoiced($header["armc_status_id"]);
+	      $this->__o["is_cm"] = IsCreditMemo($header["armc_type_id"]);
+	      $this->__o['can_edit'] =
+			
+	         ((($header["armc_status_id"]==ARMC_STATUS_EDIT || $header["armc_status_id"]==ARMC_STATUS_STALLED)&&sizeof(array_intersect($armc_users, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_AM_APPROVAL)&&sizeof(array_intersect($armc_ams, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_AE_APPROVAL)&&sizeof(array_intersect($armc_aes, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_ACCT_APPROVAL)&&sizeof(array_intersect($armc_accts, $reportees))!=0));
+	//         ((sizeof(array_intersect($armc_users, $reportees))!=0)&&
+	//         (in_array($header['armc_status_id'], array(ARMC_STATUS_EDIT, ARMC_STATUS_AM_APPROVAL, ARMC_STATUS_AE_APPROVAL, ARMC_STATUS_ACCT_APPROVAL)))&&
+	//         (in_array($header['armc_type_id'], array(ARMC_TYPE_BR_STUDY, ARMC_TYPE_BR_TR, ARMC_TYPE_BR_LI, ARMC_TYPE_BR_SB, ARMC_TYPE_BR_OT))));
+		
+	      $this->__o["is_creator"] = ((sizeof(array_intersect($armc_creators, $reportees))!=0) &&($header['armc_status_id']==ARMC_STATUS_AM_APPROVAL));
+	      $this->__o['is_am'] = ((sizeof(array_intersect($armc_ams, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_AM_APPROVAL));
+	      $this->__o['is_ae'] = ((sizeof(array_intersect($armc_aes, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_AE_APPROVAL));
+	      $this->__o['is_acct'] = ((sizeof(array_intersect($armc_accts, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_ACCT_APPROVAL));
+			
+	      /* security setting for Credit Memo creation */
+	      $display['issue_credit_memo'] = $_SESSION['ARMC_CREATE_CREDIT_MEMO'];
+	      
+	      if (isset($this->__o["retainer_value"])) {
+	         if ($this->__o["retainer_type"]=="account") {
+	            $retainer["message"] = "There is a $".number_format($this->__o["retainer_value"])." retainer for this account.";
+	            $retainer["value"] = $this->__o["retainer_value"];
+	            $retainer["armc_budget_line_item_def_id"] = ARMC_BUDGET_LINE_DEF_RETAINER;
+	         }elseif ($this->__o["retainer_type"]=="study") {
+	            $retainer["message"] = "There is a $".number_format($this->__o["retainer_value"])." retainer for this study.";
+	            $retainer["value"] = $this->__o["retainer_value"];
+	            $retainer["armc_budget_line_item_def_id"] = ARMC_BUDGET_LINE_DEF_RETAINER;
+	         }
+	      }
+	      
+	      // modify this area to display Add_Contact_Section---||--- 
+	      //$flags['ADD_ADDITIONAL_CONTACT'] = 1;
+	      $flags['ADD_ADDITIONAL_CONTACT'] = $this->__o['can_edit'];
+	      $contacts = $this->__db_atm_armc_contactsmanager->GetARMCContacts($this->__o["armc_id"], array(ARMC_CONTACT_TYPE_ADDITIONAL_BILLING));
+//	      $contacts = array(
+//	      0 => array(
+//	      'salutation' 	=> '',
+//	      'first_name'	=> '',
+//	      'last_name'		=> '',
+//	      'addr_1' 		=> '',
+//	      'phone' =>'',
+//	      'city' => '',
+//	      'state' => '',
+//	      'zip' => '',
+//	      'country' => '',
+//	      'email' => ''
+//	      )
+//	      );
+	      //end of Add_Contact_Section-----------------------------||---
+	      
+	      // Transaction doc section
+	      // c if this is a merged BR
+	      if ($header["armc_group_id"] > 0)
+	      {
+	      	// get the Merged Br's tx doc, coz' this is a part of that MBR
+   			//$transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCGroupFile($this->__o["armc_group_id"]);
+				$transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCGroupFile($this->__o["armc_group_id"], $this->__o["armc_file_type_id"]);
+				
+				$transaction_doc_info = array_shift(array_slice($transaction_doc_info,0));
+				
+				if (is_array($transaction_doc_info) && array_key_exists("armc_group_file_id", $transaction_doc_info)) {
+					$invoice["transaction_document_url"] = "?action=get_armc_group_file&armc_group_file_id=" . $transaction_doc_info["armc_group_file_id"];
+				}				
+	      }
+	      // This is a non-merged BR
+	      else
+	      {
+
+	      	$transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCFile($this->__o["armc_id"], $this->__o["armc_file_type_id"]);
+//	      	$transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCFile($this->__o["armc_id"]);
+	      	$transaction_doc_info = array_shift(array_slice($transaction_doc_info,0));
+				if (is_array($transaction_doc_info) && array_key_exists("armc_file_id", $transaction_doc_info)) {
+					$invoice["transaction_document_url"] = "?action=get_armc_file&armc_file_id=" . $transaction_doc_info["armc_file_id"];
+				}				
+	      }
+	      
+	      // Study Costs
+			$study 			= Hb_App_ObjectHelper::GetMapper("Hb_App_Study_Study")->Find($header["study_id"]);
+
+			
+			//Security to view Study cost comments
+      	$view_comment = 0;
+      
+	      if ($userRights->isAM()){
+	      	$flags['view_comment'] = 1;
+	      }
+			
+	      if (isset($_SESSION['oracle_exception']))
+	      {
+	      	$flags['oracle_exception_error'] = 1;
+	      	$this->__o['oracle_exception'] = $_SESSION['oracle_exception'];
+	      	unset($_SESSION['oracle_exception']);
+	      }
+	      
+	      $smarty->assign('display', $display);
+      	$smarty->assign('flags', $flags);
+			$smarty->assign("study_object", $study);
+	      $smarty->assign('contacts', $contacts);
+	      $smarty->assign('flags', $flags);
+	      $smarty->assign("hdr", $header);
+	      $smarty->assign("invoice", $invoice);
+	      $smarty->assign("retainer", $retainer);
+	      $smarty->assign("i18n", array("currency_code"=>$i18n_currency, "exchange_rate"=>$i18n_rate, "edit"=>$i18n_edit, "unicode"=>$i18n_currency_unicode, "message"=>$i18n_message));
+	      $smarty->assign("lines", $lines);
+	      $smarty->assign("new_lines", $new_lines);
+	      $smarty->assign("budget_line_item_defs", array('descriptions'=>$lines_defs, 'descr'=>"new Array('', '".implode('\', \'', $lines_defs)."')", 'rates'=>"new Array('', '".implode('\', \'', $lines_defs_rate)."')", 'quantities'=>"new Array('', '".implode('\', \'', $lines_defs_quantity)."')"));
+	      $smarty->assign("comment_type_values", array("stall"=>"new Array(".implode(", ", $stall_comment_values).")", "delete"=>"new Array(".implode(", ", $delete_comment_values).")", "correct"=>"new Array(".implode(", ", $correct_comment_values).")"));
+	      $smarty->assign("totals", Array("proposed"=>$total_proposed, "proposed_i18n"=>$total_proposed_i18n, "actual"=>$total_actual, "actual_i18n"=>$total_actual_i18n, "net"=>$total_net, "net_i18n"=>$total_net_i18n, "delta"=>$total_delta));
+	      //$smarty->assign
+	      
+	      $smarty->assign("meta", $this->__o);
+	      if (isInternalUser()) {
+	         $template = "app/atm/armc/vw_armc_details.tpl";
+	      } else {
+	         $template = "app/atm/armc/ext/vw_armc_details.tpl";
+	      }
+	      DisplayHeader('Billing Reports', 'armc', $this->__o["action"]);
+	      $smarty->display($template);
+	      DisplayFooter();
+	      } else {
+	         header("Location: index.php");
+	      }
+	   }else{
+	      $this->__atm_db->errorAlert("Invalid Billing Report ID : ".$this->__o["armc_id"]);
+	   }
+	
+	}
+	
+	public function ShowStudyCostComments($smarty)
+	{
+		$study = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_Study')->Find($this->__o['study_id']);			
+
+		$smarty->assign('study_object', $study);
+		
+		
+		$smarty->display('app/atm/armc/vw_study_cost_comments.html');
+	}
+	
+
+	/**
+	* DisplayGroupARMCDetails()
+	*
+	* @param array $this->__o
+	* @since  - Mon Jan 30 10:46:09 PST 2006
+	*/
+	public function DisplayGroupARMCDetails()
+	{
+	   global $smarty, $userRights;
+	   $display = array();
+	   // $atmDB = new atmDB();
+	   // $commonDB = new commonDB();	   
+	   
+	   $i18n_currency = $this->__atm_db->GetARMCGroupAttr($this->__o["armc_group_id"], "I18N_CURRENCY_CODE");
+	   if ($i18n_currency) {
+	      $i18n_rate = $this->__atm_db->GetARMCGroupAttr($this->__o["armc_group_id"], "I18N_EXCHANGE_RATE");
+	   }else{
+	      $i18n_currency = "USD";
+	      $i18n_rate = 1;
+	   }
+	   $i18n_currency_unicode = $this->__common_db->GetUnicodeCurrencySymbol($i18n_currency);
+	   $header_rst = $this->__atm_db->GetARMCGroupHeader($this->__o["armc_group_id"]);
+	   if ($header = mysql_fetch_assoc($header_rst)) {
+	      if (isInternalUser() || (isExternalUser() && (GetExternalPrimaryAccount() == $header["account_id"]) && IsVisibleByEXT($header["armc_status_id"]))) {
+	         if (IsCreditMemo($header["armc_type_id"])) {
+	            $header["cm_applied_to"] = $this->__atm_db->GetARMCGroupAttr($this->__o["armc_group_id"], "CMAPPTO");
+	         }
+	         $i18n_message = "";
+	         if ($i18n_currency!="USD") {
+	            if (IsInvoiced($header["armc_status_id"])) {
+	               $i18n_message = "This Billing Reports was invoiced in $i18n_currency, at an exchange rate of ".number_format($i18n_rate, 4)." USD for 1 $i18n_currency !!!<br>To switch between $i18n_currency and USD views, use the links to the right !!!";
+	            }else{
+	               $i18n_message = "This Billing Report will be invoiced in $i18n_currency at an exchange rate of ".number_format($i18n_rate, 4)." USD for 1 $i18n_currency !!!<br>To switch between USD (editable) and $i18n_currency views, use the links to the right !!!";
+	            }
+	         }
+	         $header["armc_group_date"] = substr($header["armc_group_date"], 0, 10);
+	         $reportees = GetReportees($_SESSION['admin_id'], 0);
+	         //$this->__atm_db->debugPrint("Reportees : ".print_r($reportees, true));
+	         $armc_rst = $this->__atm_db->GetARMCGroupList(" AND a.armc_group_id='".$header["armc_group_id"]."'");
+	         $armc_aes = array();
+	         $armc_ams = array();
+	         $armc_accts = array();
+	         $armc_creators = array();
+	         $proposals = array();
+	         $additional_contacts = array();
+	         
+	         $total = 0;
+	         while ($armc = mysql_fetch_assoc($armc_rst)) {
+	            $total += $armc["amount"];
+	            $lines[] = $armc;
+	            //$armc_pr
+	            $armc_users_rst = $this->__atm_db->GetARMCUsers($armc["armc_id"]);
+	            while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	               $armc_users[$armc_user['role_id'].$armc_user["login"]] = $armc_user['login'];
+	               $armc_user["armc_id"] .= $users[$armc_user["role_id"].$armc_user["login"]]["armc_id"].", ".$armc["armc_type_prefix"]."-".$armc["armc_id"];
+	               $users[$armc_user["role_id"].$armc_user["login"]] = $armc_user;
+	            }
+	            $armc_users[] = $armc["created_by"];
+	            $armc_creators[] = $armc["created_by"];
+	
+	            $armc_users_rst = $this->__atm_db->GetARMCUsers($armc["armc_id"], array(ROLE_ACCOUNT_EXECUTIVE, ROLE_PRIMARY_ACCT_EXEC, ROLE_SECONDARY_ACCT_EXEC));
+	            while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	               $armc_aes[] = $armc_user['login'];
+	            }
+	            $armc_users_rst = $this->__atm_db->GetARMCUsers($armc["armc_id"], array(ROLE_ACCOUNT_MANAGER, ROLE_PRIMARY_ACCT_MGR, ROLE_PROJECT_MANAGER, ROLE_PRIMARY_PROJECT_MANAGER, ROLE_SECONDARY_PROJECT_MANAGER, ROLE_SECONDARY_ACCT_MGR));
+	            while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	               $armc_ams[] = $armc_user['login'];
+	            }
+	            $armc_users_rst = $this->__atm_db->GetARMCUsers($armc["armc_id"], array(ROLE_ACCOUNTING));
+	            while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	               $armc_accts[] = $armc_user['login'];
+	            }
+	            $armc_users_rst = $this->__atm_db->GetARMCUsers($armc["armc_id"], array(ROLE_CREATOR));
+	            while ($armc_user = mysql_fetch_assoc($armc_users_rst)) {
+	               $armc_creators[] = $armc_user['login'];
+	            }
+	            if (($header["armc_status_id"]==ARMC_STATUS_STALLED)&&($armc["armc_status_id"]==ARMC_STATUS_STALLED)) {
+	               $header["stall_reason"] = $this->__atm_db->GetARMCLastEvent($armc["armc_id"], ARMC_EVENT_TYPE_STALLED);
+	               $header["stall_reason"] = ($header["stall_reason"]?$header["stall_reason"]["comment"]:"Unknown");
+	            }
+	            elseif (($header["armc_status_id"]==ARMC_STATUS_ORACLE_EXPORT_FAILED)&&($armc["armc_status_id"]==ARMC_STATUS_ORACLE_EXPORT_FAILED)) {
+		               $header["stall_reason"] = $this->__atm_db->GetARMCLastEvent($armc["armc_id"], ARMC_EVENT_TYPE_INVOICING_FAILED);
+		               $header["stall_reason"] = ($header["stall_reason"]?$header["stall_reason"]["comment"]:"Unknown");
+		         }	            
+	            
+	            $proposal_id = $this->__atm_db->GetARMCAttr($armc["armc_id"], "PROPOSAL_ID");
+	            if ($proposal_id) {
+                  $proposal_name = $this->__atm_db->GetARMCAttr($armc["armc_id"], "PROPOSAL_NAME");
+                  $proposal_revision_id = $this->__atm_db->GetARMCAttr($armc["armc_id"], "PROPOSAL_REVISION_ID");
+                  $proposal_revision_num = $this->__atm_db->GetARMCAttr($armc["armc_id"], "PROPOSAL_REVISION_NUM");
+                  
+                  $proposals[$proposal_id.$proposal_revision_num] = array("PROPOSAL_ID"=>$proposal_id, "PROPOSAL_NAME"=>$proposal_name, "PROPOSAL_REVISION_ID"=>$proposal_revision_id, "PROPOSAL_REVISION_NUM"=>$proposal_revision_num);
+	            }
+	            
+	            // get additional contacts per armc
+	            $additional_contacts[] = $this->__db_atm_armc_contactsmanager->GetARMCContacts($armc["armc_id"], array(ARMC_CONTACT_TYPE_ADDITIONAL_BILLING));	
+	         }
+	         // @todo This needs to be a common function, that makes multi-dim arrays unique
+	         $tmp_array = array();
+	         foreach ($additional_contacts as $single_armc) 
+	         {
+	         	foreach ($single_armc as $key => $value)
+	         		// Need to remove the 1st 2 elements off the array, since that 2 makes the array not unique
+	         	  	$tmp_array[$key] = serialize(array_slice($value, 2));
+	         }
+	         $additional_contacts = array_unique($tmp_array);
+	         foreach($additional_contacts as $key => $value)
+        			$additional_contacts[$key] = unserialize($value);
+        		// @todo need to move the above as a common function
+	         	         
+	         $armc_users[] = $header["created_by"];
+	         $armc_creators[] = $header["created_by"];
+	         foreach($users AS $user) {
+	            $user["armc_id"] = substr($user["armc_id"], 2);
+	            $header["users"][] = $user;
+	         }
+	         $invoice_rst = $this->__atm_db->GetARMCGroupInvoice($header["armc_group_id"]);
+	         $invoice = mysql_fetch_assoc($invoice_rst);
+	
+	         //      $this->__atm_db->debugPrint("ARMC Users : ".print_r($armc_users, true));
+	         //      $this->__atm_db->debugPrint("ARMC AEs : ".print_r($armc_aes, true));
+	         //      $this->__atm_db->debugPrint("ARMC AMs : ".print_r($armc_ams, true));
+	         //      $this->__atm_db->debugPrint("ARMC Accountants : ".print_r($armc_accts, true));
+	         //If the currently logged in user, or one of his/her reportees is one of the users for this ARMC record, he/she can edit
+	         //the details on the Billing Report. NO EXCEPTIONS.
+	
+	         //      $lines_rst = $this->__atm_db->GetARMCGroupList(" AND a.armc_group_id = ".$header["armc_group_id"]);
+	         //      while ($line = mysql_fetch_assoc($lines_rst)) {
+	         //      }
+	
+	         if ($this->__o["change_billing_contact"]) {
+//	            @runkit_function_remove("HBRPC_GetPortlet");
+//	            @runkit_function_remove("HBRPC_GetAttrValues");
+	            $contact_type_ids = $this->__atm_db->GetARMCSetting("BILLING_CONTACT_TYPES");
+	            $billing_contacts = HBRPCCall('acm', 'GetAccountContactsDetails', array('account_id'=>$header["account_id"], "address_type_id"=>"1", "contact_type_id"=>explode(",", $contact_type_ids["armc_setting_value"])));
+	            if ($billing_contacts["error_code"]!=0) {
+	               $header["billing_contacts"][] = $billing_contacts["error_code"]." - ".$billing_contacts["error_message"];
+	            }else{
+	               //$this->__atm_db->debugPrint(print_r($billing_contacts, true));
+	               $details_array = "new Array(";
+	               foreach($billing_contacts as $billing_contact) {
+	                  if (is_array($billing_contact)) {
+	                     $details_array .=
+	                     "new Array("
+	                     ."'".$billing_contact["contact_title"]."', "
+	                     ."'".mysql_real_escape_string($billing_contact["contact_first_name"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["contact_last_name"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_street_1"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_street_2"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_city"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_state"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_zip"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["address_country_code"])."', "
+	                     ."'".mysql_real_escape_string($billing_contact["country_description"])."', ";
+	                     $set = false;
+	                     if (is_array($billing_contact["phone"])) {
+	                        foreach($billing_contact["phone"] AS $phone) {
+	                           if ($phone["phone_type_id"]==2 || $phone["phone_type_id"]==3) {
+	                              if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	                              $set = true;
+	                           }
+	                        }
+	                     }
+	                     if (!$set) $details_array .= "'', ";
+	
+	                     $set = false;
+	                     if (is_array($billing_contact["phone"])) {
+	                        foreach($billing_contact["phone"] AS $phone) {
+	                           if ($phone["phone_type_id"]==4) {
+	                              if (!$set) $details_array .= "'".$phone["phone_country_code"].$phone["contact_phone_number"].$phone["contact_phone_ext"]."', ";
+	                              $set = true;
+	                           }
+	                        }
+	                     }
+	                     if (!$set) $details_array .= "'', ";
+	                     $details_array .= "'".$billing_contact["contact_email"]."'), ";
+	                     $header["billing_contacts"][$billing_contact["contact_id"]] = $billing_contact["contact_title"]." ".$billing_contact["contact_first_name"]." ".$billing_contact["contact_last_name"];
+	                  }
+	               }
+	               $billing_contacts_details_array = substr($details_array, 0, strlen($details_array)-2).")";
+	               $smarty->assign("contacts_details_array", $billing_contacts_details_array);
+	            }
+	
+	         }
+	
+	         $stall_comment_values = array();
+	         $delete_comment_values = array();
+	         $rst = $this->__atm_db->GetARMCCommentTypeValues(array(ARMC_COMMENT_TYPE_STALL, ARMC_COMMENT_TYPE_DELETE));
+	         while ($comment = mysql_fetch_assoc($rst)) {
+	            switch ($comment["armc_comment_type_id"]) {
+	               case ARMC_COMMENT_TYPE_STALL :
+	               $stall_comment_values[] = "'".$comment["armc_comment_type_value_description"]."'";
+	               break;
+	               case ARMC_COMMENT_TYPE_DELETE :
+	               $delete_comment_values[] = "'".$comment["armc_comment_type_value_description"]."'";
+	               break;
+	            }
+	         }
+	
+	         $this->__o["can_see_account"] = $userRights->userSecCheck("ACM_CUST_VIEW_PARTNER");
+	         $this->__o["can_change_invoice_date"] = $userRights->userSecCheck("ATM_ARMC_CHG_INV_DATE");
+	         $this->__o['can_delete'] = $userRights->userSecCheck("CANDELBR");
+	         $this->__o['can_stall'] = $userRights->userSecCheck("CANSTALL");
+	         $this->__o['can_invoice'] = $userRights->userSecCheck("CINVOICE")&&(($header['armc_status_id']==ARMC_STATUS_READY_FOR_INVOICE)||($header['armc_status_id']==ARMC_STATUS_ORACLE_EXPORT_FAILED));
+	         $this->__o["is_invoiced"] = IsInvoiced($header["armc_status_id"]);
+	         $this->__o['can_edit'] =
+					         
+	         ((($header["armc_status_id"]==ARMC_STATUS_EDIT || $header["armc_status_id"]==ARMC_STATUS_STALLED)&&sizeof(array_intersect($armc_users, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_AM_APPROVAL)&&sizeof(array_intersect($armc_ams, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_AE_APPROVAL)&&sizeof(array_intersect($armc_aes, $reportees))!=0) ||
+	         (($header["armc_status_id"]==ARMC_STATUS_ACCT_APPROVAL)&&sizeof(array_intersect($armc_accts, $reportees))!=0));
+	         //         ((sizeof(array_intersect($armc_users, $reportees))!=0)&&
+	         //         (in_array($header['armc_status_id'], array(ARMC_STATUS_EDIT, ARMC_STATUS_AM_APPROVAL, ARMC_STATUS_AE_APPROVAL, ARMC_STATUS_ACCT_APPROVAL)))&&
+	         //         (in_array($header['armc_type_id'], array(ARMC_TYPE_BR_STUDY, ARMC_TYPE_BR_TR, ARMC_TYPE_BR_LI, ARMC_TYPE_BR_SB, ARMC_TYPE_BR_OT))));
+	         $this->__o["is_creator"] = ((sizeof(array_intersect($armc_creators, $reportees))!=0)&&(in_array($header["armc_status_id"], array(ARMC_STATUS_EDIT, ARMC_STATUS_AM_APPROVAL, ARMC_STATUS_AE_APPROVAL, ARMC_STATUS_ACCT_APPROVAL, ARMC_STATUS_STALLED))));
+	         //      $this->__o['is_am'] = ((sizeof(array_intersect($armc_ams, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_AM_APPROVAL));
+	         //      $this->__o['is_ae'] = ((sizeof(array_intersect($armc_aes, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_AE_APPROVAL));
+	         //      $this->__o['is_acct'] = ((sizeof(array_intersect($armc_accts, $reportees))!=0)&&($header['armc_status_id']==ARMC_STATUS_ACCT_APPROVAL));
+	         
+				$display['issue_credit_memo'] = $_SESSION['ARMC_CREATE_CREDIT_MEMO'];
+	  	      
+	  	      $transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCGroupFile($this->__o["armc_group_id"], $this->__o["armc_file_type_id"]) ;
+	  	      //$transaction_doc_info = $this->__db_atm_armc_filemanager->GetARMCGroupFile($this->__o["armc_group_id"]);
+	  	      
+	  	      $transaction_doc_info = array_shift(array_slice($transaction_doc_info,0));
+				if (is_array($transaction_doc_info) && array_key_exists("armc_group_file_id",$transaction_doc_info)) {
+					$invoice["transaction_document_url"] = "?action=get_armc_group_file&armc_group_file_id=" . $transaction_doc_info["armc_group_file_id"];
+				}
+				
+				$smarty->assign('display', $display);
+	         $smarty->assign("hdr", $header);
+	         $smarty->assign('contacts', $additional_contacts);
+	         $smarty->assign("invoice", $invoice);
+	         $smarty->assign("i18n", array("currency_code"=>$i18n_currency, "exchange_rate"=>$i18n_rate, "unicode"=>$i18n_currency_unicode, "message"=>$i18n_message));
+	         $smarty->assign("comment_type_values", array("stall"=>"new Array(".implode(", ", $stall_comment_values).")", "delete"=>"new Array(".implode(", ", $delete_comment_values).")"));
+	         $smarty->assign("lines", $lines);
+	         $smarty->assign("proposals", $proposals);
+	         $smarty->assign("total", $total);
+	         $smarty->assign("meta", $this->__o);
+	         
+	        
+	         if (isInternalUser()) {
+	            $template = "app/atm/armc/vw_armc_group_details.tpl";
+	         } else {
+	            $template = "app/atm/armc/ext/vw_armc_group_details.tpl";
+	         }
+	         DisplayHeader('Billing Reports', 'armc', $this->__o["action"]);
+	         $smarty->display($template);
+	         DisplayFooter();
+	      } else {
+	         header("Location: index.php");
+	      }
+	   }else{
+	      $this->__atm_db->errorAlert("Invalid Billing Report ID : ".$this->__o["armc_group_id"]);
+	   }
+	
+	}
+
+}
+?>

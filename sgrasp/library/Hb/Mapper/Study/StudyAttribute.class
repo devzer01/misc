@@ -1,0 +1,107 @@
+<?php 
+/**
+ * Mapper Object for Study Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_attr';
+	
+	/**
+	 * Builds and returns the Study Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_attr table
+	 * @return object An instance of the Study Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyAttribute($row->study_attr_id,
+									$row->study_id,
+									$row->study_attr,
+									$row->study_value
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(	array('sa' => 'study_attr'), array('study_attr_id', 
+	 																	  'study_id',
+	 																	  'study_attr', 
+	 																	  'study_value'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sa.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		
+	 	require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{			
+			$query = "INSERT INTO study_attr (study_id, study_attr, study_value) "
+          			. "VALUES (" . $obj->GetStudyId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetStudyAttrId($db->getLastInsertId());			
+		} 
+		else
+		{
+			$query = "UPDATE study_attr "
+						. "SET study_id = " . $obj->GetStudyId() . ", "
+						. " study_attr = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+						. " study_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+						. "WHERE study_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+	}
+}
+
+?>

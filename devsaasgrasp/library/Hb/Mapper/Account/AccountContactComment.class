@@ -1,0 +1,111 @@
+<?php
+/**
+ * Mapper for Account Contact Comment 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * 
+ * @package Mapper
+ * @subpackage Account
+*/
+
+class Hb_Mapper_Account_AccountContactComment extends Hb_Mapper_Mapper  
+{
+	/**
+	 * Primary key column
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'account_contact_comment_id';
+	
+	/**
+	 * Table name for this mapper
+	 *
+	 * @var unknown_type
+	 */
+	protected $table = 'account_contact_comment';
+	
+	/**
+	 * Build the Hb_Mapper_Account_AccountContactComment object
+	 *
+	 * @param Zend Db table row $row
+	 * @return object Hb_Mapper_Account_AccountContactComment 
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountContactComment(
+														$row->account_contact_comment_id,
+														$row->account_contact_id,
+														$row->account_contact_comment_type_id,
+														$row->comment_from,
+														$row->comment_to,
+														$row->comment_header,
+														$row->comment_subject,
+														$row->comment_text
+														);
+	}
+	
+	/**
+	 * Get the base select object for Hb_Mapper_Account_AccountContactComment 
+	 *
+	 * @return object Zend Db table select 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(
+						array('acc' => 'account_contact_comment'),
+						array('account_contact_comment_id', 'account_contact_id', 'account_contact_comment_type_id', 'comment_from', 'comment_to', 'comment_header', 'comment_subject', 'comment_text')
+					);
+
+		return $select;
+	}
+	
+	/**
+	 * Find the object by id
+	 *
+	 * @param int $id
+	 * @return Zend Db table select object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('acc.account_contact_comment_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Save Hb_Mapper_Account_AccountContactComment object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		$data = array(
+					'account_contact_id' => $obj->GetAccountContactId(),
+					'account_contact_comment_type_id' => $obj->GetAccountContactCommentTypeId(),
+					'comment_from' => $obj->GetCommentFrom(),
+					'comment_to' => $obj->GetCommentTo(),
+					'comment_header' => $obj->GetCommentHeader(),
+					'comment_subject' => $obj->GetCommentSubject(),
+					'comment_text' => $obj->GetCommentText()
+				 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetAccountContactCommentId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	}
+
+}
+?>

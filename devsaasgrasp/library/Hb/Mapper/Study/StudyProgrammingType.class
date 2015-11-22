@@ -1,0 +1,96 @@
+<?php 
+/**
+ * Mapper Object for Study Programming Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_Mapper_Study_StudyProgrammingType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for study_programming_type
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_programming_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_programming_type';
+	
+	/**
+	 * Builds and returns the Study Programming Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_programming_type table
+	 * @return object An instance of the Study Programming Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyProgrammingType($row->study_programming_type_id, $row->study_programming_type_description);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('spt' => 'study_programming_type'), array('study_programming_type_id',
+																	  					  'study_programming_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Programming Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_programming_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('spt.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_programming_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	$data  = array(
+			'study_programming_type_description' => $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) 
+	 	{
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}
+	 	else 
+	 	{
+	 		$db->update($this->table, $data, $this->primary_key. '=' . $obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

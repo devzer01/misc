@@ -1,0 +1,26 @@
+<?php 
+/**
+ * Domain Object for Study Contact Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+class Hb_App_Study_StudyContactType extends Hb_App_Common_Type
+{	
+	/**
+	 * Create Study Contact Type Object
+	 *
+	 * @param int $id study contact type id
+	 * @param string $description study contact type description
+	 */
+	public function __construct($id 			  = null,
+									    $description = null
+									   )
+   {
+   	parent::__construct($id, $description);	
+   }
+}
+?>

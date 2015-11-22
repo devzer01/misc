@@ -1,0 +1,91 @@
+<?php 
+/**
+ * Domain Object for Study Cost Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+class Hb_App_Study_StudyCostType extends Hb_App_Common_Type 
+{	
+	/**
+	 * Default unit cost
+	 *
+	 * @var float 
+	 */
+	protected $default_unit_cost = null;
+	
+	/**
+	 * Account sub type id 
+	 *
+	 * @var int 
+	 */
+	protected $account_subtype_id = null;
+	
+	
+	/**
+	 * Create Study Cost Type Object
+	 *
+	 * @param int $id study Cost type id
+	 * @param string $description Study cost type description
+	 * @param float $default_unit_cost Default Unit Cost
+	 * @param int $account_subtype_id Account Sub Type Id
+	 */
+	public function __construct($id 					   = null,
+									    $description    		= null,
+									    $default_unit_cost  = null,
+									    $account_subtype_id = null
+									   )
+   {
+   	$this->default_unit_cost	= $default_unit_cost;
+   	$this->account_subtype_id	= $account_subtype_id;
+   	
+   	parent::__construct($id, $description);	
+   }   
+   
+   /**
+    * Return the Default unit cost for the Study Cost Type
+    *
+    * @return float Default unit cost
+    */
+   public function GetDefaultUnitCost()
+   {
+   	return $this->default_unit_cost;
+   }
+   
+   /**
+    * Return the Account sub type id for the Study Cost Type
+    *
+    * @return int Account sub type id
+    */
+   public function GetAccountSubTypeId()
+   {
+   	return $this->account_subtype_id;
+   }
+   
+   /**
+    * Set the Default unit cost for the  Study Cost Type
+    * 
+    * @param float $default_unit_cost Default unit cost
+    */
+   public function SetDefaultUnitCost($default_unit_cost)
+   {
+   	$this->default_unit_cost	= $default_unit_cost;
+   	$this->MarkDirty();
+   }
+   
+   /**
+    * Set the Account sub type id for the  Study Cost Type
+    * 
+    * @param int $account_sub_type_id Account sub type id
+    */
+   public function SetAccountSubTypeId($account_sub_type_id)
+   {
+   	$this->account_subtype_id = $account_sub_type_id;
+   	$this->MarkDirty();
+   }
+}
+
+?>

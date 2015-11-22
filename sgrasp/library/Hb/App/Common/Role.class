@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 19-Jul-2007 8:18:40 PM
+ */
+class Hb_App_Common_Role extends Hb_App_Object 
+{
+
+	const ROLE_PRIMARY_ACCT_EXEC = 4;
+	
+	const ROLE_PRIMARY_ACCT_MGR  = 1;
+	
+	protected $__role_id 	= null;
+	
+	protected $description  = null;
+
+	public function __construct($id = null, $description = null)
+	{
+		$this->__role_id 	 = $id;
+		
+		$this->description = $description;
+		
+		parent::__construct($id);
+	}
+	/**	
+	 * Get Role Id
+	 *
+	 * @return int $__role_id Role Id
+	 */
+	public function GetRoleId()
+	{
+		return $this->__role_id;
+	}	
+	
+	/**
+	 * Sets Role Id
+	 *
+	 * @param int $id Role Id
+	 */
+	public function SetRoleId($id)
+	{
+		$this->__role_id = $id;
+		$this->__id = $id;
+		$this->MarkDirty();
+	}
+	
+	/**	
+	 * Get Role Description
+	 *
+	 * @return string $description Description
+	 */
+	public function GetDescription()
+	{
+		return $this->description;
+	}	
+	
+	/**
+	 * Sets Role Description
+	 *
+	 * @param int $description Role Description
+	 */
+	public function SetDescription($description)
+	{
+		$this->description = $description;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+}
+?>

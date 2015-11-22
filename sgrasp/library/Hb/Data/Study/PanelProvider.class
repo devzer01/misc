@@ -1,0 +1,16 @@
+<?php
+
+class Hb_Data_Study_PanelProvider
+{
+	public $provider_id = 0;
+	
+	public $provider_name = '';
+	
+	public function __construct($id, $name)
+	{
+		$this->provider_id       = $id;
+		$this->provider_name = $name;
+	}
+}
+
+?>

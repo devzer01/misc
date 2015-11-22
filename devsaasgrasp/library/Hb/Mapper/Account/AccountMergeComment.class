@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mapper Class for AccountMergeComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountMergeComment extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Account merge comment id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'account_merge_comment_id';
+
+	/**
+	 * Account merge comment table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'account_merge_comment';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Account_AccountMergeComment';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Account_AccountMergeComment';
+	
+	/**
+	 * Build the AccountMergeComment Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Account_AccountMergeComment
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Account_AccountMergeComment($row->account_merge_comment_id,
+																	 $row->account_merge_id,
+																	 $row->account_comment_type_id,
+																	 $row->comment_text);
+	}
+	
+	/**
+	 * Get the base data set for AccountMergeComment
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('amc' => 'account_merge_comment'), array('account_merge_comment_id', 
+																					 	 'account_merge_id',
+																					    'account_comment_type_id', 
+																					    'comment_text'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Account merge comment Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('amc.account_merge_comment_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Account Merge Comment Object
+	 *
+	 * @param Hb_App_Object AccountMergeComment
+	 * @return object Account Merge Comment Object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'account_merge_id' 			=> $obj->GetAccountMergeId(),
+							'account_comment_type_id' 	=> $obj->GetAccountCommentTypeId(),
+							'comment_text' 				=> $obj->GetCommentText()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('account_merge_comment', $data);
+			$obj->SetAccountMergeCommentId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('account_merge_comment', $data, 'account_merge_comment_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 

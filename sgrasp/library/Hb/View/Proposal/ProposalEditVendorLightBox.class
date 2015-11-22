@@ -1,0 +1,46 @@
+<?php
+class Hb_View_Proposal_ProposalEditVendorLightBox extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/edit_vendor_lightbox.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	protected $data = array();
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('data', $this->data);
+	}	
+	
+	public function SetVendorName($vendor_name)
+	{
+		$this->data['vendor_name'] = $vendor_name;
+	}
+	
+	public function SetVendorContact($contact_name)
+	{
+		$this->data['contact_name'] = $contact_name;
+	}
+	
+	public function SetCostPerComplete($cost_per_complete)
+	{
+		$this->data['cost_per_complete'] = $cost_per_complete;
+	}
+	
+	public function SetNumberOfCompletes($number_of_completes)
+	{
+		$this->data['number_of_completes'] = $number_of_completes;
+	}	
+	
+	public function SetSampleCostTabId($sample_cost_tab)
+	{
+		$this->data['sample_cost_tab'] = $sample_cost_tab;
+	}
+	
+	public function SetRowId($row_id)
+	{
+		$this->data['row_id'] = $row_id;
+	}	
+}
+
+?>

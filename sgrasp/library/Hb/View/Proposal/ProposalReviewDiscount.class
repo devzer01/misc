@@ -1,0 +1,30 @@
+<?php
+class Hb_View_Proposal_ProposalReviewDiscount extends Hb_View_View 
+{
+	protected  $__template_name = 'app/pgen/vw_review_discount.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		$this->SetErrorHandler('pgen');
+		$this->SetMessageHandler('ppm');
+	}
+	
+	public function AddProposal($data)
+	{
+		$this->SetRawData('proposal', $data);
+	}
+	
+	public function AddRevision($data)
+	{
+		$this->SetRawData('revision', $data);
+	}
+	
+	public function GetBindMap()
+	{
+		$map = parent::GetBindMap();
+		return $map;
+	}
+}
+?>

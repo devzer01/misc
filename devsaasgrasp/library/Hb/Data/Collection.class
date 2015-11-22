@@ -1,0 +1,64 @@
+<?php
+
+abstract class Hb_Data_Collection implements Iterator 
+{
+	protected $__collection = array();
+
+	
+	public function AddItem($key, $item)
+	{
+		$this->__collection[$key] = $item;
+	}
+	
+	public function GetItem($key)
+	{
+		return $this->__collection[$key];
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	public function Rewind() 
+	{
+       		reset($this->__collection);
+   	}
+
+   	/**
+    	* Enter description here...
+    	*
+    	* @return unknown
+    	*/
+   	public function Current() {
+       		return current($this->__collection);
+   	}
+
+   	/**
+    	* Enter description here...
+    	*
+    	* @return unknown
+    	*/
+   	public function Key() {
+       		return key($this->__collection);
+   	}
+
+   	/**
+    	* Enter description here...
+    	*
+    	* @return unknown
+    	*/
+   	public function Next() {
+       		return next($this->__collection);
+   	}
+
+   	/**
+    	* Enter description here...
+    	*
+    	* @return unknown
+    	*/
+   	public function Valid() {
+       		return $this->current() !== false;
+   	}
+	
+}
+?>

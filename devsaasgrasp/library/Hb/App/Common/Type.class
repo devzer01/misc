@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Common Type domain class 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */ 
+
+class Hb_App_Common_Type extends Hb_App_Object  
+{
+	
+	protected $type_id = null;
+	protected $type_description = null;	
+
+	
+	
+	function __construct(
+								$id = null,														
+								$description = null
+								)
+	{
+		$this->type_id 			= $id;
+		$this->type_description = $description;
+			
+		parent::__construct($id);		
+	}	
+	
+	public function GetTypeId()
+	{
+		return $this->type_id;
+	}
+	
+	public function GetTypeDescription()
+	{
+		return $this->type_description;
+	}
+	
+	public function SetTypeId($id)
+	{
+		$this->type_id = $id;
+		$this->__id = $id;
+		
+		$this->MarkDirty();
+	}
+	
+	public function SetTypeDescription($description)
+	{
+		$this->type_description = $description;
+		
+		$this->MarkDirty();
+	}
+		
+}
+
+?>

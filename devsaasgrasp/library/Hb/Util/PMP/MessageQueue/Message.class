@@ -1,0 +1,73 @@
+<?php 
+require_once "Gmi/Queue/Message.php";
+require_once "Gmi/Queue/Driver/Interface.php";
+require_once "Gmi/Queue/Driver/SimpleDB.php";
+require_once "Gmi/Db/Mysql/MysqlReconnector.php";
+require_once "Gmi/Queue/Driver/Q4M.php";
+require_once "Gmi/Queue/Service.php";
+require_once "Gmi/DataRouter/Message/Type.php";
+require_once "Gmi/DataRouter/Message.php";
+
+require_once 'Zend/Config.php';
+require_once 'Zend/Db.php';
+require_once 'Zend/Json.php';
+/**
+ * Message queing class
+ *
+ * @author Harsha
+ * @copyright Global Market Insite 2007
+ * @version 0.1
+ * @package Util
+ * @subpackage PMP
+ */
+abstract class Hb_Util_PMP_MessageQueue_Message
+{
+	/**
+	 * Create the message queue router
+	 *
+	 * @var Gmi_Queue_Service 
+	 */
+	protected $router = null;
+	
+	/**
+	 * Message array that send
+	 *
+	 * @var array 
+	 */
+	protected $message = array();
+	
+	
+	protected abstract function  AddQueueMessage();
+	
+	/**
+	 * Create the initial Queue
+	 *
+	 */
+	protected function CreateRouter()
+	{
+		$config = Hb_Util_Config_SystemConfigReader::Read();
+		
+		//configuration of the Q4M 
+		$c = array('queue'=>array('dbname'			=> $config->q4m->db, 
+		                          'driverName' 	=> $config->q4m->driver, 
+		                          'adapter' 		=> $config->q4m->adapter, 
+		                          'host'				=> $config->q4m->host, 
+		                          'username'		=> $config->q4m->user, 
+		                          'password'		=> $config->q4m->password)); 
+                          
+      $config 			= new Zend_Config($c); 
+		$this->router 	= new Gmi_Queue_Service($config->queue); 
+	}
+	
+	/**
+	 * Execute the CreateQueue() and AddQueueMessage() methods
+	 *
+	 */
+	public  function Process()
+	{
+		$this->CreateRouter();
+		$this->AddQueueMessage();
+	}
+}
+
+?>

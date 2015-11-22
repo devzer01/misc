@@ -1,0 +1,124 @@
+<?php
+/**
+ * Mapper Class for AccountPricingItemGroupDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountPricingItemGroupDiscount extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Account pricing item group discount Id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'partner_pricing_item_group_discount_id';
+
+	/**
+	 * Account pricing item group discount table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'partner_pricing_item_group_discount';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Account_AccountPricingItemGroupDiscount';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Account_AccountPricingItemGroupDiscount';
+	
+	/**
+	 * Build the AccountPricingItemGroupDiscount Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Account_AccountPricingItemGroupDiscount
+	 */
+	protected function doBuildObject($row)
+	{	
+		return new Hb_App_Account_AccountPricingItemGroupDiscount($row->partner_pricing_item_group_discount_id,
+																					  $row->pricing_item_group_id,
+																					  $row->partner_id,
+																					  $row->pricing_discount_type_id,
+																					  $row->discount_amount,
+																					  $row->effective_date,
+																					  $row->expire_date);
+	}
+	
+	/**
+	 * Get the base data set for AccountPricingItemGroupDiscount
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('ppigd' => 'partner_pricing_item_group_discount'), array('partner_pricing_item_group_discount_id', 
+																											  'pricing_item_group_id',
+																											  'partner_id',
+																											  'pricing_discount_type_id',
+																											  'discount_amount', 
+																											  'effective_date', 
+																											  'expire_date'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Account Pricing Item Group Discount Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('ppigd.partner_pricing_item_group_discount_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Account Pricing Item Group Discount Object
+	 *
+	 * @param Hb_App_Object AccountPricingItemGroupDiscount
+	 * @return object Account Pricing Item Group Discount
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'partner_pricing_item_group_discount_id' 	=> $obj->GetAccountPricingItemGroupDiscountId(),
+							'pricing_item_group_id' 						=> $obj->GetPricingItemGroupId(),
+							'partner_id' 										=> $obj->GetAccountId(),
+							'pricing_discount_type_id' 					=> $obj->GetPricingDiscountTypeId(),
+							'discount_amount' 								=> $obj->GetDiscountAmount(),
+							'effective_date' 									=> $obj->GetEffectiveDate(),
+							'expire_date' 										=> $obj->GetExpireDate()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('partner_pricing_item_group_discount', $data);
+			$obj->SetAccountPricingItemGroupDiscountId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('partner_pricing_item_group_discount', $data, 'partner_pricing_item_group_discount_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 

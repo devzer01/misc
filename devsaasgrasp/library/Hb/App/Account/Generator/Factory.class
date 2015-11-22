@@ -1,0 +1,51 @@
+<?php 
+/**
+ * Domain Object for Account Factory
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Generator_Factory
+{
+	/**
+	 * Instance
+	 *
+	 * @var Hb_App_Account_Account 
+	 */
+	private static $instance	= null;
+		
+	/**
+	 * Factory method here to return the Account instance
+	 *
+	 * @param Row Object $row
+	 * @return Hb_App_Account_Account
+	 */
+	public static function GetInstance($row) 
+	{
+		
+			//check the Account Type			
+			switch ($row->account_type_id) {
+				case ACCOUNT_TYPE_RECRUITER:
+					self::$instance =  new Hb_App_Account_Recruiter_Recruiter($row->account_id, $row->account_name, $row->country_code, $row->account_type_id, $row->account_sub_type_id, 
+						$row->account_status_id);
+					self::$instance->SetStatus($row->status);
+					break;
+					
+				default:
+					self::$instance =  new Hb_App_Account_Account($row->account_id, $row->account_name, $row->country_code, $row->account_type_id, $row->account_sub_type_id, 
+						$row->account_status_id);					
+					self::$instance->SetStatus($row->status);	
+					break;
+			}	
+		
+		
+		return self::$instance;
+	}
+
+}
+
+?>

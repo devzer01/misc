@@ -1,0 +1,122 @@
+<?php
+/**
+ * Domain Object for BillingReportLineAction
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ */
+
+class Hb_App_Billing_BillingReportLineAction extends Hb_App_Object
+{
+	/**
+	 * Billing Report Line Action Id
+	 *
+	 * @var int
+	 */
+	protected $armc_budget_line_item_action_id = null;
+	
+	/**
+	 * Billing Report Line id
+	 *
+	 * @var int
+	 */
+	protected $armc_budget_line_item_id			= null;
+	
+	/**
+	 * Billing Report Action Type Id
+	 *
+	 * @var int
+	 */
+	protected $armc_action_type_id 				= null;
+
+	/**
+	 * Create BillingReportLineAction Object
+	 * 
+	 * @param int $id Billing Report Line Action Id
+	 * @param int $armc_budget_line_item_id Billing Report Line id
+	 * @param int $armc_action_type_id Billing Report Action Type Id
+	 */
+	function __construct($id 								= null,
+								$armc_budget_line_item_id	= null,							
+								$armc_action_type_id			= null
+								)
+	{
+		$this->armc_budget_line_item_action_id		= $id;
+		$this->armc_budget_line_item_id 				= $armc_budget_line_item_id;
+		$this->armc_action_type_id						= $armc_action_type_id;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Billing Report Line Action Id
+	 *
+	 * @return int Billing Report Line Action Id
+	 */
+	public function GetBillingReportLineActionId()
+	{
+		return $this->armc_budget_line_item_action_id;
+	}
+
+	/**
+	 * Returns the Billing Report Line Id
+	 *
+	 * @return int Billing Report Line Id
+	 */
+	public function GetBillingReportLineId()
+	{
+		return $this->armc_budget_line_item_id;
+	}
+
+	/**
+	 * Returns the Billing Report Action Type Id
+	 *
+	 * @return int Billing Report Action Type Id
+	 */
+	public function GetBillingReportActionTypeId()
+	{
+		return $this->armc_action_type_id;
+	}
+							 
+	/**
+	 * Sets the Billing Report Line Action Id
+	 * 
+	 * @param int $armc_budget_line_item_action_id Billing Report Line Action Id
+	 */
+	public function SetBillingReportLineActionId($armc_budget_line_item_action_id)
+	{
+		$this->armc_budget_line_item_action_id = $armc_budget_line_item_action_id;
+		
+		$this->__id = $armc_budget_line_item_action_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Billing Report Line Id
+	 * 
+	 * @param int $armc_budget_line_item_id Billing Report Line Id
+	 */
+	public function SetBillingReportLineId($armc_budget_line_item_id)
+	{
+		$this->armc_budget_line_item_id = $armc_budget_line_item_id;
+
+		$this->MarkDirty();
+	}
+							 
+	/**
+	 * Sets the Billing Report Action Type Id
+	 * 
+	 * @param int $armc_action_type_id Billing Report Action Type Id
+	 */
+	public function SetBillingReportActionTypeId($armc_action_type_id)
+	{
+		$this->armc_action_type_id = $armc_action_type_id;
+
+		$this->MarkDirty();
+	}
+}
+?>

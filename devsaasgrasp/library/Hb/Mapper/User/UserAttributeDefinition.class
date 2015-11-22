@@ -1,0 +1,102 @@
+<?php
+/**
+ * User Attribute Definition mapper class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * 
+ * @author msilva
+ * @version 1.0
+ * @package Mapper
+ * @subpackage User
+ */
+
+class Hb_Mapper_User_UserAttributedefinition extends Hb_Mapper_Mapper 
+{
+
+	/**
+	 * Table name for this domain (Protected)
+	 *
+	 * @var string
+	 */
+	protected $table = 'user_attr_def';
+	
+	/**
+	 * Primary key for this table (Protected)
+	 *
+	 * @var unknown_type
+	 */
+	protected $primary_key = 'user_attr_def_id';
+
+	/**
+	 * Build the Hb_App_User_UserAttributeDefinition object
+	 *
+	 * @param Zend/Db row object $row
+	 * @return Hb_App_User_UserAttributeDefinition object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserAttributeDefinition(
+																		$row->user_attr_def_id,
+																		$row->user_attr,
+																		$row->user_attr_description,
+																		$row->attribute_type
+																		);
+	}
+
+	/**
+	 * Returns the base select for Hb_App_User_UserAttributeDefinition
+	 *
+	 * @return Zend/Db Select object
+	 */
+	protected function GetBaseSelect()
+	{
+			$db = Hb_Util_Db_Connection::GetInstance();
+			$select = $db->select();
+			
+			$select->from(
+								array('uad' => 'user_attr_def'),
+								array('user_attr_def_id', 'user_attr' , 'attribute_type' , 'user_attr_description')
+								);
+
+			return $select;
+	}
+	
+	/**
+	 * Find the Hb_App_User_UserAttributeDefinition object by id
+	 *
+	 * @param int $id
+	 * @return Zend/Db row object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('uad.user_attr_def_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+
+	/**
+	 * Saves the Hb_App_User_UserAttributeDefinition object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'user_attr' => $obj->GetAttributeName(), 
+							'attribute_type' => $obj->GetAttributeType(), 
+							'user_attr_description' => $obj->GetAttributeDescription()
+							);
+							
+		$db = Hb_Util_Db_Connection::GetInstance();
+		if (is_null($obj->GetId())) {
+			$db->insert($this->table, $data);
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+		}
+		else {
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());
+		}
+	}
+
+}
+?>

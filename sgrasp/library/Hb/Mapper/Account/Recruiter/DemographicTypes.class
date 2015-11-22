@@ -1,0 +1,69 @@
+<?php
+/**
+ * Mapper Object for Recruiter Demographic Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_DemographicTypes extends Hb_Mapper_Account_Recruiter_DemographicType  
+{
+	/**
+	 * Find the  Demographic Types and retutn the row object
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where($this->primary_key .' = ?', $id);
+		$select->where('status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the Collection class of Demographic Types
+	 *
+	 * @param Row Object $rows
+	 * @return 
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_Recruiter_DemographicTypes');
+	}
+	
+	/**
+	 * Find the all Demographic Types for Demographic Id
+	 *
+	 * @return Row Object
+	 */	
+	public function FindByDemograhpicId($id)
+	{
+		$result = $this->doFindByDemograhpicId($id);
+		
+		return $this->BuildCollection($result, 'Hb_App_Account_Recruiter_DemographicTypes');
+	}
+	
+	protected function doFindByDemograhpicId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_recruiter_demographic_id = ?', $id);
+		$select->where('status = ? ', 'A');
+			
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	public function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

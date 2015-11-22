@@ -1,0 +1,24 @@
+<?php 
+/**
+ * Domain class of Billing Report Action Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */  
+class Hb_App_Billing_BillingReportActionType extends Hb_App_Common_Type 
+{ 
+	/**
+	 * Constructor of the domain class
+	 *
+	 * @param int $id Billing Report Action Type Id
+	 * @param string $description Description
+	 */ 
+	function __construct($id = null, $description = null) 
+	{ 
+		 parent::__construct($id, $description);
+	}
+}
+?>

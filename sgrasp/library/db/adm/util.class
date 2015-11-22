@@ -1,0 +1,361 @@
+<?php
+
+class db_adm_util extends db_common  {
+	
+	/**
+	 * GetTimeZones()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 04 09:46:18 IST 2006
+	 **/
+		
+	function GetTimeZones($params = array(), $attr = array())
+	{
+		$params['status'] = 'A';
+		return $this->__SelectTimeZone($params,$attr);
+	}
+	
+	/**
+	* __SelectTimeZone()
+	*
+	* @param
+	* @access protected
+	* @return
+	* @since  - Thu Nov 23 19:01:40 LKT 2006
+	*/
+	protected function __SelectTimeZone($params = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from('time_zone', array('time_zone_id', 'city_country_name', 'offset', 'created_by', 
+			'created_date', 'modified_date', 'modified_by'));
+	   $this->select->order($attr['sort']);
+		
+		if (isset($params['status']) && $params['status'] != '') {
+			$this->select->where('status = ?', $params['status']);
+		}
+		
+		if (isset($params['time_zone_id']) && is_numeric($params['time_zone_id'])) {
+			$this->select->where('time_zone_id = ?', $params['time_zone_id']);
+		}
+		
+		if (isset($params['offset']) && is_numeric($params['offset'])) {
+			$this->select->where('offset = ?', $params['offset']);
+		}
+		
+		if ($params['city_country_name'] != '') {
+			$this->select->where('city_country_name LIKE ?', '%' . $params['city_country_name'] . '%');
+		}
+		
+		$this->select->limit($attr['page_size'], $attr['start']);
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) {
+			return $this->db->fetchRow($this->select);	
+		} 
+		
+		return $this->FetchAssoc($this->select);
+	}
+	
+
+	/**
+	 * GetZoneDetail()
+	 *
+	 * @param
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 04 09:47:21 IST 2006
+	 **/
+		
+	function GetZoneDetail($time_zone_id)
+	{
+		return $this->__SelectTimeZone(
+			array('time_zone_id' => $time_zone_id),
+			array('fetch_row' => 1)
+		);
+	}
+	
+	/**
+	* __UpdateTimeZone()
+	*
+	* @param
+	* @param 
+	* @access protected
+	* @return
+	* @since  - Thu Nov 23 19:01:40 LKT 2006
+	*/
+	
+	protected function __UpdateTimeZone($param = array())
+	{
+		$table = 'time_zone';
+		
+		$where = $this->db->quoteInto('time_zone_id = ?',$param['time_zone_id'] );
+		
+		return $this->__Update($table, $param, $where);
+	}
+	
+	/**
+	* UpdateTimeZone()
+	*
+	* @param 
+	* @access
+	* @return
+	* @since  - Thu Nov 30 15:01:40 LKT 2006
+	*/
+	function UpdateTimeZone($time_zone_id,$city_country_name,$offset)
+	{
+		$param = array(
+			'time_zone_id' 		=>	$time_zone_id,
+			'city_country_name'	=>	$city_country_name,
+			'offset'					=>	$offset,
+		);
+		return $this->__UpdateTimeZone($param);
+	}
+ 	/**
+  	* DeleteTimeZone()
+  	*
+  	* @param
+  	* @param 
+  	* @return
+  	* @since  - Fri Dec 01 15:06:18 IST 2006
+  	**/
+ 	function DeleteTimeZone($time_zone_id)
+ 	{
+ 		$param = array(
+ 			'time_zone_id'		=>	$time_zone_id,
+ 			'status'				=> 'D',
+ 		);
+ 		$this->__UpdateTimeZone($param);
+ 	}	
+	
+	/**
+	* __InsertTimeZone()
+	*
+	* @param
+	* @param 
+	* @access protected
+	* @return
+	* @since  - Thu Nov 27 19:01:40 LKT 2006
+	*/
+	protected function __InsertTimeZone($param = array())
+	{
+		$table = 'time_zone';
+		return $this->__Insert($table,$param);
+	}
+	
+	/**
+	 * AddTimeZone
+	 *
+	 * @param
+	 * @param 
+	 * @return
+	 * @since  - Fri Dec 01 15:44:43 IST 2006
+	 */
+	function AddTimeZone($city_country_name, $offset)
+	{
+		return $this->__InsertTimeZone(
+			array(
+				'city_country_name' => $city_country_name,
+				'offset'            => $offset,
+			)
+		);
+	}
+	
+	/**
+	 * __SelectModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Thu Dec 07 15:00:24 IST 2006
+	 **/
+	function __SelectModule($params = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('m' => 'module'),array('module_id', 'module_code', 'module_server', 'module_description', 
+			'reated_date', 'modified_date', 'product_id'));
+		
+		$this->select->join(array('p' => 'product'), 'm.product_id = p.product_id', array("product_description"));
+		
+		$this->select->order($attr['sort']);
+		
+		if (isset($params['status']) && $params['status'] != '') {
+			$this->select->where('m.status = ?', $params['status']);
+		}
+		
+		if (isset($params['module_code']) && $params['module_code'] != '') {
+			$this->select->where('m.module_code = ?', $params['module_code']);		
+		}
+		
+		if (isset($params['module_id']) && $params['module_id'] != '') {
+			$this->select->where('m.module_id = ?', $params['module_id']);
+		}
+		
+		if (isset($params['product_id']) && $params['product_id'] != '') {
+			$this->select->where('m.product_id = ?', $params['product_id']);
+		}
+		
+		if (isset($params['module_description']) && $params['module_description'] != '') {
+			$this->select->where('m.module_description LIKE ?', '%' . $params['module_description'] . '%');
+		}
+		
+		if (isset($params['module_server']) && $params['module_server'] != '') {
+			$this->select->where('m.module_server LIKE ?', '%' . $params['module_server'] . '%');
+		}
+		
+		$this->select->limit($attr['page_size'], $attr['start']);
+		
+		//print $this->select;
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) {
+			return $this->db->fetchRow($this->select);	
+		} 
+		
+		return $this->FetchAssoc($this->select);
+	}	
+	
+	/**
+	 * GetModules()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Thu Dec 07 16:41:54 IST 2006
+	 **/
+	function GetModules($params = array(), $attr = array())
+	{
+		$params['status'] = 'A';
+		return $this->__SelectModule($params, $attr);
+	}
+	
+	/**This function servers the purpose of filling the list box for search
+	 * GetProducts()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 09:58:25 IST 2006
+	 **/
+	function GetProducts($params = array(),$attr = array())
+	{
+		$params['status']	=	'A';
+		$attr['sort'] 		= 	'p.product_description';
+		return $this->__SelectProduct($params, $attr);
+	}	
+	
+	/**
+	 * __SelectProduct()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 10:01:31 IST 2006
+	 **/
+	protected function __SelectProduct($params = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('p' => 'product'), array('product_id', 'product_description'));
+		
+		$this->select->order($attr['sort']);
+		
+		$this->select->where('p.status = ?', $params['status']);
+		
+		return $this->FetchAssoc($this->select);
+	}	
+	
+	/**
+	 * DeleteModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 12:13:29 IST 2006
+	 **/
+	function DeleteModule($module_id)
+	{
+		$params = array(
+			'module_id'	=>	$module_id,
+			'status'		=>	'D',
+		);
+		return $this->__UpdateModule($params);
+	}	
+	
+	/**
+	 * __UpdateModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 12:15:21 IST 2006
+	 **/
+	protected function __UpdateModule($params = array())
+	{
+		$table = 'module';
+		
+		$where = $this->db->quoteInto('module_id = ?',$params['module_id'] );
+		
+		return $this->__Update($table, $params, $where);
+	}
+	
+	/**
+	 * UpdateModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Tue Dec 12 11:26:49 IST 2006
+	 **/
+	function UpdateModule($module_id, $module_code, $module_server, $product_id, $module_description)
+	{
+		$param = array(
+			'module_id'				=>	$module_id,
+			'module_code'			=>	$module_code,
+			'module_server'		=>	$module_server,
+			'product_id'			=>	$product_id,
+			'module_description'	=> $module_description,
+		);
+		
+		return $this->__UpdateModule($param);
+	}	
+	
+	
+	/**
+	 * AddModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 15:28:56 IST 2006
+	 **/
+	function AddModule($module_code, $module_server, $product_id, $module_description)
+	{
+		$param = array(
+			'module_code'			=> $module_code,
+			'module_server'		=>	$module_server,
+			'product_id'			=>	$product_id,
+			'module_description'	=>	$module_description,
+		);
+		
+		return $this->__InsertModule($param);
+	}
+
+	/**
+	 * __InsertModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Mon Dec 11 15:45:27 IST 2006
+	 **/
+	function __InsertModule($param = array())
+	{
+		$table = 'module';
+		return $this->__Insert($table, $param);
+	}	
+	
+	/**
+	 * GetModule()
+	 *
+	 * @param 
+	 * @return
+	 * @since  - Tue Dec 12 10:59:31 IST 2006
+	 **/
+	function GetModule($module_id)
+	{
+		return $this->__SelectModule(array('module_id'	=>	$module_id),array('fetch_row' => 1));
+	}	
+}
+?>

@@ -1,0 +1,110 @@
+<?php
+require_once ('ReportDefinitionInterface.class');
+require_once ('DefaultReport.class');
+
+
+/**
+ * Serializable Object
+ * 
+ * @author nayana
+ * @version 1.0
+ * @created 07-Sep-2007 5:24:14 PM
+ */
+class Hb_App_Report_ReportDefinitionDefault extends Hb_App_Object implements Hb_App_Report_ReportDefinitionInterface
+{
+	
+	public function GetColumnFields()
+	{
+		return array(
+			'account_id' => new Hb_App_Report_ReportDisplayField('account_id', 'ID', new Hb_App_Report_FieldTemplate()),
+			'account_name' => new Hb_App_Report_ReportDisplayField('account_name', 'Name'),
+			'country_code' => new Hb_App_Report_ReportDisplayField('country_code', 'Country'),
+			'country_description' => new Hb_App_Report_ReportDisplayField('country_description', 'Country Desc'),
+			'ae_name' => new Hb_App_Report_ReportDisplayField('ae_name', 'AE'),
+			'am_name' => new Hb_App_Report_ReportDisplayField('am_name', 'AM'),
+			'account_tier' => new Hb_App_Report_ReportDisplayField('account_tier', 'Tier')
+		);
+	}
+
+	public function GetConditionFields()
+	{
+		return array(
+			new Hb_App_Report_ReportSearchField('account_id', 'ID', 'a'),
+			new Hb_App_Report_ReportSearchField('account_name', 'Name', 'a'),
+			new Hb_App_Report_ReportSearchField('country_code', 'Country', 'a', 'country'),
+			new Hb_App_Report_ReportSearchField('user_id', 'AE', 'au_ae', 'ae'),
+			new Hb_App_Report_ReportSearchField('user_id', 'AM', 'au_am', 'am'),
+			new Hb_App_Report_ReportSearchField('account_attr_value', 'Tier', 'aa_tier')
+		);
+	}
+
+	/**
+	 * @return Field
+	 * 
+	 * @param name
+	 */
+	public function GetField($name)
+	{
+		$desc = array(
+			'account_id'   => 'Account ID',
+			'account_name' => 'Account Name'
+		);
+			
+		return new Hb_App_Report_ReportField($name, $desc[$name]);
+	}
+
+	public function GetQuery()
+	{
+		 return "SELECT a.account_id, a.account_name, a.country_code, c.country_description, CONCAT(u_ae.first_name,' ',u_ae.last_name) AS ae_name, "
+         . "       CONCAT(u_am.first_name,' ',u_am.last_name) AS am_name, aa_tier.account_attr_value AS account_tier, aa_isam.account_attr_value AS handled_by_am "
+         . "FROM account AS a "
+         . "LEFT OUTER JOIN country AS c ON c.country_code = a.country_code "
+         . "LEFT OUTER JOIN account_account_type AS aat ON aat.account_id = a.account_id "
+         . "LEFT OUTER JOIN account_account_sub_type AS aast ON aast.account_id = a.account_id "
+         . "LEFT OUTER JOIN account_user AS au_ae ON au_ae.account_id = a.account_id
+         					AND au_ae.role_id = ". PRIMARY_ACCT_EXEC ."
+         					AND au_ae.product_id = ". PRODUCT_NETMR  . "
+         					AND au_ae.status = 'A' "
+         . "LEFT OUTER JOIN account_user AS au_am ON au_am.account_id = a.account_id
+         					AND au_am.role_id = ". PRIMARY_ACCT_MGR ."
+         					AND au_am.product_id = ". PRODUCT_NETMR  . "
+         					AND au_am.status = 'A' "
+         . "LEFT OUTER JOIN account_attr AS aa_tier ON aa_tier.account_id = a.account_id
+         					AND aa_tier.account_attr_name = 'GLOBAL_ACCOUNT_TIER_LEVEL' "
+         . "LEFT OUTER JOIN account_attr AS aa_isam ON aa_isam.account_id = a.account_id
+         					AND aa_isam.account_attr_name = 'GLOBAL_STUDY_HANDLED_BY_AM' "
+         . "LEFT OUTER JOIN account_attr AS aa_ora_id ON aa_ora_id.account_id = a.account_id
+         					AND aa_ora_id.account_attr_name = 'ARMC_ORA_ACCOUNT_ID' "
+         . "LEFT OUTER JOIN user AS u_ae ON u_ae.login = au_ae.user_id "
+         . "LEFT OUTER JOIN user AS u_am ON u_am.login = au_am.user_id "
+		 . "WHERE 1 = 1 ";
+	}
+	
+	public function GetCountQuery()
+	{
+		 return "SELECT count(*) "
+         . "FROM account AS a "
+         . "LEFT OUTER JOIN country AS c ON c.country_code = a.country_code "
+         . "LEFT OUTER JOIN account_account_type AS aat ON aat.account_id = a.account_id "
+         . "LEFT OUTER JOIN account_account_sub_type AS aast ON aast.account_id = a.account_id "
+         . "LEFT OUTER JOIN account_user AS au_ae ON au_ae.account_id = a.account_id
+         					AND au_ae.role_id = ". PRIMARY_ACCT_EXEC ."
+         					AND au_ae.product_id = ". PRODUCT_NETMR  . "
+         					AND au_ae.status = 'A' "
+         . "LEFT OUTER JOIN account_user AS au_am ON au_am.account_id = a.account_id
+         					AND au_am.role_id = ". PRIMARY_ACCT_MGR ."
+         					AND au_am.product_id = ". PRODUCT_NETMR  . "
+         					AND au_am.status = 'A' "
+         . "LEFT OUTER JOIN account_attr AS aa_tier ON aa_tier.account_id = a.account_id
+         					AND aa_tier.account_attr_name = 'GLOBAL_ACCOUNT_TIER_LEVEL' "
+         . "LEFT OUTER JOIN account_attr AS aa_isam ON aa_isam.account_id = a.account_id
+         					AND aa_isam.account_attr_name = 'GLOBAL_STUDY_HANDLED_BY_AM' "
+         . "LEFT OUTER JOIN account_attr AS aa_ora_id ON aa_ora_id.account_id = a.account_id
+         					AND aa_ora_id.account_attr_name = 'ARMC_ORA_ACCOUNT_ID' "
+         . "LEFT OUTER JOIN user AS u_ae ON u_ae.login = au_ae.user_id "
+         . "LEFT OUTER JOIN user AS u_am ON u_am.login = au_am.user_id "
+		 . "WHERE 1 = 1 ";
+	}
+
+}
+?>

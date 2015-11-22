@@ -1,0 +1,59 @@
+<?php
+
+   /**
+    * HTML Report generator
+    * Author : jsadique@gmi-mr.com
+    * Date   : 05/08/2007
+    * 
+    */
+   
+   class Hb_Util_Report_HTMLReportGenerator extends Hb_Util_Report_ReportGenerator
+   {
+      private $m_outputfile = '';     
+      
+   	/**
+   	 * Sets the filename of the ouput file.
+   	 *
+   	 * @param char $file
+   	 * @return void
+   	 */               
+      public function SetOutputFile($file)
+      {
+         $this->m_outputfile = $file;         
+      }
+          
+   	/**
+   	 * Generates the report, outputs a HTML file.
+   	 *
+   	 * @param array $data_array
+   	 * @return void
+   	 */         
+      public function GetReport($data_array)
+      { 
+        //crude(ish) way of outputting a table..
+        $str = "<table width='100%' border='1'>";
+       
+        foreach ($data_array as $data) 
+        {
+           $str .= "<tr>";
+           foreach ($data as $line) 
+           {              
+              $str .= "<td> ".$line."</td>";                                                          
+           }
+           
+           $str .= "</tr>";
+           
+        }
+        
+        
+        $str .= "</table>";
+        
+          
+        file_put_contents($this->m_outputfile, $str, LOCK_EX);                     
+      }
+     
+     
+     
+  }
+
+?>

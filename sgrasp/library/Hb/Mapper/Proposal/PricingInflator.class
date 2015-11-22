@@ -1,0 +1,129 @@
+<?php
+/**
+ * Mapper for Proposal contact
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ */
+
+class Hb_Mapper_Proposal_PricingInflator extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_PricingInflator';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_PricingInflator';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "pricing_inflator_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "pricing_inflator";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PricingInflator(		
+														$row->pricing_inflator_id,
+														$row->pricing_item_id, 
+														$row->license_level_id, 
+														$row->inflator_amount, 
+														$row->effective_date, 
+														$row->expire_date 
+														);	
+																																					
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+          	 	 	 	 	
+		$select->from('pricing_inflator', array(
+													'pricing_inflator_id', 	
+													'pricing_item_id', 	
+													'license_level_id', 	
+													'inflator_amount', 	
+													'effective_date', 	
+													'expire_date' 	
+													));
+		         
+      return $select; 	
+       	 	 	 	 				
+	}
+	
+	/**
+	 * Finds a pricing inflator by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('pricing_inflator_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		
+													
+		$data = array(	
+								"pricing_item_id" => $obj->GetPricingItemId(),
+								"license_level_id" => $obj->GetLicenseLevelId(),
+								"inflator_amount" => $obj->GetInflatorAmount(),
+								"effective_date" => $obj->GetEffectiveDate(),
+								"expire_date" => $obj->GetExpireDate()								
+						 );
+						 
+		$db = Hb_Util_Db_Connection::GetInstance();
+						 
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('pricing_inflator', $data);
+			$obj->SetPricingInflatorId($db->lastInsertId());
+		} 
+		else 
+			$db->update('pricing_inflator', $data, 'pricing_inflator_id = ' . $obj->GetId());	
+		
+		
+		
+		
+	}
+	
+}
+?>

@@ -1,0 +1,42 @@
+<?php
+/**
+ * ZEventHandler to handle the events fired
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Util/Log/Handler
+ */
+
+class Hb_Util_Log_Handler_ZEventHandler implements Hb_Util_Log_Handler_HandlerInterface 
+{
+	private $__class_name = '';
+	
+	//private $__class_handler = null;
+	
+	public function __construct($config)
+	{
+		$this->__class_name = $config->class_name;
+		//$this->__Open();
+	}
+	
+	public function __destruct()
+	{
+		unset($__class_name);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $str
+	 */
+	public function Handle($str)
+	{
+		if (function_exists('monitor_custom_event'))
+		{
+			monitor_custom_event($this->__class_name, $str, ZEVENT_SEVERITY_LEVEL_HIGH, $str);
+		}
+	}
+}
+?>

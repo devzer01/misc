@@ -1,0 +1,186 @@
+<?php
+/**
+ * Domain Object for Study Comment Response
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+class Hb_App_Study_StudyCommentResponse extends Hb_App_Object
+
+{
+	/**
+	 * Notes
+	 *
+	 * @var string
+	 */
+	protected $notes = null;
+	
+	/**
+	 * Response Reported
+	 *
+	 * @var int
+	 */
+	protected $response_reported = null;
+	
+	/**
+	 * Response Reported Date
+	 *
+	 * @var string
+	 */
+	protected $response_reported_date = null;
+	
+	/**
+	 * Study Comment Id
+	 *
+	 * @var int
+	 */
+	protected $study_comment_id = null;
+	
+	/**
+	 * Study Comment Response Id
+	 *
+	 * @var int
+	 */
+	protected $study_comment_response_id = null;
+
+	/**
+	 * Create Study Comment Response object
+	 *
+	 * @param int $id Study Comment Response Id
+	 * @param int $study_comment_id Study Comment Id
+	 * @param string $notes Notes
+	 * @param int $response_reported Response Reported
+	 * @param string $response_reported_date Response Reported Date
+	 */
+	function __construct(	$id = null,
+							$study_comment_id = null,
+							$notes = null,
+							$response_reported = null,
+							$response_reported_date = null)
+	{
+		$this->study_comment_response_id 	= $id;
+		$this->study_comment_id 			= $study_comment_id;
+		$this->notes 						= $notes;
+		$this->response_reported 			= $response_reported;
+		$this->response_reported_date 		= $response_reported_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Notes
+	 *
+	 * @return string The Notes
+	 */
+	public function GetNotes()
+	{
+		return $this->notes;
+	}
+
+	/**
+	 * Returns The Response Reported
+	 *
+	 * @return int The Response Reported
+	 */
+	public function GetResponseReported()
+	{
+		return $this->response_reported;
+	}
+
+	/**
+	 * Returns The The Response Reported Date
+	 *
+	 * @return string The Response Reported Date
+	 */
+	public function GetResponseReportedDate()
+	{
+		return $this->response_reported_date;
+	}
+
+	/**
+	 * Returns The Study Comment Id
+	 *
+	 * @return int The Study Comment Id
+	 */
+	public function GetStudyCommentId()
+	{
+		return $this->study_comment_id;
+	}
+
+	/**
+	 * Returns The Study Comment Response Id
+	 *
+	 * @return int The Study Comment Response Id
+	 */
+	public function GetStudyCommentResponseId()
+	{
+		return $this->study_comment_response_id;
+	}
+
+	/**
+	 * Sets The Notes
+	 * 
+	 * @param string $notes The Notes
+	 */
+	public function SetNotes($notes)
+	{
+		$this->notes = $notes;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Response Reported
+	 * 
+	 * @param int $response_reported
+	 */
+	public function SetResponseReported($response_reported)
+	{
+		$this->response_reported = $response_reported;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Response Reported Date
+	 * 
+	 * @param string $response_reported_date The Response Reported Date
+	 */
+	public function SetResponseReportedDate($response_reported_date)
+	{
+		$this->response_reported_date = $response_reported_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Comment Id
+	 * 
+	 * @param int $study_comment_id The Study Comment Id
+	 */
+	public function SetStudyCommentId($study_comment_id)
+	{
+		$this->study_comment_id = $study_comment_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Comment Response Id
+	 * 
+	 * @param int $study_comment_response_id The Study Comment Response Id
+	 */
+	public function SetStudyCommentResponseId($study_comment_response_id)
+	{
+		$this->study_comment_response_id = $study_comment_response_id;
+		$this->__id =  $study_comment_response_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

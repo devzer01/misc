@@ -1,0 +1,232 @@
+<?php
+/**
+ * An Account Contact 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountContact extends Hb_App_Object 
+{
+
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Contact Id
+	 *
+	 * @var int
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Account Cantact Id
+	 *
+	 * @var int
+	 */
+	protected $account_contact_id = null;
+	
+	/**
+	 * Instance of Account
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected $account = null;
+	
+	/**
+	 * Instance of Contact
+	 *
+	 * @var Hb_App_Common_Contact
+	 */
+	protected $contact = null;
+	
+	/**
+	 * Instance of Account Contact Attributes
+	 *
+	 * @var Hb_App_Account_AccountContactAttributes
+	 */
+	protected $account_contact_attributes = null;
+		
+	/**
+	 * Construct an account contact association object
+	 *
+	 * @param int $id
+	 * @param int $account_id
+	 * @param int $contact_id
+	 */
+	public function __construct($id = null, $account_id = null, $contact_id=null)
+	{
+		$this->account_contact_id = $id;
+		$this->account_id 		  = $account_id;
+		$this->contact_id 		  = $contact_id;
+
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Sets the Contact Object
+	 *
+	 * @param Hb_App_Common_Contact $contact
+	 */
+	public function SetContact(Hb_App_Common_Contact $contact)
+	{
+		$this->contact_id = $contact->GetContactId();
+		$this->contact = $contact;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Account Object
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account_id = $account->GetAccountId();
+		$this->account = $account;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns the Account Id
+	 *
+	 * @return int Accoutn Id
+	 */
+	public function GetAccountId()
+	{
+		if (is_null($this->account_id)) {
+			$this->account_id = $this->account->GetAccountId();
+		}
+		
+		return $this->account_id;
+	}
+	
+	/**
+	 * Sets the Contact Id
+	 *
+	 * @param int $contact_id Contact Id
+	 */
+	public function SetContactId($id)
+	{
+		$this->contact_id = $id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($id)
+	{
+		$this->account_id = $id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns the Contact Object
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	public function GetContact()
+	{
+		return $this->doGetContact();		
+	}
+	
+	/**
+	 * Returns the Contact Object from the Mapper (Protected Method)
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	protected function doGetContact()
+	{
+		if (is_null($this->contact)) {
+			if (is_null($this->contact_id)) {
+				throw new Hb_App_Account_Exception_ContactNotFoundException();
+			}
+			
+			$this->contact = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Contact')->Find($this->contact_id);
+		}
+		
+		return $this->contact;
+	}
+	
+	/**
+	 * Returns the Contact Id for the Account Contact
+	 *
+	 * @return int  Account Id
+	 */
+	public function GetContactId()
+	{
+		if (is_null($this->contact_id)) {
+			$this->contact_id = $this->doGetContact()->getContactId();
+		}
+		return $this->contact_id;
+	}
+	
+	/**
+	 * Returns the Account Contact Id for the Account Contact
+	 *
+	 * @param int  Account Contact Id
+	 */
+	public function SetAccountContactId($id)
+	{
+		$this->__id = $id;
+		$this->account_contact_id = $id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns the Accout Contact Id
+	 *
+	 * @return int
+	 */
+	public function GetAccountContactId()
+	{
+		return $this->account_contact_id; 
+		
+	}
+	
+	/**
+	 * Return the Instance of Account Contact Attributes
+	 *
+	 * @return Hb_App_Account_AccountContactAttributes 
+	 */
+	public function GetAccountContactAttributes()
+	{
+		if(is_null($this->account_contact_attributes)) {  		
+			
+   		$this->account_contact_attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountContactAttributes')->Find($this->account_contact_id);   		
+   	}
+
+   	return $this->account_contact_attributes;
+	}
+	
+	/**
+	 * Return the Contact type for the Common Contact
+	 *
+	 * @return Hb_App_Common_ContactType Contact type
+	 */
+	public function GetContactType()
+	{
+		if(is_null($this->contact_type)){
+			$this->contact_type = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactType')->Find($this->contact_type_id);
+		}
+		return $this->contact_type;
+	}		
+	
+}
+?>

@@ -1,0 +1,121 @@
+<?php
+/**
+ * Domain Object for StudyTemplateDataSource
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyTemplateDataSource extends Hb_App_Object
+{
+	/**
+	 * Study Template Datasource Id
+	 *
+	 * @var int
+	 */
+	protected $study_template_datasource_id = null;
+	
+	/**
+	 * Study Template Id
+	 *
+	 * @var int
+	 */	
+	protected $study_template_id = null;
+	
+	/**
+	 * Study Datasource Id
+	 *
+	 * @var int
+	 */
+	protected $study_datasource_id = null;
+	
+	/**
+	 * Create StudyTemplateDataSource Object
+	 * 
+	 * @param int $id study_template_datasource_id
+	 * @param int $study_template_id study_template_id
+	 * @param int $study_datasource_id study_datasource_id
+	 */	
+	function __construct($id 						= null, 
+								$study_template_id	= null,							
+								$study_datasource_id	= null)
+	{
+		$this->study_template_datasource_id	= $id;
+		$this->study_template_id 				= $study_template_id;
+		$this->study_datasource_id				= $study_datasource_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Study Template Datasource Id
+	 *
+	 * @return int Study Template Datasource Id
+	 */
+	public function GetStudyTemplateDataSourceId()
+	{
+		return $this->study_template_datasource_id;
+	}
+
+	/**
+	 * Returns the Study Template Id
+	 *
+	 * @return int Study Template Id
+	 */
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	 * Returns the Study Datasource Id
+	 *
+	 * @return int Study Datasource Id
+	 */
+	public function GetStudyDatasourceId()
+	{
+		return $this->study_datasource_id;
+	}
+	
+	/**
+	 * Sets the Study Template Datasource Id
+	 * 
+	 * @param int $study_template_datasource_id Study Template Datasource Id
+	 */
+	public function SetStudyTemplateDataSourceId($study_template_datasource_id)
+	{
+		$this->study_template_datasource_id = $study_template_datasource_id;
+		
+		$this->__id =  $study_template_datasource_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Template Id
+	 * 
+	 * @param int $study_template_id Study Template Id
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Study Datasource Id
+	 * 
+	 * @param int $study_datasource_id Study Datasource Id
+	 */
+	public function SetStudyDatasourceId($study_datasource_id)
+	{
+		$this->study_datasource_id = $study_datasource_id;
+
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * Domain class for Hb_App_Account_AccountPanelCountryAttribute
+ * 
+ * @copyright  2007 Global Market Insite Inc
+ * 
+ * @author msilva
+ * @version 1.0
+ * @created 18-Sep-2007 11:03:29 AM
+ * 
+ * @package App
+ * @subpackage Account
+ * 
+ */
+
+class Hb_App_Account_AccountPanelCountryAttribute extends Hb_App_Attribute
+{
+
+	/**
+	 * Account panel country id
+	 *
+	 * @var int
+	 */
+	protected $account_panel_country_id = null;
+	
+	/**
+	 * Account panel country object
+	 *
+	 * @var object Hb_App_Account_AccountPanelCountry
+	 */
+	protected $account_panel_country = null;
+
+	/**
+	 * Creates Hb_App_Account_AccountPanelCountryAttribute object
+	 *
+	 * @param int $id
+	 * @param int $account_panel_country_id
+	 * @param string $name
+	 * @param Hb_App_Account_AccountPanelCountryAttributeValue $value
+	 */
+	function __construct(
+							$id = null,
+							$account_panel_country_id = null,
+							$name = null,
+							Hb_App_Account_AccountPanelCountryAttributeValue $value = null
+						)
+	{
+		$this->account_panel_country_id = $account_panel_country_id;
+		
+		parent::__construct($id, $name, $value);
+		
+	}
+
+	/**
+	 * Sets account panel country attribute id
+	 * 
+	 * @param $account_panel_country_attribute_id
+	 */
+	public function SetAccountPanelCountryAttributeId($account_panel_country_attribute_id)
+	{
+		$this->__id = $account_panel_country_attribute_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the attribute value
+	 * this value must be of type Hb_App_Account_AccountPanelCountryAttributeValue
+	 * 
+	 * @param Hb_App_Account_AccountPanelCountryAttributeValue $value
+	 */
+	public function SetAttributeValue(Hb_App_Account_AccountPanelCountryAttributeValue $value)
+	{
+		$this->__attribute_value = $value;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets account panel country object
+	 *
+	 * @param Hb_App_Account_AccountPanelCountry $account_panel_country
+	 */
+	public function SetAccountPanelCountry(Hb_App_Account_AccountPanelCountry $account_panel_country)
+	{
+		$this->account_panel_country = $account_panel_country;
+		$this->account_panel_country_id = $account_panel_country->GetAccountPanelCountryId();
+		$this->MarkDirty();		
+	}
+	
+	/**
+	 * Sets account panel country id
+	 *
+	 * @param int $account_panel_country_id
+	 */
+	public function SetAccountPanelCountryId($account_panel_country_id)
+	{
+		$this->account_panel_country_id = $account_panel_country_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Protected fn() to loads account panel country data
+	 *
+	 * @return Hb_App_Account_AccountPanelCountry
+	 */
+	protected function doGetAccountPanelCountry()
+	{
+		if (is_null($this->account_panel_country)) {
+			if (is_null($this->account_panel_country_id)) {
+				throw new Hb_App_Account_Exception_AccountPanelCountryNotFoundException('Account Panel Country Id Not Found !');
+			}
+			
+			$this->account_panel_country = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountPanelCountry')->Find($this->account_panel_country_id);
+		}
+		
+		return $this->account_panel_country;
+	}
+	
+	/**
+	 * Returns account panel country id
+	 *
+	 * @return int
+	 */
+	public function GetAccountPanelCountryId()
+	{
+		if (is_null($this->account_panel_country_id)) {
+			$this->account_panel_country_id = $this->doGetAccountPanelCountry()->GetAccountPanelCountryId();
+		}
+		return $this->account_panel_country_id;
+	}
+	
+	/**
+	 * Returns account panel country
+	 *
+	 * @return Hb_App_Account_AccountPanelCountry
+	 */
+	public function GetAccountPanelCountry()
+	{
+		return $this->doGetAccountPanelCountry();
+	}
+
+}
+?>

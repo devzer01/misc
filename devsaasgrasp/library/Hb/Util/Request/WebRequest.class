@@ -1,0 +1,65 @@
+<?php
+class Hb_Util_Request_WebRequest
+{
+	/**
+	 * Checks to see if the $name file exist in the $_FILES array
+	 *
+	 * @param string $name name of the key for file in $_FILES array
+	 * @return boolean
+	 */
+	public function hasFile($name)
+	{
+		if (!isset($_FILES[$name])) 
+		{
+			return false;	
+		}
+		
+		if ($_FILES[$name]['size'] == 0) 
+	   {
+	      return false;
+	   }
+		
+		
+		return true;
+	}
+	
+	
+	/**
+	 * Retrives a file object from request
+	 *
+	 * @param string $name name of the key for file in $_FILES array
+	 * @return Hb_Util_File_File
+	 */
+	public function getFile($name)
+	{	
+		if (!$this->hasFile($name)) 
+		{
+			return false;
+		}
+		
+	   return Hb_Util_File_File::getInstance($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $_FILES[$name]['type']);
+	}
+	
+	/**
+	 * check if the specified key is set
+	 *
+	 * @param unknown_type $key
+	 * @return unknown
+	 */
+	public function hasParam($key)
+	{
+		return (isset($this->$key)) ? true : false;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $key
+	 * @return unknown
+	 */
+	public function getParam($key)
+	{
+		return $this->$key;
+	}
+}
+?>

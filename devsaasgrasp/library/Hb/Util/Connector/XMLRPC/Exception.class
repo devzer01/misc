@@ -1,0 +1,7 @@
+<?php
+Class Hb_Util_Connector_XMLRPC_Exception extends  Hb_Util_Connector_Exception
+{
+
+
+}
+?>

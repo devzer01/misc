@@ -1,0 +1,22 @@
+<?php
+class Hb_View_Proposal_ProposalDisplayAssignee extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/display_account_assignee.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	private $assignee = null;
+	
+	protected  function LoadData()
+	{			
+		$this->SetData('assignee', $this->assignee);
+	}
+	
+	public function setAssignee($assignee)
+	{
+		$this->assignee = $assignee;
+	}
+	
+}
+
+?>

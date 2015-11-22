@@ -1,0 +1,114 @@
+<?php 
+/**
+ * Mapper Object for Billing Report Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Billing
+ *
+ */ 
+class Hb_Mapper_Billing_BillingReportAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'armc_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_attr';
+	
+	/**
+	 * Builds and returns the Billing Report Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the armc_attr table
+	 * @return object An instance of the Billing Report Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportAttribute($row->armc_attr_id,
+									$row->armc_id,
+									$row->armc_attr_name,
+									$row->armc_attr_value
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('aa' => 'armc_attr'), array('armc_attr_id',
+																		'armc_id',
+																		'armc_attr_name',
+																		'armc_attr_value')
+						  );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Billing Report Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the armc_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('aa.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Billing Report Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO armc_attr 
+							(armc_id, 
+							 armc_attr_name, 
+							 armc_attr_value ) "
+               			. "VALUES (" . $obj->GetBillingReportId() . ", 
+               			 			  '" . $db->escapeString($obj->GetAttributeName()) . "', 
+               			 			  '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetBillingReportAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE armc_attr "
+						. "SET armc_id = " . $obj->GetBillingReportId() . ", "
+							. " armc_attr_name = '" 	. $db->escapeString($obj->GetAttributeName()) . "', "
+							. " armc_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+							. "WHERE armc_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+	
+	}
+}
+
+?>

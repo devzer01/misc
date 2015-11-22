@@ -1,0 +1,117 @@
+<?php
+/**
+ * Mapper for Account Panel Cost
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Account_AccountPanelCost extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Account_AccountPanelCost';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Account_AccountPanelCost';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "partner_panel_cost_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "partner_panel_cost";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountPanelCost($row->partner_panel_cost_id,$row->pricing_regime_id,$row->partner_id,$row->effective_date , $row->expire_date);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('partner_panel_cost', array(
+													'partner_panel_cost_id', 	
+													'pricing_regime_id',
+													'partner_id',
+													'effective_date',
+													'expire_date'
+													));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a proposal_action by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('partner_panel_cost_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'pricing_regime_id' => $obj->GetPricingRegimeId(),
+					'partner_id' => $obj->GetAccountId(),
+					'effective_date' => $obj->GetEffectiveDate(),
+					'expire_date' => $obj->GetExpireDate()
+				 );
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	//$row->partner_panel_cost_id = $obj->GetAccountPanelCostId();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('partner_panel_cost', $data);
+			$obj->SetAccountPanelCostId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('partner_panel_cost', $data, 'partner_panel_cost_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

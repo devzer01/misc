@@ -1,0 +1,101 @@
+<?php
+/**
+ * Mapper Class for StudyAttributeMemo
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyAttributeMemo extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Study Attr Memo table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'study_attr_memo_id';
+	
+	/**
+	 * Variable for Study Attr Memo table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'study_attr_memo';
+	
+	/**
+	 * Build the StudyAttributeMemo Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyAttributeMemo
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyAttributeMemo
+		(	$row->study_attr_memo_id,
+			$row->study_id,
+			$row->study_attr,
+			$row->study_value );
+	}
+	
+	/**
+	 * Returns Study Attr Memo data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('sm' => 'study_attr_memo'), 
+							array(	'study_attr_memo_id', 
+										'study_id', 
+										'study_attr', 
+										'study_value'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('sm.study_attr_memo_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Study_StudyAttributeMemo  
+		$data = array(
+			'study_id' 						=> $obj->GetStudyId(),
+			'study_attr' 					=> $obj->GetStudyAttr(),
+			'study_value'	 				=> $obj->GetStudyValue());
+			
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_attr_memo', $data);
+			$obj->SetStudyAttributeMemoId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_attr_memo', $data, 'study_attr_memo_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

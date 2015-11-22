@@ -1,0 +1,30 @@
+<?php
+
+   class Hb_Util_Report_ReportGenerator
+   {  
+
+   	/**
+   	 * Sets the filename of the ouput file.
+   	 *
+   	 * @param char $file
+   	 * @return void
+   	 */                    
+      public function SetOutputFile($file)
+      {
+         
+      }
+            
+   	/**
+   	 * Generates the report, outputs a HTML file.
+   	 *
+   	 * @param array $data_array
+   	 * @return void
+   	 */              
+      public function GetReport($data_array)      
+      {
+         
+      }
+            
+   }
+
+?>

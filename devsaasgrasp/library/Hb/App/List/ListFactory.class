@@ -1,0 +1,23 @@
+<?php
+
+class Hb_App_List_ListFactory 
+{
+	public static function factory($list)
+	{
+		switch ($list)
+		{
+			case 'ae':
+				return Hb_Mapper_List_ListUser::GetAeList();
+				break;
+			case 'am':
+				return Hb_Mapper_List_ListUser::GetAmList();
+				break;
+			case 'country':
+				return Hb_Mapper_List_ListCountry::GetList();
+		}
+		
+		return null;
+	}
+}
+
+?>

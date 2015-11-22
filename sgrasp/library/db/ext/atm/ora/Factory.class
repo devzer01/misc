@@ -1,0 +1,33 @@
+<?php 
+class db_ext_atm_ora_Factory 
+{
+	
+	 /**
+     * Factory method to return the component object for the oracle Accounting system.
+     *
+     * @param connector_type
+     * @return object
+     */          
+     public static function GetInstance($connector_type) 
+     { 
+        switch (strtolower($connector_type)) 
+        { 
+           case "miscellaneous": 
+              return new db_ext_atm_ora_Miscelaneous(); 
+              break;                 
+            
+           case "billing":
+           	  return new db_ext_atm_ora_Billing();  
+              break;
+
+           case "account":
+              return new db_ext_atm_ora_Account();
+              break;
+                  
+            default: 
+                 throw new Exception("Connector type ".$connector_type." not implemented."); 
+        } 
+     } 
+}
+
+?>

@@ -1,0 +1,47 @@
+<?php 
+/**
+ * Domain Object for Account Recruiter Campaign Comments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_CampaignComments extends Hb_App_Collection 
+{
+    protected $account_recruiter_campaign_comment_id = null;
+
+	public function AddItem(Hb_App_Account_Recruiter_CampaignComment $account_recruiter_campaign_comment) 
+	{
+		try {
+			parent::AddItem($account_recruiter_campaign_comment);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Recruiter Campaign Comment Already Exists In Collection ". $account_recruiter_campaign_comment->account_recruiter_campaign_comment_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetItem($account_recruiter_campaign_comment_id)
+	{
+		try {
+			return parent::GetItem($account_recruiter_campaign_comment_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Recruiter Campaign Comment Not Found In Collection" . $account_recruiter_campaign_comment_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+
+	public function SetAccountRecruiterCampaignCommentId($account_recruiter_campaign_comment_id)
+	{
+	    $this->account_recruiter_campaign_comment_id = $account_recruiter_campaign_comment_id;
+	}
+	
+
+	public function GetAccountRecruiterCampaignCommentId()
+	{
+	    return $this->account_recruiter_campaign_comment_id;
+	}	
+}
+?>

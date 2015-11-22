@@ -1,0 +1,123 @@
+<?php
+/**
+ * Domain Object for BillingReportGroupFile
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ */
+class Hb_App_Billing_BillingReportGroupFile extends Hb_App_Object
+{
+	/**
+	 * Billing Report Group File Id
+	 *
+	 * @var int
+	 */	
+	protected $armc_group_file_id = null;	
+	
+	/**
+	 * Billing Report Group Id
+	 *
+	 * @var int
+	 */
+	protected $armc_group_id = null;	
+	
+	/**
+	 * Billing Report group file
+	 *
+	 * @var Hb_App_Common_File 
+	 */
+	protected $armc_group_file = null;	
+
+	/**
+	 * Create BillingReportGroupFile Object
+	 * 
+	 * @param int $id Billing Report Group File Id	
+	 * @param int $armc_group_id Billing Report Group Id
+	 * @param Hb_App_Common_File $armc_group_file Billing Report Group file object
+	 * 	 
+	 */
+	function __construct($id 							= null, 								
+								$armc_group_id				= null, 
+								Hb_App_Common_File $armc_group_file	= null								
+								)
+	{
+		$this->armc_group_file_id		= $id;		
+		$this->armc_group_id				= $armc_group_id;
+		$this->armc_group_file			= $armc_group_file;
+		
+		if(!is_null($this->armc_group_file))
+			$this->armc_group_file->RegisterFileOwner('Hb_App_Billing_BillingReportGroupFile');				
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Billing Report Group File Id
+	 *
+	 * @return int Billing Report Group File Id
+	 */
+	public function GetBillingReportGroupFileId()
+	{
+		return $this->armc_group_file_id;
+	}	
+	
+	/**
+	 * Returns the Billing Report Group Id
+	 *
+	 * @return int Billing Report Group Id
+	 */
+	public function GetBillingReportGroupId()
+	{
+		return $this->armc_group_id;
+	}
+
+	/**
+	 * Return the Billing Report file object for the Billing Report Group
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->armc_group_file;
+	}
+	
+	/**
+	 * Sets the Billing Report Group File Id
+	 * 
+	 * @param int $armc_group_file_id Billing Report Group File Id
+	 */
+	public function SetBillingReportGroupFileId($armc_group_file_id)
+	{
+		$this->armc_group_file_id 	= $armc_group_file_id;		
+		$this->__id 					= $armc_group_file_id;
+		$this->MarkDirty();
+	}	
+		
+	/**
+	 * Sets the Billing Report Group Id
+	 * 
+	 * @param int $armc_group_id Billing Report Group Id
+	 */
+	public function SetBillingReportGroupId($armc_group_id)
+	{
+		$this->armc_group_id = $armc_group_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Billing report group file for the  Billing Report Group File
+	 * 
+	 * @param Hb_App_Common_File $armc_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $armc_file)
+	{
+		$this->armc_group_file_id	= $armc_file->GetFileId();
+		$this->__id						= $armc_file->GetFileId();
+		$this->armc_group_file		= $armc_file;
+		$this->MarkDirty();
+	}	
+}
+?>

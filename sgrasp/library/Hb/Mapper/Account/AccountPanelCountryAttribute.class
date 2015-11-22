@@ -1,0 +1,139 @@
+<?php
+/**
+ * Mapper class for Hb_App_Account_AccountPanelCountryAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountPanelCountryAttribute extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Table name for this domain
+	 *
+	 * @var string
+	 */
+	protected $table = 'account_panel_country_attr';
+	
+	/**
+	 * Primary key for this domain table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'account_panel_country_attr_id';
+	
+	/**
+	 * Return the base select object
+	 *
+	 * @return Zend/DB select object
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(
+					array('apca' => 'account_panel_country_attr'),
+					array(  
+							'account_panel_country_attr_id' , 
+							'account_panel_country_type_id' , 
+							'account_id' , 
+							'account_panel_group_id' , 
+							'account_panel_country_attr_name' , 
+							'country_code' , 
+							'account_panel_item_type_id' , 
+							'account_panel_country_attr_count' , 
+							'account_panel_country_attr_response_rate'
+						)
+				);
+				
+		return $select;
+	}
+	
+	/**
+	 * Find domain by id (Protected object)
+	 *
+	 * @param int $id
+	 * @return Zend
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		
+		$select->where('apca.account_panel_country_attr_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountPanelCountryAttribute(
+																$row->account_panel_country_attr_id,
+																null,
+																$row->account_panel_country_attr_name,
+																new Hb_App_Account_AccountPanelCountryAttributeValue(
+																													$row->account_panel_country_type_id,
+																													$row->account_id,
+																													$row->account_panel_group_id,
+																													$row->country_code,
+																													$row->account_panel_item_type_id,
+																													$row->account_panel_country_attr_count,
+																													$row->account_panel_country_attr_response_rate
+																												)
+																);
+	}
+	
+
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO account_panel_country_attr (
+																account_panel_country_type_id, 
+																account_id, 
+																account_panel_group_id, 
+																account_panel_country_attr_name, 
+																country_code, 
+																account_panel_item_type_id, 
+																account_panel_country_attr_count, 
+																account_panel_country_attr_response_rate 
+															) "
+          										. "VALUES (" . $obj->GetAttributeValue()->GetAccountPanelCountryTypeId() . ", " 
+          													. $obj->GetAttributeValue()->GetAccountId() . ", " 
+          													. $obj->GetAttributeValue()->GetAccountPanelGroupId() . ", '" 
+          													. $db->escapeString($obj->GetAttributeName()) . "', '" 
+          													. $db->escapeString($obj->GetAttributeValue()->GetCountryCode()) . "', " 
+          													. $obj->GetAttributeValue()->GetAccountPanelItemTypeId() . ", " 
+          													. $obj->GetAttributeValue()->GetAccountPanelcountryAttributeCount() . ", " 
+          													. $obj->GetAttributeValue()->GetAccountPanelCountryAttributeResponseRate() . ")";
+
+			$db->q($query);
+			
+			$obj->SetAccountPanelCountryAttributeId($db->getLastInsertId());			
+		} 
+		else
+		{
+			$query = "UPDATE account_panel_country_attr 
+														SET account_panel_country_type_id = " . $obj->GetAttributeValue()->GetAccountPanelCountryTypeId() . ", "
+															. "	account_id = " . $obj->GetAttributeValue()->GetAccountId() . ", " 
+															. " account_panel_group_id = " . $obj->GetAttributeValue()->GetAccountPanelGroupId() . ", "
+															. "	account_panel_country_attr_name = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+															. " country_code = '" . $db->escapeString($obj->GetAttributeValue()->GetCountryCode()) . "', "
+															. " account_panel_item_type_id = " . $obj->GetAttributeValue()->GetAccountPanelItemTypeId() . ", "
+															. " account_panel_country_attr_count = " . $obj->GetAttributeValue()->GetAccountPanelcountryAttributeCount() . ", "
+															. " account_panel_country_attr_response_rate = " . $obj->GetAttributeValue()->GetAccountPanelCountryAttributeResponseRate() . " "
+													. " WHERE account_panel_country_attr_id = " . $obj->GetId() . ";";
+
+			$db->q($query);
+		}
+   }
+   
+}
+?>

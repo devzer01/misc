@@ -1,0 +1,6 @@
+<?php 
+interface  Hb_App_Billing_State_BillingReportStateReference
+{	
+	public function GetNextState();
+}
+?>

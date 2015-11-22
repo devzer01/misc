@@ -1,0 +1,42 @@
+<?php
+class Hb_View_Account_AccountReadyToBeCustomer extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/credit_limit_verification.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;
+	
+	protected $list = array();
+	
+	protected $countries = null;
+	
+	protected $contacts = null;	
+	
+	protected function LoadData()
+	{
+		$this->list['title'] = array('MR.', 'MRS.', 'MS.');
+		
+		$this->SetData('account', $this->account);
+		$this->SetData('list', $this->list);
+		$this->SetData('countries', $this->countries);
+		$this->SetData('contacts', $this->contacts);		
+	}	
+	
+	public function SetContacts($contacts)
+	{
+		$this->contacts = $contacts;
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetCountries($countries)
+	{
+		$this->countries = $countries;
+	}
+}
+
+?>

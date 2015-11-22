@@ -1,0 +1,29 @@
+<?php
+
+require_once ('class/Hb/Util/View/View.class') ;
+
+class Hb_View_Account_AccountList extends Hb_Util_View_View {
+	
+	protected  $__template_name = 'app/acm/vw_list_v2.html';
+	
+	protected $__handler = 'Smarty';
+	
+	protected function LoadData () 
+	{
+		$report = new Hb_App_Report_DefaultReport();
+		$definition = new Hb_App_Report_ReportDefinitionDefault();
+		
+		$report->SetReport($definition);
+		
+		$preference = Hb_App_Report_ReportPreferenceFactory::GetPreference($definition);
+		$report->SetPreference($preference);
+		
+		$this->SetData('user_columns', $preference->GetColumns());
+		$this->SetData('columns', $definition->GetColumnFields());
+		$this->SetData('condition_columns', $definition->GetConditionFields());
+		$this->SetData('list', $report->Execute());
+		
+	}
+}
+
+?>

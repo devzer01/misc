@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Study Programming Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyProgrammingType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Study Programming Type Object
+	 *
+	 * @param int $id Study Programming type id
+	 * @param string $description Study programming type description
+	 */
+	public function __construct($id = null,
+									     $description 	= null
+									    )
+  {  	
+   	parent::__construct($id, $description);	
+  }
+
+}
+?>

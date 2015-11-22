@@ -1,0 +1,34 @@
+<?php
+
+class Hb_Util_Rss_Updater
+{
+	
+	static function Update($id)
+	{
+		$db = Hb_Db::getInstance();
+		
+		$select = $db->getSelect();
+		
+		$select->from('rss_cache', 'rss_cache_id, rss_feed_url');
+		$select->where('rss_cache_id = ?', $id);
+		
+		$r = $db->FetchRow($select);
+
+		$u = new urlConnect();
+		$page = $u->PageGet($r['rss_feed_url']);
+		
+		$db->Update('rss_cache', array(
+			'feed_content' => $page,
+			'last_call_date' => date("Y-m-d")
+		), $db->QuoteInto("rss_cache_id = ? ", $id));
+				
+		return $page;
+	}
+	
+	static function CheckCache($id)
+	{
+		
+		
+	}
+}
+?>

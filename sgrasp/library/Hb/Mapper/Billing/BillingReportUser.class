@@ -1,0 +1,119 @@
+<?php 
+/**
+ * BillingReportUser Mapper class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */  
+class Hb_Mapper_Billing_BillingReportUser extends Hb_Mapper_Mapper
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Billing_BillingReportUser';
+	
+  /**
+   * attribute description...
+   *
+   * @var string 
+   */ 
+   protected $__gateway = 'Hb_Db_Billing_BillingReportUser';
+   
+   /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'armc_user_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'armc_user';
+   
+  /**
+   * Find by Id
+   *
+   * @param int id Billing Reoirt User Id
+   * @return Hb_App_Billing_BillingReportUser returns domain object
+   */ 
+  protected function doFindById($id) 
+  { 
+      if (Hb_App_ObjectMap::hasObject('Hb_App_Billing_BillingReportUser', $id)) {
+		 return Hb_App_ObjectMap::getObject('Hb_App_Billing_BillingReportUser', $id);	
+	  }
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('au.armc_user_id = ?', $id);
+	  
+	  return $this->getRow($select);	
+  }
+    
+  /**
+   * Save
+   *
+   * @param Hb_App_Object obj 
+   * 
+   */  
+  protected function doSave(Hb_App_Object $obj) {
+  	 $row = null;
+	 
+	 if(is_null($obj->GetId())) 
+	 {	
+		$row = $this->Insert();
+	 } else {
+		$row = $this->Update($obj);
+	 }
+	 
+
+	 $row->armc_id 			= $obj->GetBillingReportID();
+	 $row->role_id 			= $obj->GetRoleID();
+	 $row->login				= $obj->GetLogin();
+	
+	 $row->Save();
+			
+	 $obj->SetBillingReportUserID($row->armc_user_id); 
+	 $obj->markSaved();
+	 
+	 Hb_App_ObjectMap::register($obj);
+  }
+  
+  /**
+   * Prepare basic select statement
+   *
+   * 
+   * @return select returns select member of db connection object
+   */ 
+  protected function GetBaseSelect() 
+  { 
+	 
+  	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	$select = $db->select();
+	$select->from(array('au' => 'armc_user'), array('armc_user_id', 'armc_id', 'role_id', 'login'));
+	  
+	return $select;
+  } 
+  
+  /**
+   * Builds Hb_App_Object object from the provided row member of Hb_Util_Db_Table object
+   *
+   * @param row $row 
+   * @return Hb_App_Object
+   */ 
+  protected function doBuildObject($row) 
+  { 
+    return new Hb_App_Billing_BillingReportUser($row->armc_user_id, 
+    null, $row->armc_id, 
+    $row->login, null, 
+    $row->role_id, null);
+  } 
+} 
+?>

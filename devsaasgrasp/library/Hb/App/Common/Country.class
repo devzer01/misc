@@ -1,0 +1,60 @@
+<?php
+
+class Hb_App_Common_Country extends Hb_App_Object
+{
+	protected $__country_code;
+
+	protected $__country_name;
+	
+	protected $__region_id = null;
+	
+	protected $country_id = null;
+	
+	private $region_info = null;
+	
+	public function __construct($id, $code, $name, $region_id)
+	{
+		$this->country_id 				= $id;
+		$this->__country_code 			= $code;
+		$this->__country_name 			= $name;
+		$this->__region_id    			= $region_id;
+		$this->region_description     = $region_description;
+		
+		parent::__construct($id);
+	}
+	
+	public function GetRegion()
+	{
+		return $this->__region_id;
+	}
+
+	public function GetDescription()
+	{
+		return $this->__country_name;
+	}
+	
+	public function GetCountryId()
+	{
+		return $this->country_id;
+	}
+	
+	public function SetCountryId($country_id)
+	{
+		$this->country_id = $country_id;
+	}
+	
+	public function GetCountryCode()
+	{
+		return $this->__country_code;
+	}
+	
+	public function GetRegionInfo(){
+		if(is_null($this->region_info)){
+			$this->region_info = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Region')->Find($this->__region_id);
+		}
+		return $this->region_info;
+	}
+	
+	
+}
+?>

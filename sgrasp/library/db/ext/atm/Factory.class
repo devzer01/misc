@@ -1,0 +1,25 @@
+<?php 
+class db_ext_atm_Factory
+{	
+    /**
+     * Factory method to return the Accounting System DB connector object.
+     *
+     * @param Accounting system 
+     * @return object
+     */          
+     public static function GetInstance($accounting_system, $connector_type) 
+     { 
+        switch ($accounting_system) 
+        { 
+           case "oracle": 
+              return db_ext_atm_ora_Factory::GetInstance($connector_type); 
+              break;                 
+            
+               
+            default: 
+                 throw new Exception("Connector type ".$connector_type." not implemented."); 
+        } 
+     } 
+}
+
+?>

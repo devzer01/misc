@@ -1,0 +1,106 @@
+<?php
+/**
+ * Mapper Class for PanelCost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_PanelCost extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary Key for table panel_cost
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'panel_cost_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string
+	 */
+	protected $table = 'panel_cost';
+	
+	/**
+	 * Build the Hb_App_Proposal_PanelCost object
+	 *
+	 * @param Zend Db row object of panel_cost table $row
+	 * @return Hb_App_Proposal_PanelCost object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PanelCost(
+												$row->panel_cost_id,
+												$row->panel_cost_type_id,
+												$row->pricing_regime_id,
+												$row->country_tier_id,
+												$row->effective_date,
+												$row->expire_date
+											);
+	}
+	
+	/**
+	 * Get the base select for Hb_App_Proposal_PanelCost object
+	 *
+	 * @return Zend Db Select object
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(
+						array('pc' => 'panel_cost'),
+						array('panel_cost_id', 'panel_cost_type_id', 'pricing_regime_id', 'country_tier_id', 'effective_date', 'expire_date')
+					);
+
+		return $select;
+	}
+	
+	/**
+	 * Find the Hb_App_Proposal_PanelCost object by Id
+	 *
+	 * @param int $id
+	 * @return Zend Db Row object of the panel_cost table
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('pc.panel_cost_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+
+	/**
+	 * Save Hb_App_Proposal_PanelCost object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+						'panel_cost_type_id' => $obj->GetPanelCosttypeId(), 
+						'pricing_regime_id' => $obj->GetPricingRegimeId(), 
+						'country_tier_id' => $obj->GetCountryTierId(), 
+						'effective_date' => $obj->GetEffectiveDate(), 
+						'expire_date' => $obj->GetExpireDate()
+					);
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetPanelCostId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		}
+
+	}
+}
+?>

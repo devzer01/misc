@@ -1,0 +1,118 @@
+<?php 
+/**
+ * Domain class for AuthenticateSetting
+ * 
+ * @copyright 2008 Global Market Insite Inc
+ * @author Chathura J. Ediriweera
+ * @version 1.0
+ * @package App 
+ * @subpackage Common
+ */  
+class Hb_App_Common_AuthenticateSetting extends Hb_App_Object
+{
+
+	/**
+	 * Authenticate setting Id
+	 *
+	 * @var int 
+	 */ 
+	protected $auth_setting_id  = null;
+	
+	/**
+	 * Authenticate domain
+	 *
+	 * @var string 
+	 */ 
+	protected $auth_domain  = null;
+	
+	/**
+	 * Authentication Object
+	 *
+	 * @var blob
+	 */ 
+	protected $auth_object = null;
+	
+	
+	/**
+	 * Class Constructor
+	 *
+	 * @param int $id Authentication Setting Id
+	 * @param string $auth_domain Authentication domain
+	 * @param blob $auth_type Authentication Type
+	 */  
+	function __construct($id 				= null, 
+								$auth_domain 	= null, 
+								$auth_object	= null)
+	{
+		$this->auth_setting_id  = $id;
+		$this->auth_domain		= $auth_domain;
+		$this->auth_type			= $auth_object;
+		
+		parent::__construct($id);
+	}
+	
+	 /**
+     * Returns Authentication Setting Id
+     *
+     * @return int Authentication Setting Id
+     */
+	public function GetAuthenticateSettingId()
+	{
+		return $this->auth_setting_id;
+	}
+
+	 /**
+     * Returns Authentication domain
+     *
+     * @return string Authentication domain
+     */
+	public function GetAuthenticateDomain()
+	{
+		return $this->auth_domain;
+	}	
+	
+	 /**
+     * Returns Authentication Object
+     *
+     * @return string Authentication Object
+     */
+	public function GetAuthenticateObject()
+	{
+		return $this->auth_object;
+	}
+
+	/**
+	 * Sets Authentication Setting Id
+	 *
+	 * @param int $auth_setting_id Authentication Setting Id
+	 */ 
+	public function SetAuthenticateSettingId($auth_setting_id)
+	{
+		$this->auth_setting_id = $auth_setting_id;
+		$this->__id					= $auth_setting_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Authentication Domain
+	 *
+	 * @param string $auth_domain Authentication domain
+	 */ 
+	public function SetAuthenticateDomain($auth_domain)
+	{
+		$this->auth_domain = $auth_domain;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Authentication Object
+	 *
+	 * @param string $auth_type Authentication Object
+	 */ 
+	public function SetAuthenticateObject($auth_object)
+	{
+		$this->auth_object = unserialize($auth_object);
+		$this->MarkDirty();
+	}	
+}

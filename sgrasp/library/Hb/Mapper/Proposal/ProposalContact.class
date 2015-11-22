@@ -1,0 +1,126 @@
+<?php
+/**
+ * Mapper for Proposal contact
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ */
+
+class Hb_Mapper_Proposal_ProposalContact extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalContact';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalContact';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_contact_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_contact";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalContact(		
+														$row->proposal_contact_id,
+														$row->proposal_id, 
+														$row->contact_id, 
+														$row->salutation, 
+														$row->first_name, 
+														$row->middle_initial, 
+														$row->last_name, 
+														$row->phone,
+														$row->fax,
+														$row->email
+														);																
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+          	 	 	 	 	
+		$select->from('proposal_contact', array(
+													'proposal_contact_id', 	
+													'proposal_id', 	
+													'contact_id', 	
+													'salutation', 	
+													'first_name', 	
+													'middle_initial', 	
+													'last_name', 	
+													'phone',
+													'fax',
+													'email'																						
+													));
+		         
+      return $select; 				
+	}
+	
+	/**
+	 * Finds a proposal contact by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_contact_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+																																	
+		$row->proposal_id			= $obj->GetProposalId();
+		$row->contact_id   		= $obj->GetContactId();
+		$row->salutation    		= $obj->GetSalutation();
+		$row->first_name	 		= $obj->GetFirstName();		
+		$row->middle_initial 	= $obj->GetMiddleInitial();
+		$row->last_name 			= $obj->GetLastName();
+		$row->phone					= $obj->GetPhone();
+		$row->fax					= $obj->GetFax();
+		$row->email					= $obj->GetEmail();
+		       							
+		$row->save();				
+		$obj->SetProposalContactId($row->proposal_contact_id);				
+	}
+	
+}
+?>

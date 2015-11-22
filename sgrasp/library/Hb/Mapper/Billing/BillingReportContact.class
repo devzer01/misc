@@ -1,0 +1,88 @@
+<?php
+/**
+ * Mapper Class for BillingReportContact.class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+class Hb_Mapper_Billing_BillingReportContact extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of armc_contact table
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_contact_id';
+	
+	/**
+	 * Variable for armc_contact table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'armc_contact';
+			
+	/**
+	 * Returns Billing Report Contact object
+	 * 
+	 * @return Hb_App_Billing_BillingReportContact
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportContact( $row->armc_contact_id,
+																	 	$row->armc_contact_type_id, 
+																	 	$row->armc_id,
+																	 	$row->contact_id );
+	}
+	
+	/**
+	 * Returns Billing Report Contact data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('c' => 'armc_contact'), array(	'armc_contact_id', 
+																			'armc_contact_type_id', 
+																			'armc_id', 
+																			'contact_id' ));
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('armc_contact_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->armc_contact_type_id 	= $obj->GetBillingReportContactTypeID();
+		$row->armc_id 							= $obj->GetBillingReportID();
+		$row->contact_id 						= $obj->GetContactID();
+		
+		$row->Save();
+		
+		$obj->SetBillingReportContactID($row->armc_contact_id); 
+	}
+}
+?>

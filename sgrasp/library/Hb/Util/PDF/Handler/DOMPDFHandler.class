@@ -1,0 +1,68 @@
+<?php
+  
+   class Hb_Util_PDF_Handler_DOMPDFHandler implements Hb_Util_PDF_Generator_PDFGeneratorInterface 
+   {
+      
+      private $options = array();
+      private $outputfile = '';
+      private $html_data = '';
+      
+      public function __construct()
+      {
+         $this->options['orientation'] = "portrait";
+         $this->options['paper'] = "letter";
+         $this->options['base_path'] = "";                 
+         $this->options['save_file'] = 1;         
+      }
+            
+      public function SetOption($key, $value)
+      {
+         $this->options[$key] = $value;          
+      }
+      
+      
+      public function GetOption($key)
+      {
+         if( isset($this->options[$key]) ) return $this->options[$key];         
+      }
+   
+      public function GetOptions()
+      {
+         return $this->options;
+      }
+      
+      public function SetOutputFile($file)
+      {
+         $this->outputfile = $file;
+      }
+      
+      public function SetHTML($html)
+      {
+         $this->html_data = $html;         
+      }
+      
+      public function Generate()
+      {
+         
+         require_once("dompdf/dompdf_config.inc.php");
+         
+         $dompdf = new DOMPDF();
+                  
+         if( isset($this->options['paper']) ) $dompdf->set_paper($this->options['paper']);
+         if( isset($this->options['orientation']) && isset($this->options['paper']) ) $dompdf->set_paper($this->options['paper'], $this->options['orientation']);
+          
+         
+         $dompdf->load_html($this->html_data);
+                  
+         $dompdf->render();
+
+         if( isset($this->options['save_file']) && 1 == $this->options['save_file'] )        
+            file_put_contents($this->outputfile, $dompdf->output());
+         else 
+            if( !headers_sent() ) $dompdf->stream(basename($this->outputfile));
+                          
+      }
+      
+               
+   }
+?>

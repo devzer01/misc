@@ -1,0 +1,150 @@
+<?php
+/**
+ * Domain Object for User Functional Group
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */
+ 
+class Hb_App_User_UserFunctionalGroup extends Hb_App_Object
+{
+
+	/**
+	 * Functional group id
+	 *
+	 * @var int
+	 **/
+	var $functional_group_id = null;
+
+	/**
+	 * Functional group owner
+	 *
+	 * @var string
+	 **/
+	var $functional_group_owner = null;
+
+	/**
+	 * Login
+	 *
+	 * @var int
+	 **/
+	var $login = null;
+
+	/**
+	 * User functional group id
+	 *
+	 * @var int
+	 **/
+	var $user_functional_group_id = null;
+
+	/**
+	 * Create UserFunctionalGroup Object
+	 *
+	 * @param int $id User functional group id
+	 * @param int $login Login
+	 * @param int $functional_group_id Functional group id
+	 * @param string $functional_group_owner Functional group owner
+	 */
+	function __construct($id = null,
+  							   $login = null,
+  							   $functional_group_id = null,
+  							   $functional_group_owner = null )
+	{
+		$this->user_functional_group_id 	= $id;
+		$this->login 							= $login;
+		$this->functional_group_id 		= $functional_group_id;
+		$this->functional_group_owner 	= $functional_group_owner;				
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Functional group id
+ 	* 
+	* @return int The Functional group id
+	**/
+	function GetFunctionalGroupId()
+	{
+		return $this->functional_group_id;
+	}
+
+	/**
+	* Returns the Functional group owner
+ 	* 
+	* @return string The Functional group owner
+	**/
+	function GetFunctionalGroupOwner()
+	{
+		return $this->functional_group_owner;
+	}
+
+	/**
+	* Returns the Login
+ 	* 
+	* @return int The Login
+	**/
+	function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	* Returns the User functional group id
+ 	* 
+	* @return int The User functional group id
+	**/
+	function GetUserFunctionalGroupId()
+	{
+		return $this->user_functional_group_id;
+	}
+
+	/**
+	 * Sets the Functional group id
+ 	 * 
+	 * @param int $functional_group_id Functional group id
+	 */
+	function SetFunctionalGroupId($functional_group_id)
+	{
+		$this->functional_group_id = $functional_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Functional group owner
+ 	 * 
+	 * @param string $functional_group_owner Functional group owner
+	 */
+	function SetFunctionalGroupOwner($functional_group_owner)					 
+	{
+		$this->functional_group_owner = $functional_group_owner;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Login
+ 	 * 
+	 * @param int $login Login
+	 */
+	function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User functional group id
+ 	 * 
+	 * @param int $user_functional_group_id User functional group id
+	 */
+	function SetUserFunctionalGroupId($user_functional_group_id)
+	{
+		$this->user_functional_group_id 	= $user_functional_group_id;
+		$this->__id 							= $user_functional_group_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

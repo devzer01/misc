@@ -1,0 +1,86 @@
+<?php
+/**
+ * Domain Class PricingItemGroup
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_PricingItemGroup extends Hb_App_Object
+{
+	/**
+	 * Pricing Item Group Description
+	 *
+	 * @var string 
+	 */ 
+	protected $pricing_item_group_description = null;
+	
+	/**
+	 * Pricing Item Group Id
+	 *
+	 * @var int 
+	 */ 
+	protected $pricing_item_group_id = null;
+	
+	/**
+	 * Class Constructor
+	 *
+	 * @param int Pricing Item Group Id
+	 * @param string Pricing Item Group Description
+	 */ 
+	function __construct($id = null, $description = null)
+	{
+		$this->pricing_item_group_id 			= $id;
+		$this->pricing_item_group_description 	= $description;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Pricing Item Group Description
+	 *
+	 * @return string Pricing Item Group Description
+	 */ 
+	public function GetPricingItemGroupDescription()
+	{
+		return $this->pricing_item_group_description;
+	}
+
+	/**
+	 * Returns Pricing Item Group Id
+	 *
+	 * @return int Pricing Item Group Id
+	 */ 
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	/**
+	 * Sets Pricing Item Group Description
+	 *
+	 * @param string $description Pricing Item Group Description
+	 */ 
+	public function SetPricingItemGroupDescription($description)
+	{
+		$this->pricing_item_group_description = $description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Pricing Item Group Id
+	 *
+	 * @param int $id Pricing Item Group Id
+	 */ 
+	public function SetPricingItemGroupId($id)
+	{
+		$this->pricing_item_group_id 	= (int)$id;
+		$this->__id						= (int)$id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

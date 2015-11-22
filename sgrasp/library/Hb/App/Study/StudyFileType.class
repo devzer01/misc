@@ -1,0 +1,26 @@
+<?php 
+/**
+ * Domain Object for Study File Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+class Hb_App_Study_StudyFileType extends Hb_App_Common_Type
+{	
+	/**
+	 * Create Study File Type Object
+	 *
+	 * @param int $id study File type id
+	 * @param string $description study file type description
+	 */
+	public function __construct($id 				= null,
+									     $description = null
+									   )
+   {
+   	parent::__construct($id, $description);	
+   }
+}
+?>

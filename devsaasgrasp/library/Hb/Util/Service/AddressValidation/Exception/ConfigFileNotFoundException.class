@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Is thrown when The UPS configration file is not exist 
+ *
+ * @package  Util
+ * @subpackage  Service
+ */
+class Hb_Util_Service_AddressValidation_Exception_ConfigFileNotFoundException extends Hb_Exception 
+{
+	
+}
+?>

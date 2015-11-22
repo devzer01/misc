@@ -1,0 +1,100 @@
+<?php
+/**
+ * Mapper class Common Contact Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Common
+ */  
+class Hb_Mapper_Common_ContactAttributeDefinition extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "contact_attr_def_id";
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "contact_attr_def";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row object Result row from the Zend_Db framework 
+	 * @return object An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{					 	 	
+		return new Hb_App_Common_ContactAttributeDefinition($row->contact_attr_def_id, 
+																			 $row->contact_attr, 
+																			 $row->contact_attr_description
+																			 );		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+	   $select = $db->select(); 
+	          	 	 	 	 	          	 	 	 	 
+		$select->from($this->table, array('contact_attr_def_id', 	
+													 'contact_attr'	,
+													 'contact_attr_description'																								
+													));
+		         
+	   return $select; 				
+	}
+	
+	
+	/**
+	 * Finds the Result Row by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+	 	$select->where('contact_attr = ?', $id);				
+	        
+	 	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{				
+		$data = array('contact_attr'  			  => $obj->GetAttributeName(),
+						  'contact_attr_description' => $obj->GetAttributeDescription()
+						  );
+						 
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{			
+			$db->insert($this->table, $data);			
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, "contact_attr_def_id = " . $obj->GetId());	
+		}		
+	}
+}
+?>

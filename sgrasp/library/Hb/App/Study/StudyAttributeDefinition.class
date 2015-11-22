@@ -1,0 +1,63 @@
+<?php
+/**
+ * Domain Object for Study Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{
+	/**
+	 * Attribute Type 
+	 *
+	 * @var string
+	 */
+	protected $attribute_type = null;
+		
+	/**
+	 * Create Study Attribute Definition Object
+	 *
+	 * @param int $id Study Attribute Definition Id
+	 * @param string $attribute_name Study Attribute Name
+	 * @param string $attribute_desc Study Attribute Description
+	 * @param string $attribute_type Attribute Type
+	 */
+	function __construct( 	
+								$id 					= null,
+								$attribute_name 	= null,
+								$attribute_desc 	= null,
+								$attribute_type 	= null
+								)
+	{
+		$this->attribute_type = $attribute_type;
+		
+	   parent::__construct($id, $attribute_name, $attribute_desc);	
+	}
+
+	/**
+     * Returns the Attribute Type
+     *
+     * @return string Attribute Type
+     */
+ 	public function GetAttributeType()
+	{
+		return $this->attribute_type;
+	}
+   
+	/**
+	 * Sets the Attribute Type
+	 * 
+	 * @param string $attribute_type Attribute Type
+	 */
+	public function SetAttributeType($attribute_type)
+	{
+		$this->attribute_type = $attribute_type;
+		
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,161 @@
+<?php
+/**
+ * Mapper for Proposal
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.1
+ * @updated 13-Aug-2007 08:50:50 AM
+ */
+
+class Hb_Mapper_Proposal_Proposal extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_Proposal(
+														$row->proposal_id, 
+														$row->proposal_name, 
+														$row->account_id, 
+														$row->account_name, 
+														$row->account_type_id, 
+														$row->license_level_id, 
+														$row->pricing_regime_id, 
+														$row->product_id, 
+														$row->functional_group_id, 
+														$row->proposal_status_id, 
+														$row->proposal_sub_status_id, 
+														$row->region_id, 
+														$row->login, 
+														$row->user_id, 
+														$row->country_code, 
+														$row->proposal_date,  
+														$row->current_revision,
+														$row->version);		
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+         
+		$select->from('proposal', array(
+													'proposal_id', 	
+													'proposal_name', 	
+													'account_id', 	
+													'account_name', 	
+													'account_type_id', 	
+													'license_level_id', 	
+													'pricing_regime_id', 	
+													'product_id', 	
+													'functional_group_id', 	
+													'proposal_status_id', 	
+													'proposal_sub_status_id', 	
+													'region_id', 	
+													'login', 	
+													'user_id',	
+													'country_code', 	
+													'proposal_date', 	
+													'current_revision',
+		                                            'version'));
+		         
+      return $select; 				
+	}
+	
+	/**
+	 * Finds a proposal by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{
+		/* @var $obj Hb_App_Proposal_Proposal */
+		
+		$data = array(
+			'proposal_name'          => $obj->GetProposalName(),
+			'account_id'             => $obj->GetAccountId(),
+			'account_name'           => $obj->GetAccountName(),
+			'account_type_id'        => $obj->GetAccountTypeId(),
+			'license_level_id'       => $obj->GetLicenseLevelId(),
+			'pricing_regime_id'      => $obj->GetPricingRegimeId(),
+			'product_id'             => $obj->GetProductId(),
+			'proposal_status_id'     => $obj->GetProposalStatusId(),
+			'proposal_sub_status_id' => $obj->GetProposalSubStatusId(),
+			'country_code'           => $obj->GetCountryCode(),
+			'region_id'              => $obj->GetRegionId(),
+		    'version'                => $obj->GetVersion());
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		if (is_null($obj->GetId())) {
+			$db->insert('proposal', $data);
+			$obj->SetProposalId($db->lastInsertId());
+		} else {
+			$db->update('proposal', $data, 'proposal_id = ' . $obj->GetId());	
+		}
+		
+//		
+//		
+//		
+//		
+//		
+//		
+//		$row->proposal_name   = $obj->GetProposalName();
+//		$row->account_id      = $obj->GetAccountId();
+//		$row->account_name    = $obj->GetAccountName();
+//		$row->account_type_id = $obj->GetAccountTypeId();
+//		$row->license_level_id = $obj->GetLicenseLevelId();
+//		$row->pricing_regime_id = $obj->GetPricingRegimeId();
+//		$row->product_id       = $obj->GetProductId();
+//		$row->proposal_status_id = $obj->GetProposalStatusId();
+//		$row->proposal_sub_status_id = $obj->GetProposalSubStatusId();
+//		$row->country_code      = $obj->GetCountryCode();
+//		$row->region_id         = $obj->GetRegionId();
+//		
+//		//FIXME: add missing mapping
+//		
+//		$row->save();				
+						
+	}
+	
+}
+?>

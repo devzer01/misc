@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mapper Class for StudyQuotaOnResponseLog
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyQuotaOnResponseLog extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study quota on response log id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_quota_on_response_log_id';
+
+	/**
+	 * Study quota on response log table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_quota_on_response_log';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyQuotaOnResponseLog';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyQuotaOnResponseLog';
+	
+	/**
+	 * Build the StudyQuotaOnResponseLog Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyQuotaOnResponseLog
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Study_StudyQuotaOnResponseLog($row->study_quota_on_response_log_id,
+																	   $row->study_quota_on_response_id,
+																	 	$row->study_quota_on_response_date,
+																		$row->study_quota_progress);
+	}
+	
+	/**
+	 * Get the base data set for StudyQuotaOnResponseLog
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('sqorl' => 'study_quota_on_response_log'), array('study_quota_on_response_log_id', 
+																					 	 			'study_quota_on_response_id',
+																					    			'study_quota_on_response_date', 
+																					    			'study_quota_progress'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study quota on response log
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('sqorl.study_quota_on_response_log_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study quota on response log
+	 *
+	 * @param Hb_App_Object StudyQuotaOnResponseLog
+	 * @return object Study quota on response log
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_quota_on_response_id' 		=> $obj->GetStudyQuotaOnResponseId(),
+							'study_quota_on_response_date' 	=> $obj->GetStudyQuotaOnResponseDate(),
+							'study_quota_progress' 				=> $obj->GetStudyQuotaProgress()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_quota_on_response_log', $data);
+			$obj->SetStudyQuotaOnResponseLogId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_quota_on_response_log', $data, 'study_quota_on_response_log_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 

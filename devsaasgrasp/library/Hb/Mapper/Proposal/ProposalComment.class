@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper for Proposal Comment
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @updated 23-Aug-2007 10:50:50 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalComment extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalComment';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalComment';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_comment_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_comment";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalComment(		
+														$row->proposal_comment_id,
+														$row->proposal_id, 
+														$row->proposal_comment_type_id, 
+														$row->proposal_status_id, 
+														$row->proposal_comment_text, 
+														$row->proposal_comment_date, 
+														$row->login, 
+														$row->user_id
+														);		
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+          	 	 	 	 	
+		$select->from('proposal_comment', array(
+													'proposal_comment_id', 	
+													'proposal_id', 	
+													'proposal_comment_type_id', 	
+													'proposal_status_id', 	
+													'proposal_comment_text', 	
+													'proposal_comment_date', 	
+													'login', 	
+													'user_id'
+													));
+		         
+      return $select; 				
+	}
+	
+	/**
+	 * Finds a proposal comment by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_comment_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+									
+		$row->proposal_id   					= $obj->GetProposalId();
+		$row->proposal_comment_type_id   = $obj->GetProposalCommentTypeId();
+		$row->proposal_status_id    		= $obj->GetProposalStatusId();
+		$row->proposal_comment_text	 	= $obj->GetProposalCommentText();		
+		$row->proposal_comment_date 		= $obj->GetProposalCommentDate();
+		$row->login 							= $obj->GetLogin();
+		$row->user_id       					= $obj->GetUserId();
+		
+		$row->save();				
+		$obj->SetProposalCommentId($row->proposal_comment_id);				
+	}
+	
+}
+?>

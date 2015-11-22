@@ -1,0 +1,103 @@
+<?php
+/**
+ * Mapper Class for MergedBillingReport
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+
+class Hb_Mapper_Billing_MergedBillingReport extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Armc group
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_group_id';
+
+	/**
+	 * Armc group table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_group';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Billing_MergedBillingReport';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Billing_MergedBillingReport';
+	
+	/**
+	 * Build the MergedBillingReport Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_MergedBillingReport
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Billing_MergedBillingReport($row->armc_group_id,
+																									$row->armc_group_description,
+																									$row->armc_group_date);
+	}
+	
+	/**
+	 * Get the base data set for MergedBillingReport
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'armc_group'), array('armc_group_id', 
+																										'armc_group_description', 
+																										'armc_group_date'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Armc group Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('armc_group_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Merged Billing Report Object
+	 *
+	 * @param int $id Armc group Id
+	 * @return object Merged billing report
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+
+		$row->armc_group_description 	= $obj->GetMergedBillingReportDescription();
+		$row->armc_group_date 				= $obj->GetMergedBillingReportDate();
+
+		$row->Save();
+	
+	  $obj->SetMergedBillingReportID($row->armc_group_id);
+	  
+	}
+
+} 

@@ -1,0 +1,115 @@
+<?php 
+class Hb_Mapper_Account_AccountAccountType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'account_account_type_id';
+   
+  /**
+   * Table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_account_type';
+   
+   /**
+    * Builds and returns a Zend_Db Select object
+    *
+    * @return $select object Result Select object from the Zend_Db framework 
+    */
+   protected function GetBaseSelect()
+   {
+   	$db 		= Hb_Util_Db_Connection::GetInstance();
+   	$select 	= $db->select();
+    	$select->from(array('aat' => 'account_account_type'),
+	 					array('account_account_type_id',
+							  'account_type_id',
+							  'account_id'
+							  )
+						 );
+    	
+    	return $select;
+   }
+   
+   /**
+    * Builds and returns the Account Account type domain object for this mapper
+    *
+    * @param $row $object Result row from the Zend_Db framework for the account_account_type table
+    * @return object An instance of the Account Account type domain object 
+    */	
+   protected function doBuildObject($row)
+   {
+   	return new Hb_App_Account_AccountAccountType($row->account_account_type_id,
+   								$row->account_type_id,
+   								$row->account_id
+   								);
+   } 
+   
+   /**
+    * Finds a Account Account Type  by it's Id
+    *
+    * @param $id int The record identifier that uniquely identifies the row.
+    * @return obj Result row from the Zend_Db framework for the account_account_type table
+    */	
+   protected function doFindById($id)
+   {
+    	$select = $this->GetBaseSelect();
+   	$select->where('aat.'. $this->primary_key .'= ?', $id);
+   	 	
+   	return $this->getRow($select);
+   }
+   /**
+    * Finds a Account Account type by account id
+    *
+    * @param int $id account id
+    * @return Row result
+    */
+   protected function doFindByAccountId($id)
+   {
+   	$select = $this->GetBaseSelect();
+   	$select->where('aat.account_id = ?', $id);
+   	 	
+   	return $this->getRow($select);
+   }
+   
+   /**
+    * Finds a Account Account Type object by account id
+    *
+    * @param int $id Account id
+    * @return Hb_App_Account_AccountAccountType
+    */
+   public function FindByAccountId($id)
+   {
+   	$result = $this->doFindByAccountId($id);
+   	return $this->BuildObject($result);
+   }
+   
+   /**
+    * Saves a dirty domain object to the persistence layer
+    *
+    * @param Hb_App_Object $obj object Instance of the Account Account Type domain object
+    */
+   protected function doSave(Hb_App_Object $obj)
+   {
+    	/* @var $obj Hb_App_Account_AccountAccountType   */
+   	 	
+    	$data  = array(
+   	  'account_type_id' => $obj->GetAccountTypeId(),
+		  'account_id'	=> $obj->GetAccountId()
+    	);
+    	
+    	$db = Hb_Util_Db_Connection::GetInstance();
+    	
+    	if(is_null($obj->GetId())) {
+    		$db->insert($this->table, $data);
+    		$obj->SetAccountAccountTypeId($db->lastInsertId());
+    	}else {
+    		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+    	}
+   }
+}
+
+?>

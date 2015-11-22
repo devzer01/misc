@@ -1,0 +1,30 @@
+<?php 
+/**
+ * Domain Object for Billing Report File Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportFileType extends Hb_App_Common_Type
+{
+
+	/**
+	 * Create Billing Report File Type Object
+	 *
+	 * @param int $id Billing report file type id
+	 * @param string $description Billing report file type description
+	 */
+	public function __construct($id = null,
+									   $description 	= null
+									   )
+   {  	
+   	parent::__construct($id, $description);	
+   }
+
+}
+
+?>

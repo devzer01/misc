@@ -1,0 +1,109 @@
+<?php 
+/**
+ * Mapper Object for FrontPageModuleUser
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_FrontPageModuleUser extends Hb_Mapper_Mapper 
+{
+		
+	protected $primary_key = 'frontpage_module_user_id';
+	
+	protected $table       = 'frontpage_module_user';
+	
+	/**
+	 * Builds and returns the Front Page Module user domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the frontpage_module_user table
+	 * @return object An instance of the Front Page Module user domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_FrontPageModuleUser($row->frontpage_module_user_id,
+									$row->frontpage_module_id,
+									$row->user_id,
+									$row->user_column
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('fmu' => $this->table), array('frontpage_module_user_id',
+	 																	  'frontpage_module_id',
+	 																	  'user_id',
+	 																	  'user_column'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Front Page Module user by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the frontpage_module_user table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('fmu.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	public function FindByUser($id, $module_id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('fmu.user_id = ?', $id);
+		$select->where('fmu.frontpage_module_id = ?', $module_id);
+		
+		$result = $this->getRow($select);
+
+		if(!$result) {
+			return false;
+		}
+		
+		return $this->doBuildObject($result);
+	}
+	
+	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Front Page Module User domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Common_FrontPageModuleUser   */
+		 	
+	 	$data  = array(
+			'frontpage_module_id' => $obj->GetFrontPageModuleID(),
+			'user_id'	=> $obj->GetUserID(),
+			'user_column'	=> $obj->GetUserColumnPrefer()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetFrontPageModuleUserID($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

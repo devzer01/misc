@@ -1,0 +1,98 @@
+<?php 
+/**
+ * Mapper class of Billing Report Group Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Billing
+ */  
+class Hb_Mapper_Billing_BillingReportGroupAttributeDefinition extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Billing_BillingReportGroupAttributeDefinition'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'armc_group_attr_def_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'armc_group_attr_def';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Billing Report Group Attribute Definition Id
+    * @return Hb_App_Billing_BillingReportGroupAttributeDefinition Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('agad.' . $this->primary_key . ' = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('agad' => $this->table), array($this->primary_key, 'armc_group_attr_name', 
+	  	'armc_group_attr_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Billing_BillingReportGroupAttributeDefinition Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Billing_BillingReportGroupAttributeDefinition($row->armc_group_attr_def_id, 
+   			$row->armc_group_attr_name,
+   	 		$row->armc_group_attr_description);
+   }
+   
+   /**
+    * Save 
+    *
+    * @param $obj object Instance of the Hb_App_Billing_BillingReportGroupAttributeDefinition
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'armc_group_attr_name'			=> $obj->GetAttributeName(),
+      	'armc_group_attr_description'	=> $obj->GetAttributeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert($this->table, $data);
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+	  	} else {
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+	  	}
+   } 
+}
+?>

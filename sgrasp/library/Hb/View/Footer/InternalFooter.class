@@ -1,0 +1,15 @@
+<?php
+include_once 'class/Hb/Util/View/View.class';
+
+class Hb_View_Footer_InternalFooter extends Hb_Util_View_View
+{	
+	protected  $__template_name = 'common/footer.tpl';
+	
+	protected  $__handler = 'Smarty';
+	
+	protected function LoadData()
+	{
+		
+	}
+}
+?>

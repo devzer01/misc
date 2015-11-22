@@ -1,0 +1,548 @@
+<?php 
+/**
+ * Domain Object for Recruiter Campaign
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */ 
+class Hb_App_Account_Recruiter_Campaign extends Hb_App_Object 
+{
+	/**
+	 * Recruiter Campaign Id
+	 * 
+	 * @var int
+	 */
+	protected $account_recruiter_campaign_id = null;
+
+	/**
+	 * Recruiter Campaign Code
+	 * 
+	 * @var string
+	 */
+	protected $campaign_code = null;
+	
+	/**
+	 * Account Id 
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Campaign Start Date
+	 * 
+	 * @var string
+	 */
+	protected $campaign_start_date = null;	
+	
+	/**
+	 * Campaign End Date
+	 * 
+	 * @var date
+	 */
+	protected $campaign_end_date = null;
+	
+	/**
+	 * Campaign Description
+	 * 
+	 * @var string
+	 */
+	protected $campaign_description = null;
+	
+	/**
+	 * Quality Rating
+	 * 
+	 * @var int
+	 */
+	
+	protected $quality_rating = null;
+
+	/**
+	 * Account
+	 *
+	 * @var Hb_App_Account_Account 
+	 */
+	private $account = null;
+	
+	/**
+	 * Profit Share
+	 * 
+	 * @var string
+	 */
+	protected $profit_share = null;
+	
+	/**
+	 * Revenue Share
+	 * 
+	 * @var int
+	 */
+	protected $revenue_share = null;
+	
+	/**
+	 * Conversion Rate
+	 * 
+	 * @var string
+	 */
+	protected $conversion_rate = null;	
+	
+	/**
+	 * Cost Per Complete
+	 * 
+	 * @var date
+	 */
+	protected $cost_per_complete = null;
+	
+	/**
+	 * Cost Per Acquisition
+	 * 
+	 * @var string
+	 */
+	protected $cost_per_acquisition = null;
+	
+	/**
+	 * Status
+	 * 
+	 * @var string
+	 */
+	protected $status = null;
+	
+	/**
+	 * Campaign Comments
+	 * 
+	 * @var Hb_App_Account_Recruiter_CampaignComments
+	 */
+	protected $comments	= null;
+		
+	/**
+	 * Pricing Comment
+	 *
+	 * @var Hb_App_Account_Recruiter_Comment 
+	 */
+	private $pricing_comment = null;
+	
+	/**
+	* Contructor of the Recruiter Campaign Domain
+	* 
+	* @param int $id Recruiter Campaign Id
+	* @param int $campaign_code Recruiter Campaign Code
+	* @param int $account_id Account Id Level Id
+	* @param double $campaign_end_date Campaign End Date
+	* @param string $campaign_start_date Effective Date
+	* @param string $campaign_description Campaign Description
+	* @param int $quality_rating Quality Rating
+	* @param int $profit_share Profit Share
+	* @param int $revenue_share Revenue ShareLevel Id
+	* @param double $cost_per_complete Cost Per Complete
+	* @param string $conversion_rate Conversion Rate
+	* @param string $cost_per_acquisition Cost Per Acquisition
+	* @param string $status status
+	*/		
+	function __construct($id 					  		  = null,	
+								$campaign_code  			  = null,
+								$account_id 		        = null,
+								$campaign_start_date 	  = null,
+								$campaign_end_date 	     = null,									
+								$campaign_description 	  = null,
+								$quality_rating 			  = null,	
+								$profit_share  			  = null,
+								$revenue_share 		     = null,
+								$conversion_rate 	  		  = null,
+								$cost_per_complete 	     = null,									
+								$cost_per_acquisition 	  = null,
+								$status 						  = null
+							  )								
+								
+	{	
+		$this->account_recruiter_campaign_id = $id;
+		$this->campaign_code  		 			 = $campaign_code;
+		$this->account_id 			 			 = $account_id ;		
+		$this->campaign_start_date  			 = $campaign_start_date;
+		$this->campaign_end_date	 			 = $campaign_end_date;
+		$this->campaign_description 			 = $campaign_description ;
+		$this->quality_rating 		 			 = $quality_rating;
+		$this->profit_share  		 		    = $profit_share;
+		$this->revenue_share 	    			 = $revenue_share ;
+		$this->cost_per_complete				 = $cost_per_complete;
+		$this->conversion_rate 	    			 = $conversion_rate;
+		$this->cost_per_acquisition 			 = $cost_per_acquisition ;
+		$this->status 			 					 = $status ;
+				
+		parent::__construct($id);
+	}	
+	
+	/**
+	 * Get Recruiter Campaign Id
+	 *	
+	 * @return int $account_recruiter_campaign_id Recruiter Campaign Id
+	 */
+	public function GetRecruiterCampaignId()
+	{
+		return $this->account_recruiter_campaign_id;
+	}
+	
+	/**
+	 * Get Recruiter Campaign Code
+	 *	
+	 * @return int $campaign_code Recruiter Campaign Code
+	 */
+	public function GetRecruiterCampaignCode()	
+	{
+		return $this->campaign_code;
+	}
+	
+	/**	
+	 * Get Account Id
+	 *
+	 * @return int $account_id Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Get Effective Date
+	 *	
+	 * @return string $campaign_start_date Effective Date
+	 */
+	public function GetCampaignStartDate()	
+	{
+		return $this->campaign_start_date;
+	}
+	
+	/**
+	 * Get Campaign End Date
+	 *	
+	 * @return double $campaign_end_date Campaign End Date
+	 */
+	public function GetCampaignEndDate()
+	{
+		return $this->campaign_end_date;
+	}
+	
+	/**	
+	 * Get Campaign Description
+	 *
+	 * @return string $campaign_description Campaign Description	
+	 */
+	public function GetCampaignDescription()
+	{
+		return $this->campaign_description;
+	}
+	
+	/**
+	 * Get Quality Rating
+	 *	
+	 * @return int $quality_rating Quality Rating
+	 */
+	public function GetQualityRating()
+	{
+		return $this->quality_rating;
+	}
+	
+	/**
+	 * Get Profit Share
+	 *	
+	 * @return int $profit_share Profit Share
+	 */
+	public function GetProfitShare()	
+	{
+		return $this->profit_share;
+	}
+	
+	/**	
+	 * Get Revenue Share
+	 *
+	 * @return int $revenue_share Revenue Share
+	 */
+	public function GetRevenueShare()
+	{
+		return $this->revenue_share;
+	}
+	
+	/**
+	 * Get Conversion Rate
+	 *	
+	 * @return string $conversion_rate Conversion Rate
+	 */
+	public function GetConversionRate()	
+	{
+		return $this->conversion_rate;
+	}
+	
+	/**
+	 * Get Cost Per Complete
+	 *	
+	 * @return double $cost_per_complete Cost Per Complete
+	 */
+	public function GetCostPerComplete()
+	{
+		return $this->cost_per_complete;
+	}
+	
+	/**	
+	 * Get Cost Per Acquisition
+	 *
+	 * @return string $cost_per_acquisition Cost Per Acquisition	
+	 */
+	public function GetCostPerAcquisition()
+	{
+		return $this->cost_per_acquisition;
+	}
+	
+	/**	
+	 * Get Status
+	 *
+	 * @return string $status	
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+		
+	/**
+	 * Sets the Recruiter Campaign Id
+	 *
+	 * @param int $account_recruiter_campaign_id Recruiter Campaign Id
+	 */
+	public function SetRecruiterCampaignId($account_recruiter_campaign_id)
+	{
+		$this->account_recruiter_campaign_id = $account_recruiter_campaign_id;
+
+		$this->__id = $account_recruiter_campaign_id ;	
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Recruiter Campaign Code
+	 *
+	 * @param int $campaign_code Recruiter Campaign Code
+	 */
+	public function SetRecruiterCampaignCode($campaign_code)
+	{
+		$this->campaign_code = $campaign_code;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Account Id 
+	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}		
+	
+	/**
+	 * Sets Start Date
+	 *
+	 * @param string $campaign_start_date Campaign Start Date
+	 */
+	public function SetCampaignStartDate($campaign_start_date)
+	{
+		$this->campaign_start_date = $campaign_start_date;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets the Campaign End Date
+	 *
+	 * @param string $campaign_end_date Campaign End Date
+	 */
+	public function SetCampaignEndDate($campaign_end_date)
+	{
+		$this->campaign_end_date = $campaign_end_date;	
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Campaign Description
+	 * 
+	 * @param string $campaign_description Campaign Description
+	 */
+	public function SetCampaignDescription($campaign_description)
+	{
+		$this->campaign_description = $campaign_description;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets the Quality Rating
+	 *
+	 * @param int $quality_rating Quality Rating
+	 */
+	public function SetQualityRating($quality_rating)
+	{
+		$this->quality_rating = $quality_rating;		
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Profit Share
+	 *
+	 * @param int $profit_share Profit Share
+	 */
+	public function SetProfitShare($profit_share)
+	{
+		$this->profit_share = $profit_share;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Revenue Share
+	 * 
+	 * @param int $revenue_share Revenue Share
+	 */
+	public function SetRevenueShare($revenue_share)
+	{
+		$this->revenue_share = $revenue_share;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets the Cost Per Complete
+	 *
+	 * @param string $cost_per_complete Cost Per Complete
+	 */
+	public function SetCostPerComplete($cost_per_complete)
+	{
+		$this->cost_per_complete = $cost_per_complete;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Start Date
+	 *
+	 * @param string $conversion_rate Conversion Rate
+	 */
+	public function SetConversionRate($conversion_rate)
+	{
+		$this->conversion_rate = $conversion_rate;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Cost Per Acquisition
+	 * 
+	 * @param string $cost_per_acquisition Cost Per Acquisition
+	 */
+	public function SetCostPerAcquisition($cost_per_acquisition)
+	{
+		$this->cost_per_acquisition = $cost_per_acquisition;
+		
+		$this->MarkDirty();
+	}		
+	
+	/**	
+	 * Set Status
+	 *
+	 * @param string $status Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status = $status;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Get Campaign Comments
+	 * 
+	 */
+	public function GetCampaignRatingComments()
+	{
+		if(is_null($this->comments)) 
+		{
+			$this->comments	= Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Recruiter_CampaignComments')->FindByCommentType($this->account_recruiter_campaign_id, ACCOUNT_RECRUITER_COMMENT_TYPE_RATING);
+		}
+		
+		if($this->comments->count() > 0) {
+			return $this->comments;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Get Account
+	 * 
+	 */
+	public function GetAccount()
+	{
+		if(is_null($this->account)) {
+			$this->account	= Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->account_id);
+		}
+		
+		return $this->account;
+	}
+	
+	/**
+	 * Get Campaign Pricing Comment
+	 * 
+	 */
+	public function GetPricingComment()
+	{ 
+		if(is_null($this->pricing_comment)) 
+		{ 		
+			$this->pricing_comment	= Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Recruiter_CampaignComment')->FindByCommentType($this->account_recruiter_campaign_id, ACCOUNT_RECRUITER_COMMENT_TYPE_PRICING);			
+		}
+		
+		if($this->pricing_comment) {
+			return $this->pricing_comment;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Get Comment Description
+	 * 
+	 */
+	public function GetCommentDescription()
+	{
+		if($this->GetPricingComment()) 
+		{
+			return $this->GetPricingComment()->GetComment();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Set Campaign Pricing comment
+	 * 
+	 */
+	public function SetPricingComment($comment)
+	{	
+		if($this->GetPricingComment()) 
+		{			
+			$this->GetPricingComment()->SetComment($comment);
+		}
+		else 
+		{			
+			$pricing_comment = new Hb_App_Account_Recruiter_CampaignComment(null, $this->account_recruiter_campaign_id, ACCOUNT_RECRUITER_COMMENT_TYPE_PRICING, $comment);
+		}
+
+	}
+}	
+?>

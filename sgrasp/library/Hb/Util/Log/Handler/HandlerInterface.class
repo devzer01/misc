@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Log Handler Interface
+ *
+ * @package  Util
+ * @subpackage  Log
+ * @name  Interface 
+ */
+
+interface  Hb_Util_Log_Handler_HandlerInterface 
+{
+	public function Handle($str);
+}
+
+?>

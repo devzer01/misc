@@ -1,0 +1,149 @@
+<?php
+/**
+ * Domain Object for Study Quota On Respond Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyQuotaOnResponseLog extends Hb_App_Object
+{
+	/**
+	 * Study quota on response date
+	 *
+	 * @var string
+	 **/
+	protected $study_quota_on_response_date = null;
+
+	/**
+	 * Study quota on response id
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_on_response_id = null;
+
+	/**
+	 * Study quota on response log id
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_on_response_log_id = null;
+
+	/**
+	 * Study quota progress
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_progress = null;
+
+	/**
+	 * Create StudyQuotaOnResponseLog Object
+	 *
+	 * @param int $id Study quota on response id
+	 * @param int $study_quota_on_response_id Study quota on response id
+	 * @param string $study_quota_on_response_date Study quota on response date
+	 * @param int $study_quota_progress Study quota progress
+	 */
+	function __construct($id = null,
+  							   $study_quota_on_response_id = null,
+  							   $study_quota_on_response_date = null, 
+  							   $study_quota_progress = null )
+	{
+		$this->study_quota_on_response_log_id 	= $id;
+		$this->study_quota_on_response_id 		= $study_quota_on_response_id;
+		$this->study_quota_on_response_date 	= $study_quota_on_response_date;
+		$this->study_quota_progress				= $study_quota_progress;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Study quota on response date
+ 	* 
+	* @return String The Study quota on response date
+	**/
+	public function GetStudyQuotaOnResponseDate()
+	{
+		return $this->study_quota_on_response_date;
+	}
+
+	/**
+	* Returns the Study quota on response id
+ 	* 
+	* @return int The Study quota on response id
+	**/
+	public function GetStudyQuotaOnResponseId()
+	{
+		return $this->study_quota_on_response_id;
+	}
+
+	/**
+	* Returns the Study quota on response log id
+ 	* 
+	* @return int The Study quota on response log id
+	**/
+	public function GetStudyQuotaOnResponseLogId()
+	{
+		return $this->study_quota_on_response_log_id;
+	}
+
+	/**
+	* Returns the Study quota progress
+ 	* 
+	* @return int The Study quota progress
+	**/
+	public function GetStudyQuotaProgress()
+	{
+		return $this->study_quota_progress;
+	}
+
+	/**
+	 * Sets the Study quota on response date
+ 	 * 
+	 * @param string $study_quota_on_response_date Study quota on response date
+	 */
+	public function SetStudyQuotaOnResponseDate($study_quota_on_response_date)
+	{
+		$this->study_quota_on_response_date = $study_quota_on_response_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quota on response id
+ 	 * 
+	 * @param int $study_quota_on_response_id Study quota on response id
+	 */
+	public function SetStudyQuotaOnResponseId($study_quota_on_response_id)
+	{
+		$this->study_quota_on_response_id = $study_quota_on_response_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quota on response log id
+ 	 * 
+	 * @param int $study_quota_on_response_log_id Study quota on response log id
+	 */
+	public function SetStudyQuotaOnResponseLogId($study_quota_on_response_log_id)
+	{
+		$this->study_quota_on_response_log_id = $study_quota_on_response_log_id;
+		$this->__id = (int) $study_quota_on_response_log_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quota progress
+ 	 * 
+	 * @param int $study_quota_progress Study quota progress
+	 */
+	public function SetStudyQuotaProgress($study_quota_progress)
+	{
+		$this->study_quota_progress = $study_quota_progress;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,121 @@
+<?php
+/**
+ * Domain Object for StudyProduct
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyProduct extends Hb_App_Object
+{
+	/**
+	 * Study Product Id
+	 *
+	 * @var int
+	 */
+	protected $study_product_id = null;
+
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+
+	/**
+	 * Product Id
+	 *
+	 * @var int
+	 */
+	protected $product_id = null;
+	
+	/**
+	 * Create StudyProoduct Object
+	 * 
+	 * @param int $id study Product Id
+	 * @param int $product_id Product Id
+	 * @param int $study_id Study Id
+	 */
+	function __construct($id 				= null, 
+								$study_id		= null,							
+								$product_id		= null)
+	{
+		$this->study_product_id 	= $id;
+		$this->study_id 				= $study_id;
+		$this->product_id				= $product_id;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Study Product Id
+	 *
+	 * @return int Study Product Id
+	 */
+	public function GetStudyProductId()
+	{
+		return $this->study_product_id;
+	}
+	
+	/**
+	 * Returns the Product Id
+	 *
+	 * @return int Product Id
+	 */
+	public function GetProductId()
+	{
+		return $this->product_id;
+	}
+
+	/**
+	 * Returns the Study Id
+	 *
+	 * @return int Study Id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Sets the Study Product Id
+	 * 
+	 * @param int $study_product_id Study Product Id
+	 */
+	public function SetStudyProductId($study_product_id)
+	{
+		$this->study_product_id = $study_product_id;
+		
+		$this->__id =  $study_product_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Product Id
+	 * 
+	 * @param int $product_id Product Id
+	 */
+	public function SetProductId($product_id)
+	{
+		$this->product_id = $product_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Id
+	 * 
+	 * @param int $study_id Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,66 @@
+<?php
+/**
+ * Mapper Object for Recruiter CampaignDemographics
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_CampaignDemographics extends Hb_Mapper_Account_Recruiter_CampaignDemographic
+{
+	/**
+	 * Find the CampaignDemographics
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_recruiter_campaign_demographic_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Find the all Demographic Types for Account Id
+	 *
+	 * @return Row Object
+	 */	
+	public function FindByAccountId($id)
+	{
+		$result = $this->doFindByAccountId($id);
+		return $this->BuildCollection($result, 'Hb_App_Account_Recruiter_DemographicTypes');
+	}
+	
+	protected function doFindByAccountId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);
+		$select->where('status = ? ', 'A');
+			
+		return $this->getRows($select);
+	}
+	
+	
+	/**
+	 * Build the Collection class of campaigns
+	 *
+	 * @param Row Object $rows
+	 * @return 
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_Recruiter_CampaignDemographics');
+	}
+	/**
+	 * 
+	 * @param obj
+	 */
+	function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

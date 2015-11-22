@@ -1,0 +1,151 @@
+<?php
+/**
+ * Domain Object for Project User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */
+class Hb_App_Project_ProjectUser extends Hb_App_Object
+{
+	/**
+	 * Project Id
+	 * 
+	 * @var int
+	 */
+	protected $project_id = null;
+	
+	/**
+	 * Project User Id
+	 * 
+	 * @var int
+	 */	
+	protected $project_user_id = null;
+	
+	/**
+	 * User Role Id
+	 * 
+	 * @var int
+	 */		
+	protected $role_id = null;
+
+	/**
+	 * User Id
+	 * 
+	 * @var int
+	 */		
+	protected $user_id = null;
+	/**
+	 * Create a ProjectUser Object
+	 * 
+	 * @param int $id Project id
+	 * @param int $project_user_id Project User Id
+	 * @param int $role_id User Role Id
+	 * @param int $user_id User Id
+	 */
+	function __construct(
+							$id = null ,
+						 	$project_id = null , 
+						 	$role_id = null , 
+						 	$user_id = null
+						 )
+	{
+
+		$this->project_user_id 	= (int) $id;
+		$this->project_id 		= (int) $project_id;
+		$this->role_id 			= (int) $role_id ;
+		$this->user_id 			= (int) $user_id ;
+		
+	 	parent::__construct($id); 		
+	}
+
+	/**
+	 * Returns the Project Id
+	 *
+	 * @return int Project Id
+	 */
+	public function GetProjectId()
+	{
+		return (int) $this->project_id;
+	}
+
+	/**
+	 * Returns the Project User Id
+	 *
+	 * @return int Project User Id
+	 */
+	public function GetProjectUserId()
+	{
+		return (int) $this->project_user_id;
+	}
+	
+	/**
+	 * Returns the User Role Id
+	 *
+	 * @return int User Role Id
+	 */
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * Returns the User Id
+	 *
+	 * @return int User Id
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Sets the Project Id
+	 * 
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id = (int) $project_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project User Id
+	 * 
+	 * @param int $project_user_id Project User Id
+	 */
+	public function SetProjectUserId($project_user_id)
+	{
+		$this->project_user_id = (int) $project_user_id;
+		$this->__id = (int) $project_user_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User Role Id
+	 * 
+	 * @param int $role_id User Role Id
+	 */
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = (int) $role_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User Id
+	 * 
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = (int) $user_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

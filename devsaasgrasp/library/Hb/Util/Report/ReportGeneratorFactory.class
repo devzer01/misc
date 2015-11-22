@@ -1,0 +1,39 @@
+<?php
+   /**
+    * Report generator factory class
+    * Author : jsadique@gmi-mr.com
+    * Date   : 05/08/2007
+    * 
+    */
+
+  class Hb_Util_Report_ReportGeneratorFactory
+  {
+         
+   	/**
+   	 * Factory method to return the report generator object.
+   	 *
+   	 * @param array $report_type
+   	 * @return object
+   	 */         
+     public static function GetInstance($report_type)
+     {
+        switch (strtoupper($report_type))
+        {
+           case "CSV":
+              return new Hb_Util_Report_CSVReportGenerator();
+              break;
+                            
+           case "HTML":
+              return new Hb_Util_Report_HTMLReportGenerator();
+              break;
+              
+            default:
+                 throw new Exception("Report type ".$report_type." not implemented.");
+        }
+     }
+     
+     
+     
+     
+  }
+?>

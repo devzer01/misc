@@ -1,0 +1,81 @@
+<?php
+
+include_once 'class/Hb/App/Report/ReportInterface.class';
+require_once ('class/Hb/App/Object.class') ;
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @updated 07-Sep-2007 3:35:31 PM
+ * @todo This class should be moved to the service layer -> hb.util.report
+ */
+class Hb_App_Report_DefaultReport
+{
+	/**
+	 * @param Hb_App_Common_ReportPreferenceAbstract
+	 */
+	protected $preference = null;
+	
+	/** 
+	 * @param Hb_App_Common_ReportDefinitionDefault
+	 */
+	protected $report = null;
+
+	/**
+	 * Executes the query
+	 */
+	public function Execute()
+	{
+		$db = Hb_Util_Db_Query::getInstance();
+
+		$rs = $db->q($this->BuildQuery());
+		
+		$data = array();
+		
+		while (($r = $db->getAssoc($rs))) {
+			$data[] = $r;
+		}
+		
+		return $data;
+	}
+	
+	/**
+	 * Builds the query using report object and preference
+	 */
+	protected function BuildQuery()
+	{
+		return $this->report->GetQuery() . $this->preference->GetClause();
+	}
+
+	/**
+	 * Retrive the current user preference object configured
+	 * 
+	 * @return Hb_App_Common_ReportPreferenceAbstract
+	 */
+	public function GetPreference()
+	{
+		return $this->preference;
+	}
+
+	/**
+	 * Configure the report with the user preferences
+	 * 
+	 * @param Hb_App_Common_ReportUserPreference $pref user preference object
+	 */
+	public function SetPreference(Hb_App_Report_ReportPreferenceAbstract  $pref)
+	{
+		$this->preference = $pref;
+	}
+	
+	/**
+	 * Set the report object
+	 */
+	public function SetReport(Hb_App_Report_ReportDefinitionDefault $report)
+	{
+		$this->report = $report;
+	}
+
+}
+
+
+?>

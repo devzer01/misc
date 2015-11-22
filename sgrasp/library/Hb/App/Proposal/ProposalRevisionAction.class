@@ -1,0 +1,276 @@
+<?php
+/**
+ * Domain Object for Proposal Revision Action
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalRevisionAction extends Hb_App_Object 
+{
+
+	/**
+	 * Action Comment
+	 *
+	 * @var string 
+	 */
+	protected $action_comment = null;
+	
+	/**
+	 * Action Date
+	 *
+	 * @var string 
+	 */
+	protected $action_date = null;
+	
+	/**
+	 * Flag whether is a copy or not
+	 *
+	 * @var int 
+	 */
+	protected $is_copy = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Proposal Action Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_action_id = null;
+	
+	/**
+	 * Proposal Review Group Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_review_group_id = null;
+	
+	/**
+	 * Proposal Revision Action Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_revision_action_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_revision_id = null;
+
+	/**
+	 * Create ProposalRevisionAction Object
+	 *
+	 * @param int $id Proposal revision action id
+	 * @param int $login Login
+	 * @param int $is_copy Flag to check whether is copy or not
+	 * @param string $action_date Action date
+	 * @param string $action_comment Action comment
+	 * @param int $proposal_action_id Proposal action id
+	 * @param int $proposal_revision_id Proposal reviesion id
+	 * @param int $proposal_review_group_id Proposal review group id
+	 */
+	function __construct($id = null,
+								$login = null,
+								$is_copy = null,
+								$action_date = null,
+								$action_comment = null,
+								$proposal_action_id = null,
+								$proposal_revision_id = null,
+								$proposal_review_group_id = null
+								)
+	{
+		$this->login								= $login;
+		$this->is_copy								= $is_copy;
+		$this->action_date						= $action_date;
+		$this->action_comment					= $action_comment;
+		$this->proposal_action_id				= $proposal_action_id;
+		$this->proposal_revision_id			= $proposal_revision_id;
+		$this->proposal_review_group_id		= $proposal_review_group_id;
+		$this->proposal_revision_action_id 	= $id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Action comment for Proposal Revision Action
+	 *
+	 * @return string Action comment
+	 */
+	public function GetActionComment()
+	{
+		return $this->action_comment;
+	}
+	
+	/**
+	 * Return the Action date for Proposal Revision Action
+	 *
+	 * @return string Action date
+	 */
+	public function GetActionDate()
+	{
+		return $this->action_date;
+	}
+	
+
+	/**
+	 * Return the Proposal revision copy status for Proposal Revision Action
+	 *
+	 * @return int Proposal revision copy status
+	 */
+	public function GetIsCopy()
+	{
+		return $this->is_copy;
+	}
+
+	/**
+	 * Return the Login for Proposal Revision Action
+	 *
+	 * @return int Login
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return the Proposal action id for Proposal Revision Action
+	 *
+	 * @return int Proposal action id
+	 */
+	public function GetProposalActionId()
+	{
+		return $this->proposal_action_id;
+	}
+
+	/**
+	 * Return the Proposal review group id for Proposal Revision Action
+	 *
+	 * @return int Proposal review group id
+	 */
+	public function GetProposalReviewGroupId()
+	{
+		return $this->proposal_review_group_id;
+	}
+
+	/**
+	 * Return the Proposal revision action id for Proposal Revision Action
+	 *
+	 * @return int Proposal revision action id
+	 */
+	public function GetProposalRevisionActionId()
+	{
+		return $this->proposal_revision_action_id;
+	}
+
+	/**
+	 * Return the Proposal revision id for Proposal Revision Action
+	 *
+	 * @return int Proposal revision id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Set the Action comment for Proposal Revision Action
+	 * 
+	 * @param string $action_commnet Action comment
+	 */
+	public function SetActionComment($action_commnet)
+	{
+		$this->action_comment = $action_commnet;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Action date for Proposal Revision Action
+	 * 
+	 * @param string $action_date Action date
+	 */
+	public function SetActionDate($action_date)
+	{
+		$this->action_date = $action_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal revision copy status for Proposal Revision Action
+	 * 
+	 * @param int $is_copy Proposal revision copy status
+	 */
+	public function SetIsCopy($is_copy)
+	{
+		$this->is_copy = (int) $is_copy;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Login for Proposal Revision Action
+	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = (int) $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal action id for Proposal Revision Action
+	 * 
+	 * @param int $proposal_action_id Proposal action id
+	 */
+	public function SetProposalActionId($proposal_action_id)
+	{
+		$this->proposal_action_id = (int) $proposal_action_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal review group id for Proposal Revision Action
+	 * 
+	 * @param int $proposal_review_group_id Proposal review group id
+	 */
+	public function SetProposalReviewGroupId($proposal_review_group_id)
+	{
+		$this->proposal_review_group_id = (int)$proposal_review_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal revision action id for Proposal Revision Action
+	 * 
+	 * @param int $proposal_revision_action_id Proposal revision action id
+	 */
+	public function SetProposalRevisionActionId($proposal_revision_action_id)
+	{
+		$this->proposal_revision_action_id 	= (int) $proposal_revision_action_id;
+		$this->__id									= (int) $proposal_revision_action_id; 
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal revision id for Proposal Revision Action
+	 * 
+	 * @param int $proposal_revision_id Proposal revision id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int) $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

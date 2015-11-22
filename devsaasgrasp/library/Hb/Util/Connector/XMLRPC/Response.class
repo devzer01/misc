@@ -1,0 +1,29 @@
+<?php
+
+require_once('XML/RPC.php');
+
+/**
+ * Bridge Class for pear XML_RPC_Response
+ *
+ */
+class Hb_Util_Connector_XMLRPC_Response
+{
+
+	private $__response = null;
+	
+	function __construct($obj)
+	{
+		if ($obj->faultCode()) {
+			throw new Hb_Util_Connector_XMLRPC_Exception("Error In Transmission", -6);
+		}
+		
+		$this->__response = $obj;
+	}
+	
+	function GetResponse()
+	{
+		return XML_RPC_Decode($this->__response->value());
+	}
+}
+
+?>

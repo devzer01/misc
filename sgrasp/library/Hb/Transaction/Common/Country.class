@@ -1,0 +1,21 @@
+<?php
+
+class Hb_Transaction_Common_Country
+{
+	public static function GetList()
+	{
+		$obj = new Hb_Data_Common_List();
+		
+		$list = Hb_Db_MySQL_Common_Country::GetList();
+		
+		foreach ($list as $value) {
+			$obj->AddItem(
+				$value['country_code'],
+				Hb_Data_Common_Country::getInstance($value['country_code'], $value['country_description'])
+			);
+		}
+		
+		return $obj;
+	}
+}
+?>

@@ -1,0 +1,155 @@
+<?php
+/**
+ * Domain Object for Study File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva/ krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyFile extends Hb_App_Object
+{
+	/**
+	 * Study File Id
+	 *
+	 * @var int
+	 */
+	protected $study_file_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+	
+	/**
+	 * File Type Id
+	 *
+	 * @var int
+	 */
+	protected $file_type_id = null;
+
+	/**
+	 * Study file object
+	 * 
+	 * @var Hb_App_Common_File
+	 */		
+	protected $study_file = null;
+	
+	/**
+	 * Creates the Hb_App_Study_StudyFile object
+	 *
+	 * @param int $id
+	 * @param int $study_id
+	 * @param int $file_type_id
+	 * @param Hb_App_Common_File $study_file Study file object
+	 */
+	function __construct(
+								$id				= null,
+								$study_id 		= null,
+								$file_type_id 	= null,
+								Hb_App_Common_File $study_file = null
+								)
+	{
+		$this->study_file_id = $id;
+		$this->study_id 		= $study_id;
+		$this->file_type_id 	= $file_type_id;
+		$this->study_file 	= $study_file;
+
+		if( !is_null($study_file) )
+			$this->study_file->RegisterFileOwner("Hb_App_Study_StudyFile");
+
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns study file id
+	 *
+	 * @return int
+	 */
+	public function GetStudyFileId()
+	{
+		return $this->study_file_id;
+	}
+
+	/**
+	 * Returns study id
+	 *
+	 * @return int
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Returns file type id
+	 *
+	 * @return int
+	 */
+	public function GetFileTypeId()
+	{
+		return $this->file_type_id;
+	}
+
+	/**
+	 * Returns Study File Object
+	 * 
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */					
+	public function GetFile()
+	{			
+		return $this->study_file;								
+	}
+
+	/**
+	 * Sets study file id
+	 * 
+	 * @param int $study_file_id
+	 */
+	public function SetStudyFileId($study_file_id)
+	{
+		$this->study_file_id = $study_file_id;
+		$this->__id = $study_file_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets study id
+	 * 
+	 * @param int $study_id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets file type id
+	 * 
+	 * @param int $file_type_id
+	 */
+	public function SetFileTypeId($file_type_id)
+	{
+		$this->file_type_id = $file_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Study File object
+	 * 
+	 * @param Hb_App_Common_File $study_file Instance of Hb_App_Common_File
+	 */						
+	public function SetFile(Hb_App_Common_File $study_file)
+	{
+		$this->study_file_id = $study_file->GetFileId();
+		$this->__id 			= $study_file->GetFileId();
+		$this->study_file		= $study_file;
+		$this->MarkDirty();
+	}
+}
+?>

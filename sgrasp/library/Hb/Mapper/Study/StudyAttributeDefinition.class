@@ -1,0 +1,105 @@
+<?php
+/**
+ * Mapper for Study Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ */  
+
+class Hb_Mapper_Study_StudyAttributeDefinition extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_attr_def_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_attr_def";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for study_attr_def table
+	 * @return object An instance of the Study Attribute Definition domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+	   return new Hb_App_Study_StudyAttributeDefinition(
+	   									$row->study_attr_def_id,
+	   									$row->study_attr,
+											$row->study_attribute_description,
+	   									$row->attribute_type
+											);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from(array('sd' => 'study_attr_def'), array(
+													'study_attr_def_id', 	
+													'study_attr',
+													'study_attribute_description',
+													'attribute_type',
+														));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Study Attribute Definition by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+
+		$select->where('sd.' . $this->primary_key . ' = ?', $id);				
+    	
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+ 			'study_attr' 						=> $obj->GetAttributeName(),
+			'study_attribute_description'	=> $obj->GetAttributeDescription(),
+			'attribute_type' 					=> $obj->GetAttributeType()
+			);
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key. ' = ' .$obj->GetId());
+		} 
+	}
+}
+?>

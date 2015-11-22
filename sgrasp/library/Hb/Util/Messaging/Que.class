@@ -1,0 +1,51 @@
+<?php
+/**
+ * Message queing class
+ *
+ * @author Nayana
+ * @copyright Global Market Insite 2007
+ * @version 0.1
+ * @package Util
+ * @subpackage Messaging
+ */
+
+class Hb_Util_Messaging_Que
+{
+    /**
+     * 
+     * @param $message_type_id int Message number
+     * @param $msg mixed
+     * @param $rcpt
+     * @param $attr
+     * @param $protocol
+     */
+    public static function QueMessage($message_type_id, $msg, $rcpt, $attr, $protocol = 'v1')
+    {
+        $config = Hb_Util_Config_SystemConfigReader::Read();
+    
+        $cfg['base_dir'] = $config->base_dir;
+        
+        require_once($_SERVER['DOCUMENT_ROOT'].'/include/config.inc');
+        require_once($cfg['base_dir'].'/class/dbConnect.php');
+        require_once($cfg['base_dir'].'/class/dbClass/userDB.class');
+        require_once($cfg['base_dir'].'/class/dbClass/messageDB.class');
+        require_once($cfg['base_dir']."/class/dbClass/commonDB.class");
+        require_once($cfg['base_dir']."/class/rpc/BlackBerryPush.class");
+        require_once($cfg['base_dir']."/common/functions.inc");
+        require_once($config->base_dir .'/app/com/functions.inc');
+        
+        
+        if (isset($attr['partner_id']) && is_numeric($attr['partner_id']) && !isset($attr['account_id'])) {
+   	        $attr['account_id'] = $attr['partner_id'];
+        }
+   
+       if (isset($protocol) && $protocol == 'v2') {
+           return QueueMessageV2($message_type_id, $msg, $rcpt, $attr);
+       }
+
+       return QueueMessage($message_type_id, $msg, $rcpt, $attr);	
+
+    }
+}
+
+?>

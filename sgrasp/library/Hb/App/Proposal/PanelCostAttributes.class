@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Panel Cost Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+
+class Hb_App_Proposal_PanelCostAttributes extends Hb_App_Attributes 
+{	
+
+	/**
+	 * Adds a panel cost attribute to the collection 
+	 *
+	 * @param $attribute obj Instance of panel cost attribute
+	 */	
+	public function AddAttribute(Hb_App_Proposal_PanelCostAttribute $attribute)
+	{		
+		try 
+		{
+			parent::AddAttribute($attribute);
+		}  
+		catch (Hb_Data_ObjectInCollectionException $e)  
+		{
+			throw new Hb_Data_ObjectInCollectionException("Attribute already exists in collection for Panel Cost". $attribute->panel_cost->GetPanelCostId(), HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Returns a instance of panel cost attribute identified by attribute name
+	 *
+	 * @param $name string Attribute name
+	 */		
+	public function GetAttribute($name)
+	{
+		try 
+		{
+			return parent::GetAttribute($name);
+		} 
+		catch (Hb_Data_ObjectNotInCollectionException $e) 
+		{
+			throw new Hb_Data_ObjectNotInCollectionException("Requested attribute not found for Panel Cost " . $attribute->panel_cost->GetPanelCostId(),HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+}
+?>

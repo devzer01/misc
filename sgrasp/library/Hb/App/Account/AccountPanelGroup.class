@@ -1,0 +1,118 @@
+<?php
+/**
+ * Domain Object for Account Panel Group
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountPanelGroup extends Hb_App_Object 
+{
+	/**
+	 * Account panel group description
+	 *
+	 * @var string 
+	 */
+	protected $account_panel_group_description = null;
+	
+	/**
+	 * Account panel group id
+	 *
+	 * @var int 
+	 */
+	protected $account_panel_group_id = null;
+	
+	/**
+	 * Sample type id
+	 *
+	 * @var int 
+	 */
+	protected $sample_type_id = null;
+
+	/**
+		 * Create Account Panel Group Object
+		 *
+		 * @param int $id Account panel group id
+		 * @param int $sample_type_id Sample type id
+		 * @param string $account_panel_group_description Account panel group description
+		 */	
+	function __construct($id 					= null,
+								$sample_type_id 	= null,
+								$account_panel_group_description = null)
+	{
+		$this->sample_type_id						= $sample_type_id;
+		$this->account_panel_group_id				= $id;
+		$this->account_panel_group_description	= $account_panel_group_description;		
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Account panel group descritption for the Account Panel Group
+	 *
+	 * @return string Account panel group descritption
+	 */
+	public function GetAccountPanelGroupDescription()
+	{
+		return $this->account_panel_group_description;
+	}
+
+	/**
+	 * Return the Account panel group id for the Account Panel Group
+	 *
+	 * @return int Account panel group id
+	 */
+	public function GetAccountPanelGroupId()
+	{
+		return $this->account_panel_group_id;
+	}
+
+	/**
+	 * Return the Sample type id for the Account Panel Group
+	 *
+	 * @return int Sample type id
+	 */
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+
+	/**
+	 * Set the Account panel group description for the  Account Panel Group
+	 * 
+	 * @param string $account_panel_group_description Account panel group description
+	 */
+	public function SetAccountPanelGroupDescription($account_panel_group_description)
+	{
+		$this->account_panel_group_description = $account_panel_group_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account panel group id for the  Account Panel Group
+	 * 
+	 * @param int $account_panel_group_id Account panel group id
+	 */
+	public function SetAccountPanelGroupId($account_panel_group_id)
+	{
+		$this->account_panel_group_id = (int) $account_panel_group_id;
+		$this->__id							= (int) $account_panel_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Sample type id for the  Account Panel Group
+	 * 
+	 * @param int $sample_type_id Sample type id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = (int) $sample_type_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

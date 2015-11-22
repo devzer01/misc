@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * Domain Object for Study Event Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+
+class Hb_App_Study_StudyEventLog extends Hb_App_Object
+{
+
+	/**
+	 * Login
+	 *
+	 * @var string
+	 */
+	protected $login = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+	
+	/**
+	 * Study Event Log Id
+	 *
+	 * @var int
+	 */
+	protected $study_event_log_id = null;
+	
+	/**
+	 * Remote Address
+	 *
+	 * @var string
+	 */
+	protected $remote_address = null;
+	
+	/**
+	 * User Agent
+	 *
+	 * @var string
+	 */
+	protected $user_agent = null;
+	
+	/**
+	 * Study Event Id
+	 *
+	 * @var int
+	 */
+	protected $study_event_id = null;
+
+	/**
+	 * Creates the Hb_App_Study_StudyEventLog object
+	 *
+	 * @param int $id
+	 * @param int $study_id
+	 * @param int $study_event_id
+	 * @param string $remote_address
+	 * @param string $login
+	 * @param int $user_agent
+	 */
+	function __construct(
+							$id= null,
+							$study_id = null,
+							$study_event_id = null,
+							$remote_address = null,
+							$login = null,
+							$user_agent = null
+							)
+	{
+		$this->study_event_log_id = $id;
+		$this->study_id = $study_id;
+		$this->study_event_id = $study_event_id;
+		$this->remote_address = $remote_address;
+		$this->login = $login;
+		$this->user_agent = $user_agent;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns login
+	 *
+	 * @return string
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Returns study id
+	 *
+	 * @return int
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Returns study event log id
+	 *
+	 * @return int
+	 */
+	public function GetStudyEventLogId()
+	{
+		return $this->study_event_log_id;
+	}
+
+	/**
+	 * Returns remote address
+	 *
+	 * @return string
+	 */
+	public function GetRemoteAddress()
+	{
+		return $this->remote_address;
+	}
+
+	/**
+	 * Returns user agent
+	 *
+	 * @return int
+	 */
+	public function GetUserAgent()
+	{
+		return $this->user_agent;
+	}
+
+	/**
+	 * Returns study event id
+	 *
+	 * @return int
+	 */
+	public function GetStudyEventId()
+	{
+		return $this->study_event_id;
+	}
+
+	/**
+	 * Sets login
+	 * 
+	 * @param int $login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets study id
+	 * 
+	 * @param int $study_id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets study event log id
+	 * 
+	 * @param int $study_event_log_id
+	 */
+	public function SetStudyEventLogId($study_event_log_id)
+	{
+		$this->study_event_log_id = $study_event_log_id;
+		$this->__id = $study_event_log_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets remote address
+	 * 
+	 * @param string $remote_address
+	 */
+	public function SetRemoteAddress($remote_address)
+	{
+		$this->remote_address = $remote_address;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets user agent
+	 * 
+	 * @param string $user_agent
+	 */
+	public function SetUserAgent($user_agent)
+	{
+		$this->user_agent = $user_agent;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets study event id
+	 * 
+	 * @param int $study_event_id
+	 */
+	public function SetStudyEventId($study_event_id)
+	{
+		$this->study_event_id = $study_event_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

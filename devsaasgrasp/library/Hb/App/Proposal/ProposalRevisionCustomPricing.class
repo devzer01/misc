@@ -1,0 +1,177 @@
+<?php 
+/**
+ * Domain Object for Proposal Revision Custom Pricing
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+
+class Hb_App_Proposal_ProposalRevisionCustomPricing extends Hb_App_Object 
+{
+	/**
+	 * Proposal Revision Custom Pricing Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_custom_pricing_id = null;
+
+	/**
+	 * Proposal Revision Option Id 
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_option_id = null;
+	
+	/**
+	 * Group Id of the Pricing Item
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_group_id = null;
+
+	/**
+	 * Price Value
+	 * 
+	 * @var float
+	 */
+	protected $amount = null;
+	
+	
+	/**
+	* Contructor of the ProposalRevisionCustomPricing domain
+	* 
+	* @author ddayananda
+	* @param int $id Proposal Revision Custom Pricing Id
+	* @param int $proposal_revision_option_id Proposal Revision Option Id
+	* @param int $pricing_item_group_id Id of Pricing Item Group
+	* @param string amount Price Value	
+	*/		
+	function __construct(	$id = null,	
+							$proposal_revision_option_id = null,
+							$pricing_item_group_id = null,
+							$amount = null )
+	{		 					
+		
+		$this->proposal_revision_custom_pricing_id =  $id;
+		$this->proposal_revision_option_id = $proposal_revision_option_id;
+		$this->pricing_item_group_id =  $pricing_item_group_id ;		
+		$this->amount = $amount;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Proposal Revision Custom Pricing Id
+	 *
+	 * @author ddayananda
+	 * @return int $proposal_revision_custom_pricing_id Proposal Revision Custom Pricing Id
+	 */
+	public function GetProposalRevisionCustomPricingId()
+	{
+		return $this->proposal_revision_custom_pricing_id;
+	}
+
+	
+	/**
+	 * Get Proposal Revision Option Id
+	 *
+	 * @author ddayananda
+	 * @return int $proposal_revision_option_id Proposal Revision Option Id
+	 */
+	public function GetProposalRevisionOptionId()	
+	{
+		return $this->proposal_revision_option_id;
+	}
+
+	
+	/**	
+	 * Get Pricing Item Group Id
+	 *
+	 * @author ddayananda
+	 * @return int $pricing_item_group_id The Group Id the Pricing Item Belongs to	
+	 */
+	public function GetProposaPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	
+	/**
+	 * Get Value of the Custom Pricing	 
+	 *
+	 * @author ddayananda
+	 * @return float $amount Value of the Custom Pricing	 
+	 * 
+     */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}	
+
+	
+	/**
+	 * Sets the Proposal Revision Custom Pricing Id
+	 * 
+	 * @author ddayananda
+	 * @param int $proposal_revision_custom_pricing_id Proposal Revision Custom Pricing Id
+	 */
+	public function SetProposalRevisionCustomPricingId($proposal_revision_custom_pricing_id)
+	{
+		$this->proposal_revision_custom_pricing_id = (int) $proposal_revision_custom_pricing_id;
+
+		$this->__id = (int) $proposal_revision_custom_pricing_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Proposal Revision Option Id
+	 * 
+	 * @author ddayananda
+	 * @param int $proposal_revision_option_id Proposal Revision Option Id
+	 */
+	public function SetProposalRevisionOptionId($proposal_revision_option_id)
+	{
+		$this->proposal_revision_option_id = (int) $proposal_revision_option_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Proposal Pricing Item Group Id
+	 * 
+	 * @author ddayananda
+	 * @param int $pricing_item_group_id The Group Id the Pricing Item Belongs to
+	 */
+	public function SetProposalPricingItemGroupId($pricing_item_group_id)
+	{
+		$this->pricing_item_group_id = (int) $pricing_item_group_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Amount
+	 * 
+	 * @author ddayananda
+	 * @param float $amount Value of the Custom Price
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = (float) $amount;
+		
+		$this->MarkDirty();
+	}
+
+}	
+	
+
+	
+?>

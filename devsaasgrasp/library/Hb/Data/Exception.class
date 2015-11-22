@@ -1,0 +1,11 @@
+<?php
+
+define('HB_DATA_EXCEPTION_ATTR_IN_COLLECTION', 100);
+define('HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION', 200);
+define('HB_DATA_EXCEPTION_UNKOWN', -1);
+
+class Hb_Data_Exception extends Hb_Exception 
+{
+	
+}
+?>

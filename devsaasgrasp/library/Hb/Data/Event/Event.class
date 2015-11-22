@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * A Data Object to Hold Event Information
+ *
+ * @package Data
+ * @subpackage  Event
+ */
+class Hb_Data_Event_Event
+{
+	protected $type;
+	
+	protected $name;
+	
+	protected $description;
+	
+	protected $environment;
+	
+	public function __construct($type, $name, $description)
+	{
+		$this->type              = $type;
+		$this->name            = $name;
+		$this->description = $description;
+	}
+	
+	public function GetType()
+	{
+		return Hb_Data_Event_EventType::GetEventType($this->type);
+	}
+	
+	public function GetName()
+	{
+		return $this->name;
+	}
+	
+	public function GetDescription()
+	{
+		return $this->description;
+	}
+	
+	public function GetEnvironment()
+	{
+		return $this->environment;
+	}
+}
+?>

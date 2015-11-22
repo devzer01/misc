@@ -1,0 +1,7 @@
+<?php
+
+interface Hb_Util_View_PageInterface 
+{
+	public function Render();	
+}
+?>

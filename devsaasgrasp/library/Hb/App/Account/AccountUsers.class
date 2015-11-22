@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * An Account Users Collection, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountUsers extends Hb_App_Collection 
+{
+	/**
+	 * Enter description here...
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected $account  = null;
+	
+	protected $rolemap  = array();
+	
+	/**
+	 * Sets the account object
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account = $account;
+	}
+		
+	/**
+	 * Overwritten Collection add functionality to Maintain Owership association
+	 *
+	 * @param Hb_App_Account_AccountUser $user
+	 */
+	public function AddItem(Hb_App_Account_AccountUser $user)
+	{
+		$this->rolemap[ $user->GetRoleId() ][] = $user->GetId();
+		parent::AddItem($user);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $role
+	 * @return Hb_App_Account_AccountUser
+	 */
+	public function GetByRole($role)
+	{
+		$ids = $this->rolemap[$role];
+		
+		if (count($ids) == 1) {
+			return $this->GetItem($ids[0]);
+		}
+		
+		foreach ($ids as $id) {
+			$users[] = $this->GetItem($id);
+		}
+		
+		return $users;
+		
+	}
+}
+?>

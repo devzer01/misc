@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * An Account Contacts Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountContacts extends Hb_App_Collection 
+{
+	/**
+	 * Account Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_id = null;
+	
+	/**
+	 * Add Account Contacts
+	 *
+	 * @param Hb_App_Account_AccountContact $contact Account Contact
+	 */ 
+	public function AddItem(Hb_App_Account_AccountContact $contact)
+	{
+		$this->account_id = $contact->GetAccountId();
+		parent::AddItem($contact);
+	}
+}
+?>

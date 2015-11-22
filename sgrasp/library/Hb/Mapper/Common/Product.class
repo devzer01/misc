@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @author svithanapathirana
+ * @version 1.0
+ * @created 19-Jul-2007 1:39:00 PM
+ */
+class Hb_Mapper_Common_Product extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'product_id';
+	
+	protected $table       = 'product';
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{ 
+		$select = $this->GetBaseSelect();
+		$select->where('product_id = ?', $id);
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{ 
+		return Hb_App_Common_ProductFactory::factory($row->product_id, $row->product_description, $row->vendor_id);
+	}
+
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('product', array('product_id', 'product_description', 'vendor_id'));
+
+		return $select;
+	}
+	
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+}
+?>

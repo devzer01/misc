@@ -1,0 +1,41 @@
+<?php
+/**
+ * Domain object for the Billing Report Setting
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */ 
+
+class Hb_App_Billing_BillingReportSetting extends Hb_App_Common_Setting
+{
+	/**
+	 * Creates Billing Report Setting Object 
+	 *
+	 * @param int $id Billing Report Setting Id
+	 * @param string $setting_name Billing Report Setting Name
+	 * @param string $setting_value Billing Report Setting Value
+	 * @param string $setting_description Billing Report Setting Description
+	 */
+	function __construct(
+								$id 						= null,
+								$setting_name 			= null,
+								$setting_value 		= null,
+								$setting_description = null
+								)
+	{
+   	parent::__construct($id, $setting_name, $setting_value, $setting_description );
+	}
+	
+	
+	
+	public static function GetSetting($setting_name)
+	{				
+		$mapper = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportSetting');
+		return $mapper->Find($setting_name)->GetSettingValue();
+	}
+	
+}
+?>

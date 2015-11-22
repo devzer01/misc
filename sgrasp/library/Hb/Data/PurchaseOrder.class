@@ -1,0 +1,6 @@
+<?php
+abstract class Hb_Data_PurchaseOrder
+{
+	public $name;	
+}
+?>

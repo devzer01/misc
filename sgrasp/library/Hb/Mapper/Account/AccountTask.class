@@ -1,0 +1,107 @@
+<?php 
+/**
+ * Mapper Object for Account Task
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_AccountTask extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key  = 'account_task_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var sring 
+	 */
+	protected $table = 'account_task';
+	
+	/**
+	 * Builds and returns the Account Task domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the account_task table
+	 * @return object An instance of the Account Task domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountTask($row->account_task_id,
+														  $row->account_id,
+														  $row->task_comment,
+														  $row->task_date,
+														  $row->task_location,
+														  $row->task_subject
+														  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 	$db 		= Hb_Util_Db_Connection::GetInstance();
+	 	$select 	= $db->select();
+	 	
+	 	$select->from(array('at' => $this->table), array('account_task_id',
+															     		 'account_id',
+																		 'task_subject',
+																		 'task_location',
+																		 'task_comment',
+																		 'task_date')
+									 );									 
+		return $select;
+	}
+	
+	/**
+	 * Finds a Account Task by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the account_task table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+	 	$select->where('at.'. $this->primary_key. '= ?', $id);
+	 	
+	 	return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Account Task domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Account_AccountTask */
+	 	
+	 	$data = array(
+	 		'account_id'		=> $obj->GetAccountId(),
+	 		'task_subject'		=> $obj->GetTaskSubject(),
+	 		'task_location'	=> $obj->GetTaskLocation(),
+	 		'task_comment'		=> $obj->GetTaskComment(),
+	 		'task_date'			=> $obj->GetTaskDate()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetAccountTaskId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '='. $obj->GetId());
+	 	}
+	}
+}
+
+?>

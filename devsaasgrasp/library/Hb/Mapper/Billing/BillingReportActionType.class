@@ -1,0 +1,93 @@
+<?php 
+/**
+ * Mapper class of Billing Report Action Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Billing
+ */  
+class Hb_Mapper_Billing_BillingReportActionType extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Billing_BillingReportActionType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'armc_action_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'armc_action_type';
+   
+   /**
+    * Find by id
+    *
+    * @param int $id Billing Report Action Type Id
+    * @return Hb_App_Billing_BillingReportActionType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('aat.armc_action_type_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('aat' => 'armc_action_type'), array('armc_action_type_id', 'armc_action_type_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Billing_BillingReportActionType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Billing_BillingReportActionType($row->armc_action_type_id, $row->armc_action_type_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Billing_BillingReportActionType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array('armc_action_type_description'	=> $obj->GetTypeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('armc_action_type', $data);
+			$obj->SetTypeId($db->lastInsertId());
+	  	} else {
+			$db->update('armc_action_type', $data, 'armc_action_type_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

@@ -1,0 +1,100 @@
+<?php 
+/**
+ * Mapper Object for Pricing Item Rule
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_PricingItemRule extends Hb_Mapper_Mapper 
+{
+	/**
+	 * primary key
+	 *
+	 * @var sting 
+	 */
+	protected $primary_key = 'pricing_item_rule_id';
+	
+	/**
+	 * table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'pricing_item_rule';	
+	
+	/**
+	 * Builds and returns the Pricing Item Rule domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the pricing_item_rule table
+	 * @return Hb_App_Proposal_PricingItemRule An instance of the Pricing Item Rule domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PricingItemRule($row->pricing_item_rule_id, 
+																 $row->amount,
+																 $row->rule_condition,
+																 $row->license_level_pricing_item_id
+																 );
+	}		
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+		
+		$select->from(array('pir' => 'pricing_item_rule'), array('pricing_item_rule_id',
+																					'license_level_pricing_item_id',
+																					'rule_condition',
+																					'amount')
+									 );
+		return $select;
+	}		
+	
+	/**
+	 * Finds a Pricing Item Rule by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the pricing_item_rule table
+	 */	
+	protected function doFindById($id)
+	{
+		$select 	= $this->GetBaseSelect();
+		$select->where('pricing_item_rule_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Pricing Item Rule domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		/* @var $obj Hb_App_Proposal_PricingItemRule */
+		
+		$data = array(
+			'license_level_pricing_item_id'	=> $obj->GetLicenseLevelPricingItemId(),
+			'rule_condition'						=> $obj->GetRuleCondition(),
+			'amount'									=> $obj->GetAmount()
+		);
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		if(is_null($obj->GetId())) {
+			$db->insert('pricing_item_rule', $data);
+			$obj->SetPricingItemRuleId($db->lastInsertId());
+		}else {
+			$db->update('pricing_item_rule', $data, 'pricing_item_rule_id = '. $obj->GetId());
+		}
+	}	
+}
+?>

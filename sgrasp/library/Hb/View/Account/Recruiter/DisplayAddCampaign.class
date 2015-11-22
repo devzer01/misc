@@ -1,0 +1,24 @@
+<?php
+
+require_once ('class/Hb/Util/View/View.class') ;
+
+class Hb_View_Account_Recruiter_DisplayAddCampaign extends Hb_Util_View_View {
+	
+	protected  $__template_name = 'app/acm/recruiter/vw_add_recruiter_campaign_details.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $account 	= null;
+	
+	protected function LoadData () 
+	{			
+		$this->SetData('account', $this->account);		
+			}
+	
+	public function SetAccount($account)
+	{
+		$this->account	= $account;
+	}	
+}
+
+?>

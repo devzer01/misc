@@ -1,0 +1,153 @@
+<?php
+/**
+ * Domain Object for User Product
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */
+ 
+class Hb_App_User_UserProduct extends Hb_App_Object
+{
+
+	/**
+	 * Identifier
+	 *
+	 * @var string
+	 **/
+	protected $identifier = null;
+
+
+	/**
+	 * Product id
+	 *
+	 * @var int
+	 **/
+	protected $product_id = null;
+
+
+	/**
+	 * User id
+	 *
+	 * @var int
+	 **/
+	protected $user_id = null;
+	
+
+	/**
+	 * User product id
+	 *
+	 * @var int
+	 **/
+	protected $user_product_id = null;
+
+	/**
+	 * Create UserProduct Object
+	 *
+	 * @param int $id User product id
+	 * @param int $user_id User id
+	 * @param int $product_id Product id
+	 * @param string $identifier Identifier
+	 */
+	function __construct($id = null,
+  							   $user_id = null,
+  							   $product_id = null,
+  							   $identifier = null )
+	{
+		$this->user_product_id 	= $id;
+		$this->user_id 			= $user_id;
+		$this->product_id 		= $product_id;
+		$this->identifier 		= $identifier;				
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Identifier
+ 	* 
+	* @return string Identifier
+	**/
+	public function GetIdentifier()
+	{
+		return $this->identifier;
+	}
+
+	/**
+	* Returns the Product id
+ 	* 
+	* @return int Product id
+	**/	
+	public function GetProductId()
+	{
+		return $this->product_id;
+	}
+
+	/**
+	* Returns the User id
+ 	* 
+	* @return int User id
+	**/	
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	* Returns the User product id
+ 	* 
+	* @return int User product id
+	**/	
+	public function GetUserProductId()
+	{
+		return $this->user_product_id;
+	}
+
+	/**
+	 * Sets the Identifier
+ 	 * 
+	 * @param string $identifier Identifier
+	 */
+	public function SetIdentifier($identifier)
+	{
+		$this->identifier = $identifier;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Product id
+ 	 * 
+	 * @param int $product_id Product id
+	 */
+	public function SetProductId($product_id)
+	{
+		$this->product_id = $product_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User id
+ 	 * 
+	 * @param int $user_id User id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User product id
+ 	 * 
+	 * @param int $user_product_id User product id
+	 */
+	public function SetUserProductId($user_product_id)
+	{
+		$this->user_product_id 	= $user_product_id;
+		$this->__id 				= $user_product_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

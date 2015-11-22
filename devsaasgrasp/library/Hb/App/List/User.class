@@ -1,0 +1,30 @@
+<?php
+
+require_once ('class/Hb/App/List/Item.class') ;
+require_once ('class/Hb/App/Object.class') ;
+
+class Hb_App_List_User extends Hb_App_List_Item 
+{
+	protected $user = null;
+	
+	protected $user_id = null;
+	
+	public function __construct($key, $value, $id)
+	{
+		parent::__construct($key, $value);
+		$this->user_id = $id;
+	}
+	
+	public function GetUser()
+	{
+		if (is_null($this->user))
+		{
+			$this->user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->Find($this->user_id);
+		}
+		
+		return $this->user;
+	}
+
+}
+
+?>

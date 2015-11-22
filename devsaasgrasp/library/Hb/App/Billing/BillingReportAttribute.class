@@ -1,0 +1,123 @@
+<?php 
+/**
+ * Domain Object for Billing Report Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Billing Report instance
+	 *
+	 * @var HB_App_Billing_BillingReport 
+	 */
+	protected $billing_report = null;
+	
+	/**
+	 * Billing Report Id
+	 *
+	 * @var int 
+	 */
+	protected $billing_report_id	= null;
+	
+	/**
+	 * Create Billing Report Attribute Object
+	 *
+	 * @param int $id Billing report attribute id
+	 * @param int $billing_report_id Billing report id
+	 * @param string $name Billing report attribute name
+	 * @param string $value Billing report attribute value
+	 */
+	function __construct($id 						= null,
+								$billing_report_id 	= null,
+								$name						= null,
+								$value 					= null
+								)
+	{
+		$this->billing_report_id = $billing_report_id;
+
+		parent::__construct($id, $name, $value);	
+	}
+	
+	/**
+	 * Set the Billing report attribute id for the  Billing Report Attribute
+	 * 
+	 * @param int $billing_report_attribute_id Billing report attribute id
+	 */
+	public function SetBillingReportAttributeId($billing_report_attribute_id)
+	{
+		$this->__id	= $billing_report_attribute_id;
+	}
+	
+	/**
+	 * Set the Billing Report for the  Billing Report Attribute
+	 * 
+	 * @param HB_App_Billing_BiilingReport $billing_report Billing Report
+	 */
+	public function SetBillingReport(Hb_App_Billing_BillingReport $billing_report)
+	{
+		$this->billing_report		= $billing_report;
+		$this->billing_report_id	= $billing_report->GetBillingReportId();
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Billing report object for the Billing Report Attribute
+	 *
+	 * @return HB_App_Billing_BiilingReport Billing report object
+	 */
+	protected function doGetBillingReport()
+	{
+		if(is_null($this->billing_report)) {
+			if(is_null($this->billing_report_id))
+				throw new Hb_App_Billing_Exception_BillingReportNotFoundException();				
+			
+			$this->billing_report = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReport')->Find($this->billing_report_id);
+		}
+		
+		return $this->billing_report;
+	}
+	
+	/**
+	 * Return the Billing Report id for the Billing Report Attribute
+	 *
+	 * @return int Billing Report id
+	 */
+	public function GetBillingReportId()
+	{
+		if(is_null($this->billing_report_id)) {
+			$this->billing_report_id	= $this->doGetBillingReport()->GetBillingReportId();
+		}
+		return $this->billing_report_id;
+	}
+	
+	/**
+	 * Return the Billing Report instance for the Billing Report Attribute
+	 *
+	 * @return HB_App_Billing_BiilingReport Billing Report instance
+	 */
+	public function GetBillingReport()
+	{
+		return $this->doGetBillingReport();
+	}
+	
+	/**
+	 * Set the Billing Report Id for the  Billing Report Attribute
+	 * 
+	 * @param int $billing_report_id Billing Report Id
+	 */
+	public function SetBillingReportId($billing_report_id)
+	{
+		$this->billing_report_id	= $billing_report_id;
+		$this->MarkDirty();
+	}
+	
+	
+}
+
+?>

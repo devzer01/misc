@@ -1,0 +1,105 @@
+<?php 
+require_once('class/Hb/Util/Db/Query.class');
+
+/**
+ * Mapper Object for Account Panel cost Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_AccountPanelCostAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'partner_panel_cost_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'partner_panel_cost_attr';
+	
+	/**
+	 * Builds and returns the Account Panel cost Attribute domain object for this mapper
+	 *
+	 * @param $row object Result row from the Zend_Db framework for the partner_panel_cost_attr
+	 * @return Hb_App_Account_AccountPanelCostAttribute An instance of the Account Panel cost Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountPanelCostAttribute($row->partner_panel_cost_attr_id,
+																			 $row->partner_panel_cost_attr_name,
+																			 $row->partner_panel_cost_attr_value
+																			);
+																			
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+		
+		$select->from(array('ppca'	=> 'partner_panel_cost_attr'), array('partner_panel_cost_attr_id', 
+																	  						 'partner_panel_cost_id', 
+																	  						 'partner_panel_cost_attr_name', 
+																	  						 'partner_panel_cost_attr_value')
+						 );
+		
+		return $select;		
+	}
+	
+	/**
+	 * Finds a proposal user by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return object Result rows from the Zend_Db framework 
+	 */	
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('ppca.partner_panel_cost_attr_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj  object Instance of the Account Panel Cost Attribute 
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{			
+		$db = Hb_Util_Db_Query::getInstance();
+		
+		if(is_null($obj->GetId())) {			
+			//insert data
+			$q = "INSERT INTO partner_panel_cost_attr(partner_panel_cost_id, partner_panel_cost_attr_name, partner_panel_cost_attr_value) "
+					. "VALUES(". $obj->GetAccountPanelCost()->GetAccountPanelCostId() .", '". $db->escapeString($obj->GetAttributeName()) ."', '"
+					. $db->escapeString($obj->GetAttributeValue()) ."')";
+			
+			$db->q($q);
+			
+			$obj->SetAccountPanelCostAttrId($db->getLastInsertId());		
+		}else {			
+			//update data
+			$q = "UPDATE partner_panel_cost_attr SET partner_panel_cost_attr_value ='". $db->escapeString($obj->GetAttributeValue()) ."' "
+					. "WHERE partner_panel_cost_attr_id =". $obj->GetId(); 					
+
+			$db->q($q);						
+		}		
+	}	
+}
+?>

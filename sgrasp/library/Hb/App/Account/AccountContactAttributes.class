@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * Specialized Account Contact Attributes Collection 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+class Hb_App_Account_AccountContactAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Domain Object of Account
+	 *
+	 * @var Hb_App_Account_AccountContact 
+	 */ 
+	protected $account_contact = null;
+	
+	/**
+	 * Account Contact Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_contact_id = null;
+	
+	/**
+	 * Adds attributes into the collection
+	 *
+	 * @param Hb_App_Account_AccountContactAttribute $attribute Object of Account Contact Attribute
+	 * @throws Hb_Data_ObjectInCollectionException
+	 */ 
+	public function AddAttribute(Hb_App_Account_AccountContactAttribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		}  catch (Hb_Data_ObjectInCollectionException $e)  {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Account Contact ". $this->account_contact_id, 
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Returns Hb_Data_Attribute object
+	 *
+	 * @param string $name Attribute Name
+	 * @return Hb_Data_Attribute
+	 * @throws Hb_Data_ObjectNotInCollectionException
+	 */ 
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Account Contact " . $this->account_contact_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Adds Account Contact
+	 *
+	 * @param Hb_App_Account_AccountContact $account_contact Account domain object 
+	 */ 
+	function AddAccountContact(Hb_App_Account_AccountContact $account_contact) 
+	{ 
+		$this->account_contact		= $account_contact;
+		$this->account_contact_id	= $account_contact->GetId();
+	}
+}
+?>

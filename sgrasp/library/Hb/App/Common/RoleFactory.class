@@ -1,0 +1,29 @@
+<?php
+class Hb_App_Common_RoleFactory 
+{
+	const ROLE_ACCOUNT_EXECUTIVE = 13;
+	
+	const ROLE_ACCOUNT_MANAGER   = 12;
+	
+	const ROLE_PRIMARY_ACCT_EXEC = 4;
+	
+	const ROLE_PRIMARY_ACCT_MGR  = 1;
+	
+	public static function factory($id, $description)
+	{
+		switch ($id) 
+		{
+			case self::ROLE_ACCOUNT_MANAGER:
+				return new Hb_App_Common_AccountExec(null, self::ROLE_ACCOUNT_MANAGER);
+				break; 
+								
+			default:
+				return new  Hb_App_Common_Role($id, $description);
+				break;
+		}
+		
+		return null;
+	}
+	
+}
+?>

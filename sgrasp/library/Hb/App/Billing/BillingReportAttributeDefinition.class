@@ -1,0 +1,9 @@
+<?php
+	class Hb_App_Billing_BillingReportAttributeDefinition	extends Hb_App_Common_AttributeDefinition 
+	{
+		public function __construct($id=null, $attr_name=null, $attr_def_desc=null)
+		{
+			parent::__construct($id, $attr_name, $attr_def_desc);
+		}
+	}
+?>

@@ -1,0 +1,38 @@
+<?php 
+/**
+ * Domain class Account Setting
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountSetting extends Hb_App_Common_Setting
+{ 
+  /**
+    * Constructor of Domain class
+    *
+    * @param int $id Account Setting Id
+    * @param string $name Account Setting Name
+    * @param string $value Account Setting Value
+    * @param string $description Account Setting Description
+    */ 
+   function __construct($id = null, $name = null, $value = null, $description = null) 
+   { 
+   	parent::__construct($id, $name, $value, $description);
+   } 
+   
+   /**
+    * Retrieve Setting Value
+    *
+    * @param string $setting_name Setting Name
+    * @return string Value for the Setting
+    */ 
+   public static function GetSetting($setting_name) 
+   { 
+   	$mapper = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountSetting');
+   	return $mapper->Find($setting_name)->GetSettingValue();
+   }
+}
+?>

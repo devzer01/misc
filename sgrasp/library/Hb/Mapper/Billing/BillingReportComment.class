@@ -1,0 +1,115 @@
+<?php
+/**
+ * Mapper Class for BillingReportComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+
+class Hb_Mapper_Billing_BillingReportComment extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Billing report comment
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_comment_id';
+
+	/**
+	 * Billing report table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_comment';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Billing_BillingReportComment';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Billing_BillingReportComment';
+	
+	/**
+	 * Build the BillingReportComment Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReportComment
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportComment($row->armc_comment_id,
+																	  $row->armc_id,
+																	  $row->armc_comment_type_id,
+															 		 $row->comment);
+	}
+	
+	/**
+	 * Get the base data set for BillingReportComment
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('ac' => 'armc_comment'), array('armc_comment_id',
+																			'armc_id',
+																			'armc_comment_type_id',
+																	    	'comment'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Billing report comment
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('ac.armc_comment_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Billing report comment
+	 *
+	 * @param Hb_App_Object BillingReportComment
+	 * @return object Billing report comment
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'armc_id' 					=> $obj->GetArmcId(),
+							'armc_comment_type_id' 	=> $obj->GetArmcCommentTypeId(),
+							'comment' 					=> $obj->GetComment()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('armc_comment', $data);
+			$obj->SetArmcCommentId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('armc_comment', $data, 'armc_comment_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

@@ -1,0 +1,116 @@
+<?php
+/**
+ * Mapper Class for BillingReport
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+class Hb_Mapper_Billing_BillingReport extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'armc_id';
+	
+	protected $table = 'armc';
+	
+	/**
+	 * Domain Billing
+	 * 
+	 * @var object
+	 */
+	protected static $__domain = 'Hb_App_Billing_BillingReport';
+	
+	/**
+	 * Billing Gateway (Data ?)
+	 * 
+	 * @var object
+	 */
+	protected $__gateway = 'Hb_Db_Billing_BillingReport';
+		
+	/**
+	 * Build the BillingReport Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReport
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Billing_BillingReport(
+												$row->armc_id,
+												$row->armc_date,
+												$row->armc_group_id,
+												$row->armc_status_id,
+												$row->armc_type_id,
+												$row->product_id,
+												$row->transaction_date,
+												$row->transaction_number
+												);
+	}
+	
+	/**
+	 * Get the base data set for BillingReport
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from(array('a' => 'armc'), array(
+													'armc_id',
+													'armc_date', 
+													'armc_group_id', 
+													'armc_status_id', 
+													'armc_type_id', 
+													'product_id',
+													'transaction_date', 
+													'transaction_number'
+													)
+						);
+
+		return $select;
+	}
+	
+	/**
+	 * (protected function) Find the billing report by id 
+	 *
+	 * @param int $id
+	 * @return object
+	 * 
+	 * @todo might need to add Status = 'A' to where filter at this level or base mapper level
+	 */	
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();
+		$select->where('a.armc_id = ?', $id);
+		
+		return $this->getRow($select);	
+	}
+	
+	/**
+	 * (protected function) Save billing report 
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$armc_row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		
+		$armc_row->armc_date = $obj->GetBillingReportDate();
+		$armc_row->armc_group_id = $obj->GetMergedBillingReportID();
+		$armc_row->armc_status_id = $obj->GetBillingReportStatusID();
+		$armc_row->armc_type_id = $obj->GetBillingReportTypeID();
+		$armc_row->product_id = $obj->GetProductID();
+		$armc_row->transaction_date = $obj->GetInvoiceDate();
+		$armc_row->transaction_number = $obj->GetInvoiceNumber();
+		
+		$armc_row->Save();
+		
+		$obj->SetBillingReportID($armc_row->armc_id);
+	}
+
+}
+?>

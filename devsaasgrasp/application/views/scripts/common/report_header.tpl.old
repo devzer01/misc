@@ -1,0 +1,89 @@
+<TABLE class=groupborder cellSpacing=0 width="99%">
+   <TR>
+      <TD class=tab>
+         <TABLE border='0' 
+                width='100%' 
+                cellpadding='0' 
+                cellspacing='0' 
+                style='background-color:white;'>
+            <TR>
+               <TD align='center'>
+                  <table width='100%' align='center'>
+                     <tr>
+                        <td align=left class='header1'>
+                           <b>{$meta.report_title}</b>
+                        </TD>
+                        <TD class=disabled 
+                            vAlign=top 
+                            align=right 
+                            width="75%" 
+                            rowSpan=2>
+                       
+                           <table width="100%">
+         	                 <tr>
+         		                <td align="left">
+         		                   {if $meta.header_table neq ""}
+         		                      {include file=$meta.header_table}
+         		                   {/if}
+         		                </td>
+         		                <td align="right">
+                                 {if $meta.start neq "0"}
+                                    <A href='?e={"start=0"|url_encrypt}' style='cursor=Hand; TEXT-DECORATION: underline;'><<</a>&nbsp;&nbsp;
+                                    &nbsp;
+                                    <A href='?e={"start=`$meta.start`&direction=down"|url_encrypt}' style='cursor=Hand; TEXT-DECORATION: underline;'><</a>&nbsp;&nbsp;
+                                 {/if}
+                                 <select name="start" onchange="document.location.href= '?start='+this.value;">
+                                    {html_options options=$meta.page_list selected=$meta.start}
+                                 </select>&nbsp;&nbsp;
+                                 {if $meta.page_rows eq $meta.page_size }
+                                    <A href='?e={"start=`$meta.start`&direction=up"|url_encrypt}' style='cursor=Hand; TEXT-DECORATION: underline;'>></a>&nbsp;
+                                    <A href='?e={"start=`$meta.last_page_start`"|url_encrypt}' style='cursor=Hand; TEXT-DECORATION: underline;'>>></a>&nbsp;&nbsp;
+                                 {/if}
+                                 #/Page&nbsp;
+                                 <select name="page_size" onchange="document.location.href= '?start={$meta.start}&page_size='+this.value;">
+                                    {html_options values=$meta.page_size_list output=$meta.page_size_list selected=$meta.page_size}
+                                 </select>&nbsp;&nbsp;
+                                 {if $meta.total_rows > $meta.page_rows}
+                                    [<A href='?{$smarty.server.QUERY_STRING}&=display_all=1}' style='cursor=Hand; TEXT-DECORATION: underline;'>Display All</a>]&nbsp;&nbsp;
+                                 {/if}
+                                 {if $meta.filter_on eq "1"}
+                                    [<A href='?{$smarty.server.QUERY_STRING}&filter_off=1' style='cursor=Hand; TEXT-DECORATION: underline;'>Filter Off</a>]
+                                 {/if}
+                                 [<a href="?{$smarty.server.QUERY_STRING}&export_excel=1">Excel</a>]
+                              </td>
+				                 </tr>
+			                  </table>
+                        </TD>
+                     </TR>
+                     <TR>
+                        <TD class=tab vAlign=bottom align='left'>
+                           <A onmouseover="status='Show/Hide'; return true;" onmouseout="status=''; return true;" href="javascript:toggleWindow('report_list');">
+                              <IMG id=study_list:arrow alt=Show/Hide src="/images/rollminus.gif" border=0>
+                           </A>
+                        </TD>
+                     </TR>
+                  </TABLE>
+               </td>
+            </tr>
+         </table>
+            <DIV id='report_list' style="display: block;">
+             <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+									<tr>
+  										<td class="CellTableHead">{$meta.report_title}</td>
+									</tr>
+								</table>
+               <table width='100%' align='center' id='tblhead' >
+                  <form method='post' action='?{$smarty.server.QUERY_STRING}' id='tblfrm1'>
+                  <tr>
+                     {section name=id loop=$header}
+	                   <TD align='left' style='cursor=Hand;' class='header1'>
+                       {if $meta.sort_by_column eq $header[id].field}
+		                   <A class='header' onclick='document.forms.tblfrm1.ENC_sort.value="{"`$header[id].field` DESC"|url_encrypt}"; document.forms.tblfrm1.submit();' style='cursor:Hand; color:#ffffff; width:100%;'><B>{$header[id].title}</B></A>
+                       {else}
+		                   <A class='header' onclick='document.forms.tblfrm1.ENC_sort.value="{"`$header[id].field`"|url_encrypt}"; document.forms.tblfrm1.submit();' style='cursor:Hand; color:#ffffff; width:100%;'><B>{$header[id].title}</B></A>
+		                 {/if}
+                      </TD>
+                     {/section}
+                  </tr>
+                     <input type='hidden' name='ENC_sort'>
+               </form>

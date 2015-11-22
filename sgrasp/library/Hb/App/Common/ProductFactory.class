@@ -1,0 +1,29 @@
+<?php
+
+class Hb_App_Common_ProductFactory
+{
+	const PRODUCT_NETMR = 1;
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $id
+	 * @return Hb_App_Common_Product
+	 */
+	public static function factory($id, $description, $vendor_id)
+	{ 
+		switch ($id)
+		{
+			case self::PRODUCT_NETMR:
+				return new Hb_App_Common_ProductNetMr($id, $description, $vendor_id);
+				break;
+				
+			default:
+				return new Hb_App_Common_ProductNetMr($id, $description, $vendor_id);
+				break;
+		}
+		
+		return null;
+	}
+}
+?>

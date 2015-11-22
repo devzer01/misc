@@ -1,0 +1,71 @@
+<?php
+
+class Hb_Mapper_Proposal_ProposalAttributes extends Hb_Mapper_Mapper  
+{
+	/**
+	 * Primalry key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'proposal_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table       = 'proposal_attr';
+	
+	/**
+	 * Finds a Proposal attributes by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the proposal_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('proposal_id = ?', $id);
+		 	
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Builds and returns the Proposal attribues domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the proposal_attr table
+	 * @return object An instance of the Proposal attribues domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAttribute($row->proposal_attr_id,
+									$row->proposal_id,
+									$row->proposal_attr_name,
+									$row->proposal_attr_value
+									);
+	} 
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from('proposal_attr', array('proposal_attr_id', 'proposal_id', 'proposal_attr_name', 'proposal_attr_value'));
+	 	
+	 	return $select;
+	}
+	
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		
+	}
+}
+
+?>

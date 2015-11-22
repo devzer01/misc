@@ -1,0 +1,136 @@
+<?php
+/**
+ * Mapper for Study Costs
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+class Hb_Mapper_Study_StudyCosts extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_id';	
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'study_cost';	
+	
+	/**
+	 * Finds Study Costs  by Study Id
+	 *
+	 * @param  int $id Study Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('study_id = ?',$id);
+	
+		return $this->getRows($select);
+	}	
+	
+	/**
+	 * Finds study costs by account id
+	 *
+	 * @param int $account_id Account id 
+	 * @return Result rows from the zend_db 
+	 */
+	protected function doFindByAccountId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);
+	
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Finds study costs by account id
+	 *
+	 * @param int $account_id Account id
+	 * @return Hb_App_Study_StudyCosts 
+	 */
+	public function FindByAccountId($account_id)
+	{
+		$result = $this->doFindByAccountId($account_id);
+		return $this->BuildCollection($result, 'Hb_App_Study_StudyCosts');
+	}
+	
+	/**
+	 * Builds and returns the Study Cost domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_cost table
+	 * @return object An instance of the Study Cost domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCost($row->study_cost_id,
+													 $row->account_id,
+													 $row->account_name,
+													 $row->actual_quantity,
+													 $row->actual_rate,
+													 $row->proposed_quantity,
+													 $row->proposed_rate,
+													 $row->contact_email, 
+													 $row->contact_name,
+													 $row->reference_number,
+													 $row->study_cost_type_id,
+													 $row->study_id,
+													 $row->study_cost_po_number,													 
+													 $row->status,
+													 $row->invoice_rate,
+													 $row->invoice_quantity
+													 );
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sc' => $this->table), array('study_cost_id',
+																		 'study_id',
+																		 'study_cost_type_id',
+																		 'reference_number',
+																		 'account_id',
+																		 'account_name',
+																		 'contact_name',
+																		 'contact_email',
+																		 'proposed_rate',
+																		 'proposed_quantity',
+																		 'actual_rate',
+																		 'actual_quantity',
+																		 'study_cost_po_number',
+																		 'invoice_rate',
+																		 'invoice_quantity',
+	 	                                                 'status'
+																		)
+						 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Costs domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+?>

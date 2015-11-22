@@ -1,0 +1,48 @@
+<?php
+
+class Hb_View_Header_ExternalHeader extends Hb_Util_View_View 
+{
+
+	protected $__template_name = 'common/ext/v2/header.tpl';
+	
+	protected  $__handler = 'Smarty';
+	
+	public function __construct($module_name, $module_code, $action = '')
+	{
+		$this->AddMapper(
+			new Hb_View_Headerl_Mapper_ExternalHeaderMapper()
+		);
+	}
+	
+	protected  function LoadData()
+	{
+		$_SESSION['is_vendor'] = 0;
+
+		require_once($_SERVER['DOCUMENT_ROOT'] .'/class/dbClass/accountDB.class');
+		require_once($_SERVER['DOCUMENT_ROOT'] .'/app/acm/constant.inc');
+		require_once($_SERVER['DOCUMENT_ROOT'] .'/common/constant.inc');
+
+		require_once($_SERVER['DOCUMENT_ROOT'] .'/class/rpc/magpierss/rss_fetch.inc');
+
+		$a = new accountDB();
+		$a->SetAccountId($_SESSION['user_primary_account_id']);
+
+		$hbrss = Hb_Util_Rss::GetInstance(RSS_FEED_MYGMI_ADS);
+		$rss = new MagpieRSS($hbrss->content);
+		$rss = array_slice($rss->items, rand(0, count($rss->items) - 1), 1);
+		
+		$this->MapData('rss_feed_1', $rss);
+
+		$hbrss2 = Hb_Util_Rss::GetInstance(RSS_FEED_MYGMI_OFFICE);
+		$xml = new SimpleXMLElement($hbrss2->content);
+
+		$this->MapData('rss_office', $xml);
+
+		$ac['contacts']  = PrepareSmartyArray($a->GetAllAccountContactsDetails(1));
+		$ac['user']      = PrepareSmartyArray($a->GetAccountUsers());
+
+		$this->MapData('ac', $ac);
+		
+	}
+}
+?>

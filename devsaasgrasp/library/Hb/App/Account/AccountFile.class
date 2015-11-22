@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * Domain Object for Account File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva (modified by wfernando)
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountFile extends Hb_App_Object
+{
+	
+	/**
+	 * Account File Id
+	 *
+	 * @var int
+	 */
+	protected $account_file_id = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account File
+	 *
+	 * @var Hb_App_Common_File 
+	 */
+	protected $account_file = null;	
+
+	/**
+	 * Creates the Hb_App_Accoun_AccountFile object
+	 *
+	 * @param int $id
+	 * @param int $account_id
+	 * @param Hb_App_Common_File $account_file Account File object
+	 */
+	function __construct(
+							$id= null,
+							$account_id = null,
+							Hb_App_Common_File $account_file = null
+							)
+	{
+		$this->account_file_id = $id;
+		$this->account_id = $account_id;
+		$this->account_file =  $account_file;
+		
+		if(!is_null($this->account_file))
+			$this->account_file->RegisterFileOwner('Hb_App_Account_AccountFile');	
+			
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Account File Id
+	 *
+	 * @return int Account File Id
+	 */
+	public function GetAccountFileId()
+	{
+		return $this->account_file_id;
+	}
+
+	/**
+	 * Returns Account Id
+	 *
+	 * @return int Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Return the Account File object for the Account File
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->account_file;
+	}
+	
+	/**
+	 * Sets Account File Id
+	 * 
+	 * @param int $account_file_id Account File Id
+	 */
+	public function SetAccountFileId($account_file_id)
+	{
+		$this->account_file_id = $account_file_id;
+		$this->__id = $account_file_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Account Id
+	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account File for the  Account File
+	 * 
+	 * @param Hb_App_Common_File $acc_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $acc_file)
+	{
+		$this->account_file_id	= $acc_file->GetFileId();
+		$this->__id					= $acc_file->GetFileId();
+		$this->account_file		= $acc_file;
+		$this->MarkDirty();
+	}	
+	
+}
+?>

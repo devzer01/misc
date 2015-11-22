@@ -1,0 +1,342 @@
+<?php
+/**
+ * Domain Object for Common Contact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_Contact extends Hb_App_Object 
+{
+	/**
+	 * Contact id
+	 *
+	 * @var int 
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Contact type id
+	 *
+	 * @var int 
+	 */
+	protected $contact_type_id = null;
+	
+	/**
+	 * Contact title
+	 *
+	 * @var string 
+	 */
+	protected $contact_title;
+	
+	/**
+	 * Contact first name
+	 *
+	 * @var string 
+	 */
+	protected $contact_first_name;
+	
+	/**
+	 * Contact middle name
+	 *
+	 * @var string 
+	 */
+	protected $contact_middle_name;
+	
+	/**
+	 * Contact last name
+	 *
+	 * @var string 
+	 */
+	protected $contact_last_name;
+	
+	/**
+	 * contact suffix
+	 *
+	 * @var string 
+	 */
+	protected $contact_suffix;
+	
+	/**
+	 * Contact email
+	 *
+	 * @var string 
+	 */
+	protected $contact_email;
+	
+	/**
+	 * Common Contact Attributes
+	 *
+	 * @var Hb_App_Common_ContactAttributes 
+	 */
+	protected $attributes = null;
+	
+	/**
+	 * Contact Phone
+	 *
+	 * @var Hb_App_Common_ContactPhone 
+	 */
+	protected $contact_phone = null;
+	
+	/**
+	 * Contact fax
+	 *
+	 * @var Hb_App_Common_ContactPhone 
+	 */
+	protected $contact_fax = null;
+	
+	/**
+	 * Address
+	 *
+	 * @var Hb_App_Common_Address 
+	 */
+	protected $address = null;
+	
+	/**
+	 * Hb_App_Common_ContactType Object
+	 *
+	 * @var Hb_App_Common_ContactType 
+	 */	
+	private $contact_type = null;
+	
+	/**
+	 * Construct a Contact Object
+	 *
+	 * @param int $id
+	 * @param string $first First name
+	 * @param string $middle Midlle name
+	 * @param string $last Last name
+	 * @param string $email Email
+	 * @param int $type contact type id
+	 */
+	public function __construct($id = null, $first = null, $middle = null, $last = null, $email = null, $type = null, $title= null)
+	{
+		$this->contact_id 			= $id;
+		$this->contact_first_name  = $first;
+		$this->contact_middle_name = $middle;
+		$this->contact_last_name   = $last;
+		$this->contact_email       = $email;
+		$this->contact_type_id     = $type;
+		$this->contact_title 		= $title;
+		
+		parent::__construct($id);
+	}
+	
+	public function GetContactPhone()
+	{
+		if(is_null($this->contact_phone)) {
+			try {
+				$this->contact_phone = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactPhone')->FindContactByPhoneType($this->contact_id, PHONE_TYPE_WORK);
+			}catch (Hb_App_Common_Exception_CommonContactNotFoundException $e) {
+				return false;
+			}
+		}
+		
+		return $this->contact_phone;
+	   	}
+	
+	public function GetContactFax()
+	{
+		if(is_null($this->contact_fax)) {
+			try {
+				$this->contact_fax = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactPhone')->FindContactByPhoneType($this->contact_id, PHONE_TYPE_FAX);
+			}catch (Hb_App_Common_Exception_CommonContactNotFoundException $e) {
+				return false;
+			}
+		}
+		
+		return $this->contact_fax;
+	}
+	
+	public function GetAddress()
+	{
+		if(is_null($this->address)) {
+			$this->address = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Address')->FindByContactId($this->contact_id);
+		}
+		
+		return $this->address;
+	}
+	
+	/**
+	 * Return the instance of Hb_App_Common_ContactAttributes for the Common Contact
+	 *
+	 * @return Hb_App_Common_ContactAttributes instance of Hb_App_Common_ContactAttributes
+	 */
+	public function GetAttributes()
+	{
+		if(is_null($this->attributes)) {
+			if(is_null($this->contact_id)) 
+				throw new Hb_App_Common_Exception_CommonContactNotFoundException('Common contact Id Not Found !');
+				
+			$this->attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactAttributes')->Find($this->contact_id);
+		}
+		
+		return $this->attributes;
+	}	
+	
+	/**
+	 * Return the Contact type id for the Common Contact
+	 *
+	 * @return int Contact type id
+	 */
+	public function GetTypeId()
+	{
+		return $this->contact_type_id;
+	}
+	
+	/**
+	 * Return the Contact title for the Common Contact
+	 *
+	 * @return string Contact title
+	 */
+	public function GetTitle()
+	{
+		return $this->contact_title;	
+	}
+	
+	/**
+	 * Return the First Name for the Common Contact
+	 *
+	 * @return string First Name
+	 */
+	public function GetFirstName()
+	{
+		return $this->contact_first_name;	
+	}
+	
+	/**
+	 * Return the Middle name for the Common Contact
+	 *
+	 * @return string Middle name
+	 */
+	public function GetMiddleName()
+	{
+		return $this->contact_middle_name;
+	}
+	
+	/**
+	 * Return the Last name for the Common Contact
+	 *
+	 * @return string Last name
+	 */
+	public function GetLastName()
+	{
+		return $this->contact_last_name;
+	}
+	
+	/**
+	 * Return the Contact Email for the Common Contact
+	 *
+	 * @return string Contact Email
+	 */
+	public function GetEmail()
+	{
+		return $this->contact_email;
+	}
+	
+	/**
+	 * Return the Contact id for the Common Contact
+	 *
+	 * @return int Contact id
+	 */
+	public function GetContactId()
+	{
+		return $this->contact_id;
+	}
+	
+	/**
+	 * Set the Contact id for the  Common Contact
+	 * 
+	 * @param int $id Contact id
+	 */
+	public function SetContactId($id)
+	{
+		$this->contact_id = $id;
+		$this->__id 		= $id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Contact type id for the  Common Contact
+	 * 
+	 * @param int $type_id Contact type id
+	 */
+	public function SetTypeId($type_id)
+	{
+		$this->contact_type_id = $type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Contact title for the  Common Contact
+	 * 
+	 * @param string $title Contact title
+	 */
+	public function SetTitle($title)
+	{
+		$this->contact_title = $title;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the First name for the  Common Contact
+	 * 
+	 * @param string $first_name First name
+	 */
+	public function SetFirstName($first_name)
+	{
+		$this->contact_first_name = $first_name;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Middle name for the  Common Contact
+	 * 
+	 * @param string $middle_name Middle name
+	 */
+	public function SetMiddleName($middle_name)
+	{
+		$this->contact_middle_name = $middle_name;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Last name for the  Common Contact
+	 * 
+	 * @param string $last_name Last name
+	 */
+	public function SetLastName($last_name)
+	{
+		$this->contact_last_name = $last_name;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Email for the  Common Contact
+	 * 
+	 * @param string $email Email
+	 */
+	public function SetEmail($email)
+	{
+		$this->contact_email = $email;
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Return the Contact type for the Common Contact
+	 *
+	 * @return Hb_App_Common_ContactType Contact type
+	 */
+	public function GetContactType()
+	{
+		if(is_null($this->contact_type)){
+			$this->contact_type = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactType')->Find($this->contact_type_id);
+		}
+		return $this->contact_type;
+	}	
+
+}
+?>

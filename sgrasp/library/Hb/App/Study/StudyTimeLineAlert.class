@@ -1,0 +1,243 @@
+<?php
+/**
+ * Domain Object for Study Time Line Alert
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyTimeLineAlert extends Hb_App_Object 
+{
+	/**
+	 * Alert email
+	 *
+	 * @var int 
+	 */
+	protected $alert_email = null;
+	
+	/**
+	 * Alert jabber
+	 *
+	 * @var int 
+	 */
+	protected $alert_jabber = null;
+	
+	/**
+	 * Alert mobile
+	 *
+	 * @var int 
+	 */
+	protected $alert_mobile = null;
+	
+	/**
+	 * Alert sent date
+	 *
+	 * @var string 
+	 */
+	protected $alert_sent_date = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Study timelien alert id
+	 *
+	 * @var int 
+	 */
+	protected $study_timeline_alert_id = null;
+	
+	/**
+	 * Study timeline id 
+	 *
+	 * @var int 
+	 */
+	protected $study_timeline_id = null;
+
+	/**
+	 * Create Study TimeLine Alert Object
+	 *
+	 * @param int $id study timeline id
+	 * @param int $alert_email Alert email
+	 * @param int $alert_jabber Alert jabber
+	 * @param int $alert_mobile Alert mobile
+	 * @param string $alert_sent_date Alert sent date
+	 * @param int $login Login
+	 * @param int $study_timeline_id Study timeline id
+	 */
+	function __construct($id 						= null,
+								$alert_email 			= null,
+								$alert_jabber 			= null,
+								$alert_mobile 			= null,
+								$alert_sent_date 		= null,
+								$login 					= null,
+								$study_timeline_id 	= null
+								)
+	{
+		$this->study_timeline_alert_id 	= $id;
+		$this->study_timeline_id			= $study_timeline_id;
+		$this->alert_email					= $alert_email;
+		$this->alert_jabber					= $alert_jabber;
+		$this->alert_mobile					= $alert_mobile;
+		$this->alert_sent_date				= $alert_sent_date;
+		$this->login							= $login;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Alert email for the STudy TimeLine Alert
+	 *
+	 * @return int Alert email
+	 */
+	public function GetAlertEmail()
+	{
+		return $this->alert_email;
+	}
+
+	/**
+	 * Return the Alert Jabber for the STudy TimeLine Alert
+	 *
+	 * @return int Alert Jabber
+	 */
+	public function GetAlertJabber()
+	{
+		return $this->alert_jabber;
+	}
+
+	/**
+	 * Return the Alert Mobile for the STudy TimeLine Alert
+	 *
+	 * @return int Alert Mobile
+	 */
+	public function GetAlertMobile()
+	{
+		return $this->alert_mobile;
+	}
+
+	/**
+	 * Return the Alert sent date for the STudy TimeLine Alert
+	 *
+	 * @return string Alert sent date
+	 */
+	public function GetAlertSentDate()
+	{
+		return $this->alert_sent_date;
+	}
+
+	/**
+	 * Return the Login for the STudy TimeLine Alert
+	 *
+	 * @return int Login
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return the Study time line alert id for the STudy TimeLine Alert
+	 *
+	 * @return int Study time line alert id
+	 */
+	public function GetStudyTimeLineAlertId()
+	{
+		return $this->study_timeline_alert_id;
+	}
+
+	/**
+	 * Return the Study timeline id for the STudy TimeLine Alert
+	 *
+	 * @return int Study timeline id
+	 */
+	public function GetStudyTimeLineId()
+	{
+		return $this->study_timeline_id;
+	}
+
+	/**
+	 * Set the Alert email for the  STudy TimeLine Alert
+	 * 
+	 * @param int $alert_email Alert email
+	 */
+	public function SetAlertEmail($alert_email)
+	{
+		$this->alert_email = $alert_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Alert jabber for the  STudy TimeLine Alert
+	 * 
+	 * @param int $alert_jabber Alert jabber
+	 */
+	public function SetAlertJabber($alert_jabber)
+	{
+		$this->alert_jabber = $alert_jabber;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Alert Mobile for the  STudy TimeLine Alert
+	 * 
+	 * @param int $alert_mobile Alert Mobile
+	 */
+	public function SetAlertMobile($alert_mobile)
+	{
+		$this->alert_mobile = $alert_mobile;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Alert sent date for the  STudy TimeLine Alert
+	 * 
+	 * @param string $alert_sent_date Alert sent date
+	 */
+	public function SetAlertSentDate($alert_sent_date)
+	{
+		$this->alert_sent_date = $alert_sent_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Login for the  STudy TimeLine Alert
+	 * 
+	 * @param int $name Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study timeline alert id for the  STudy TimeLine Alert
+	 * 
+	 * @param int $study_timeline_alert_id Study timeline alert id
+	 */
+	public function SetStudyTimeLineAlertId($study_timeline_alert_id)
+	{
+		$this->study_timeline_alert_id 	= $study_timeline_alert_id;
+		$this->__id								= $study_timeline_alert_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study timeline id for the  Study Timeline Alert
+	 * 
+	 * @param int $study_timeline_id Study timeline id
+	 */
+	public function SetStudyTimeLineId($study_timeline_id)
+	{
+		$this->study_timeline_id = $study_timeline_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

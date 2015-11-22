@@ -1,0 +1,30 @@
+<?php
+/**
+ * Mapper for BillingReportComments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Billing
+ *
+ */
+
+class Hb_Mapper_Billing_BillingReportComments extends Hb_Mapper_Billing_BillingReportComment 
+{
+	
+	/**
+	 * 
+	 * @see Hb_Mapper_Mapper::doFindById()
+	 * 
+	 * @var integer $id
+	 * 
+	 * @return Zend/DB Rows collection
+	 */
+	protected function doFindById($id)
+	{
+		return $this->GetRows($this->GetBaseSelect()->where('ac.armc_id = ?', $id));	}
+
+}
+
+?>

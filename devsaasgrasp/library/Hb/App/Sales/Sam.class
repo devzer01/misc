@@ -1,0 +1,167 @@
+<?php 
+class Hb_App_Sales_Sam extends Hb_App_Object 
+{
+	/**
+	 * Amount
+	 *
+	 * @var flost 
+	 */
+	protected $amount = null;
+	
+	/**
+	 * Sam Date
+	 *
+	 * @var string 
+	 */
+	protected $sam_date = null;
+
+	/**
+	 * Sam Id
+	 *
+	 * @var int 
+	 */
+	protected $sam_id = null;
+	
+	/**
+	 * Sam Type Id
+	 *
+	 * @var int 
+	 */
+	protected $sam_type_id = null;
+
+	/**
+	 * Sam Type
+	 *
+	 * @var int 
+	 */
+	protected $sam_type = null;
+	
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Sam Id
+	 * @param float $amount Amount
+	 * @param string $sam_date Sam Date
+	 * @param int $sam_type_id Sam Type Id
+	 * @param Object $sam_type Sam Type
+	 */
+	function __construct($id = null, $amount = null,
+			 $sam_date = null, $sam_type_id = null, $sam_type = null)
+	{
+		$this->sam_id 			= $id;
+		$this->amount			= $amount;
+		$this->sam_date 		= $sam_date; 
+		$this->sam_type_id 	= $sam_type_id;
+		$this->sam_type		= $sam_type;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Amount
+	 *
+	 * @return float Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Returns Sam Date
+	 *
+	 * @return string Sam Date
+	 */
+	public function GetSamDate()
+	{
+		return $this->sam_date;
+	}
+
+	/**
+	 * Returns Sam Id
+	 *
+	 * @return int Sam Id
+	 */
+	public function GetSamId()
+	{
+		return $this->sam_id;
+	}
+
+	/**
+	 * Returns Sam Type Id
+	 *
+	 * @return int Sam Type Id
+	 */
+	public function GetSamTypeId()
+	{
+		return $this->sam_type_id;
+	}
+
+	/**
+	 * Returns Sam Type
+	 *
+	 * @return Object Sam Type
+	 */
+	public function GetSamType()
+	{
+		return $this->sam_type;
+	}
+
+	/**
+	 * Sets Amount
+	 *
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sam Date
+	 *
+	 * @param string $sam_date Sam Date
+	 */
+	public function SetSamDate($sam_date)
+	{
+		$this->sam_date = $sam_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sam Id
+	 *
+	 * @param int $sam_id Sam Id
+	 */
+	public function SetSamId($sam_id)
+	{
+		$this->sam_id 	= $sam_id;
+		$this->__id		= $sam_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sam Type Id
+	 *
+	 * @param int $sam_type_id Sam Type Id
+	 */
+	public function SetSamTypeId($sam_type_id)
+	{
+		$this->sam_type_id = $sam_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Sam Type Domain Object
+	 *
+	 * @param Object $sam_type Sam Type Domain Object
+	 */
+	public function SetSamType($sam_type)
+	{
+		$this->sam_type = $sam_type;
+		$this->MarkDirty();
+	}
+}
+?>

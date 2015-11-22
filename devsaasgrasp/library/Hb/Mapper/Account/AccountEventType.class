@@ -1,0 +1,93 @@
+<?php 
+/**
+ * Mapper class of Account Event Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountEventType extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountEventType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_event_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_event_type';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Event Type Id
+    * @return Hb_App_Account_AccountEventType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('aet.account_event_type_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('aet' => 'account_event_type'), array('account_event_type_id', 'account_event_type_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountEventType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Account_AccountEventType($row->account_event_type_id, $row->account_event_type_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountEventType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array('account_event_type_description'	=> $obj->GetTypeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('account_event_type', $data);
+			$obj->SetTypeId($db->lastInsertId());
+	  	} else {
+			$db->update('account_event_type', $data, 'account_event_type_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

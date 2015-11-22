@@ -1,0 +1,108 @@
+<?php 
+/**
+ * Mapper class PricingItemGroupInflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_Mapper_Proposal_PricingItemGroupInflator extends Hb_Mapper_Mapper
+{
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Proposal_PricingItemGroupInflator'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'pricing_item_group_inflator_id';
+   
+  /**
+   * Table Name
+   *
+   * @var string 
+   */  
+   protected $table = 'pricing_item_group_inflator'; 
+   
+   /**
+    * Find by id
+    *
+    * @param int id Pricing Item Group Inflator Id
+    * @return Hb_App_Proposal_PricingItemGroupInflator Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  $select = $this->GetBaseSelect();	
+	  $select->where('pigi.pricing_item_group_inflator_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('pigi' => 'pricing_item_group_inflator'), array('pricing_item_group_inflator_id', 
+	  'pricing_item_group_id', 'license_level_id', 'inflator_amount', 'effective_date', 'expire_date'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Proposal_PricingItemGroup
+    */ 
+   function doSave(Hb_App_Object $obj) 
+   { 
+      $data = array(
+      	'pricing_item_group_inflator_id'	=> $obj->GetPricingItemGroupInflatorId(),
+      	'pricing_item_group_id'				=> $obj->GetPricingItemGroupId(),
+      	'license_level_id'					=> $obj->GetLicenseLevelId(),
+      	'inflator_amount'					=> $obj->GetInflatorAmount(),
+      	'effective_date'					=> $obj->GetEffectiveDate(),
+      	'expire_date'						=> $obj->GetExpireDate());
+      
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('pricing_item_group_inflator', $data);
+		$obj->SetPricingItemGroupInflatorId($db->lastInsertId());
+	  } else {
+		$db->update('pricing_item_group_inflator', $data, 'pricing_item_group_inflator_id = ' . $obj->GetId());
+	  }
+   } 
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Proposal_PricingItemGroupInflator Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+      return new Hb_App_Proposal_PricingItemGroupInflator($row->pricing_item_group_inflator_id,
+      		$row->pricing_item_group_id,
+      		null,
+      		$row->license_level_id,
+      		null,
+      		$row->inflator_amount,
+      		$row->effective_date,
+      		$row->expire_date);
+   }
+} 
+?>

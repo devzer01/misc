@@ -1,0 +1,152 @@
+<?php 
+/**
+ * Domain Object for Billing Report Budget Line Item Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportBudgetLineItemDefinition extends Hb_App_Common_AttributeDefinition
+{
+	/**
+	 * Accounting GL account id
+	 *
+	 * @var int 
+	 */
+	protected  $atm_gl_account_id = null;
+	
+	/**
+	 * Item number
+	 *
+	 * @var string 
+	 */
+	protected  $item_number = null;
+	
+	/**
+	 * Default rate
+	 *
+	 * @var float 
+	 */
+	protected  $default_rate = null;
+	
+	/**
+	 * Default quantitiy
+	 *
+	 * @var float 
+	 */
+	protected  $default_quantity = null;	
+	
+	/**
+	 * Create Billing Report Budget Line Item Definition Object
+	 *
+	 * @param int $id Billing report budget line item definition id
+	 * @param int $atm_gl_account_id Accounting GL account id
+	 * @param string $description Attribute description
+	 * @param string $item_number Item number
+	 * @param float $default_rate Default rate
+	 * @param float $default_quantity Default quantity
+	 */
+	public function __construct($id 						= null,
+										 $atm_gl_account_id 	= null,
+										 $description 			= null,
+										 $item_number			= null,
+										 $default_rate			= null,
+										 $default_quantity	= null
+										 )
+	{
+		$this->atm_gl_account_id	= $atm_gl_account_id;
+		$this->item_number			= $item_number;
+		$this->default_quantity		= $default_quantity;
+		$this->default_rate			= $default_rate;
+		
+		parent::__construct($id, null, $description);	
+	}
+	
+	/**
+	 * Return the Accounting GL Account id for the Billing Report Budget Line Item Definition
+	 *
+	 * @return int Accounting GL Account id
+	 */
+	public function GetAccountingGLAccountId()
+	{
+		return $this->atm_gl_account_id;
+	}
+	
+	/**
+	 * Return the Item number for the Billing Report Budget Line Item Definition
+	 *
+	 * @return string Item number
+	 */
+	public function GetItemNumber()
+	{
+		return $this->item_number;		
+	}
+	
+	/**
+	 * Return the Default rate for the Billing Report Budget Line Item Definition
+	 *
+	 * @return float Default rate
+	 */
+	public function GetDefaultRate()
+	{
+		return $this->default_rate;		
+	}
+	
+	/**
+	 * Return the Default quantity for the Billing Report Budget Line Item Definition
+	 *
+	 * @return float Default quantity
+	 */
+	public function GetDefaultQuantity()
+	{
+		return $this->default_quantity;
+	}
+	
+	/**
+	 * Set the Accounting GL Account Id for the  Billing Report Budget Line Item Definition
+	 * 
+	 * @param int $atm_gl_account_id Accounting GL Account Id
+	 */
+	public function SetAccountingGLAccountId($atm_gl_account_id)
+	{
+		$this->atm_gl_account_id	= $atm_gl_account_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Item number for the  Billing Report Budget Line Item Definition
+	 * 
+	 * @param string $item_number Item number
+	 */
+	public function SetItemNumber($item_number)
+	{
+		$this->item_number	= $item_number;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Default rate for the  Billing Report Budget Line Item Definition
+	 * 
+	 * @param float $default_rate Default rate
+	 */
+	public function SetDefaultRate($default_rate)
+	{
+		$this->default_rate	= $default_rate;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Default quantity for the  Billing Report Budget Line Item Definition
+	 * 
+	 * @param float $default_quantity Default quantity
+	 */
+	public function SetDefaultQuantity($default_quantity)
+	{
+		$this->default_quantity	= $default_quantity;
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,101 @@
+<?php 
+/**
+ * Mapper class ProposalRevisionComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Project
+ */  
+class Hb_Mapper_Project_ProjectCommentType extends Hb_Mapper_Mapper
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Project_ProjectCommentType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'pjm_comment_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'pjm_comment_type'; 
+ 
+   /**
+    * Find by id
+    *
+    * @param int id Project Comment Type Id
+    * @return Hb_App_Project_ProjectCommentType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  if (Hb_App_ObjectMap::hasObject('Hb_App_Project_ProjectCommentType', $id)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Project_ProjectCommentType', $id);	
+		}
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('pct.pjm_comment_type_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('pct' => 'pjm_comment_type'), array('pjm_comment_type_id', 'pjm_comment_type_description'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Project_ProjectCommentType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'pjm_comment_type_id'			=> $obj->GetProjectCommentTypeId(),
+      	'pjm_comment_type_description'	=> $obj->GetProjectCommentTypeDescription()
+      );
+      
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('pjm_comment_type', $data);
+		$obj->SetProjectCommentTypeId($db->lastInsertId());
+	  } else {
+		$db->update('pjm_comment_type', $data, 'pjm_comment_type_id = ' . $obj->GetId());
+	  } 
+   }
+   
+   /**
+    * Builds Hb_App_Object object from the provided row member of Hb_Util_Db_Table object
+    *
+    * @param row $row
+    * @return Hb_App_Project_ProjectCommentType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+       return new Hb_App_Project_ProjectCommentType($row->pjm_comment_type_id, $row->pjm_comment_type_description);
+   } 
+} 
+?>

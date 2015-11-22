@@ -1,0 +1,111 @@
+<?php 
+/**
+ * Mapper class of AccountContactAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Mapper
+ */  
+class Hb_Mapper_Account_AccountContactAttribute extends Hb_Mapper_Mapper 
+{  
+   /**
+    * Domain object class name
+    *
+    * @var string 
+    */ 
+   protected static $__domain = 'Hb_App_Account_AccountContactAttribute'; 
+
+   /**
+    * primary key of the table
+    *
+    * @var string 
+    */
+   protected $primary_key = 'account_contact_attr_id';
+   
+   /**
+    * table name
+    *
+    * @var string 
+    */  
+   protected $table = 'account_contact_attr';   
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('aca' => $this->table), array('account_contact_attr_id', 
+	  'account_contact_id', 'account_contact_attr_name', 'account_contact_attr_value'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Contact Attribute Id
+    * @return Hb_App_Account_AccountContactAttribute Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	  $select = $this->GetBaseSelect();	
+	  $select->where('aca.account_contact_attr_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountContactAttribute Returns domain object
+    */ 
+    protected function doBuildObject($row)
+   { 
+   	  return new Hb_App_Account_AccountContactAttribute($row->account_contact_attr_id,
+   	  			$row->account_contact_id,
+   	  			$row->account_contact_attr_name,
+   	  			$row->account_contact_attr_value);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountContactAttribute
+    */ 
+    protected function doSave(Hb_App_Object $obj)
+   {
+   	require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO account_contact_attr (account_contact_id, account_contact_attr_name, account_contact_attr_value ) "
+          			. "VALUES (" . $obj->GetAccountContactId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetAccountContactAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE account_contact_attr "
+						. "SET account_contact_id = " . $obj->GetAccountContactId() . ", "
+						. " account_contact_attr_name = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+						. " account_contact_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+						. "WHERE account_contact_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+   }
+} 
+?>

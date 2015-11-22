@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * Paging Utility That is able to parse standard paramters
+ *
+ */
+class Hb_Util_Page_Paging
+{
+	const DEFAULT_PAGE_SIZE = 50;
+	
+	const DEFAULT_DIRECTION = 'up';
+	
+	const DEFAULT_START     = 0;
+	
+	public $page_offset = 0;
+	
+	public $page_size   = 0;
+	
+	public $page_rows  = 0;
+	
+	public $page_numebr = 0;
+	
+	public $page_title = '';
+	
+	public $total_rows = 0;
+	
+	private $__page_direction = null;
+	
+	private $__page_start = 0;
+	
+	private $__page_limit = true;
+	
+	private $__last_page_start = 0;
+	
+	private $__page_list = array();
+	
+	function __construct()
+	{
+		
+	}
+	
+	private function __calculate()
+	{		
+		if ($this->__page_direction == 'up') {
+			$this->page_offset = $this->__page_start + $this->page_size;
+		} elseif ($this->__page_direction == 'down') {
+			$this->page_offset = $this->__page_start - $this->page_size;
+		}
+		
+		$this->page_numebr = (int) $this->page_offset / $this->page_size;
+		
+		if ($this->page_offset < 0) {
+			$this->page_offset = self::DEFAULT_START;
+		}		
+	}
+	
+	function GetLimitString()
+	{
+		if ($this->__page_limit) {
+			return "LIMIT " . $this->page_offset. "," . $this->page_size;	
+		}
+		
+		return '';
+	}
+	
+	function SetParamsFromStdPost($o)
+	{
+		$this->page_size   = self::DEFAULT_PAGE_SIZE;
+		$this->__page_start     = self::DEFAULT_START;
+
+		if (isset($o['page_size']) && is_numeric($o['page_size'])) {
+      	$this->page_size = $o['page_size'];
+   	}
+   	
+   	if (isset($o['direction']) && $o['direction'] != '') {
+   		$this->__page_direction = $o['direction'];
+   	}
+   	
+   	if (isset($o['start']) && is_numeric($o['start'])) {
+   		$this->__page_start = $o['start'];
+   	}
+   	
+   	if (isset($o['display_all']) && $o['display_all'] == 1) {
+   		$this->__page_limit = false;
+   	}
+   	
+   	$this->__calculate();
+   	
+	}
+	
+	function SetTotalRows($rows)
+	{
+		$this->total_rows = $rows;
+	}
+	
+	function SetPageRows($rows)
+	{
+		$this->page_rows = $rows;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return Hb_Util_Page
+	 */
+	static public function GetInstance()
+	{
+		static $__cache = array();
+		
+		if (!isset($__cache['page'])) {
+			$__cache['page'] = new Hb_Util_Page();
+		}
+		
+		return $__cache['page'];
+	}
+	
+	public function SetPageTitle($title)
+	{
+		$this->page_title = $title;
+	}
+	
+	public function GetPageTitle()
+	{
+		return $this->page_title;
+	}
+	
+	public function GetLimit()
+	{
+		return $this->__page_limit;
+	}
+	
+	public function GetLastPageStart()
+	{
+		$this->__CalculatePageList();
+		return $this->__last_page_start;
+	}
+	
+	public function GetPageSizeList()
+	{
+		return array(10 => 10, 25 => 25, 50 => 50, 100 => 100);
+	}
+	
+	private function __CalculatePageList()
+	{
+		$this->__page_list = array();
+		$this->__page_list[1] = 0;
+   
+   	for ($cnt = $this->page_size; $cnt <= $this->total_rows; $cnt += $this->page_size) {
+   		$this->__page_list[] = $cnt;
+   	}
+   	
+   	$this->__last_page_start = $this->__page_list[count($this->__page_list)];   	
+   	$this->__page_list = array_flip($this->__page_list);   	
+   	
+	}
+	
+	/**
+	 * Generate The Page Size List Array
+	 *
+	 * @return array
+	 */
+	public function GetPageList()
+	{
+		$this->__CalculatePageList();
+   	return $this->__page_list;
+	}
+	
+}
+
+?>

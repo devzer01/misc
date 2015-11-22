@@ -1,0 +1,47 @@
+<?php 
+/**
+ * db_ext_atm_ora_Billing
+ *
+ * @comment -
+ * @author - sujith
+ * @since  - Wed Jun 06 08:45:42 LKT 2007 +GMT 5.30
+ */
+class db_ext_atm_ora_Billing extends oracleConnect
+{
+  /**
+  * __construct()
+  * @param -
+  * @param - 
+  * @author - sujith
+  * @since  - Wed Jun 06 08:47:51 LKT 2007 +GMT 5.30
+  */
+  function __construct()
+  {
+   	$this->oracleConnect();
+  }
+
+  /**
+  * GetBillingItems()
+  * @param -
+  * @param - 
+  * @author - sujith
+  * @since  - Wed Jun 06 08:48:57 LKT 2007 +GMT 5.30
+  */
+  function GetBillingItems()
+  {
+   	$query = "SELECT i.inventory_item_id, i.segment1 AS item_number, i.description, i.list_price_per_unit, " 
+             . "i.accounting_rule_id, i.invoicing_rule_id, r.frequency, r.occurrences, c.segment1, c.segment2, " 
+             . "c.segment3, c.segment4, c.segment5, c.segment6, c.segment7 " 
+             . "FROM MTL_SYSTEM_ITEMS i "
+             . "LEFT JOIN RA_RULES r ON r.rule_id=i.accounting_rule_id "
+             . "LEFT JOIN GL_CODE_COMBINATIONS c ON c.code_combination_id = i.sales_account "
+             . "WHERE i.invoiceable_item_flag='Y' AND (i.START_DATE_ACTIVE IS NULL OR i.START_DATE_ACTIVE <= CURRENT_DATE) AND " 
+             . "(i.END_DATE_ACTIVE IS NULL OR i.END_DATE_ACTIVE > CURRENT_DATE)" ;
+ 
+ 
+      $this->parse($query); 
+      $this->execute(); 
+      return $this->CreateOracleArray(); 
+  }
+}
+?>

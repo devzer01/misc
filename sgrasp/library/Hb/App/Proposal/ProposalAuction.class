@@ -1,0 +1,553 @@
+<?php
+/**
+ * Domain Object for Proposal Auction
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAuction extends Hb_App_Object
+{
+	/**
+	 * Auction End Date
+	 *
+	 * @var string
+	 **/
+	protected $auction_end_date = null;
+	
+	/**
+	 * Auction Name
+	 *
+	 * @var string
+	 **/	
+	protected $auction_name = null;
+	
+	/**
+	 * Auction Start Date
+	 *
+	 * @var string
+	 **/	
+	protected $auction_start_date = null;
+	
+	/**
+	 * Completes
+	 *
+	 * @var int
+	 **/	
+	protected $completes = null;
+	
+	/**
+	 * Country Code
+	 *
+	 * @var string
+	 **/	
+	protected $country_code = null;
+	
+	/**
+	 * Current Bid 
+	 *
+	 * @var int
+	 **/	
+	protected $current_bid = null;
+	
+	/**
+	 * Current Bid By Account Id
+	 *
+	 * @var int
+	 **/	
+	protected $current_bid_by_account_id = null;
+	
+	/**
+	 * Current Bid By Contact Id
+	 *
+	 * @var int
+	 **/	
+	protected $current_bid_by_contact_id = null;
+	
+	/**
+	 * Incidence Rate
+	 *
+	 * @var int
+	 **/	
+	protected $incidence_rate = null;
+	
+	/**
+	 * Proposal Auction Duration Type Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_auction_duration_type_id = null;
+	
+	/**
+	 * Proposal Auction Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_auction_id = null;
+	
+	/**
+	 * Proposal Auction Status Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_auction_status_id = null;
+	
+	/**
+	 * Proposal Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_id = null;
+	
+	/**
+	 * Proposal Revision Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Proposal Revision Option Id 
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_revision_option_id = null;
+	
+	/**
+	 * Sample Type Id 
+	 *
+	 * @var int
+	 **/	
+	protected $sample_type_id = null;
+	
+	/**
+	 * Starting Bid 
+	 *
+	 * @var int
+	 **/	
+	protected $starting_bid = null;
+	
+	/**
+	 * Create ProposalAuction Object
+	 *
+	 * @param int $id Proposal Auction Id
+	 * @param string $auction_name Auction Name
+	 * @param int $proposal_id Proposal Id
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 * @param int $proposal_revision_option_id Proposal Revision Option Id
+	 * @param int $proposal_auction_status_id Proposal Auction Status Id
+	 * @param int $proposal_auction_duration_type_id Proposal Auction Duration Type Id
+	 * @param int $sample_type_id Sample Type Id
+	 * @param int $completes Completes
+	 * @param string $country_code Country Code
+	 * @param int $incidence_rate Incidence Rate
+	 * @param string $auction_start_date Auction Start Date
+	 * @param string $auction_end_date Auction End Date
+	 * @param int $starting_bid Starting Bid
+	 * @param int $current_bid Current Bid
+	 * @param int $current_bid_by_account_id Current Bid By Account Id
+	 * @param int $current_bid_by_contact_id Current Bid By Contact Id
+	 */
+	function __construct(
+							$id 								= null,
+							$auction_name  						= null,
+							$proposal_id 						= null,
+							$proposal_revision_id 				= null,
+							$proposal_revision_option_id 		= null,
+							$proposal_auction_status_id 		= null,
+							$proposal_auction_duration_type_id	= null,
+							$sample_type_id 					= null,
+							$completes 							= null,
+							$country_code 						= null,
+							$incidence_rate 					= null,
+							$auction_start_date 				= null,
+							$auction_end_date 					= null,
+							$starting_bid 						= null,
+							$current_bid 						= null,
+							$current_bid_by_account_id 			= null,
+							$current_bid_by_contact_id 			= null
+							
+	)
+	{
+							$this->proposal_auction_id = $id;
+							$this->auction_name = $auction_name;
+							$this->proposal_id = $proposal_id;
+							$this->proposal_revision_id = $proposal_revision_id;
+							$this->proposal_revision_option_id = $proposal_revision_option_id;
+							$this->proposal_auction_status_id = $proposal_auction_status_id;
+							$this->proposal_auction_duration_type_id = $proposal_auction_duration_type_id;
+							$this->sample_type_id = $sample_type_id;
+							$this->completes = $completes;
+							$this->country_code = $country_code;
+							$this->incidence_rate = $incidence_rate;
+							$this->auction_start_date = $auction_start_date;
+							$this->auction_end_date = $auction_end_date;
+							$this->starting_bid = $starting_bid;
+							$this->current_bid = $current_bid;
+							$this->current_bid_by_account_id = $current_bid_by_account_id;
+							$this->current_bid_by_contact_id = $current_bid_by_contact_id;
+							
+							parent::__construct($id);		
+	}
+	
+	/**
+	 * Returns The Proposal Auction Id
+	 *
+	 * @return int The Proposal Auction Id
+	 */
+	public function GetProposalAuctionId()
+	{
+		return $this->proposal_auction_id;
+	}
+	/**
+	 * Returns The Auction End Date
+	 *
+	 * @return string The Auction End Date
+	 */
+	public function GetAuctionEndDate()
+	{
+		return $this->auction_end_date;
+	}
+	
+	/**
+	 * Returns The Auction Name
+	 *
+	 * @return string The Auction Name
+	 */
+	public function GetAuctionName()
+	{
+		return $this->auction_name;
+	}
+	
+	/**
+	 * Returns Auction Start Date
+	 *
+	 * @return string Auction Start Date
+	 */
+	public function GetAuctionStartDate()
+	{
+		return $this->auction_start_date;
+	}
+
+	/**
+	 * Returns Completes
+	 *
+	 * @return int Completes
+	 */
+	public function GetCompletes()
+	{
+		return $this->completes;
+	}
+
+	/**
+	 * Returns Country Code
+	 *
+	 * @return String Country Code
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	 * Returns Current Bid
+	 *
+	 * @return int Current Bid
+	 */
+	public function GetCurrentBid()
+	{
+		return $this->current_bid;
+	}
+	
+	/**
+	 * Returns Current Bid By Account Id
+	 *
+	 * @return int Current Bid By Account Id
+	 */
+	public function GetCurrentBidByAccountId()
+	{
+		return $this->current_bid_by_account_id;
+	}
+	
+	/**
+	 * Returns Current Bid By Contact Id
+	 *
+	 * @return int Current Bid By Contact Id
+	 */
+	public function GetCurrentBidByContactId()
+	{
+		return $this->current_bid_by_contact_id;
+	}
+	
+	/**
+	 * Returns Incidence Rate
+	 *
+	 * @return int Incidence Rate
+	 */
+	public function GetIncidenceRate()
+	{
+		return $this->incidence_rate;
+	}
+	
+	/**
+	 * Retruns Proposal Auction Duration Type Id
+	 *
+	 * @return int Proposal Auction Duration Type Id
+	 */
+	public function GetProposalAuctionDurationTypeId()
+	{
+		return $this->proposal_auction_duration_type_id;
+	}
+	
+	/**
+	 * Returns Proposal Auction Status Id
+	 *
+	 * @return int Proposal Auction Status Id
+	 */
+	public function GetProposalAuctionStatusId()
+	{
+		return $this->proposal_auction_status_id;
+	}
+	
+	/**
+	 * Returns Proposal Id
+	 *
+	 * @return int Proposal Id
+	 */
+	public function GetProposalId()
+	{
+		return $this->proposal_id;
+	}
+	
+	/**
+	 * Returns Proposal Revision Id
+	 *
+	 * @return int Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+	
+	/**
+	 * Returns Proposal Revision Option Id
+	 *
+	 * @return int Proposal Revision Option Id
+	 */
+	public function GetProposalRevisionOptionId()
+	{
+		return $this->proposal_revision_option_id;
+	}
+	
+	/**
+	 * Returns Sample Type Id
+	 *
+	 * @return int Sample Type Id
+	 */
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+
+	/**
+	 * Returns Starting Bid
+	 *
+	 * @return int Starting Bid
+	 */
+	public function GetStartingBid()
+	{
+		return $this->starting_bid;
+	}
+	/**
+	 * Sets The Proposal Auction Id
+	 *
+	 * @param int $proposal_auction_id Proposal Auction Id
+	 */
+	public function SetProposalAuctionId($proposal_auction_id)
+	{
+		$this->proposal_auction_id = (int) $proposal_auction_id;
+		$this->__id = (int) $proposal_auction_id;
+		$this->MarkDirty();
+		
+	}
+	/**
+	 * Sets The Auction End Date
+	 * 
+	 * @param string $auction_end_date Auction End Date
+	 */
+	public function SetAuctionEndDate($auction_end_date)
+	{
+		$this->auction_end_date = $auction_end_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Auction_Name
+	 * 
+	 * @param string $auction_name Auction Name
+	 */
+	public function SetAuctionName($auction_name)
+	{
+		$this->auction_name = $auction_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Auction Start Date
+	 * 
+	 * @param string $auction_start_date Acution Start Date
+	 */
+	public function SetAuctionStartDate($auction_start_date)
+	{
+		$this->auction_start_date = $auction_start_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Completes
+	 * 
+	 * @param int $completes as Completes
+	 */
+	public function SetCompletes($completes)
+	{
+		$this->completes = (int) $completes;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Country Code
+	 * 
+	 * @param string $country_code Country Code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Current Bid
+	 * 
+	 * @param int $current_bid Current Bid
+	 */
+	public function SetCurrentBid($current_bid)
+	{
+		$this->current_bid = (int) $current_bid;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Current Bid By Account Id
+	 * 
+	 * @param int $current_bid_by_account_id Current Bid By Account Id
+	 */
+	public function SetCurrentBidByAccountId($current_bid_by_account_id)
+	{
+		$this->current_bid_by_account_id = (int) $current_bid_by_account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Current Bid By Contact Id
+	 * 
+	 * @param int $current_bid_by_contact_id Current Bid By Contact Id
+	 */
+	public function SetCurrentBidByContactId($current_bid_by_contact_id)
+	{
+		$this->current_bid_by_contact_id = (int) $current_bid_by_contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Incidence Rate
+	 * 
+	 * @param int $incidence_rate Incidence Rate
+	 */
+	public function SetIncidenceRate($incidence_rate)
+	{
+		$this->incidence_rate = (int) $incidence_rate;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Proposal Auction Duration Type Id
+	 *
+	 * @param int $proposal_auction_duration_type_id Proposal Auction Duration Type Id
+	 */
+	public function SetProposalAuctionDurationTypeId($proposal_auction_duration_type_id)
+	{
+		$this->proposal_auction_duration_type_id =  (int) $proposal_auction_duration_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Auction Status Id
+	 *
+	 * @param int $proposal_auction_status_id Sets Proposal Auction Status Id
+	 */
+	public function SetProposalAuctionStatusId($proposal_auction_status_id)
+	{
+		$this->proposal_auction_status_id = (int) $proposal_auction_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Id
+	 *
+	 * @param int $proposal_id Proposal Id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = (int) $proposal_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Id
+	 *
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int) $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Option Id
+	 *
+	 * @param int $proposal_revision_option_id Proposal Revision Option Id
+	 */
+	public function SetProposalRevisionOptionId($proposal_revision_option_id)
+	{
+		$this->proposal_revision_option_id = (int) $proposal_revision_option_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sample Type Id
+	 *
+	 * @param int $sample_type_id Sample Type Id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = (int) $sample_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Starting Bid
+	 *
+	 * @param int $starting_bid Starting Bid
+	 */
+	public function SetStartingBid($starting_bid)
+	{
+		$this->starting_bid = (int) $starting_bid;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,110 @@
+<?php
+/**
+ * Project Mapper
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Project
+ */  
+
+class Hb_Mapper_Project_Project extends Hb_Mapper_Mapper 
+{ 
+	
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "pjm_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "pjm";
+		
+				
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Project_Project(
+														$row->pjm_id, 
+														$row->alert_level_id, 
+														$row->pjm_description, 
+														$row->pjm_end_date, 
+														$row->pjm_start_date, 
+														$row->pjm_status_id );		
+	}
+		
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      	$select = $db->select(); 
+         
+		$select->from('pjm', array(
+												'pjm_id', 
+												'pjm_type_id', 
+												'alert_level_id', 
+												'pjm_status_id', 
+												'pjm_description', 
+												'pjm_start_date', 
+												'pjm_end_date'));
+		         
+      return $select; 		
+	}
+	
+	/**
+	 * Finds a Project by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */		
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+    	$select->where('pjm_id = ?', $id);				
+             
+    	return $this->getRow($select); 				
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */			
+	protected function doSave(Hb_App_Object $obj)
+	{		 
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+				
+		$row->alert_level_id 	= $obj->GetAlertLevelId();
+		$row->pjm_type_id 		= $obj->GetProjectTypeId();
+		$row->pjm_status_id 	= $obj->GetProjectStatusId();
+		$row->pjm_description 	= $obj->GetProjectDescription();
+		$row->pjm_start_date 	= $obj->GetProjectStartDate();
+		$row->pjm_end_date 		= $obj->GetProjectEndDate();
+	
+		$row->Save();				
+		
+		$obj->SetProjectId($row->pjm_id);   	
+	}
+	
+	 
+       
+} 
+
+
+
+?>

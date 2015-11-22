@@ -1,0 +1,142 @@
+<?php 
+/**
+ * Domain Object for Study Proposal Category
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyProposalCategory extends Hb_App_Object 
+{
+	/**
+	 * Study Proposal Category ID
+	 *
+	 * @var int 
+	 */
+	private $study_proposal_category_id = null;
+	
+	/**
+	 * Study ID
+	 *
+	 * @var int 
+	 */
+	private $study_id = null;
+	
+	/**
+	 * Proposal Category Type ID
+	 *
+	 * @var int 
+	 */
+	private $proposal_category_type_id = null;
+	
+	/**
+	 * status
+	 *
+	 * @var int 
+	 */
+	private $status = null;
+	
+	
+	function __construct($id 				= null,
+								$study_id		= null,
+								$proposal_category_type_id = null)
+	{
+		$this->study_proposal_category_id	= $id;
+		$this->study_id							= $study_id;
+		$this->proposal_category_type_id		= $proposal_category_type_id;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Status for the Study Proposal Category
+	 *
+	 * @return char Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+	
+	/**
+	 * Set the Status for the  Study Proposal Category
+	 * 
+	 * @param char $status Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status	= $status;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Study Proposal Category id for the Study Proposal Category
+	 *
+	 * @return int Study Proposal Category id
+	 */
+	public function GetStudyProposalCategoryID()
+	{
+		return $this->study_proposal_category_id;
+	}
+	
+	/**
+	 * Return the Study ID for the Study Proposal Category
+	 *
+	 * @return int Study ID
+	 */
+	public function GetStudyID()
+	{
+		return $this->study_id;
+	}
+	
+	/**
+	 * Return the Proposal Category Type ID for the Study Proposal Category
+	 *
+	 * @return int Proposal Category Type ID
+	 */
+	public function GetProposalCategoryTypeID()
+	{
+		return $this->proposal_category_type_id;
+	}
+	
+	/**
+	 * Set the Study Proposal Category ID for the  Study Proposal Category
+	 * 
+	 * @param int $study_proposal_category_id Study Proposal Category ID
+	 */
+	public function SetStudyProposalCategoryID($study_proposal_category_id)
+	{
+		$this->study_proposal_category_id	= $study_proposal_category_id;
+		$this->__id									= $study_proposal_category_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study ID for the  Study Proposal Category
+	 * 
+	 * @param int $study_id Study ID
+	 */
+	public function SetStudyID($study_id)
+	{
+		$this->study_id	= $study_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Proposal Category Type ID for the  Study Proposal Category
+	 * 
+	 * @param int $proposal_category_type_id Proposal Category Type ID
+	 */
+	public function SetProposalCategoryTypeId($proposal_category_type_id)
+	{
+		$this->proposal_category_type_id	= $proposal_category_type_id;
+		$this->MarkDirty();
+	}
+	
+}
+
+
+?>

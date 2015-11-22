@@ -1,0 +1,55 @@
+<?php 
+/**
+ * Domain Object for Study Costs
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCostFileTypes extends Hb_App_Collection 
+{
+	/**
+	 * StudyCost instance
+	 *
+	 * @var HB_App_Study_StudyCostFileType 
+	 */
+	protected $study_cost_file_types = array();	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 */
+	public function AddItem(Hb_App_Study_StudyCostFileType $study_cost_file_type) 
+	{
+		try {
+			
+			parent::AddItem($study_cost_file_type);		
+			
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Cost file type Already Exists In Collection For StudyCostFileTypes ". $study_cost_file_type->study_cost_file_type_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($study_cost_file_type_id)
+	{
+		try {
+			return parent::GetItem($study_cost_file_type_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Cost file type Not Found For Study Cost File Types Collection" . $study_cost_file_type_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}	
+	
+	
+}
+?>

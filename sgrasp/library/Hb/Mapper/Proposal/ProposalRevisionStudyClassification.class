@@ -1,0 +1,123 @@
+<?php 
+/**
+ * Mapper Object for Proposal Revision Study Classification
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */
+class Hb_Mapper_Proposal_ProposalRevisionStudyClassification extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_revision_study_classification_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_revision_study_classification";
+	
+	/**
+	 * Builds and returns the Proposal Revision Study Classification domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the proposal_revision_study_classification table
+	 * @return object An instance of the Proposal Revision Study Classification domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		if($row->study_category_type_id == '') 
+			return false;
+		
+		return new Hb_App_Proposal_ProposalRevisionStudyClassification($row->proposal_revision_study_classification_id,
+																	  $row->proposal_revision_id,
+																	  $row->study_category_type_id
+																	  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('prsc' => $this->table), array('proposal_revision_study_classification_id',
+	 																		 'proposal_revision_id',
+	 																		 'study_category_type_id'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Proposal Revision Study Classificaiton by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the proposal_revision_study_classification table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('prsc.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	protected function doFindByRevisionId($id)
+	{	
+		$select = $this->GetBaseSelect();
+		$select->where('prsc.proposal_revision_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	public function FindByRevisionId($id)
+	{ 
+		$result = $this->doFindByRevisionId($id);		
+		
+		if(!$result) {
+			return false;
+		}
+		
+		return $this->doBuildObject($result);
+	}
+	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Proposal Revision Study Classificaiotn domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Proposal_ProposalRevisionStudyClassification   */
+	 	$data  = array(
+			'proposal_revision_id'		=> $obj->GetProposalRevisionID(),
+			'study_category_type_id'	=> $obj->GetStudyCategoryTypeID()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$data['created_by']		= ($_SESSION['admin_id'] ? $_SESSION['admin_id'] : SYSTEM_USER);
+	 		$data['created_date']	= date('Y-m-d h:i:s');	 		
+	 		$db->insert($this->table, $data);
+	 		$obj->SetProposalRevisionStudyClassificaitonId($db->lastInsertId());
+	 	}else {
+	 		$data['modified_by']		= ($_SESSION['admin_id'] ? $_SESSION['admin_id'] : SYSTEM_USER);
+	 		$data['modified_date']	= date('Y-m-d h:i:s');
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+?>

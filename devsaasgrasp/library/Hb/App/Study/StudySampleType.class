@@ -1,0 +1,90 @@
+<?php
+/**
+ * Domain Object for Study Sample Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudySampleType extends Hb_App_Common_Type
+{
+	/**
+	 * Sample type id
+	 *
+	 * @var int
+	 **/
+	protected $sample_type_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 **/
+	protected $study_id = null;
+
+	/**
+	 * Create StudySampleType Object
+	 *
+	 * @param int $id Study sample type id
+	 * @param int $study_id Study id
+	 * @param string $sample_type_id Sample type id
+	 */
+	function __construct($id = null,
+  							   $study_id = null,
+  							   $sample_type_id = null,
+  							   $description = null)
+	{
+		$this->study_id 					= $study_id;
+		$this->sample_type_id 			= $sample_type_id;
+		
+		parent::__construct($id, $description);
+	}
+
+	/**
+	* Returns the Sample type id
+ 	* 
+	* @return int The Sample type id
+	**/
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+
+	/**
+	* Returns the Study id
+ 	* 
+	* @return int The Study id
+	**/	
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Sets the Sample type id
+ 	 * 
+	 * @param int $sample_type_id Sample type id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = $sample_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study id
+ 	 * 
+	 * @param int $study_id Study id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

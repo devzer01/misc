@@ -1,0 +1,143 @@
+<?php 
+/**
+ * Domain Object for Contact Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_ContactAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Common Contact instance
+	 *
+	 * @var HB_App_Common_Contact 
+	 */
+	protected $contact = null;
+	
+	/**
+	 * Contact Id
+	 *
+	 * @var int 
+	 */
+	protected $contact_id	= null;
+	
+	/**
+	 * Contact Attribute definition
+	 *
+	 * @var string 
+	 */
+	protected $definition = null;
+	
+	/**
+	 * Create Contact Attribute Object
+	 *
+	 * @param int $id Contact Attribute id
+	 * @param int $contact_id Contact id
+	 * @param string $name Contact attribute name
+	 * @param string $value Contact attribute value
+	 */
+	function __construct($id 					= null,
+								$contact_id 		= null,
+								$name					= null,
+								$value 				= null
+								)
+	{
+		$this->contact_id = $contact_id;
+
+		parent::__construct($id, $name, $value);	
+	}
+	
+	/**
+	 * Return the Contact attribute definition for the Contact Attribute
+	 *
+	 * @return string Contact attribute definition
+	 */
+	public function GetDefinition()
+	{
+		if(is_null($this->definition)) {
+			$this->definition = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_ContactAttributeDefinition')->Find($this->GetAttributeName());
+		}
+		
+		return $this->definition;
+	}
+	
+	/**
+	 * Set the Contact attribute id for the  Contact Attribute
+	 * 
+	 * @param int $contact_attribute_id Contact attribute id
+	 */
+	public function SetContactAttributeId($contact_attribute_id)
+	{
+		$this->__id	= $contact_attribute_id;
+	}
+	
+	/**
+	 * Set the Contact for the  Contact Attribute
+	 * 
+	 * @param HB_App_Common_Contact $contact Contact
+	 */
+	public function SetContact(Hb_App_Common_Contact $contact)
+	{
+		$this->contact		= $contact;
+		$this->contact_id	= $contact->GetContactId();
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Contact object for the Contact Attribute
+	 *
+	 * @return HB_App_Contact_Contact Contact object
+	 */
+	protected function doGetContact()
+	{
+		if(is_null($this->contact)) {
+			if(is_null($this->contact_id))
+				throw new Hb_App_Common_Exception_ContactNotFoundException();				
+			
+			$this->contact = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Contact')->Find($this->contact_id);
+		}
+		
+		return $this->contact;
+		
+	}
+	
+	/**
+	 * Return the Contact id for the Contact Attribute
+	 *
+	 * @return int Contact id
+	 */
+	public function GetContactId()
+	{
+		if(is_null($this->contact_id)) {
+			$this->contact_id	= $this->doGetContact()->GetContactId();
+		}
+		return $this->contact_id;
+	}
+	
+	/**
+	 * Return the Contact instance for the Contact Attribute
+	 *
+	 * @return HB_App_Common_Contact Contact instance
+	 */
+	public function GetContact()
+	{
+		return $this->doGetContact();
+	}
+	
+	/**
+	 * Set the Contact Id for the  Contact Attribute
+	 * 
+	 * @param int $contact_id Contact Id
+	 */
+	public function SetContactId($contact_id)
+	{
+		$this->contact_id	= $contact_id;
+		$this->MarkDirty();
+	}
+		
+}
+?>

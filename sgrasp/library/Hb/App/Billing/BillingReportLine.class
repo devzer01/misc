@@ -1,0 +1,338 @@
+<?php
+require_once ('BillingReport.class');
+require_once ('BillingReportItem.class');
+
+/**
+ * Domain object for the Billing Report Line
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */
+class Hb_App_Billing_BillingReportLine extends Hb_App_Object 
+{
+	/**
+	 * Actual Number of Units
+	 *
+	 * @var int 
+	 */
+	protected $actual_quantity = null;
+	
+	/**
+	 * Actual Unit Price (USD)
+	 *
+	 * @var float
+	 */
+	protected $actual_rate = null;
+	
+	/**
+	 * Actual Unit Price (Foreign Currency)
+	 *
+	 * @var float
+	 */
+	protected $actual_rate_i18n = null;
+	
+	/**
+	 * Billing Item Definition ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_budget_line_item_def_id = null;
+	
+	/**
+	 * Billing Report Line ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_budget_line_item_id = null;
+	
+	/**
+	 * Billing Report ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_id = null;
+	
+	/**
+	 * Billing Report Line Group Description
+	 *
+	 * @var string  
+	 */
+	protected $group_description = null;
+	
+	/**
+	 * Proposed Number of Units
+	 *
+	 * @var int 
+	 */
+	protected $proposed_quantity = null;
+	
+	/**
+	 * Proposed Unit Price (USD)
+	 *
+	 * @var float 
+	 */
+	protected $proposed_rate = null;
+	
+	/**
+	 * Proposed Unit Price (Foreign Currency)
+	 *
+	 * @var float 
+	 */
+	protected $proposed_rate_i18n = null;
+
+	/**
+	 * Constructor for the BillingReportLine
+	 *
+	 * @param int $id billing report item id
+	 * @param int $actual_quantity actual quantity
+	 * @param float $actual_rate actual unit price
+	 * @param float $actual_rate_i18n actual unit price (Foreign Currency)
+	 * @param int $armc_budget_line_item_def_id billing report item definition id
+	 * @param int $armc_id billing report id 
+	 * @param string $group_description billing report line group description
+	 * @param int $proposed_quantity proposed number of units
+	 * @param float $proposed_rate proposed unit price (USD)
+	 * @param float $proposed_rate_i18n proposed unit price (foreign currency)
+	 */
+	function __construct($id = null,
+								$actual_quantity = null,
+								$actual_rate = null,
+								$actual_rate_i18n = null,
+								$armc_budget_line_item_def_id = null,
+								$armc_id = null,
+								$group_description = null,
+								$proposed_quantity = null,
+								$proposed_rate = null,
+								$proposed_rate_i18n = null
+								)
+	{
+		$this->armc_budget_line_item_id 		= $id;
+		$this->armc_budget_line_item_def_id = $armc_budget_line_item_def_id;
+		$this->armc_id								= $armc_id;
+		$this->actual_quantity					= $actual_quantity;
+		$this->actual_rate						= $actual_rate;
+		$this->actual_rate_i18n					= $actual_rate_i18n;
+		$this->group_description				= $group_description;
+		$this->proposed_quantity				= $proposed_quantity;
+		$this->proposed_rate						= $proposed_rate;
+		$this->proposed_rate_i18n				= $proposed_rate_i18n;
+			
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Actual Number of Units for Billing Report Line 
+	 *
+	 * @return int actual quantity
+	 */
+	public function GetActualQuantity()
+	{
+		return $this->actual_quantity;
+	}
+
+	/**
+	 * Return the Actual Unit Price (USD) for Billing Report Line
+	 *
+	 * @return float actual unit price
+	 */
+	public function GetActualRate()
+	{
+		return $this->actual_rate;
+	}
+
+	/**
+	 * Return the Actual Unit Price (Foreign Currency) for Billing Report Line
+	 *
+	 * @return float actual unit price (foreign currency)
+	 */
+	public function GetActualRateI18N()
+	{
+		return $this->actual_rate_i18n;
+	}
+
+	/**
+	 * Return the Billing Report ID for Billing Report Line
+	 *
+	 * @return int billing report id
+	 */
+	public function GetBillingReportID()
+	{
+		return $this->armc_id;
+	}
+ 	
+	/**
+	 * Return the Billing Item Definition ID for Billing Report Line
+	 *
+	 * @return int billing report item id 
+	 */
+	public function GetBillingReportItemID()
+	{
+		return $this->armc_budget_line_item_def_id;
+	}
+
+	/**
+	 * Return the Billing Report Line ID for Billing Report Line
+	 *
+	 * @return int billing report line id
+	 */
+	public function GetBillingReportLineID()
+	{
+		return $this->armc_budget_line_item_id;
+	}
+
+	/**
+	 * Return the Billing Report Line Group Description for Billing Report Line
+	 *
+	 * @return string billing report line groop description
+	 */
+	public function GetGroupDescription()
+	{
+		return $this->group_description;
+	}
+
+	/**
+	 * Return the Proposed Number of Units for Billing Report Line
+	 *
+	 * @return int proposed number of unites
+	 */
+	public function GetProposedQuantity()
+	{
+		return $this->proposed_quantity;
+	}
+
+	/**
+	 * Return the Proposed Unit Price for Billing Report Line
+	 *
+	 * @return float proposed unit price
+	 */
+	public function GetProposedRate()
+	{
+		return $this->proposed_rate;
+	}
+
+	/**
+	 * Return the Proposed Unit Price (Foreign Currency) for Billing Report Line
+	 *
+	 * @return float proposed unit price (foreign currency)
+	 */
+	public function GetProposedRateI18N()
+	{
+		return $this->proposed_rate_i18n;
+	}
+
+	/**
+	 * Set the Actual Number of Units
+	 * 
+	 * @param int $actual_quantity actual number of units
+	 */
+	public function SetActualQuantity($actual_quantity)
+	{
+		$this->actual_quantity = $actual_quantity;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Actual Unit Price (USD)
+	 * 
+	 * @param float $actual_rate actual unit price(USD)
+	 */
+	public function SetActualRate($actual_rate)
+	{
+		$this->actual_rate = $actual_rate;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Actual Unit Price (Foreign Currency)
+	 * 
+	 * @param float $actual_rate_i18n actual unit price (foreign currency)
+	 */
+	public function SetActualRateI18N($actual_rate_i18n)
+	{
+		$this->actual_rate_i18n = $actual_rate_i18n;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report ID
+	 * 
+	 * @param int $armc_id billing report id
+	 */
+	public function SetBillingReportID($armc_id)
+	{
+		$this->armc_id = $armc_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Item Definition ID
+	 * 
+	 * @param int $armc_budget_line_item_def_id billing item definition id
+	 */
+	public function SetBillingReportItemID($armc_budget_line_item_def_id)
+	{
+		$this->armc_budget_line_item_def_id = $armc_budget_line_item_def_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Line ID
+	 * 
+	 * @param int $armc_budget_line_item_id billing report line id
+	 */
+	public function SetBillingReportLineID($armc_budget_line_item_id)
+	{		
+		$this->armc_budget_line_item_id = (int) $armc_budget_line_item_id;
+		$this->__id = (int) $armc_budget_line_item_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Line Group Description
+	 * 
+	 * @param string $group_description billing report line group description
+	 */
+	public function SetGroupDescription($group_description)
+	{
+		$this->group_description = $group_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposed Number of Units
+	 * 
+	 * @param int $proposed_quantity proposed number of units
+	 */
+	public function SetProposedQuantity($proposed_quantity)
+	{
+		$this->proposed_quantity = $proposed_quantity;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposed Unit Price
+	 * 
+	 * @param float $proposed_rate proposed unit price
+	 */
+	public function SetProposedRate($proposed_rate)
+	{
+		$this->proposed_rate = $proposed_rate;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposed Unit Price (Foreign Currency)
+	 * 
+	 * @param flost $proposed_rate_i18n proposed unit price (foreign currency)
+	 */
+	public function SetProposedRateI18N($proposed_rate_i18n)
+	{
+		$this->proposed_rate_i18n = $proposed_rate_i18n;
+		$this->MarkDirty();
+	}
+
+}
+?>

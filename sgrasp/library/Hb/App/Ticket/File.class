@@ -1,0 +1,12 @@
+<?php
+
+class hb_tcm_file extends hb_file {
+	
+	public $comment_id;
+	
+	public $file_id;
+	
+}
+
+
+?>

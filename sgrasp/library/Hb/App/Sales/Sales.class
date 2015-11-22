@@ -1,0 +1,167 @@
+<?php 
+class Hb_App_Sales_Sales extends Hb_App_Object 
+{
+	/**
+	 * Amount
+	 *
+	 * @var flost 
+	 */
+	protected $amount = null;
+	
+	/**
+	 * Sales Date
+	 *
+	 * @var string 
+	 */
+	protected $sales_date = null;
+
+	/**
+	 * Sales Id
+	 *
+	 * @var int 
+	 */
+	protected $sales_id = null;
+	
+	/**
+	 * Sales Type Id
+	 *
+	 * @var int 
+	 */
+	protected $sales_type_id = null;
+
+	/**
+	 * Sales Type
+	 *
+	 * @var int 
+	 */
+	protected $sales_type = null;
+	
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Sales Id
+	 * @param float $amount Amount
+	 * @param string $sales_date Sales Date
+	 * @param int $sales_type_id Sales Type Id
+	 * @param Object $sales_type Sales Type
+	 */
+	function __construct($id = null, $amount = null,
+			 $sales_date = null, $sales_type_id = null, $sales_type = null)
+	{
+		$this->sales_id 			= $id;
+		$this->amount				= $amount;
+		$this->sales_date 		= $sales_date; 
+		$this->sales_type_id 	= $sales_type_id;
+		$this->sales_type			= $sales_type;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Amount
+	 *
+	 * @return float Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Returns Sales Date
+	 *
+	 * @return string Sales Date
+	 */
+	public function GetSalesDate()
+	{
+		return $this->sales_date;
+	}
+
+	/**
+	 * Returns Sales Id
+	 *
+	 * @return int Sales Id
+	 */
+	public function GetSalesId()
+	{
+		return $this->sales_id;
+	}
+
+	/**
+	 * Returns Sales Type Id
+	 *
+	 * @return int Sales Type Id
+	 */
+	public function GetSalesTypeId()
+	{
+		return $this->sales_type_id;
+	}
+
+	/**
+	 * Returns Sales Type
+	 *
+	 * @return Object Sales Type
+	 */
+	public function GetSalesType()
+	{
+		return $this->sales_type;
+	}
+
+	/**
+	 * Sets Amount
+	 *
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sales Date
+	 *
+	 * @param string $sales_date Sales Date
+	 */
+	public function SetSalesDate($sales_date)
+	{
+		$this->sales_date = $sales_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sales Id
+	 *
+	 * @param int $sales_id Sales Id
+	 */
+	public function SetSalesId($sales_id)
+	{
+		$this->sales_id 	= $sales_id;
+		$this->__id			= $sales_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sales Type Id
+	 *
+	 * @param int $sales_type_id Sales Type Id
+	 */
+	public function SetSalesTypeId($sales_type_id)
+	{
+		$this->sales_type_id = $sales_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Sales Type Domain Object
+	 *
+	 * @param Object $sales_type Sales Type Domain Object
+	 */
+	public function SetSalesType($sales_type)
+	{
+		$this->sales_type = $sales_type;
+		$this->MarkDirty();
+	}
+}
+?>

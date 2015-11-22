@@ -1,0 +1,131 @@
+<?php
+/**
+ * Domain Object for Billing Report File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ */ 
+
+	class Hb_App_Billing_BillingReportFile extends Hb_App_Object
+	{
+		/**
+		 * Billing report file id
+		 * 
+		 * @var int
+		 */		
+		protected $armc_file_id = null;
+		
+		/**
+		 * Billing id
+		 * 
+		 * @var int
+		 */			
+		protected $armc_id = null;
+		
+		/**
+		 * Billing file object
+		 * 
+		 * @var Hb_App_Common_File
+		 */		
+		protected $armc_file = null;
+		
+		
+		/**
+		 * Create a billing report file object
+		 *
+		 * @param int $id Billing report file id
+		 * @param int $armc_id Billing report id
+		 * @param Hb_App_Common_File $armc_file Billing file object
+		 */	
+		public function __construct(
+												$id = null,
+												$armc_id = null,
+												Hb_App_Common_File $armc_file = null
+											)
+		{	
+			
+			$this->armc_file_id = $id;	
+			$this->armc_id = $armc_id;
+			$this->armc_file = $armc_file;
+			
+			if( !is_null($armc_file) )
+				$this->armc_file->RegisterFileOwner("Hb_App_Billing_BillingReportFile");
+
+			parent::__construct($id);
+		}
+		
+		
+		/**
+		 * Get billing report file id
+		 * 
+		 * @return int Billing report file id
+		 */					
+		public function GetBillingFileId()
+		{
+			return $this->armc_file_id;
+		}
+		
+		/**
+		 * Returns billing report id
+		 * 
+		 * @return int Billing report id
+		 */			
+		public function GetBillingReportID()
+		{
+			return $this->armc_id;
+		}
+				
+		/**
+		 * Returns billing report id
+		 * 
+		 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+		 */					
+		public function GetFile()
+		{			
+			return $this->armc_file;								
+		}
+				
+		/**
+		 * Returns billing report file id
+		 * 
+		 * @param int $armc_file_id Billing report file id
+		 */					
+		public function SetBillingFileId($armc_file_id)
+		{
+			$this->armc_file_id = $armc_file_id;
+			$this->__id = $armc_file_id;		
+			
+			$this->MarkDirty();
+		}
+		
+		/**
+		 * Sets billing report id
+		 * 
+		 * @param int $armc_id Billing report id
+		 */				
+		public function SetBillingReportID($armc_id)
+		{
+			$this->armc_id = $armc_id;
+			$this->MarkDirty();
+			
+		}
+		
+		/**
+		 * Sets billing report file object
+		 * 
+		 * @param Hb_App_Common_File $armc_file Instance of Hb_App_Common_File
+		 */						
+		public function SetFile(Hb_App_Common_File $armc_file)
+		{
+			$this->armc_file_id = $armc_file->GetFileId();
+			$this->__id = $armc_file->GetFileId();
+			$this->armc_file = $armc_file;
+		}
+	
+
+			
+	}
+?>

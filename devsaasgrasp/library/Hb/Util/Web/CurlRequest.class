@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * Curl Request Utility Class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0  
+ * @package Util
+ * @subpackage Web
+ */
+
+class Hb_Util_Web_CurlRequest
+{
+	/**
+	 * Handle to curl
+	 *
+	 * @var int
+	 */	
+	private $handle = null;
+	
+	/**
+	 * URL
+	 *
+	 * @var string
+	 */		
+	protected $url = null;
+	
+	/**
+	 * Data
+	 *
+	 * @var string
+	 */	
+	protected $data = null;	
+
+	/**
+	 * HTTP headers
+	 *
+	 * @var array
+	 */	
+	protected $headers = array();
+	
+	public function __construct($url)
+	{
+ 		if (!function_exists('curl_init')) 
+ 			trigger_error('PHP is compiled with no curl support. Please rebuild --with-curl', E_USER_ERROR) ;
+        		
+		//init curl
+		$this->handle = curl_init();			
+		
+		$this->SetUrl($url);
+		$this->SetOption(CURLOPT_CONNECTTIMEOUT, 4);			
+	}
+	
+	public function __destruct()
+	{
+		curl_close($this->handle);
+	}
+		
+	public function SetUrl($url)
+	{
+		$this->url = $url;		
+		$this->SetOption(CURLOPT_URL, $url);		
+	}
+	
+	public function SetOption($option, $value)
+	{
+		curl_setopt($this->handle, $option, $value);
+	}
+	
+	public function AddHeader($value)
+	{
+		$this->headers[] = $value;
+	}
+	
+	public function SetData($data)
+	{
+		$this->data = $data;
+	}
+
+	
+	public function Execute()
+	{
+		$request = "";
+	
+		//set our HTTP headers
+		$this->SetOption(CURLOPT_HTTPHEADER, $this->headers);
+		
+		//add our data
+		$this->AddHeader("\r\n".$this->data);
+				
+		$response = curl_exec($this->handle);
+		
+		if ( curl_errno($this->handle) ) throw new Exception(curl_error($this->handle), curl_errno($this->handle));
+		
+		return $response;		
+	}
+	
+}
+
+?>

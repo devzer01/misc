@@ -1,0 +1,98 @@
+<?php
+/**
+ * Mapper Class for StudyProduct
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyProduct extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Study Product table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'study_product_id';
+	
+	/**
+	 * Variable for Study Product table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'study_product';
+	
+	/**
+	 * Build the StudyProduct Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyProduct
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyProduct
+		(	$row->study_product_id,
+			$row->study_id,
+			$row->product_id );
+	}
+	
+	/**
+	 * Returns Study Study Product data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('sp' => 'study_product'), 
+							array(	'study_product_id', 
+										'study_id', 
+										'product_id'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('sp.study_product_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Study_StudyProduct  
+		
+		$data = array(
+			'study_id' 				=> $obj->GetStudyId(),
+			'product_id'	 		=> $obj->GetProductId());
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_product', $data);
+			$obj->SetStudyProductId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_product', $data, 'study_product_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

@@ -1,0 +1,154 @@
+<?php
+/**
+ * Domain class of AccountAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountAttribute extends Hb_App_Attribute
+{
+	/**
+	 * Account object
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected  $account = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected  $account_id = null;
+	
+	/**
+	 * Account Attribute Definition Collection
+	 *
+	 * @var Hb_App_Account_AccountAttributeDefinition
+	 */
+	protected $attribute_def = null;
+	
+	/**
+	 * Class Constructor
+	 *
+	 * @param int $id Account Attribute Id
+	 * @param int $account_id Account Id
+	 * @param string $name Attribute Name
+	 * @param string $value Attribute Value
+	 */ 
+	public function __construct($id = null, $account_id = null, $name = null, $value = null)
+	{
+		$this->account_id = $account_id;
+		parent::__construct($id, $name, $value);
+	}
+		
+	/**
+	 * Sets Account Attr Id
+	 *
+	 * @param int $id Account Attribute Id
+	 */ 
+	function SetAccountAttributeId($id) 
+	{ 
+	    $this->__id	= $id;
+	    $this->MarkDirty();
+	} 
+	
+	/**
+	 * Sets the account object for the attribute
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account = $account;
+		$this->account_id = $account->GetAccountId();
+	
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Gets the Account object associated with the Attribute
+	 *
+	 * @return Hb_App_Account_Account
+	 */
+	public function GetAccount()
+	{
+		return $this->doGetAccount();
+	}
+	
+	/**
+	 * Returns Account Id
+	 *
+	 * @return int Account Id
+	 */ 
+	function GetAccountId() 
+	{ 
+	   if(is_null($this->account_id)) {
+	   	$this->account_id = $this->doGetAccount()->GetAccountId();
+	   }
+		return $this->account_id;
+	}
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */ 
+	function SetAccountId($account_id) 
+	{ 
+	   $this->account_id = $account_id;
+	   $this->MarkDirty();
+	}
+
+	/**
+	 * Returns Account domain object for Account Attribute
+	 *
+	 * @return Hb_App_Account_Account
+	 * @throws Hb_App_Proposal_Exception_StudyTimeLineNotFoundException
+	 */ 
+	protected function doGetAccount() 
+	{ 
+		if(is_null($this->account)) {
+			if (is_null($this->account_id)) {
+				throw new Hb_App_Proposal_Exception_StudyTimeLineNotFoundException();
+			}
+			$this->account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->account_id);
+		}
+		
+		return $this->account;
+	}
+	
+	/**
+	 * Returns Hb_App_Account_AccountAttributeDefinition object
+	 * 
+	 * @return Hb_App_Account_AccountAttributeDefinition
+	 */
+	
+	public function GetAttributeDefinition()
+	{
+		if (is_null($this->attribute_def))	
+		{
+			$this->attribute_def = Hb_App_ObjectHelper::GetMapper(
+				'Hb_App_Account_AccountAttributeDefinition')->Find($this->GetAttributeName());
+		}
+		
+		return $this->attribute_def;
+	}
+	
+	/**
+	 * Sets Account Attribute Definition domain
+	 *
+	 * @param Hb_App_Account_AccountAttributeDefinition $definition Domain Object of Account Attribute Definition
+	 */ 
+	function SetAttributeDefinition(Hb_App_Account_AccountAttributeDefinition $definition) 
+	{ 
+		$this->attribute_def = $definition;
+		$this->MarkDirty();
+	}
+}
+?>

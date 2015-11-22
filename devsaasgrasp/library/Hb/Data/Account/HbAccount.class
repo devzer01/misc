@@ -1,0 +1,24 @@
+<?php
+
+class Hb_Data_Account_HbAccount extends Hb_Data_Account_Account 
+{
+	private static $__cache = array();
+
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $account_id
+	 * @param unknown_type $account_name
+	 * @return Hb_Data_Account_Account
+	 */
+	public static function getInstance($account_id, $account_name = '')
+	{
+		if (!isset(self::$__cache[$account_id])) {
+			self::$__cache[$account_id] = new Hb_Data_Account_HbAccount($account_id, $account_name);
+		}
+
+		return self::$__cache[$account_id];
+	}
+}
+?>

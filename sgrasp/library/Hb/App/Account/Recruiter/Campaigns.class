@@ -1,0 +1,45 @@
+<?php 
+/**
+ * Domain Object for Hb_App_Account_Recruiter_Campaign Collection
+ * 
+ * @copyright 2008 Global Market Insite Inc
+ * @author sujith
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_Campaigns extends Hb_App_Collection 
+{
+
+   /**
+	 * Adds RecruiterCampaignPricing to the collection
+	 *
+	 * @param Hb_App_Account_Recruiter_Campaign $campaign
+	 */
+	public function AddItem(Hb_App_Account_Recruiter_Campaign $campaign) 
+	{
+		try {
+			parent::AddItem($campaign);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Recruiter Campaign  Exists In Collection" ,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+   /**
+	 * Returns Hb_App_Account_Recruiter_Campaign object for a given campaign id
+	 *
+	 * @param int $campaign_id
+	 */	
+	public function GetItem($campaign_id)
+	{
+		try {
+			return parent::GetItem($campaign_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Recruiter Campaign Not Found in Recruiter Campaign Collection" ,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+}
+?>

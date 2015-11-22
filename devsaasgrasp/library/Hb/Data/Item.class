@@ -1,0 +1,9 @@
+<?php
+
+abstract class Hb_Data_Item
+{
+	public $id;
+
+	public $name;
+}
+?>

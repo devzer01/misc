@@ -1,0 +1,139 @@
+<?php 
+/**
+ * Domain Object for Proposal Category
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalCategory extends Hb_App_Object 
+{
+	/**
+	 * proposal category id
+	 *
+	 * @var int 
+	 */
+	private $proposal_category_id = null;
+	
+	/**
+	 * Proposal Sample Type id
+	 *
+	 * @var int 
+	 */
+	private $proposal_sample_type_id = null;
+	
+	/**
+	 * Proposal category description
+	 *
+	 * @var string 
+	 */
+	private $proposal_category_description = null;
+	
+	/**
+	 * Proposal Category Types
+	 * 
+	 * @var Hb_App_Proposal_ProposalCategoryTypes
+	 */
+	private $proposal_category_types = null;
+	
+	/**
+	 * Create an Proposal Category Object
+	 *
+	 * @param int $id
+	 * @param string $name
+	 * @param 
+	 */
+	public function __construct($id 										= null, 
+										 $proposal_sample_type_id 			= null,
+										 $proposal_category_description	= null
+											
+										)																																												
+	{
+		$this->proposal_category_id				= $id;
+		$this->proposal_sample_type_id			= $proposal_sample_type_id;
+		$this->proposal_category_description	= $proposal_category_description;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Proposal category id for the Proposal Category
+	 *
+	 * @return int Proposal category id
+	 */
+	public function GetProposalCategoryId()
+	{
+		return $this->proposal_category_id;		
+	}
+	
+	/**
+	 * Return the Proposal Category Description for the Proposal Category
+	 *
+	 * @return string Proposal Category Description
+	 */
+	public function GetProposalCategoryDescription()
+	{
+		return $this->proposal_category_description;
+	}
+	
+	/**
+	 * Return the Proposal Sample type id for the Proposal Category
+	 *
+	 * @return int Proposal Sample type id
+	 */
+	public function GetProposalSampleTypeId()
+	{
+		return $this->proposal_sample_type_id;
+	}
+	
+	/**
+	 * Set the Proposal Category id for the  Proposal Category
+	 * 
+	 * @param int $proposal_category_id Proposal Category id
+	 */
+	public function SetProposalCategoryId($proposal_category_id)
+	{
+		$this->proposal_category_id	= $proposal_category_id;
+		$this->__id							= $proposal_category_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Proposal Category Description for the  Proposal Category
+	 * 
+	 * @param stirng $description Proposal Category Description
+	 */
+	public function SetProposalCategoryDescription($description)
+	{
+		$this->proposal_category_description	= $description;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Proposal sample type id for the  Proposal Category
+	 * 
+	 * @param int $sample_type_id Proposal sample type id
+	 */
+	public function SetProposalSampleTypeId($sample_type_id)
+	{
+		$this->proposal_sample_type_id	= $sample_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Get Proposal Category Types 
+	 * 
+	 */
+	public function GetProposalCategoryTypes()
+	{
+		if(is_null($this->proposal_category_types)) {
+			$this->proposal_category_types	= Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalCategoryTypes')->Find($this->proposal_category_id);
+		}
+		
+		return $this->proposal_category_types;
+	}
+}
+?>

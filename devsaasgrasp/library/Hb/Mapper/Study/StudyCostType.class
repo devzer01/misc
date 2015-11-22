@@ -1,0 +1,102 @@
+<?php 
+/**
+ * Mapper Object for Study Cost Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ */ 
+class Hb_Mapper_Study_StudyCostType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_cost_type';
+	
+	
+	/**
+	 * Builds and returns the Study Cost Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_cost_type table
+	 * @return object An instance of the Study Cost Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCostType($row->study_cost_type_id,
+														  $row->study_cost_type_description,
+														  $row->default_unit_cost,
+														  $row->account_subtype_id
+														 );
+	} 
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sct' => 'study_cost_type'),array('study_cost_type_id',
+	 																			'study_cost_type_description',
+	 																			'default_unit_cost',
+	 																			'account_subtype_id',
+	 																			)
+						 );
+	 	
+	 	return $select;
+	}
+	
+	
+	/**
+	 * Finds a Study Cost Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj result row from the Zend_Db framework for the study_cost_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sct.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_cost_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyCostType   */
+		 	
+	 	$data  = array('study_cost_type_description' => $obj->GetTypeDescription(),
+	 					   'default_unit_cost' 				=> $obj->GetDefaultUnitCost(),
+	 					   'account_subtype_id' 			=> $obj->GetAccountSubTypeId()	 						
+	 					  );
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}	
+}
+?>

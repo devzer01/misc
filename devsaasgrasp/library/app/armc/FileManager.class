@@ -1,0 +1,214 @@
+<?php
+class atm_armc_FileManager
+{
+	private $file_manager;
+	
+	function __construct()
+	{
+		$this->file_manager	=new db_atm_armc_FileManager();
+	}
+	
+	/**
+	* SetARMCInvoice()
+	*
+	* @param 
+	* @author - krathnayake
+	* @since  - Fri Jun 01 06:54:28 IST 2007
+	**/
+	public function SetARMCInvoice( $file_data )
+	{
+		// get logger
+		$logger = Hb_Util_Log_Logger::GetInstance("armc");
+
+		// c if input param is having required data set
+		if (!is_array($file_data) && !isset($file_data['msg']['file'])) 
+		{
+			// log message
+			$logger->LogWarn("ARMC Transaction Document","No data " . print_r($file_data, true));
+			return false;
+		}
+			
+		// v hv required data, so start the process
+		// log message
+		$logger->LogDebug2("ARMC Transaction Document", print_r($file_data,true));
+			
+		// do insert billing report
+		$return_value = $this->file_manager->InsertARMCFile
+		(
+							array
+							(
+							"armc_file_type_id" => ARMC_FILE_TYPE_INVOICE,
+							"armc_id" => $file_data['meta'] /* Invoice Type (BR) */,
+							"armc_file_name" => $file_data['msg']['file'][0]['file_name'],
+							"armc_file_title" => $file_data['msg']['headers']['subject'],
+							"armc_file_data" => base64_decode($file_data['msg']['file'][0]['data']),
+							"armc_file_size" => (strlen($file_data['msg']['file'][0]['data']) +1) /* +1 for EOF*/
+							)
+		);
+
+		return $return_value;
+
+	} 
+	
+	/**
+	* SetARMCGroupInvoice()
+	*
+	* @param 
+	* @author - krathnayake
+	* @since  - Fri Jun 01 06:54:28 IST 2007
+	**/
+	public function SetARMCGroupInvoice( $file_data )
+	{
+		
+		// get logger
+		$logger = Hb_Util_Log_Logger::GetInstance("armc");
+
+		// c if input param is having required data set
+		if (!is_array($file_data) && !isset($file_data['msg']['file'])) 
+		{
+			// log message
+			$logger->LogWarn("ARMC Transaction Document","No data " . print_r($file_data, true));
+			return false;
+		}
+			
+		// v hv required data, so start the process
+		// log message
+		$logger->LogDebug2("ARMC Transaction Document", print_r($file_data,true));
+			
+		// do insert merged billing report
+		$return_value = $this->file_manager->InsertARMCGroupFile(
+																			array(
+																					"armc_file_type_id" => ARMC_FILE_TYPE_INVOICE,
+																					"armc_group_id" => $file_data['meta'] /* Invoice Type (MBR) */,
+																					"armc_group_file_name" => $file_data['msg']['file'][0]['file_name'],
+																					"armc_group_file_title" => $file_data['msg']['headers']['subject'],
+																					"armc_group_file_data" => base64_decode($file_data['msg']['file'][0]['data']),
+																					"armc_group_file_size" => (strlen($file_data['msg']['file'][0]['data']) +1) /* +1 for EOF*/
+																					)
+																			);
+		
+		return $return_value;
+
+	} 
+	
+	/**
+	* GetARMCFile()
+	*
+	* @param 
+	* @author - krathnayake
+	* @since  - Fri Jun 01 06:54:54 IST 2007
+	**/
+	public function GetARMCFile( $armc_file_id )
+	{
+		// $result = GetARMCFileDetails($armc_file_id);
+    	$transaction_document = $this->file_manager->GetARMCFileDetails($armc_file_id);
+
+    	// c if v hv some data in array containing a tx doc
+    	if (!(isset($transaction_document["armc_file_data"]))) 
+  		{
+	    	return false;			  			
+  		}
+
+  		// set the correct header settings 
+  		header("Pragma: public"); // required
+  		header("Expires: 0");
+  		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+  		header("Cache-Control: private",false); // required for certain browsers
+  		header('Content-type: application/octet-steam');
+  		header("Content-disposition: attachment; filename=\"". $transaction_document["armc_file_name"] . "\"");
+  		
+  		// throw the content on to browser
+	   echo $transaction_document["armc_file_data"];
+		return true;  
+	}     
+	
+	/**
+	* GetARMCGroupFile()
+	*
+	* @param 
+	* @author - krathnayake
+	* @since  - Fri Jun 01 06:57:01 IST 2007
+	**/
+	public function GetARMCGroupFile( $armc_group_file_id )
+	{
+    	$transaction_document = $this->file_manager->GetARMCGroupFileDetails($armc_group_file_id);
+
+    	// c if v hv some data in array containing a tx doc
+    	if (!(isset($transaction_document["armc_group_file_data"]))) 
+  		{
+	    	return false;			  			
+  		}
+  		
+  		// set the correct header settings 
+  		header("Pragma: public"); // required
+  		header("Expires: 0");
+  		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+  		header("Cache-Control: private",false); // required for certain browsers
+  		header('Content-type: application/octet-steam');
+  		header("Content-disposition: attachment; filename=\"". $transaction_document["armc_group_file_name"] . "\"");
+  		
+  		// throw the content on to browser
+	   echo $transaction_document["armc_group_file_data"];
+		return true;  
+	}     
+
+	/**
+	* GetARMCFileById()
+	* @param -
+	* @param - 
+	* @author - sujith
+	* @since  - Fri Jun 29 09:17:56 LKT 2007 +GMT 5.30
+	*/
+	
+	function GetARMCFileById($armc_id, $armc_type_file_id)
+	{
+	   $atmDB    = new atmDB();
+	   
+	   $doc_info 		= '';
+	   $document_url 	= '';
+	   
+	   $db_filemanager = new db_atm_armc_FileManager();
+	  	$doc_info = $db_filemanager->GetARMCFile($armc_id, $armc_type_file_id);
+	   $doc_info = array_shift(array_slice($doc_info,0));
+			
+	   if (is_array($doc_info) && array_key_exists("armc_file_id", $doc_info)) {
+	   	    
+			$document_url = "?action=get_armc_file&armc_file_id=" . $doc_info["armc_file_id"];
+			header("Location: " . $document_url);
+	   } else {
+	   		$msg = "<script language='javascript'>alert('Invoice Document Not Found');</script>";
+	   		print($msg);
+	   }
+	   
+	}
+	
+	/**
+	* GetARMCGroupFileById()
+	*
+	* @param  
+	* @throws 
+	* @return
+	* @author - sujith
+	* @since  - Wed Jul 04 04:14:16 IST 2007 +GMT 5.30
+	*/
+	function GetARMCGroupFileById($armc_group_id, $armc_file_type_id)
+	{
+	   $atmDB    = new atmDB();
+	   
+	   $doc_info 		= '';
+	   $document_url 	= '';
+	   
+	   $db_filemanager = new db_atm_armc_FileManager();
+	   $doc_info       = $db_filemanager->GetARMCGroupFile($armc_group_id, $armc_file_type_id);
+	   $doc_info       = array_shift(array_slice($doc_info,0));
+			
+	   if (is_array($doc_info) && array_key_exists("armc_group_file_id", $doc_info)) {
+			$document_url = "?action=get_armc_group_file&armc_group_file_id=" . $doc_info["armc_group_file_id"];
+			header("Location: " . $document_url);
+	   } else {
+	   	    $msg = "<script language='javascript'>alert('Invoice Document Not Found');</script>";
+	   		print($msg);
+	   }
+	}
+} 
+?>

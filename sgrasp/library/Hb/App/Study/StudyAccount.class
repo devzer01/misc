@@ -1,0 +1,216 @@
+<?php
+/**
+ * Domain Object for Study Account
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyAccount extends Hb_App_Object
+{
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account Name
+	 *
+	 * @var string
+	 */
+	protected $account_name = null;
+	
+	/**
+	 * Account Sub Type Id
+	 *
+	 * @var int
+	 */
+	protected $account_sub_type_id = null;
+	
+	/**
+	 * Account Type Id
+	 *
+	 * @var int
+	 */
+	protected $account_type_id = null;
+	
+	/**
+	 * Study Account Id
+	 *
+	 * @var int
+	 */
+	protected $study_account_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+
+	/**
+	 * Create Study Account object
+	 *
+	 * @param int $id Study Account Id
+	 * @param int $study_id Study Id
+	 * @param int $account_id Account Id
+	 * @param string $account_name Account Name
+	 * @param int $account_type_id Account Type Id
+	 * @param int $account_sub_type_id Account Sub Type Id
+	 */
+	function __construct(	$id = null ,
+							$study_id = null,
+							$account_id = null,
+							$account_name = null,
+							$account_type_id = null,
+							$account_sub_type_id = null)
+	{
+		$this->study_account_id = $id;
+		$this->study_id = $study_id;
+		$this->account_id = $account_id;
+		$this->account_name = $account_name;
+		$this->account_type_id = $account_type_id;
+		$this->account_sub_type_id = $account_sub_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Account Id
+	 *
+	 * @return int The Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Returns The Account Name
+	 *
+	 * @return string The Account Name
+	 */
+	public function GetAccountName()
+	{
+		return $this->account_name;
+	}
+
+	/**
+	 * Returns The Account Sub Type Id
+	 *
+	 * @return int  The Account Sub Type Id
+	 */
+	public function GetAccountSubTypeId()
+	{
+		return $this->account_sub_type_id;
+	}
+
+	/**
+	 * Returns The Account Type Id
+	 *
+	 * @return int The Account Type Id
+	 */
+	public function GetAccountTypeId()
+	{
+		return $this->account_type_id;
+	}
+
+	/**
+	 * Returns The Study Account Id
+	 *
+	 * @return int The Study Account Id
+	 */
+	public function GetStudyAccountId()
+	{
+		return $this->study_account_id;
+	}
+
+	/**
+	 * Returns The Study Id
+	 *
+	 * @return int The Study Id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Sets The Account Id
+	 * 
+	 * @param int $account_id  The Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id =  $account_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Name
+	 * 
+	 * @param string $account_name The Account Name
+	 */
+	public function SetAccountName($account_name)
+	{
+		$this->account_name = $account_name;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Suy Type Id
+	 * 
+	 * @param int $account_sub_type_id The Account Suy Type Id
+	 */
+	public function SetAccountSubTypeId($account_sub_type_id)
+	{
+		$this->account_sub_type_id =  $account_sub_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Type Id
+	 * 
+	 * @param int $account_type_id The Account Type Id
+	 */
+	public function SetAccountTypeId($account_type_id)
+	{
+		$this->account_type_id =  $account_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Account Id
+	 * 
+	 * @param int $study_account_id The Study Account Id
+	 */
+	public function SetStudyAccountId($study_account_id)
+	{
+		$this->study_account_id =  $study_account_id;
+		$this->__id =  $study_account_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Id
+	 * 
+	 * @param int $study_id The Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id =  $study_id;
+		
+		$this->MarkDirty();
+	}
+}
+?>

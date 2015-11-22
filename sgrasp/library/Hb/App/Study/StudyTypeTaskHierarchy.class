@@ -1,0 +1,128 @@
+<?php 
+/**
+ * Domain Object for Study Type Task Hierarchy
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */  
+class Hb_App_Study_StudyTypeTaskHierarchy extends Hb_App_Object 
+{
+	/**
+	 * Study Type Task Hierarchy Id
+	 * 
+	 * @var int
+	 */
+	protected $study_type_task_Hierarchy_id = null;
+
+	/**
+	 * Parent Study Type Task  Id
+	 * 
+	 * @var int
+	 */
+	protected $parent_study_type_task_id = null;
+	
+	/**
+	 * Child Study Type Task Id	
+	 *  
+	 * @var int
+	 */
+	protected $child_study_type_task_id = null;
+		
+	
+	/**
+	 * Contructor of the Study Type Task Hierarchy Domain
+	 * 
+	 * @param int $id Study Type Task Hierarchy Id
+	 * @param int $parent_study_type_task_id Parent Study Type Task  Id
+	 * @param int $child_study_type_task_id Child Study Type Task Id	
+	 */		
+	function __construct($id 						      = null,	
+							   $parent_study_type_task_id = null,
+							   $child_study_type_task_id  = null )
+	{		 					
+		
+		$this->study_type_task_Hierarchy_id = $id;
+		$this->parent_study_type_task_id   = $parent_study_type_task_id;
+		$this->child_study_type_task_id 	  = $child_study_type_task_id ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Study Type Task Hierarchy Id
+	 *	
+	 * @return int $study_type_task_Hierarchy_id Study Type Task Hierarchy Id
+	 */
+	public function GetStudyTypeTaskHierarchyId()
+	{
+		return $this->study_type_task_Hierarchy_id;
+	}
+
+	
+	/**
+	 * Get Parent Study Type Task  Id
+	 *	
+	 * @return int $parent_study_type_task_id Parent Study Type Task Id
+	 */
+	public function GetParentStudyTypeTaskId()	
+	{
+		return $this->parent_study_type_task_id;
+	}
+	
+	
+	/**	
+	 * Get Parent Study Type Task  Id
+	 * 
+	 * @return string $child_study_type_task_id Child Study Type Task Id	
+	 */
+	public function GetChildStudyTypeTaskId()
+	{
+		return $this->child_study_type_task_id;
+	}
+
+	
+	/**
+	 * Sets the Study Type Task Hierarchy Id
+	 *
+	 * @param int $study_type_task_Hierarchy_id Study Type Task Hierarchy Id
+	 */
+	public function SetStudyTypeTaskHierarchyId($study_type_task_Hierarchy_id)
+	{
+		$this->study_type_task_Hierarchy_id = $study_type_task_Hierarchy_id;
+
+		$this->__id = $study_type_task_Hierarchy_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Parent Study Type Task  Id
+	 *
+	 * @param int $parent_study_type_task_id Parent Study Type Task  Id
+	 */
+	public function SetParentStudyTypeTaskId($parent_study_type_task_id)
+	{
+		$this->parent_study_type_task_id = $parent_study_type_task_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Child Study Type Task Id	 
+	 *  
+	 * @param int $child_study_type_task_id Child Study Type Task Id	 
+	 */
+	public function SetChildStudyTypeTaskId($child_study_type_task_id)
+	{
+		$this->child_study_type_task_id = $child_study_type_task_id;
+		
+		$this->MarkDirty();		
+	}	
+}	
+?>

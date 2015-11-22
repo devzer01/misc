@@ -1,0 +1,119 @@
+<?php
+/**
+ * Domain Object for Study Template Product
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera / krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyTemplateProduct extends Hb_App_Object
+{
+	/**
+	 * Product id
+	 *
+	 * @var int
+	 **/
+	protected $product_id = null;
+	
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_id = null;
+	
+	/**
+	 * Study template product id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_product_id = null;
+
+	/**
+	 * Create StudyTemplateProduct Object
+	 *
+	 * @param int $id Study template product id
+	 * @param int $study_template_id Study template id
+	 * @param int $product_id Product id
+	 */
+	function __construct($id = null,
+  							   $study_template_id = null,
+  							   $product_id = null)
+	{
+		$this->study_template_product_id = $id;
+		$this->study_template_id 			= $study_template_id;
+		$this->product_id 					= $product_id;
+		parent::__construct($id);
+	}
+
+
+	/**
+	* Returns the Product id
+ 	* 
+	* @return int  Product id
+	**/
+	public function GetProductId()
+	{
+		return $this->product_id;
+	}
+
+	/**
+	* Returns the Study template id
+ 	* 
+	* @return int Study template id
+	**/
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	* Returns the Study template product id
+ 	* 
+	* @return int  Study template product id
+	**/
+	public function GetStudyTemplateProductId()
+	{
+		return $this->study_template_product_id;
+	}
+
+	/**
+	* Sets the Product id
+ 	* 
+	* @param int $product_id Product id
+	**/
+	public function SetProductId($product_id)
+	{
+		$this->product_id = $product_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	* Sets the Study template id
+ 	* 
+	* @param int $study_template_id Study template id
+	**/
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	* Sets the Study template product id
+ 	* 
+	* @param int $study_template_product_id Study template product id
+	**/
+	public function SetStudyTemplateProductId($study_template_product_id)
+	{
+		$this->study_template_product_id = $study_template_product_id;
+		$this->__id = $study_template_product_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,123 @@
+<?php 
+/**
+ * Mapper Object for Study Classificaiotn
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyStudyClassification extends Hb_Mapper_Mapper 
+{
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_study_classificaiton_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_study_classificaiton';
+	
+	/**
+	 * Builds and returns the Study Classification domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_study_classificaiton table
+	 * @return object An instance of the Study Classification domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyStudyClassification($row->study_study_classificaiton_id,
+									$row->study_id,
+									$row->study_category_type_id,
+									$row->status
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('ssc' => $this->table), array('study_study_classificaiton_id',
+	 																	  'study_id',
+	 																	  'study_category_type_id',
+	 																	  'status'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Classification by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_study_classificaiton table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('ssc.'. $this->primary_key .'= ?', $id);
+		$select->where('ssc.status = ?', 'A');
+		 	
+		return $this->getRow($select);
+	}
+	
+	protected function doFindByStudyId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('ssc.study_id = ?', $id);
+		$select->where('ssc.status = ?', 'A');
+		
+		return $this->getRow($select);
+	}
+	
+	public function FindByStudyId($id)
+	{
+		$result = $this->doFindByStudyId($id);
+		
+		if (!$result) {
+			return false;
+		}
+		
+		return $this->doBuildObject($result);
+	}
+	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Classification domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyStudyClassification   */
+		 	
+	 	$data  = array(
+			'study_id'						=> $obj->GetStudyID(),
+			'study_category_type_id'	=> $obj->GetStudyCategoryTypeID(),
+			'status'							=> $obj->GetStatus()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyClassificationID($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+?>

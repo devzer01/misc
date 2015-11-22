@@ -1,0 +1,104 @@
+<?php
+class Hb_View_Proposal_ProposalAddSampleFees extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_sample_fees.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	private $sample = array();	
+	
+	private $type 			= null;
+	private $row_id 		= null;
+	private $tab_num 		= null;
+	private $mode 	   	= null;
+	private $arr_country = null;
+	private $arr_row_id  = null;
+
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('sample', $this->sample);
+		$this->SetData('type', $this->type);
+		$this->SetData('row_id', $this->row_id);
+		$this->SetData('tab_num', $this->tab_num);
+		$this->SetData('mode', $this->mode);
+		$this->SetData('arr_country', $this->arr_country);
+		$this->SetData('arr_row_id', $this->arr_row_id);
+
+	}	
+	
+	public function SetCountry($value)
+	{
+		$this->sample['country'] = $value;
+	}
+	
+	public function SetArrCountry($value)
+	{
+		$this->arr_country = $value;
+	}	
+	
+	public function SetDescription($value)
+	{
+		$this->sample['description'] = $value;
+	}
+	
+	public function SetIncidence($value)
+	{
+		$this->sample['incidence'] = $value;
+		$this->sample['price'] = number_format( 300, 2);
+	}
+	
+	public function SetTotalNumberofQuestions($value)
+	{
+		if ($value == '')
+		{
+			$value = 0 ;
+		}
+		$this->sample['total_no_questions'] = $value;		
+	}
+	
+	public function SetTotalNumberofSamples($value)
+	{
+		$this->sample['tot_number_of_samples'] = $value;
+		
+	}	
+
+	public function SetType($value)
+	{
+		$this->sample['type'] = $value;
+		$this->sample['id'] = time().rand(0,10000);
+	}
+	
+	public function SetFocusTab($focusTab)
+	{
+		$this->sample['focusTab'] = $focusTab;
+		
+	}	
+	
+	public function SetSampleType($type)
+	{
+		$this->type = $type;
+	}
+	
+	public function setRowId($row_id)
+	{
+		$this->row_id = $row_id;
+	}
+	
+	public function SetArrRowId($value)
+	{
+		$this->arr_row_id = $value;
+	}	
+	
+	public function SetTabNumber($num)
+	{
+		$this->tab_num = $num;
+	}
+	
+	public function SetAction($mode)
+	{
+		$this->mode = $mode;
+	}
+}
+
+?>

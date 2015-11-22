@@ -1,0 +1,371 @@
+<?php
+
+class Hb_View_Proposal_Mapper_ProposalRevisionAddMapper extends Hb_Util_Mapper_Mapper
+{
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected  function LoadData()
+	{	
+		$request = Hb_Util_Request_Request::GetInstance();	
+		
+		$p = new proposalDB();
+		$s = new studyDB();
+		$p->SetProposalId($request->proposal_id);
+
+		$proposal = $p->GetBasicDetail();
+
+		if (isset($request->proposal_revision_id) && $request->proposal_revision_id != '') {
+			$proposal['proposal_revision_id'] = $request->proposal_revision_id;
+		}
+
+		//we should pass revision id to this page when ever we are calling this page
+		//to load data which doesnt belong to the most recent revision.
+		//get basic detail only load data from the latest revision
+		//print_r($r);
+
+		$list['p_status']   = CreateSmartyArray($p->GetProposalStatusList(), 'proposal_status_id', 'proposal_status_description');
+		$list['proposal_type'] = CreateSmartyArray($p->GetProposalTypeList(), 'proposal_type_id', 'proposal_type_description');
+
+		$list['data_collection_method'] = CreateSmartyArray($s->GetStudyInterviewTypes(), 'study_interview_type_id', 'study_interview_type_description');
+		$list['fieldwork_duration'] = CreateSmartyArray($s->GetStudyFieldWorkDurations(), 'study_fieldwork_duration_id', 'study_fieldwork_duration_description');
+		$list['proposal_option_type'] = CreateSmartyArray($p->GetProposalOptionTypes(), 'proposal_option_type_id', 'proposal_option_type_description');
+		$list['sample_type'] = CreateSmartyArray($p->GetSampleTypes(), 'sample_type_id', 'sample_type_description');
+		$list['pricing_type'] = CreateSmartyArray($p->GetPricingTypes(), 'pricing_type_id', 'pricing_type_description');
+
+		if ($proposal['proposal_revision_id'] != 0) {
+
+			$p->SetRevisionId($proposal['proposal_revision_id']);
+			$revision = $p->GetRevisionDetail();
+
+			$list['file_qc'] = PrepareSmartyArray($p->GetRevisionFilesByType(PPM_FILE_QUALIFYING_CRITERIA));
+
+			$rs = $p->GetRevisionSampleTypeIds($proposal['proposal_revision_id']);
+
+			while ($r = mysql_fetch_assoc($rs)) {
+				$list['sample_type_selected'][] = $r['sample_type_id'];
+			}
+
+			$service_list = PrepareSmartyArray($p->GetServiceListByRevision());
+
+			$r = mysql_fetch_assoc($p->GetRevisionComment(PPM_COMMENT_QUALIFYING_CRITERIA));
+
+			$list['qualifying_criteria'] = $r['comment'];
+
+			$r = mysql_fetch_assoc($p->GetRevisionComment(PPM_COMMENT_FINAL_DELIVERABLES));
+
+			$list['final_deliverable'] = $r['comment'];
+
+			$r = mysql_fetch_assoc($p->GetRevisionComment(PPM_COMMENT_GENERAL));
+
+			$list['general_comment'] = $r['comment'];
+
+		} else {
+
+			$service_list = PrepareSmartyArray($p->GetServiceList());
+
+			$proposal['study_setup_duration_id']           = 7;
+			$proposal['study_fieldwork_duration_id']       = 2;
+			$proposal['study_data_processing_duration_id'] = 6;
+
+		}
+
+		foreach ($service_list as $key => $value) {
+			$list['service_list'][$service_list[$key]['pricing_item_group_id']][] = $service_list[$key];
+		}
+
+
+		foreach ($list['service_list'] as $key => $value) {
+			$counter = 1;
+			$i = 1;
+
+			foreach ($list['service_list'][$key] as $x_key => $x_value) {
+				$orglist[$key]['group_description'] = $list['service_list'][$key][$x_key]['pricing_item_group_description'];
+				$orglist[$key][$counter][$i] = $list['service_list'][$key][$x_key];
+				$i++;
+
+				if ($i == 4) {
+					$counter++;
+					$i = 1;
+				}
+
+			}
+		}
+
+		$this->MapData('proposal', $proposal);
+		$this->MapData('revision', $revision);
+		$this->MapData('list', $list);
+		$this->MapData('orglist', $orglist);
+
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	protected function PreSave()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+
+		try {
+			$session = new Hb_Util_Session_Session();
+		} catch (Zend_Session_Exception $e) {
+			$session->admin_id = $_SESSION['admin_id'];
+		}
+
+		$user = new Hb_Data_User_User($session->admin_id);
+		$request->functional_group_id = $user->GetFunctionalGroupId();
+		$request->revision = 1;
+		$request->proposal_date = date("Y-m-d");
+
+		// i am going to clear all the sample types and then re-do them for updates, saves
+		//time and cpu trying to check each to see if its set and then unset the once that are not set
+		$p = new proposalDB();
+		
+		if ($request->proposal_revision_id != 0) {
+			$p->DeleteRevisionSampleType($request->proposal_revision_id);
+		}
+
+		//set the service list
+		if ($request->proposal_revision_id != 0) {
+			$p->DeleteRevisionServiceList($request->proposal_revision_id);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function PostSave()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+	
+		$encryption = Hb_Util_Encryption_Encryption::GetInstance();
+		
+		$proposal = ProposalPeer::retrieveByPK($request->proposal_id);
+		$pr = ProposalRevisionPeer::retrieveByPK($request->proposal_revision_id);
+
+		/** post save clean up move to revision manager to ensure revision integrity **/		
+		$prm = new pgen_RevisionManager();
+		$prm->SyncRevisionOptions($request->proposal_revision_id);
+
+		$pricing_manager = new pgen_PricingManager();
+
+		$pricing_manager->CalculatePricing(
+			$proposal->getAccountId(), 
+			$proposal->getLicenseLevelId(), 
+			$request->proposal_id, 
+			$request->proposal_revision_id, 
+			$this->__update);
+
+		$proposal->SetAttr('WORKING_REVISION', $request->proposal_revision_id);
+		
+		$action = 'display_options';
+
+		//see if we want to review pricing or go straight to provide options
+		if (isset($request->review_discount)) {
+			$action = 'display_review_discount';
+		}
+		
+		
+		$workflow_manager = new pgen_WorkflowManager();
+		$workflow_manager->SaveState($request->proposal_id, $action);
+
+	
+		header("Location: ?e=". $encryption->Encrypt("action=". $action ."&proposal_id=". $request->proposal_id ."&proposal_revision_id=". $request->proposal_revision_id));
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function Insert()
+	{
+
+		$request = Hb_Util_Request_Request::GetInstance();
+   
+		$proposal_revision_id = 0;
+
+   	if ($request->proposal_revision_id) {
+      	$proposal_revision_id = $request->proposal_revision_id;
+   	}
+
+   	$proposal = ProposalPeer::retrieveByPK($request->proposal_id);
+   	$revision_count = $proposal->countProposalRevisions();
+   	$revision = $revision_count + 1;
+   
+   	$pr = new ProposalRevision();
+   	$pr->setRevision($revision);
+   	$pr->setStudyInterviewTypeId($request->study_interview_type_id);
+   	$pr->setStudyFieldworkDurationId($request->study_fieldwork_duration_id);
+   	$pr->setStudySetupDurationId($request->study_setup_duration_id);
+   	$pr->setStudyDataProcessingDurationId($request->study_data_processing_duration_id);
+   	$pr->setProposalOptionTypeId($request->proposal_option_type_id);
+   	$pr->setProposalTypeId($request->proposal_option_type_id);
+   	$pr->setProposalTypeId($request->proposal_type_id);
+   	$pr->setNumberOfCountries($request->number_of_countries);
+   	$pr->setNumberOfOptions($request->number_of_options);
+   	$pr->setPricingTypeId($request->pricing_type_id);
+   	$pr->setUserId($_SESSION['admin_id']);
+   	$pr->setLogin($_SESSION['admin_id']);
+   	
+   	Hb_Util_Mapper_DataMapper::SetAuditFields($pr);
+   
+      $proposal->addProposalRevision($pr);
+      
+      $comment_types = array(
+      	PPM_COMMENT_QUALIFYING_CRITERIA => 'qualifying_criteria',
+      	PPM_COMMENT_FINAL_DELIVERABLES  => 'final_deliverable',
+      	PPM_COMMENT_GENERAL             => 'general_comment'
+      );
+      
+      foreach ($comment_types as $comment_type_id => $comment_field) 
+      {
+      	$prc = new ProposalRevisionComment();
+      	$prc->setProposalRevisionCommentTypeId($comment_type_id);
+      	$prc->setComment($request->$comment_field);
+      	
+      	Hb_Util_Mapper_DataMapper::SetAuditFields($prc);
+      	
+      	$pr->addProposalRevisionComment($prc);	
+      }
+      
+      if ($request->hasFile('qualifying_criteria_file')) 
+      {
+      	$file = $request->getFile('qualifying_criteria_file');
+      	
+      	$prf = new ProposalRevisionFile();
+      	$prf->setProposalFileTypeId(PPM_FILE_QUALIFYING_CRITERIA);
+      	$prf->setFileTypeId($file->getFileTypeId());
+      	$prf->setFileName($file->getFileName());
+      	$prf->setFileData($file->getFileData());
+      	$prf->getFileSize($file->getFileSize());
+      	
+      	Hb_Util_Mapper_DataMapper::SetAuditFields($prf);
+      	
+      	$pr->addProposalRevisionFile($prf);
+      }
+   	
+   	//set sample type
+   	for ($i_st = 0; $i_st < count($request->sample_type_id); $i_st++) 
+   	{
+   		$prst = new ProposalRevisionSampleType();
+   		$prst->setSampleTypeId($request->sample_type_id[$i_st]);
+      	
+   		Hb_Util_Mapper_DataMapper::SetAuditFields($prst);
+   		
+   		$pr->addProposalRevisionSampleType($prst);
+   	}
+
+		$sc = new Criteria();
+   	$sc->add(ServicePeer::STATUS , 'A');
+   	$services = ServicePeer::doSelect($sc);
+   	
+   	foreach ($services as $service) 
+   	{
+   		/* @var $service Service */
+   		$service_id = "S_" .$service->getServiceId();
+   		
+   		if (isset($request->$service_id)) 
+   		{
+   			$prs = new ProposalRevisionService();
+   			$prs->setServiceId($service->getServiceId());	
+   			
+   			Hb_Util_Mapper_DataMapper::SetAuditFields($prs);
+   			
+   			$pr->addProposalRevisionService($prs);
+   		}
+   	}
+   	
+   	
+   	$proposal->save();
+   	
+   	$request->proposal_revision_id = $pr->getProposalRevisionId();
+
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function Update()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+
+		$pr = ProposalRevisionPeer::retrieveByPK($request->proposal_revision_id);
+		
+   	$pr->setStudyInterviewTypeId($request->study_interview_type_id);
+   	$pr->setStudyFieldworkDurationId($request->study_fieldwork_duration_id);
+   	$pr->setStudySetupDurationId($request->study_setup_duration_id);
+   	$pr->setStudyDataProcessingDurationId($request->study_data_processing_duration_id);
+   	$pr->setProposalOptionTypeId($request->proposal_option_type_id);
+   	$pr->setProposalTypeId($request->proposal_option_type_id);
+   	$pr->setProposalTypeId($request->proposal_type_id);
+   	$pr->setNumberOfCountries($request->number_of_countries);
+   	$pr->setNumberOfOptions($request->number_of_options);
+   	$pr->setPricingTypeId($request->pricing_type_id);
+
+   	Hb_Util_Mapper_DataMapper::SetAuditFields($pr);
+   	
+   	$comment_types = array(
+      	PPM_COMMENT_QUALIFYING_CRITERIA => 'qualifying_criteria',
+      	PPM_COMMENT_FINAL_DELIVERABLES  => 'final_deliverable',
+      	PPM_COMMENT_GENERAL             => 'general_comment'
+      );
+      
+      foreach ($comment_types as $comment_type_id => $comment_field) 
+      {
+	   	$criteria = new Criteria();
+	   	$criteria->add(ProposalRevisionCommentPeer::PROPOSAL_REVISION_COMMENT_TYPE_ID, $comment_type_id);
+	   	
+	   	$comments = $pr->getProposalRevisionComments($criteria);
+	   	$comment = array_shift($comments);
+	   	
+	   	/* @var $comment ProposalRevisionComment */
+	   	
+	   	Hb_Util_Mapper_DataMapper::SetAuditFields($comment);
+	   	
+	   	$comment->setComment($request->$comment_field);
+      }
+   	
+      for ($i_st = 0; $i_st < count($request->sample_type_id); $i_st++) 
+   	{
+   		$prst = new ProposalRevisionSampleType();
+   		$prst->setSampleTypeId($request->sample_type_id[$i_st]);
+      	
+   		Hb_Util_Mapper_DataMapper::SetAuditFields($prst);
+   		
+   		$pr->addProposalRevisionSampleType($prst);
+   	}
+
+   	$sc = new Criteria();
+   	$sc->add(ServicePeer::STATUS , 'A');
+   	$services = ServicePeer::doSelect($sc);
+   	
+   	foreach ($services as $service) 
+   	{
+   		/* @var $service Service */
+   		$service_id = "S_" .$service->getServiceId();
+   		
+   		if (isset($request->$service_id)) 
+   		{
+   			$prs = new ProposalRevisionService();
+   			$prs->setServiceId($service->getServiceId());	
+   			
+   			Hb_Util_Mapper_DataMapper::SetAuditFields($prs);
+   			
+   			$pr->addProposalRevisionService($prs);
+   		}
+   	}
+   	
+   	//$request->proposal_revision_id = $pr->getProposalRevisionId();
+      
+   	$pr->save();      
+   
+	}
+}
+?>

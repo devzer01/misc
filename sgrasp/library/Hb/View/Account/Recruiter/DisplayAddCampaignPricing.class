@@ -1,0 +1,33 @@
+<?php
+
+require_once ('class/Hb/Util/View/View.class') ;
+
+class Hb_View_Account_Recruiter_DisplayAddCampaignPricing extends Hb_Util_View_View {
+	
+	protected  $__template_name = 'app/acm/recruiter/vw_add_campaign_pricing.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $account 	= null;
+	protected $campaign 	= null;
+	protected $display	= array('display_save_button' => 0);
+	
+	protected function LoadData () 
+	{			
+		$this->SetData('account', $this->account);		
+		$this->SetData('campaign', $this->campaign);		
+		$this->SetData('display', $this->display);		
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account	= $account;
+	}	
+	
+	public function SetCampaign($campaign)
+	{
+		$this->campaign	= $campaign;
+	}
+}
+
+?>

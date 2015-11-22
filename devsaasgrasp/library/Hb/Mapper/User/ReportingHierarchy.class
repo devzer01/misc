@@ -1,0 +1,113 @@
+<?php
+/**
+ * Mapper for Reporting Hierarchy
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_User_ReportingHierarchy extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_ReportingHierarchy';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_ReportingHierarchy';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "reporting_hierarchy";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "reporting_hierarchy";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+	   return new Hb_App_User_ReportingHierarchy($row->reporting_hierarchy,$row->reporting_type_id,
+											$row->report_to_login,$row->reporting_login );
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('reporting_hierarchy', array(
+													'reporting_hierarchy', 	
+													'reporting_type_id',
+													'report_to_login',
+													'reporting_login'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Reporting Hierarchy by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('reporting_hierarchy = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'reporting_type_id' => $obj->GetReportingTypeId(),
+					'report_to_login' => $obj->GetReportToLogin(),
+					'reporting_login' => $obj->GetReportingLogin());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('reporting_hierarchy', $data);
+			$obj->SetReportingHierarchy($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('reporting_hierarchy', $data, 'reporting_hierarchy = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

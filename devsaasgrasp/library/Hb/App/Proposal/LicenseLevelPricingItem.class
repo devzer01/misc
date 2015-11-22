@@ -1,0 +1,224 @@
+<?php 
+/**
+ * Domain Object for License Level Pricing Item
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_LicenseLevelPricingItem extends Hb_App_Object 
+{
+	/**
+	 * License Level Pricing Item Id
+	 * 
+	 * @var int
+	 */
+	protected $license_level_pricing_item_id = null;
+
+	/**
+	 * Pricing Item Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_id = null;
+	
+	/**
+	 * Licence level Id
+	 * 
+	 * @var int
+	 */
+	protected $license_level_id = null;
+
+	/**
+	 * Amount
+	 * 
+	 * @var float
+	 */
+	protected $amount = null;
+	
+	/**
+	 * Whether the Amount is a Value
+	 * 
+	 * @var int
+	 */
+	protected $is_value = null;
+	
+	/**
+	 * Whether the Amount is a Percentage
+	 * 
+	 * @var int
+	 */
+	protected $is_percent = null;
+	
+	
+	/**
+	* Contructor of the License Level Pricing Item Domain
+	* 
+	* @param int $id License Level Pricing Item Id
+	* @param int $pricing_item_id Pricing Item Id
+	* @param int $license_level_id Licence level Id
+	* @param int $amount Amount
+	* @param int $is_value Whether the Amount is a Value
+	* @param int $is_percent Whether the Amount is a Percentage
+	*/		
+	function __construct($id 				   = null,	
+							   $pricing_item_id  = null,
+							   $license_level_id = null,
+							   $amount 				= null,	
+							   $is_value     		= null,
+							   $is_percent  		= null )
+	{		 					
+		
+		$this->license_level_pricing_item_id = $id;
+		$this->pricing_item_id      			 = $pricing_item_id;
+		$this->license_level_id      			 = $license_level_id ;
+		$this->amount 	  							 = $amount;
+		$this->is_value      	  				 = $is_value;
+		$this->is_percent      					 = $is_percent ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get License Level Pricing Item Id
+	 *	
+	 * @return int $license_level_pricing_item_id License Level Pricing Item Id
+	 */
+	public function GetLicenseLevelPricingItemId()
+	{
+		return $this->license_level_pricing_item_id;
+	}
+
+	
+	/**
+	 * Get Pricing Item Id
+	 *	
+	 * @return int $pricing_item_id Pricing Item Id
+	 */
+	public function GetPricingItemId ()	
+	{
+		return $this->pricing_item_id;
+	}
+	
+	
+	/**	
+	 * Get Licence level Id
+	 *
+	 * @return int $license_level_id Licence level Id	
+	 */
+	public function GetLicenceLevelId()
+	{
+		return $this->license_level_id;
+	}
+	
+	/**	
+	 * Get Amount
+	 *
+	 * @return float $amount Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+	
+	/**	
+	 * Get Whether the Amount is a Value
+	 *
+	 * @return int $is_value Whether the Amount is a Value
+	 */
+	public function GetIsValue()
+	{
+		return $this->is_value;
+	}
+	
+	/**	
+	 * Get Whether the Amount is a Percentage
+	 *
+	 * @return int $is_percent Whether the Amount is a Percentage
+	 */
+	public function GetIsPercent()
+	{
+		return $this->is_percent;
+	}
+
+	
+	/**
+	 * Sets the License Level Pricing Item Id
+	 *
+	 * @param int $license_level_pricing_item_id License Level Pricing Item Id
+	 */
+	public function SetLicenseLevelPricingItemId($license_level_pricing_item_id)
+	{
+		$this->license_level_pricing_item_id = $license_level_pricing_item_id;
+
+		$this->__id = $license_level_pricing_item_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Pricing Item Id
+	 *
+	 * @param int $pricing_item_id Pricing Item Id
+	 */
+	public function SetPricingItemId ($pricing_item_id)
+	{
+		$this->pricing_item_id = $pricing_item_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Licence level Id
+	 * 
+	 * @param int $license_level_id Licence level Id
+	 */
+	public function SetLicenceLevelId($license_level_id)
+	{
+		$this->license_level_id = $license_level_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Amount
+	 * 
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Whether the Amount is a Value
+	 * 
+	 * @param int $is_value Whether the Amount is a Value
+	 */
+	public function SetIsValue($is_value)
+	{
+		$this->is_value = $is_value;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Whether the Amount is a Percentage
+	 * 
+	 * @param int $is_percent Whether the Amount is a Percentage
+	 */
+	public function SetIsPercent($is_percent)
+	{
+		$this->is_percent = $is_percent;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

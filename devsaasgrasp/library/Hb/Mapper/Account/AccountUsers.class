@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @updated 18-Jul-2007 10:15:17 PM
+ */
+class Hb_Mapper_Account_AccountUsers extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'account_user_id';
+	
+	protected $table       = 'account_user';
+
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('a.account_id = ?', $id);
+		
+		return $this->getRows($select);
+		
+		
+		$users = new Hb_App_Account_AccountUsers($id);
+		
+		foreach ($rows as $row) 
+		{
+			
+			
+			Hb_App_ObjectMap::register($user);
+				
+			$users->AddItem($user);
+		}
+		
+		Hb_App_ObjectMap::register($users);
+		
+		return $users;
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountUsers');
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountUser($row->account_user_id, $row->account_id, $row->product_id, 
+				$row->user_id, $row->role_id);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(array('a' => 'account_user'), array('account_user_id', 'account_id', 'product_id', 'user_id', 'role_id'));
+	 	$select->where('status = ?','A');
+	 	
+		return $select;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id account id
+	 * @param int $product_id product id
+	 */
+	public function FindByProduct($id, $product_id)
+	{
+		$key = $id . '-' . $product_id;
+		
+		if (Hb_App_ObjectMap::hasObject('Hb_App_Account_AccountUsers', $key)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Account_AccountUsers', $key);
+		}
+		
+		$users = new Hb_App_Account_AccountUsers($key);
+		
+		$db = new Hb_Util_Db_Table(array('name' => 'account_user'));
+		$rows = $db->fetchAll('account_id = ' . $id . ' AND product_id = ' . $product_id);
+		
+		foreach ($rows as $row) {
+			
+			if (Hb_App_ObjectMap::hasObject('Hb_App_Account_AccountUser', $row->account_user_id)) {
+
+				$users->AddItem(
+					Hb_App_ObjectMap::getObject('Hb_App_Account_AccountUser', $row->account_user_id)
+				);
+				
+				continue;
+			}
+			
+			$user = new Hb_App_Account_AccountUser($row->account_user_id, $row->account_id, $row->product_id, 
+				$row->user_id, $row->role_id);
+			
+			Hb_App_ObjectMap::register($user);
+				
+			$users->AddItem($user);
+			
+		}
+		
+		Hb_App_ObjectMap::register($users);
+		
+		return $users;
+		
+	}
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+
+	
+
+}
+?>

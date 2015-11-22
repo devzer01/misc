@@ -1,0 +1,155 @@
+<?php
+
+/**
+ * Domain Object for Reporting Hierarchy
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */ 
+class Hb_App_User_ReportingHierarchy extends Hb_App_Object
+{
+
+	/**
+	 * Report To Loging
+	 *
+	 * @var int
+	 */
+	protected $report_to_login = null;
+	
+	/**
+	 * Reporting Hierarchy
+	 *
+	 * @var int
+	 */
+	protected $reporting_hierarchy = null;
+	
+	/**
+	 * Reporting Login
+	 *
+	 * @var int
+	 */
+	protected $reporting_login = null;
+	
+	/**
+	 * Reporting Type Id
+	 *
+	 * @var int
+	 */
+	protected $reporting_type_id = null;
+
+	/**
+	 * Create Report Hierarchy Object
+	 *
+	 * @param int $id Report Hierarchy
+	 * @param int $reporting_type_id Reporting Type Id
+	 * @param int $report_to_login Report To Loging
+	 * @param int $reporting_login Reporting Login
+	 */
+	function __construct($id = null,
+								$reporting_type_id = null,
+								$report_to_login = null,
+								$reporting_login  = null)
+	{
+		$this->reporting_hierarchy = $id;
+		$this->reporting_type_id = $reporting_type_id;
+		$this->report_to_login = $report_to_login;
+		$this->reporting_login = $reporting_login;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Reporting Hierarchy
+	 *
+	 * @return int The Reporting Hierarchy
+	 */
+	public function GetReportingHierarchy()
+	{
+		return $this->reporting_hierarchy;
+	}
+
+	/**
+	 * Returns The Reporting Login
+	 *
+	 * @return int The Reporting Login
+	 */
+	public function GetReportingLogin()
+	{
+		return $this->reporting_login;
+	}
+
+	/**
+	 * Returns The Reporting Type Id
+	 *
+	 * @return int The Reporting Type Id
+	 */
+	public function GetReportingTypeId()
+	{
+		return $this->reporting_type_id;
+	}
+
+	/**
+	 * Returns The Report To Loging
+	 *
+	 * @return int The Report To Loging
+	 */
+	public function GetReportToLogin()
+	{
+		return $this->report_to_login;
+	}
+
+	/**
+	 * Sets The Reporting Hierarchy
+	 * 
+	 * @param int $reporting_hierarchy The Reporting Hierarchy
+	 */
+	public function SetReportingHierarchy($reporting_hierarchy)
+	{
+		$this->reporting_hierarchy = $reporting_hierarchy;
+		$this->__id =  $reporting_hierarchy;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Reporting Login 
+	 * 
+	 * @param int $reporting_login The Reporting Login
+	 */
+	public function SetReportingLogin($reporting_login)
+	{
+		$this->reporting_login = $reporting_login;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Reporting Type Id
+	 * 
+	 * @param int $reporting_type_id The Reporting Type Id
+	 */
+	public function SetReportingTypeId($reporting_type_id)
+	{
+		$this->reporting_type_id = $reporting_type_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Report To Loging
+	 * 
+	 * @param int $report_to_login The Report To Loing 
+	 */
+	public function SetReportToLogin($report_to_login)
+	{
+		$this->report_to_login = $report_to_login;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

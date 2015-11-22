@@ -1,0 +1,93 @@
+<?php 
+/**
+ * Mapper Object for Study File Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ */ 
+class Hb_Mapper_Study_StudyFileType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_file_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_file_type';
+	
+	
+	/**
+	 * Builds and returns the Study File Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_file_type table
+	 * @return object An instance of the Study File Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyFileType($row->study_file_type_id,$row->study_file_type_description);
+	} 
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select result set from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sft' => 'study_file_type'), array('study_file_type_id',
+																				 'study_file_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	
+	/**
+	 * Finds a Study File Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_file_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sft.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_file_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyFileType   */
+		 	
+	 	$data  = array('study_file_type_description' => $obj->GetTypeDescription());
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}	
+}
+?>

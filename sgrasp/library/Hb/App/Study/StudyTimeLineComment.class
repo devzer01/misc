@@ -1,0 +1,129 @@
+<?php 
+/**
+ * Domain Object for Study Time Line Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */  
+class Hb_App_Study_StudyTimeLineComment extends Hb_App_Object 
+{
+	/**
+	 * Study Time Line Comment Id
+	 * 
+	 * @var int
+	 */
+	protected $study_timeline_comment_id = null;
+
+	/**
+	 * Study Time Line Comment Timeline Id
+	 * 
+	 * @var int
+	 */
+	protected $study_timeline_id = null;
+	
+	/**
+	 * Study Time Line Comment Notes
+	 * 
+	 * @var string
+	 */
+	protected $notes = null;
+		
+	
+	/**
+	* Contructor of the Study Time Line Comment Domain
+	* 
+	* @param int $id Study Time Line Comment Id
+	* @param int $study_timeline_id Study Time Line Comment Timeline Id
+	* @param string $notes Study Time Line Comment Notes
+	*/		
+	function __construct($id 			       = null,	
+							   $study_timeline_id = null,
+							   $notes 				 = null )
+	{		 					
+		
+		$this->study_timeline_comment_id = $id;
+		$this->study_timeline_id    	   = $study_timeline_id;
+		$this->notes 						   = $notes ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get StudyTime Line Comment Id
+	 *	
+	 * @return int $study_timeline_comment_id StudyTime Line Comment Id
+	 */
+	public function GetStudyTimeLineCommentId()
+	{
+		return $this->study_timeline_comment_id;
+	}
+
+	
+	/**
+	 * Get StudyTime Line Comment Timeline Id
+	 *	
+	 * @return int $study_timeline_id StudyTime Line Comment Timeline Id
+	 */
+
+	public function GetStudyTimeLineCommentGroupId()	
+	{
+		return $this->study_timeline_id;
+	}
+	
+	
+	/**	
+	 * Get StudyTime Line Comment Timeline Id
+	 *
+	 * @return string $notes StudyTime Line Comment Notes	
+	 */
+	public function GetStudyTimeLineCommentNotes()
+	{
+		return $this->notes;
+	}
+
+	
+	/**
+	 * Sets the StudyTime Line Comment Id
+	 *
+	 * @param int $study_timeline_comment_id StudyTime Line Comment Id
+	 */
+	public function SetStudyTimeLineCommentId($study_timeline_comment_id)
+	{
+		$this->study_timeline_comment_id = (int) $study_timeline_comment_id;
+
+		$this->__id = (int) $study_timeline_comment_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets StudyTime Line Comment Timeline Id
+	 *
+	 * @param int $study_timeline_id StudyTime Line Comment Timeline Id
+	 */
+	public function SetStudyTimeLineCommentGroupId($study_timeline_id)
+	{
+		$this->study_timeline_id = (int) $study_timeline_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets StudyTime Line Comment Notes
+	 * 
+	 * @param string $notes StudyTime Line Comment Notes
+	 */
+	public function SetStudyTimeLineCommentNotes($notes)
+	{
+		$this->notes = $notes;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

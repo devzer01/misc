@@ -1,0 +1,85 @@
+<?php
+/**
+ * Domain object for Account Sub Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+class Hb_App_Account_AccountSubType extends Hb_App_Common_Type
+{
+
+	protected $account_sub_type_id = null;
+	
+	/**
+	 * Account Type Id
+	 *
+	 * @var int
+	 */
+	protected $account_type_id = null;
+	
+	protected $account_sub_type_description = null;
+	
+	/**
+	 * Create AccountSubType Object
+	 *
+	 * @param int $id Account Sub  Type Id
+	 * @param int $account_type_id Account Type Id
+	 * @param string $description Account sub type description
+	 */ 
+	public function __construct($id = null,
+							   		 $description 	= null,
+									    $account_type_id = null
+									   )
+   {
+   	$this->account_sub_type_id						= $id;
+   	$this->account_type_id 							= $account_type_id;
+   	$this->account_sub_type_description 		= $description;
+   	
+   	parent::__construct($id, $description);
+   }
+   
+   /**
+	 * Returns Account Type Id
+	 *
+	 * @return int
+	 */
+	public function GetAccountTypeId()
+	{
+		return $this->account_type_id;
+	}
+
+	/**
+	 * Sets Account Type Id
+	 * 
+	 * @param int
+	 */
+	public function SetAccountTypeId($account_type_id)
+	{
+		$this->account_type_id = $account_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns Account Sub Type Description
+	 *
+	 * @return string
+	 */
+	public function GetAccountSubTypeDescription()
+	{
+		return $this->account_sub_type_description;
+	}
+	
+	/**
+	 * Returns Account Sub Type Id
+	 *
+	 * @return string
+	 */
+	public function GetAccountSubTypeId()
+	{
+		return $this->account_sub_type_id;
+	}	
+}
+?>

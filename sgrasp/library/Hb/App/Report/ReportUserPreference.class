@@ -1,0 +1,9 @@
+<?php
+
+require_once ('class/Hb/App/Object.class') ;
+
+class Hb_App_Report_ReportUserPreference extends Hb_App_Report_ReportPreferenceAbstract 
+{
+
+}
+?>

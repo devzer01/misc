@@ -1,0 +1,127 @@
+<?php
+/**
+ * Mapper for Study Comment File
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Study_StudyCommentFile extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Study_StudyCommentFile';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Study_StudyCommentFile';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_comment_file_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_comment_file";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		$file_object	= new Hb_App_Common_File($row->study_comment_file_id,
+															 $row->file_type_id,
+															 $row->study_comment_file_name,
+															 $row->study_comment_file_title,
+															 $row->study_comment_file_size
+															);
+		
+		return new Hb_App_Study_StudyCommentFile($row->study_comment_file_id, 
+															  $row->study_comment_id,
+															  $file_object
+															  );
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance(); 
+		$select 	= $db->select();
+		$select->from('study_comment_file', array(
+															'study_comment_file_id', 	
+															'study_comment_id',
+															'file_type_id',
+															'study_comment_file_name',
+															'study_comment_file_title',											
+															'study_comment_file_size')
+						  );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Study Comment File by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('study_comment_file_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		$data = array(
+			'study_comment_id' 			=> $obj->GetStudyCommentId(),
+			'file_type_id' 				=> $obj->GetFile()->GetFileTypeId(),
+			'study_comment_file_name' 	=> $obj->GetFile()->GetFileName(),
+			'study_comment_file_title' => $obj->GetFile()->GetFileTitle(),
+			'study_comment_file_data' 	=> $obj->GetFile()->GetFileData(),
+			'study_comment_file_size' 	=> $obj->GetFile()->GetFileSize()
+		);
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_comment_file', $data);
+			$obj->SetStudyCommentFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_comment_file', $data, 'study_comment_file_id = ' . $obj->GetId());
+		} 		
+	}	
+}
+?>

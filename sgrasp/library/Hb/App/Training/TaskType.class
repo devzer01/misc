@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Task Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Training
+ */ 
+class Hb_App_Training_TaskType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Task Type Object
+	 *
+	 * @param int $id Task type id
+	 * @param string $description Task type description
+	 */
+	public function __construct($id 			 	= null,
+									    $description 	= null
+									   )
+   {
+   	
+   	parent::__construct($id, $description);	
+   }
+}
+
+?>

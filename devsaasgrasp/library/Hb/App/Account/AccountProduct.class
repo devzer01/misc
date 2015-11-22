@@ -1,0 +1,423 @@
+<?php
+
+/**
+ * An Account Product Item, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountProduct  extends Hb_App_Object 
+{
+	protected $__product_id = null;
+	
+	protected $__user;
+	
+	protected $__attributes;
+	
+	protected $account_id = null;
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected $account = null;
+	
+	/**
+	 * license level id
+	 *
+	 * @var int License Level Id
+	 */
+	protected $license = null;
+	
+	/**
+	 * pricing regime id
+	 *
+	 * @var int Priceing regime id
+	 */
+	protected $pricing_model = null;
+	
+	/**
+	 * Hb_App_Common_Product object
+	 *
+	 * @var Hb_App_Common_Product
+	 */
+	protected $product = null;
+	
+
+	/**
+	 * Hb_App_Common_AccountUsers object
+	 *
+	 * @var Hb_App_Account_AccountUsers
+	 */
+	protected $users = null;
+	
+	/**
+	 * Account Contact Id
+	 *
+	 * @var int Account Contact Id
+	 */
+	protected $account_product_id = null;
+	
+	/**
+	 * Account Identifier
+	 *
+	 * @var string Account Identifier
+	 */	
+	protected $identifier		  = null;
+	
+	/**
+	 * Hb_App_Common_PricingRegime object
+	 *
+	 * @var Hb_App_Common_PricingRegime
+	 */		
+	protected $pricing_regime	  = null;
+	
+	/**
+	 * Hb_App_Proposal_LicenseLevel object
+	 *
+	 * @var Hb_App_Proposal_LicenseLevel
+	 */		
+	protected $license_level	  = null;
+
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id
+	 * @param int $product_id
+	 * @param int $license_level
+	 * @param int $identifier
+	 * @param int $pricing_regime
+	 */
+	public function __construct(	$id = null, 
+											$account_id = null, 
+											$product_id = null, 
+											$license_level = null,
+											$pricing_regime = null,
+											$identifier = null)
+	{ 
+		$this->account_product_id = $id;
+		$this->license       	  = $license_level;
+		$this->__product_id  	  = $product_id;
+		$this->pricing_model 	  = $pricing_regime;
+		$this->identifier	   	  = $identifier;
+		$this->account_id    	  = $account_id;
+		
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns The Account Contact Id
+	 *
+	 * @return int Account Contact Id
+	 */
+	public function GetAccountProductId()
+	{ 
+		return $this->account_product_id;
+	}
+	
+	public function SetAccountProductId($account_product_id)
+	{
+		$this->account_product_id = $account_product_id;
+		$this->__id = $account_product_id;
+		$this->MarkDirty();
+	}
+	/**
+	 * Sets the Product Object
+	 *
+	 * @param Hb_App_Common_Product $product
+	 */
+	public function SetProduct(Hb_App_Common_Product $product)
+	{
+		$this->__product_id = $product->GetId();
+		$this->product = $product;
+		
+		$this->MarkDirty();
+	}  	
+	
+	/**
+	 * Returns the internal product identifier for the Accont Product 
+	 *
+	 * @return int  Procut Id
+	 */
+	public function GetProductId()
+	{
+		if (is_null($this->__product_id)) {
+			$this->__product_id = $this->doGetProduct()->GetId();
+		}
+		return $this->__product_id;
+	}	
+	
+	/**
+	 * Sets the Product Id
+	 *
+	 * @param int $__product_id Product Id
+	 */
+	public function SetProductId($id)
+	{
+		$this->__product_id = $id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Product Object
+	 * 
+	 * @return Hb_App_Common_Product
+	 */
+	public function GetProduct()
+	{ 
+		return $this->doGetProduct();		
+	}	
+	
+	/**
+	 * Returns the Product Object from the Mapper (Protected Method)
+	 * 
+	 * @return Hb_App_Common_Product
+	 */
+	protected function doGetProduct()
+	{
+		if (is_null($this->product)) {
+			if (is_null($this->__product_id)) {				
+				throw new Hb_App_Account_Exception_ContactNotFoundException();
+			}
+			
+			$this->product = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Product')->Find($this->__product_id);
+		}
+		
+		return $this->product;
+	}
+	
+	/**
+	 * Sets the Account Object
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account_id = $account->GetAccountId();
+		$this->account = $account;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Account Id
+	 *
+	 * @return int Accoutn Id
+	 */
+	public function GetAccountId()
+	{
+		if (is_null($this->account_id)) {
+			$this->account_id = $this->account->GetAccountId();
+		}
+		
+		return $this->account_id;
+	}
+		
+	/**
+	 * Sets the Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Returns the internal license identifier
+	 *
+	 * @return int
+	 */
+	public function GetLicenseId()
+	{
+		return  $this->license;
+	}
+	
+	/**
+	 * Sets the License Id
+	 *
+	 * @param int $license 
+	 */
+	public function SetLicenseId($license)
+	{
+		$this->license = $license;
+		
+		$this->MarkDirty();
+	}	
+
+	/**
+	 * Returns the Account Identifier
+	 *
+	 * @return int
+	 */
+	public function GetAccountIdentifier()
+	{
+		return  $this->identifier;
+	}
+	
+	/**
+	 * Sets the Account Identifier
+	 *
+	 * @param int $identifier 
+	 */
+	public function SetAccountIdentifier($identifier)
+	{
+		$this->account_identifer = $identifier;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Returns all internal user associations with a product
+	 *
+	 * @return Hb_App_Account_AccountUsers
+	 */
+	public function GetUsers()
+	{
+		if (is_null($this->users)) {
+			$this->users = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountUsers')->FindByProduct($this->account_id, $this->__product_id);
+		}
+		
+		return $this->users;
+	}
+	
+	/**
+	 * Returns all the user assingments by a specific Role
+	 *
+	 * @param int $role {@link Hb_App_Common_Role}
+	 * @return Hb_App_Account_AccountUser
+	 */
+	public function GetByRole($role)
+	{
+		return $this->doGetByRole($role);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $role
+	 * @return unknown
+	 */
+	protected function doGetByRole($role)
+	{
+		$this->GetUsers();
+		return $this->users->GetByRole($role);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function GetAe()
+	{
+		return $this->doGetByRole(Hb_App_Common_Role::ROLE_PRIMARY_ACCT_EXEC);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function GetAm()
+	{
+		return $this->doGetByRole(Hb_App_Common_Role::ROLE_PRIMARY_ACCT_MGR);
+	}
+	/**
+	 * Returns pricig model
+	 *
+	 * @return int
+	 */
+	public function GetPricingRegime()
+	{
+		return $this->pricing_model;
+	}
+	
+	/**
+	 * Sets the Pricing Regime Id
+	 *
+	 * @param int $pricing_model 
+	 */
+	public function SetPricingRegime($pricing_model)
+	{
+		$this->pricing_model = $pricing_model;
+		
+		$this->MarkDirty();
+	}
+	
+	public function GetAttributes()
+	{		
+		if (is_null($this->__attributes)) {
+				
+			$this->__attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountProductAttributes')->Find($this->account_product_id);
+		}
+		
+		return $this->__attributes;
+	}
+	
+	/**
+	 * Returns the account identifier
+	 *
+	 * @return string
+	 */
+	public function GetIdentifier()
+	{
+		return  $this->identifier;
+	}
+	
+	/**
+	 * Sets the account identifier
+	 *
+	 * @param int $identifier 
+	 */
+	public function SetIdentifier($identifier)
+	{
+		$this->identifier = $identifier;
+		
+		$this->MarkDirty();
+	}	
+		
+	/**
+	 * Returns pricing regime object
+	 *
+	 * @return Hb_App_Common_PricingRegime
+	 */
+	public function GetPricingRegimeObj()
+	{
+		if (is_null($this->pricing_regime)) {
+			
+			$this->pricing_regime = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_PricingRegime')->Find($this->pricing_model);
+			
+		}
+		return $this->pricing_regime;
+	}	
+
+	/**
+	 * Returns License Level object
+	 *
+	 * @return Hb_App_Proposal_LicenseLevel
+	 */
+	public function GetLicenseLevelObj()
+	{
+		if (is_null($this->license_level)) {
+			
+			$this->license_level = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_LicenseLevel')->Find($this->license);
+	
+		}
+		return $this->license_level;
+	}	
+
+}
+?>

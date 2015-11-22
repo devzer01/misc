@@ -1,0 +1,98 @@
+<?php
+/**
+ * Mapper Class for StudyTemplate
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyTemplate extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Study Template table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'study_template_id';
+	
+	/**
+	 * Variable for Study Template table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'study_template';
+	
+	/**
+	 * Build the StudyTemplate Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyTemplate
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTemplate
+		(	$row->study_template_id,
+			$row->study_template_description,
+			$row->study_type_id );
+	}
+	
+	/**
+	 * Returns Study Template data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('st' => 'study_template'), 
+							array(	'study_template_id', 
+										'study_template_description', 
+										'study_type_id'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('st.study_template_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Study_StudyTemplate  
+		
+		$data = array(
+			'study_template_description'	=> $obj->GetStudyTemplateDescription(),
+			'study_type_id'			 		=> $obj->GetStudyTypeId());
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_template', $data);
+			$obj->SetStudyTemplateId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_template', $data, 'study_template_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

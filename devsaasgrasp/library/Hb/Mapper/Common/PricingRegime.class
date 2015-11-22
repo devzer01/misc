@@ -1,0 +1,72 @@
+<?php
+
+class Hb_Mapper_Common_PricingRegime extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'pricing_regime_id';
+	
+	protected $table       = 'pricing_regime';
+	
+	/**
+	 * retrives a Region object based on its id
+	 * 
+	 * 
+	 * @return Hb_App_Common_PricingRegime
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('pricing_regime_id = ?', $id);
+
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * 
+	 *
+	 * @todo Add mappings for all fields 
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		$data = array('pricing_regime_id' 					  => $obj->GetRegimeId(),
+					     'pricing_regime_description'  		  => $obj->GetDescription()				     
+					    );
+	
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{ 
+			$db->insert($this->table, $data);
+			$obj->SetRegimeId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+			
+	}
+	
+	/**
+	 * @todo Add all the fields for the select 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('pricing_regime', array('pricing_regime_id', 'pricing_regime_description'));
+		
+		return $select;
+	}
+	
+	/**
+	 * @todo add all fields to the build object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_PricingRegime($row->pricing_regime_id, $row->pricing_regime_description);	
+		
+	}
+}
+?>

@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Exception Logger Not Registered
+ * @package  Util
+ * @subpackage  Log
+ *
+ *
+ */
+class Hb_Util_Log_Exception_LoggerRegisteredException extends Hb_Util_Log_Exception
+{
+
+}
+?>

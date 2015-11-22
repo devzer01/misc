@@ -1,0 +1,94 @@
+<?php 
+/**
+ * Mapper Object for Audit
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_Audit extends Hb_Mapper_Audit 
+{
+	/**
+	 * Builds and returns the Audit domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the parent table name table
+	 * @return object An instance of the Audit domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Audit($row->created_by,
+									$row->created_date,
+									$row->modified_by,
+									$row->modified_date,
+									$row->status
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from($this->table, array('created_by',
+													 'created_date',
+													 'modified_by',
+													 'modified_date',
+													 'status')
+	 					 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Audit by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the this parent table name table
+	 */	
+	protected function doFindById($id)
+	{ 		
+	 	$select = $this->GetBaseSelect();
+		$select->where($this->primary_key .' = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Audit domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	
+	}
+	
+	/**
+	 * Set the Primary key for the  Audit
+	 * 
+	 * @param string $key Primary key
+	 */
+	public function SetPrimaryKey($key)
+	{
+		$this->primary_key = $key;		
+	}
+	
+	/**
+	 * Set the Table name for the  Audit
+	 * 
+	 * @param string $table Table name
+	 */
+	public function SetTable($table)
+	{
+		$this->table = $table;
+	}
+}
+
+?>

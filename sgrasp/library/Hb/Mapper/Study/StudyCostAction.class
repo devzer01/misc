@@ -1,0 +1,131 @@
+<?php
+/**
+ * Mapper for Study Cost Action
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Study_StudyCostAction extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Study_StudyCostAction';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Study_StudyCostAction';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_cost_action_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_cost_action";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCostAction($row->study_cost_action_id,$row->study_cost_id,$row->study_cost_action_type_id,$row->status);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('study_cost_action', array(
+													'study_cost_action_id', 
+													'study_cost_action_type_id',	
+													'study_cost_id',													
+													'status'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Study Cost Action by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('study_cost_action_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	protected function doFindByStudyCostId($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('study_cost_id = ?', $id);				
+             
+    	return $this->getRow($select); 	
+	}
+	
+	public function FindByStudyCostId($id)
+	{
+		$result = $this->doFindByStudyCostId($id);
+		return $this->doBuildObject($result);
+	}
+	
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'study_cost_id' => $obj->GetStudyCostId(),
+					'study_cost_action_type_id' => $obj->GetStudyCostActionTypeId(),
+					'status' => $obj->GetStatus());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+         $data['created_by'] = $_SESSION["admin_id"];
+         $data['created_date'] = date("Y-m-d h:i:s");
+			$db->insert('study_cost_action', $data);
+			$obj->SetStudyCostActionId($db->lastInsertId());
+		}
+		else 
+		{
+         $data['modified_by'] = $_SESSION["admin_id"];
+         $data['modified_date'] = date("Y-m-d h:i:s");
+			$db->update('study_cost_action', $data, 'study_cost_action_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

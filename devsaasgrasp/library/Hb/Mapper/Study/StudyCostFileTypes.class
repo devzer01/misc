@@ -1,0 +1,61 @@
+<?php
+/**
+ * Mapper for Study Costs
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+class Hb_Mapper_Study_StudyCostFileTypes extends Hb_Mapper_Study_StudyCostFileType 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_id';	
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'study_cost';	
+	
+	/**
+	 * Finds Study Costs  by Study Id
+	 *
+	 * @param  int $id Study Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('study_cost_id = ?',$id);
+	
+		return $this->getRows($select);
+	}		
+	
+	protected  function doFindStudyCostFileTypes()
+	{
+		$select = $this->GetBaseSelect();
+	
+		return $this->getRows($select);
+	}
+	
+	public function FindStudyCostFileTypes()
+	{
+		$result = $this->doFindStudyCostFileTypes();
+		
+		return $this->BuildCollection($result, 'Hb_App_Study_StudyCostFileTypes');
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+?>

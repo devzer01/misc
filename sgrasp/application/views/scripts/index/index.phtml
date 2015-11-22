@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>ERSP 1.0 - GLOBAL ENTERPRISE MANAGEMENT SOLUTIONS</title>
+  <link rel="STYLESHEET" type="text/css" href="dhtmlx.css">
+   <script src="dhtmlx.js" type="text/javascript"></script>
+</head>
+<body>
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+    }
+</style>
+ 
+<script>
+// init layout;
+var dhxWins, layoutWin, dhxLayout;
+//function doOnLoad() {
+    dhxWins = new dhtmlXWindows();
+    dhxWins.enableAutoViewport(true);
+    //dhxWins.attachViewportTo(document.body);
+    dhxWins.setImagePath("/imgs/");
+	var w1 = dhxWins.createWindow("w1", 20, 30, 600, 400);
+	w1.maximize();
+	w1.setText("Global Enterprise Management Solutions");
+	
+	//var menu = w1.attachMenu();
+    //menu.setImagePath("/imgs/");
+    //menu.setIconsPath("/imgs/");
+    //menu.loadXML("/index/menu/");
+    var toolbar = w1.attachToolbar();
+    toolbar.setIconsPath("/imgs/");
+    toolbar.loadXML("/index/toolbar/");
+	toolbar.attachEvent("onClick", function(id){
+		switch(id) {
+			case "open":
+				dhxLayout.cells("b").attachObject(dhxWins.createWindow("fldwdw", 20, 30, 200, 400));
+				dhxWins.window("fldwdw").maximize();
+				dhxWins.window("fldwdw").setText("Open Document");
+				//folders_container
+				var fldopen = dhxWins.window("fldwdw").attachFolders();
+				fldopen.setItemType("ficon");
+    			fldopen.setUserData("icons_src_dir", "/imgs");
+    			fldopen.loadXML("/index/dir", "/ficon.xsl");
+				fldopen.enableDragAndDrop(true);
+    			fldopen.attachEvent("onBeforeDrop", function(dropType, sID, tID) {
+					var tType = this.getItem(tID).data.dataObj.getAttribute("type");
+					if (dropType == "in" && tType == "dir") {
+						this.deleteItem(sID);
+						return false;
+					} else;
+					return true;
+    			});
+				break;
+					
+		}	
+	});
+	
+    //var sb = w1.attachStatusBar();
+    //sb.setText("Simple Status Bar");
+	
+	//dhxWins.window("w1").attachObject(dhxWins.createWindow("w2", 20, 30, 600, 400));
+	dhxLayout = dhxWins.window("w1").attachLayout("2U", 'dhx_blue');
+//    dhxWins.window(id).attachToolbar();
+//    dhxWins.window(id).attachMenu();
+
+	
+
+    //dhxLayout = new dhtmlXLayoutObject(dhxWins.createWindow("w1", 20, 30, 600, 400), "3L");
+	dhxLayout.cells("a").setWidth(200);
+	dhxLayout.cells("a").setText("Navigation");
+	var dhxAcc = dhxLayout.cells("a").attachAccordion();
+	dhxLayout.cells("b").hideHeader();
+	
+	dhxAcc.addItem("item_a", "Quotes");
+	dhxAcc.addItem("item_b", "Projects");
+	dhxAcc.addItem("item_c", "Invoicing");
+	dhxAcc.addItem("item_d", "Accounts");
+	dhxAcc.addItem("item_e", "Contacts");
+	dhxAcc.addItem("item_f", "Messages");
+	dhxAcc.addItem("item_g", "Tasks");
+	dhxAcc.addItem("item_h", "Schedule");
+
+	dhxAcc.attachEvent("onBeforeActive", function(itemId){
+		  switch (itemId) {
+		  	case 'item_d':
+		  		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+				dhxWins.window(windowname).maximize();
+				dhxWins.window(windowname).setText("Accounts");
+				dhxWins.window(windowname).attachURL("/Account/index");
+			  	return false;
+			  	break; 
+		  
+		 	default: 
+			 	return false;
+			 	break;
+		  }
+		});    
+	
+	//schedule
+	var schtree = dhxAcc.cells("item_h").attachTree();
+	schtree.setSkin('dhx_skyblue');
+	schtree.setImagePath("/imgs/");
+	schtree.enableHighlighting(true);
+	schtree.loadXML("/index/tree");
+	
+	schtree.attachEvent("onClick", function(id, oldid){
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow("schedule", 20, 30, 200, 400));
+		dhxWins.window("schedule").maximize();
+		dhxWins.window("schedule").setText("Schedule");
+		dhxWins.window("schedule").attachURL("/index/schedule");
+	});
+	
+	//http://ersp.com/index/schedule
+	//var item_a = dhxAcc.getItem("item_a");
+	//var tree = new dhtmlXTreeObject("treeboxbox_tree", "100%", "100%", 0);
+	var tree = dhxAcc.cells("item_a").attachTree();
+	tree.setSkin('dhx_skyblue');
+	tree.setImagePath("/imgs/");
+	tree.enableHighlighting(true);
+	tree.loadXML("/index/tree");
+	
+	tree.attachEvent("onClick", function(id, oldid){
+		//open add quote url
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addquote";
+				windowtitle = "New Quote";
+				windowurl   = "/quote/new";
+				break;
+			case "3":
+				windowname = "listquotes";
+				windowtitle = "Quotes";
+				windowurl   = "/quote/list";
+				break;
+			case "2":
+				windowname = "searchquote";
+				windowtitle = "Search Quotes";
+				windowurl   = "/quote/search";
+				break;	
+		}
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/quote/list");
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+	});
+	
+	//projects
+	var prjtree = dhxAcc.cells("item_b").attachTree();
+	prjtree.setSkin('dhx_skyblue');
+	prjtree.setImagePath("/imgs/");
+	prjtree.enableHighlighting(true);
+	prjtree.loadXML("/index/tree");
+	
+	prjtree.attachEvent("onClick", function(id, oldid){
+		//open add quote url	
+		//open add quote url
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addproject";
+				windowtitle = "New Project";
+				windowurl   = "/project/new";
+				break;
+			case "3":
+				windowname = "listprojects";
+				windowtitle = "Projects";
+				windowurl   = "/project/list";
+				break;
+			case "2":
+				windowname = "searchprojects";
+				windowtitle = "Search Projects";
+				windowurl   = "/project/search";
+				break;	
+		}
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/project/list");
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+		
+		//dhxLayout.cells("b").attachObject(dhxWins.createWindow("addproject", 20, 30, 200, 400));
+		//dhxWins.window("addproject").maximize();
+		//dhxWins.window("addproject").setText("New Project");
+		//dhxWins.window("addproject").attachURL("/project/new");
+	});
+	
+	//invoices
+	var armctree = dhxAcc.cells("item_c").attachTree();
+	armctree.setSkin('dhx_skyblue');
+	armctree.setImagePath("/imgs/");
+	armctree.enableHighlighting(true);
+	armctree.loadXML("/index/tree");
+	
+	armctree.attachEvent("onClick", function(id, oldid){
+		//open add quote url	
+		//open add quote url
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addinvoice";
+				windowtitle = "New Invoice";
+				windowurl   = "/invoice/new";
+				break;
+			case "3":
+				windowname = "listinvoices";
+				windowtitle = "Invoices";
+				windowurl   = "/invoice/list";
+				break;
+			case "2":
+				windowname = "searchinvoices";
+				windowtitle = "Search Invoices";
+				windowurl   = "/invoice/search";
+				break;	
+		}
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/invoice/list");
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+		//dhxLayout.cells("b").attachObject(dhxWins.createWindow("addinvoice", 20, 30, 200, 400));
+		//dhxWins.window("addinvoice").maximize();
+		//dhxWins.window("addinvoice").setText("New Invoice");
+		//dhxWins.window("addinvoice").attachURL("/invoice/new");
+	});
+	
+	//accounts
+	var acmtree = dhxAcc.cells("item_d").attachTree();
+	acmtree.setSkin('dhx_skyblue');
+	acmtree.setImagePath("/imgs/");
+	acmtree.enableHighlighting(true);
+	acmtree.loadXML("/index/tree");
+	
+	acmtree.attachEvent("onClick", function(id, oldid){
+		//alert('acm' + id);
+		//open add quote url	
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addaccount";
+				windowtitle = "New Account";
+				windowurl   = "/account/new";
+				break;
+			case "3":
+				windowname = "listaccounts";
+				windowtitle = "Accounts";
+				windowurl   = "/account/list";
+				break;
+			case "2":
+				windowname = "searchaccount";
+				windowtitle = "Search Account";
+				windowurl   = "/account/search";
+				break;	
+		}
+		//alert(windowname);
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/account/list");
+		} else {
+			
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+	});
+	
+	
+	//dhxLayout.cells("b").attachObject(dhxWins.createWindow("w2", 20, 30, 60, 40));
+	//dhxWins.window("w2").maximize();
+	//dhxWins.window("w2").setText("Dashboard");
+ //}
+//var dhxLayout = new dhtmlXLayoutObject(document.body, "3L");
+</script>
+<div style="position:relative;">
+    <img src="/imgs/samples_frame.gif" width="436" height="513" alt="" border="0">
+    <div id="folders_container" style="width:396px;height:400px;overflow:hidden;position:absolute;top:65px;left:20px;border:0px solid red;"></div>
+</div>
+</body>
+</html>

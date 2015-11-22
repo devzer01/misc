@@ -1,0 +1,385 @@
+<?php
+
+class db_tcm extends db_common {
+	
+	/**
+	* InsertTcmComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:41:58
+	*/
+	public function InsertTcmComment($fields)
+	{
+		$table = 'tcm_comment';		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* isQue()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 12:22:58
+	*/
+	function isQue($tcm_que_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('tcm_que', 'tcm_que_id');
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('tcm_que_id = ?', $tcm_que_id);
+		
+		return $this->db->FetchOne($this->select);
+	}
+	
+	/**
+	* InsertTcm()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 12:38:02
+	*/
+	function InsertTcm($fields)
+	{
+		$table = 'tcm';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	
+	/**
+	* isTcm()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 12:57:05
+	*/
+	function isTcm($tcm_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('tcm', 'tcm_id');
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('tcm_id = ?', $tcm_id);
+		
+		return $this->db->FetchOne($this->select);
+		
+	}
+	
+	/**
+	* InsertTcmCommentUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 13:10:11
+	*/
+	function InsertTcmCommentUser($fields)
+	{
+		$table = 'tcm_comment_user';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	
+	/**
+	* DeleteTcmUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 13:21:26
+	*/
+	function DeleteTcmUser($tcm_id)
+	{
+		$table = 'tcm_user';
+		$where = $this->db->quoteInto('tcm_id = ?', $tcm_id);
+
+		$this->db->delete($table, $where);
+	}
+	
+	/**
+	* SelectTcmComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 14:48:57
+	*/
+	function SelectTcmComment($tcm_id, $tcm_comment_id = 0)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('tc' => 'tcm_comment'), array('tcm_comment_id' , 'comment' , 'created_date'));
+		$this->select->joinLeft(array('tcu' => 'tcm_comment_user'), 'tc.tcm_comment_id = tcu.tcm_comment_id AND tcu.role_id = ' . ROLE_CREATOR, array('login'));
+		
+		$this->select->where('tc.status = ?', 'A');
+		$this->select->where('tc.tcm_id = ?', $tcm_id);
+		
+		if ($tcm_comment_id != 0) {
+			$this->select->where('tc.tcm_comment_id = ?', $tcm_comment_id);	
+		}
+		
+		$this->select->order('tc.created_date DESC');
+		
+		return $this->db->FetchAssoc($this->select);
+	}
+	
+	/**
+	* SelectTcmCommentUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 09:58:39
+	*/
+	function SelectTcmCommentUser($tcm_comment_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('tcm_comment_user', 'tcm_comment_user_id, role_id, login');
+		$this->select->where('tcm_comment_id = ?', $tcm_comment_id);
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+	
+	/**
+	* SelectTcmUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:12:52
+	*/
+	function SelectTcmUser($tcm_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('tu' => 'tcm_user'), array('login', 'role_id'));
+		$this->select->joinLeft(array('u' => 'user'), 'tu.login = u.login', array('email_address'));
+		$this->select->where('tu.tcm_id = ?', $tcm_id);
+		
+		return $this->db->FetchAssoc($this->select);
+	}
+	
+	/**
+	* InsertTcmUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:33:49
+	*/
+	function InsertTcmUser($fields)
+	{
+		$table = 'tcm_user';
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* InsertTcmCommentFile()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:52:05
+	*/
+	function InsertTcmCommentFile($fields)
+	{
+		$table = 'tcm_comment_file';
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SelectTcm()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 18:38:16
+	*/
+	function SelectTcm($tcm_id = 0)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('t' => 'tcm'), array('tcm_id', 'tcm_subject', 'tcm_que_id'));
+		
+		$this->select->where('t.status = ?', 'A');
+
+		if ($tcm_id != 0) {
+			$this->select->where('t.tcm_id = ?', $tcm_id);
+			return $this->db->FetchRow($this->select);
+		}
+
+		return $this->db->FetchAssoc($this->select);
+	}
+	
+	/**
+	 * __SelectTcm()
+	 *
+	 * @param 
+	 * @author - sujith
+	 * @since  - Thu Dec 14 14:09:29 IST 2006
+	 **/
+	protected function __SelectTcm($param = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('t' => 'tcm'), array('tcm_id', 'tcm_subject', 'created_date', 'modified_date', 'created_by'));
+	    $this->select->order($attr['sort']);
+		
+		if (isset($param['status']) && $param['status'] != '') {
+			$this->select->where('t.status = ?', $param['status']);
+		}
+		
+		if (isset($param['tcm_id']) && is_numeric($param['tcm_id'])) {
+			$this->select->where('t.tcm_id = ?', $param['tcm_id']);
+		}
+		
+		if (isset($param['tcm_subject']) && $param['tcm_subject'] != '') {
+			$this->select->where('t.tcm_subject LIKE ?', '%' . $param['tcm_subject'] . '%');
+		}
+		
+		$this->select->limit($attr['page_size'], $attr['start']);
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) {
+			return $this->db->fetchRow($this->select);	
+		} 
+		//echo($param['tcm_subject']);
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	 * GetTickets()
+	 *
+	 * @param 
+	 * @author - sujith
+	 * @since  - Thu Dec 14 14:27:02 IST 2006
+	 **/
+	function GetTickets($param = array(),$attr = array())
+	{
+		$param['status'] = 'A';
+		return $this->__SelectTcm($param, $attr);
+	}	
+		
+	/**
+	* SelectTcmQue()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:44:20
+	*/
+	function SelectTcmQue($tcm_que_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('tq' => 'tcm_que'), array('tcm_que_id', 'tcm_que_description'));
+		
+		$this->select->where('tq.status = ?', 'A');
+		$this->select->where('tq.tcm_que_id = ?', $tcm_que_id);
+		
+		return $this->db->FetchRow($this->select);
+	}
+	
+	/**
+	* SelectTcmCommentFile()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 19:31:37
+	*/
+	function SelectTcmCommentFile($tcm_comment_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('tcm_comment_file', array('tcm_comment_file_id', 'file_name', 'file_data'));
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('tcm_comment_id = ?', $tcm_comment_id);
+		
+		return $this->db->FetchAssoc($this->select);
+	}
+	
+	/**
+	* SelectTcmCommentFileByTcmId()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 13:27:02
+	*/
+	function SelectTcmCommentFileByTcmId($tcm_id)
+	{
+		$this->SetSelect();
+
+		$this->select->from(array('tcf' => 'tcm_comment_file'), array('tcm_comment_file_id' , 'tcm_comment_id', 'file_name', 'file_data'));
+		$this->select->joinLeft(array('t' => 'tcm_comment'), 'tcf.tcm_comment_id = t.tcm_comment_id', array('tcm_id'));		
+		
+		//$this->select->joinLeft('tcm_comment_file AS tcf', 'tcf.tcm_comment_id = t.tcm_comment_id', 'tcf.tcm_comment_file_id, tcf.tcm_comment_id, tcf.file_name, tcf.file_data');
+
+		$this->select->where('tcf.status = ?', 'A');
+		$this->select->where('t.tcm_id = ?', $tcm_id);
+		
+		return $this->db->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* SelectTcmCommentUserByTcmId()
+	*
+	* @param
+	* @param - 
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - Tue Sep 05 16:26:46 PDT 2006
+	*/
+	function SelectTcmCommentUserByTcmId($tcm_id)
+	{
+	   $this->SetSelect();
+
+		$this->select->from(array('tcf' => 'tcm_comment_user'), array('tcm_comment_user_id', 'tcm_comment_id', 'login', 'role_id'));
+		$this->select->joinLeft(array('t' => 'tcm_comment'), 'tcf.tcm_comment_id = t.tcm_comment_id', array('tcm_id'));		
+		$this->select->joinLeft(array('u' => 'user'), 'tcf.login = u.login', array('email_address'));
+		$this->select->where('tcf.status = ?', 'A');
+		$this->select->where('t.tcm_id = ?', $tcm_id);
+		
+		return $this->db->FetchAssoc($this->select);
+	   
+	}
+	
+	/**
+	* SelectTcmCommentFileByCommentFileId()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 14:07:34
+	*/
+	function SelectTcmCommentFileByCommentFileId($tcm_comment_file_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('tcm_comment_file', 'tcm_comment_file_id, file_name, file_data');
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('tcm_comment_file_id = ?', $tcm_comment_file_id);
+		
+		return $this->db->FetchRow($this->select);
+		
+	}
+	
+}
+
+?>

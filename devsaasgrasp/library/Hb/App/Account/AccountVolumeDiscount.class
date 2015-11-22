@@ -1,0 +1,217 @@
+<?php
+/**
+ * Domain Object for AccountVolumeDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountVolumeDiscount extends Hb_App_Object
+{
+	/**
+	 * Account Volume Discount Id
+	 *
+	 * @var int
+	 */
+	protected $account_volume_discount_id 	= null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id 						= null;
+	
+	/**
+	 * Volume Amount
+	 *
+	 * @var int
+	 */
+	protected $volume_amount 					= null;
+	
+	/**
+	 * Discount Amount
+	 *
+	 * @var string
+	 */
+	protected $discount_amount 				= null;
+	
+	/**
+	 * Effective Date
+	 *
+	 * @var string
+	 */
+	protected $effective_date 					= null;
+	
+	/**
+	 * Expire Date
+	 *
+	 * @var string
+	 */
+	protected $expire_date 						= null;
+
+	/**
+	 * Create AccountVolumeDiscount Object
+	 * 
+	 * @param int $id account_volume_discount_id
+	 * @param int $account_id account_id
+	 * @param int $volume_amount volume_amount
+	 * @param string $discount_amount discount_amount
+	 * @param string $effective_date effective_date
+	 * @param string $expire_date expire_date
+	 */
+	function __construct($id 					= null, 
+								$account_id 		= null,
+								$volume_amount 	= null,
+								$discount_amount	= null,
+								$effective_date	= null,
+								$expire_date		= null)
+	{
+		$this->account_volume_discount_id 	= $id;
+		$this->account_id							= $account_id;
+		$this->volume_amount						= $volume_amount;
+		$this->discount_amount					= $discount_amount;
+		$this->effective_date					= $effective_date;
+		$this->expire_date						= $expire_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Account Volume Discount Id
+	 *
+	 * @return int Account Volume Discount Id
+	 */
+	public function GetAccountVolumeDiscountId()
+	{
+		return $this->account_volume_discount_id;
+	}
+	
+	/**
+	 * Returns the Account Id
+	 *
+	 * @return int Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Returns the Volume Amount
+	 *
+	 * @return int Volume Amount
+	 */
+	public function GetVolumeAmount()
+	{
+		return $this->volume_amount;
+	}
+	
+	/**
+	 * Returns the Discount Amount
+	 *
+	 * @return string Discount Amount
+	 */
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+	/**
+	 * Returns the Effective Date
+	 *
+	 * @return string Effective Date
+	 */
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	 * Returns the Expire Date
+	 *
+	 * @return string Expire Date
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Sets the Account Volume Discount Id
+	 * 
+	 * @param int $account_volume_discount_id Account Volume Discount Id
+	 */
+	public function SetAccountVolumeDiscountId($account_volume_discount_id)
+	{
+		$this->account_volume_discount_id = $account_volume_discount_id;
+		
+		$this->__id = (int) $account_volume_discount_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account Id
+	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Volume Amount
+	 * 
+	 * @param int $volume_amount Volume Amount
+	 */
+	public function SetVolumeAmount($volume_amount)
+	{
+		$this->volume_amount = (int)$volume_amount;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Discount Amount
+	 * 
+	 * @param string $discount_amount Discount Amount
+	 */
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = $discount_amount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Effective Date
+	 * 
+	 * @param string $effective_date Effective Date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Expire Date
+	 * 
+	 * @param string $expire_date Expire Date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+
+		$this->MarkDirty();
+	}
+}
+?>

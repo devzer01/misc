@@ -1,0 +1,45 @@
+<?php
+class Hb_View_Proposal_ProposalAddOtherService extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_service.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	private $service = array();	
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('service', $this->service);
+	}	
+	
+	public function SetServiceName($value)
+	{
+		$this->service['name'] = $value;
+	}
+	
+	public function SetServiceHours($value)
+	{
+		$this->service['hours'] = $value;
+		$this->service['price'] = number_format( ($value * 15), 2);
+	}
+	
+	public function SetSelId($value)
+	{
+		$this->service['selid'] = $value;
+	}
+	
+	public function SetAction($value)
+	{
+		$this->service['doAction'] = $value;
+	}
+	
+	public function SetFocusTab($focusTab)
+	{
+		$this->service['focusTab'] = $focusTab;
+		
+	}	
+	
+	
+}
+
+?>

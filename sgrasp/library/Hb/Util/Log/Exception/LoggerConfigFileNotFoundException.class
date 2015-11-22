@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Trhwon when the log configuration file is not found
+ *
+ * @package Util
+ * @subpackage  Log
+ */
+class Hb_Util_Log_Exception_LoggerConfigFileNotFoundException  extends Hb_Util_Log_Exception 
+{
+
+}
+?>

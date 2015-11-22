@@ -1,0 +1,94 @@
+<?php 
+/**
+ * Mapper Object for Panel Cost Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_PanelCostType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'panel_cost_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'panel_cost_type';
+	
+	/**
+	 * Builds and returns the Panel Cost Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the panel_cost_type table
+	 * @return object An instance of the Panel Cost Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_PanelCostType($row->panel_cost_type_id, $row->panel_cost_type_description);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('pct' => 'panel_cost_type'), array('panel_cost_type_id',
+																				'panel_cost_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Panel Cost Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the panel_cost_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('pct.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the panel_cost_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Common_PanelCostType   */
+		 	
+	 	$data  = array(
+			'panel_cost_type_description' => $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

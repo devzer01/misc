@@ -1,0 +1,125 @@
+<?php
+/**
+ * Domain Object for User File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera/ krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */
+ 
+class Hb_App_User_UserFile extends Hb_App_Object
+{
+
+	/**
+	 * User file Id
+	 * 
+	 * @var int
+	 **/
+	protected $user_file_id = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int
+	 **/
+	protected $login = null;
+
+	/**
+	 * User file object
+	 * 
+	 * @var Hb_App_Common_File
+	 */		
+	protected $user_file = null;
+
+	/**
+	 * Create UserFile Object
+	 *
+	 * @param int $id User file id
+	 * @param int $login Login
+	 * @param Hb_App_Common_File $user_file User file object
+	 */
+	public function __construct(
+											$id = null,
+											$login = null,
+											Hb_App_Common_File $user_file = null
+										)
+	{	
+		$this->user_file_id 	= $id;
+		$this->login 			= $login;
+		$this->user_file 		= $user_file;
+		if( !is_null($user_file) )
+			$this->user_file->RegisterFileOwner("Hb_App_User_UserFile");
+
+		parent::__construct($id);
+	}
+		
+	/**
+	* Returns the User file id
+ 	* 
+	* @return int The User file id
+	**/
+	public function GetUserFileId()
+	{
+		return $this->user_file_id;
+	}
+	
+	/**
+	* Returns the Login
+ 	* 
+	* @return int The Login
+	**/
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Returns User File Object
+	 * 
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */					
+	public function GetFile()
+	{			
+		return $this->user_file;								
+	}
+	
+	/**
+	 * Sets the User file id
+ 	 * 
+	 * @param int $user_file_id User file id
+	 */
+	public function SetUserFileId($user_file_id)
+	{
+		$this->user_file_id = $user_file_id;
+		$this->__id = $user_file_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Login
+ 	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets User File object
+	 * 
+	 * @param Hb_App_Common_File $user_file Instance of Hb_App_Common_File
+	 */						
+	public function SetFile(Hb_App_Common_File $user_file)
+	{
+		$this->user_file_id = $user_file->GetFileId();
+		$this->__id = $user_file->GetFileId();
+		$this->user_file = $user_file;
+		$this->MarkDirty();
+	}
+}
+?>

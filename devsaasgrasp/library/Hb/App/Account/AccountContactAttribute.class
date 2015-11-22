@@ -1,0 +1,114 @@
+<?php 
+/**
+ * Domain Class AccountContactAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountContactAttribute extends Hb_App_Attribute
+{  
+  /**
+   * Account Contact
+   *
+   * @var Object 
+   */ 
+   protected $account_contact = null;
+   
+  /**
+   * Account Contact Id
+   *
+   * @var int 
+   */ 
+   protected  $account_contact_id = null;
+   
+   /**
+	 * Account Contact Attribute definition
+	 *
+	 * @var string 
+	 */
+	protected $definition = null;
+	
+  /**
+   * Class Constructor
+   *
+   * @param int $id Account Contact Attribute Id
+   * @param int $account_contact_id Account Contact Id
+   * @param string $name 
+   */ 
+  function __construct($id = null, $account_contact_id = null, $name = null, $value = null) 
+  { 
+      $this->account_contact_id = $account_contact_id;
+      parent::__construct($id, $name, $value);
+  }
+   
+  /**
+   * Sets Account Contact Attribute Id
+   *
+   * @param int $id Account Contact Attribute Id
+   */ 
+  function SetAccountContactAttributeId($id) 
+  { 
+      $this->__id	= $id;
+  }
+  
+  /**
+   * Sets Account Contact Id
+   *
+   * @param int $account_contact_id Account Contact Id
+   */ 
+  function SetAccountContactId($account_contact_id)
+  { 
+      $this->account_contact_id = $account_contact_id;
+      $this->MarkDirty();
+  }
+  
+  /**
+   * Returns Account Contact Id
+   *
+   * @return int Account Contact Id
+   */ 
+  function GetAccountContactId() 
+  { 
+      return $this->account_contact_id;
+  } 
+  
+  /**
+   * Sets Account Contact
+   *
+   * @param Hb_App_Account_AccountContact $account_contact Account Contact
+   */ 
+  function SetAccountContact(Hb_App_Account_AccountContact $account_contact) 
+  { 
+      $this->account_contact 	= $account_contact;
+      $this->account_contact_id = $account_contact->GetId();
+      $this->MarkDirty();
+  } 
+  
+  /**
+   * Returns Account Contact
+   *
+   * @return data_type desciption
+   */ 
+  function GetAccountContact() 
+  { 
+      return $this->account_contact;
+  } 
+  
+  /**
+	 * Return the Account Contact attribute definition for the Account Contact Attribute
+	 *
+	 * @return string Account Contact attribute definition
+	 */
+	public function GetDefinition()
+	{
+		if(is_null($this->definition)) {
+			$this->definition = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountContactAttributeDefinition')->Find($this->GetAttributeName());
+		}
+				
+		return $this->definition;
+	}
+} 
+?>

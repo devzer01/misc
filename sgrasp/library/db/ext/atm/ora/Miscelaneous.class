@@ -1,0 +1,154 @@
+<?php 
+class db_ext_atm_ora_Miscelaneous extends oracleConnect 
+{	
+	/**
+	* __construct()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue May 22 16:06:25 LKT 2007
+	*/
+	function __construct()
+	{
+		$this->oracleConnect();		
+	}
+	
+	
+	
+	/**
+	* GetExchangeRates()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue May 22 15:59:55 LKT 2007
+	*/
+	function GetExchangeRates($date, $conversion_type = "")
+	{
+		$where = "";
+		
+		if($conversion_type != "") {
+			$where	= " AND CONVERSION_TYPE = '$conversion_type'";
+		}
+		
+		$q = "SELECT FROM_CURRENCY, 
+						 TO_CURRENCY, 
+						 CONVERSION_RATE 
+	 			FROM GL_DAILY_RATES 
+	 			WHERE CONVERSION_DATE =". $this->date_format($date). $where;
+
+		$this->parse($q);
+		$this->execute();
+		return $this->CreateOracleArray();
+	
+	}
+	
+	/**
+	* GetExchangeRateForTwoCurrency()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue May 22 16:00:16 LKT 2007
+	*/
+	function GetExchangeRate($date, $from_currency, $to_currency, $conversion_type = "")
+	{
+		$where = "";
+		
+		if($conversion_type != "") {
+			$where	= " AND CONVERSION_TYPE = '$conversion_type'";
+		}
+		
+	 	$q = "SELECT CONVERSION_RATE 
+	 			FROM GL_DAILY_RATES 
+	 			WHERE CONVERSION_DATE = ". $this->date_format($date) ." AND TO_CURRENCY = '". $to_currency ."' AND FROM_CURRENCY = '". $from_currency ."'". $where;
+		$this->parse($q);
+		$this->execute();
+		return $this->GetField('CONVERSION_RATE');	
+	}
+  
+	/**
+	* GetTaxCodes()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - Wed May 23 15:30:22 LKT 2007
+	*/
+	function GetTaxCodes()
+	{
+	 	$q = "SELECT VAT_TAX_ID,
+	 					 TAX_CODE, 
+	 					 DESCRIPTION, 
+	 					 TAX_RATE, 
+	 					 TAX_TYPE
+	 			FROM AR_VAT_TAX 
+	 			WHERE ENABLED_FLAG = 'Y' AND (START_DATE IS NULL OR START_DATE <= CURRENT_DATE) AND (END_DATE IS NULL OR  END_DATE >= CURRENT_DATE)";
+	 	$this->parse($q);
+	 	$this->execute();	 
+	 	return $this->CreateOracleArray();	
+	}
+		
+	
+	/**
+	* GetPaymentTerms()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Mon May 28 09:40:53 IST 2007
+	*/
+	function GetPaymentTerms()
+	{
+		$q = "SELECT TERM_ID, NAME, DESCRIPTION 
+                      FROM RA_TERMS WHERE (START_DATE_ACTIVE IS NULL OR START_DATE_ACTIVE <= CURRENT_DATE) AND (END_DATE_ACTIVE IS NULL OR END_DATE_ACTIVE >= CURRENT_DATE)";
+		
+		$this->parse($q);
+		$this->execute();
+		return $this->CreateOracleArray();
+	}
+  
+   /**
+   * GetSalesrepByName()
+   * @param -
+   * @param - 
+   * @author - sujith
+   * @since  - Mon Jun 04 09:51:51 LKT 2007 +GMT 5.30
+   */
+   function GetSalesrepByName($name)
+   {
+    	$query = "SELECT SALESREP_ID, NAME, CREATION_DATE, START_DATE_ACTIVE, STATUS FROM JTF_RS_SALESREPS " 
+             . "WHERE (START_DATE_ACTIVE IS NULL OR START_DATE_ACTIVE <= CURRENT_DATE) AND (END_DATE_ACTIVE IS NULL OR END_DATE_ACTIVE >= CURRENT_DATE) " 
+             . "AND STATUS = 'A' AND UPPER(NAME) LIKE UPPER('" . $name . "')"; 
+    
+   	$this->parse($query); 
+   	$this->execute(); 
+   	return $this->fetch_assoc(); 
+   }
+   
+   /**
+   * GetSalesrepByID()
+   * @param -
+   * @param - 
+   * @author - sujith
+   * @since  - Mon Jun 04 09:53:45 LKT 2007 +GMT 5.30
+   */
+   function GetSalesrepByID($salesrep_id)
+   {
+    	$query = "SELECT NAME, CREATION_DATE, START_DATE_ACTIVE, STATUS FROM JTF_RS_SALESREPS " 
+          	 . "WHERE (START_DATE_ACTIVE IS NULL OR START_DATE_ACTIVE <= CURRENT_DATE) AND (END_DATE_ACTIVE IS NULL OR END_DATE_ACTIVE >= CURRENT_DATE) " 
+             . "AND STATUS = 'A' AND SALESREP_ID = " . $salesrep_id; 
+    
+   	$this->parse($query); 
+   	$this->execute(); 
+   	return $this->fetch_assoc();
+   }
+}
+
+?>

@@ -1,0 +1,24 @@
+<?php 
+/**
+ * Domain class of Addresss Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Common
+ */  
+class Hb_App_Common_AddressType extends Hb_App_Common_Type 
+{ 
+	/**
+	 * Constructor of the domain class
+	 *
+	 * @param int $id Address Type Id
+	 * @param string $description Description
+	 */ 
+	function __construct($id = null, $description = null) 
+	{ 
+		 parent::__construct($id, $description);
+	}
+}
+?>

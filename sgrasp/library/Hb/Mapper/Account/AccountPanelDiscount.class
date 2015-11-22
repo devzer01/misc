@@ -1,0 +1,116 @@
+<?php 
+/**
+ * Mapper class AccountPanelDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountPanelDiscount extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountPanelDiscount'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'partner_panel_discount_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'partner_panel_discount'; 
+
+   /**
+    * Find by id
+    *
+    * @param int id Account Panel Discount Id
+    * @return Hb_App_Account_AccountPanelDiscount Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  if (Hb_App_ObjectMap::hasObject('Hb_App_Account_AccountPanelDiscount', $id)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Account_AccountPanelDiscount', $id);	
+		}
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('ppd.partner_panel_discount_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('ppd' => 'partner_panel_discount'), array('partner_panel_discount_id', 'panel_cost_type_id',
+	  'pricing_discount_type_id', 'partner_id', 'discount_amount', 'effective_date', 'expire_date'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountPanelDiscount
+    */ 
+   function doSave(Hb_App_Object $obj) 
+   { 
+      $data = array(
+      	'partner_panel_discount_id'	=> $obj->GetAccountPanelDiscountId(),
+      	'panel_cost_type_id'		=> $obj->GetPanelCostTypeId(),
+      	'pricing_discount_type_id'	=> $obj->GetPricingDiscountTypeId(),
+      	'partner_id'				=> $obj->GetAccountId(),
+      	'discount_amount'			=> $obj->GetDiscountAmount(),
+      	'effective_date'			=> $obj->GetEffectiveDate(),
+      	'expire_date'				=> $obj->GetExpireDate());
+      
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('partner_panel_discount', $data);
+		$obj->SetAccountPanelDiscountId($db->lastInsertId());
+	  } else {
+		$db->update('partner_panel_discount', $data, 'partner_panel_discount_id = ' . $obj->GetId());
+	  }
+   } 
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountPanelDiscount Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+      return new Hb_App_Account_AccountPanelDiscount(
+      		$row->partner_panel_discount_id,
+      		$row->partner_id,
+      		null,
+      		$row->discount_amount,
+      		$row->effective_date,
+      		$row->expire_date,
+      		$row->panel_cost_type_id,
+      		null,
+      		$row->pricing_discount_type_id,
+      		null);
+   } 
+}
+?>

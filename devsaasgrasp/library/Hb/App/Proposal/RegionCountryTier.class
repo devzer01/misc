@@ -1,0 +1,150 @@
+<?php
+/**
+ * Domain Object for Region Country Tier
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */
+ 
+class Hb_App_Proposal_RegionCountryTier extends Hb_App_Object
+{
+
+	/**
+	 * Country code
+	 *
+	 * @var string
+	 **/
+	protected $country_code = null;
+	
+	/**
+	 * Country tier id
+	 *
+	 * @var int
+	 **/
+	protected $country_tier_id = null;
+	
+	/**
+	 * Region country tier id
+	 *
+	 * @var int
+	 **/
+	protected $region_country_tier_id = null;
+	
+	/**
+	 * Region id
+	 *
+	 * @var int
+	 **/
+	protected $region_id = null;
+
+	/**
+	 * Create RegionCountryTier Object
+	 *
+	 * @param int $id Region country tier id
+	 * @param int $region_id Region id
+	 * @param string $country_code Country code
+	 * @param int $country_tier_id Country tier id
+	 */	
+	function __construct($id = null,
+				  				$region_id = null,
+				  				$country_code = null,
+				  				$country_tier_id = null )
+	{
+		$this->region_country_tier_id = $id;
+		$this->region_id 					= $region_id;
+		$this->country_code 				= $country_code;		
+		$this->country_tier_id 			= $country_tier_id;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Country code
+ 	* 
+	* @return string The Country code
+	**/
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	* Returns the Country tier id
+ 	* 
+	* @return int The Country tier id
+	**/
+	public function GetCountryTierId()
+	{
+		return $this->country_tier_id;
+	}
+
+	/**
+	* Returns the Region country tier id
+ 	* 
+	* @return int The Region country tier id
+	**/
+	public function GetRegionCountryTierId()
+	{
+		return $this->region_country_tier_id;
+	}
+
+	/**
+	* Returns the Region Id
+ 	* 
+	* @return int The Region Id
+	**/
+	public function GetRegionId()
+	{
+		return $this->region_id;
+	}
+
+	/**
+	 * Sets the Country code
+ 	 * 
+	 * @param string $country_code Country code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Country tier id
+ 	 * 
+	 * @param int $country_tier_id Country tier id
+	 */
+	public function SetCountryTierId($country_tier_id)
+	{
+		$this->country_tier_id = $country_tier_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Region country tier id
+ 	 * 
+	 * @param int $region_country_tier_id Region country tier id
+	 */
+	public function SetRegionCountryTierId($region_country_tier_id)
+	{
+		$this->region_country_tier_id = $region_country_tier_id;
+		$this->__id = $region_country_tier_id;		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Region id
+ 	 * 
+	 * @param int $region_id Region id
+	 */
+	public function SetRegionId($region_id)
+	{
+		$this->region_id = $region_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

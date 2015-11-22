@@ -1,0 +1,17 @@
+<?php
+
+class Hb_Util_Rss_Feed
+{
+	public static function GetAll()
+	{
+		$db = Hb_Db::getInstance();
+		
+		$select = $db->getSelect();
+		
+		$select->from('rss_cache', 'rss_cache_id, rss_feed_name');
+		
+		return $db->FetchAssoc($select);
+	}
+}
+
+?>

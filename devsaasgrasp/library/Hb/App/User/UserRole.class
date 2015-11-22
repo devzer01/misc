@@ -1,0 +1,128 @@
+<?php 
+/**
+ * Domain Object for User Role
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */  
+class Hb_App_User_UserRole extends Hb_App_Object 
+{
+	/**
+	 * User Role Id
+	 * 
+	 * @var int
+	 */
+	protected $user_role_id = null;
+
+	/**
+	 * Login
+	 * 
+	 * @var int
+	 */
+	protected $login = null;
+	
+	/**
+	 * Role Id
+	 * 
+	 * @var int
+	 */
+	protected $role_id = null;
+		
+	
+  /**
+	* Contructor of the User Role Domain
+	* 
+	* @param int $id User Role Id
+	* @param int $login Login
+	* @param int $role_id Role Id
+	*/		
+	function __construct($id 	   = null,	
+							   $login   = null,
+							   $role_id = null)
+	{		 					
+		
+		$this->user_role_id = $id;
+		$this->login        = $login;
+		$this->role_id      = $role_id ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get User Role Id
+	 *	
+	 * @return int $user_role_id User Role Id
+	 */
+	public function GetUserRoleId()
+	{
+		return $this->user_role_id;
+	}
+
+	
+	/**
+	 * Get Login
+	 *	
+	 * @return int $login Login
+	 */
+	public function GetLogin()	
+	{
+		return $this->login;
+	}
+	
+	
+	/**	
+	 * Get Role Id
+	 *
+	 * @return int $role_id Role Id	
+	 */
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+
+	
+	/**
+	 * Sets the User Role Id
+	 *
+	 * @param int $user_role_id User Role Id
+	 */
+	public function SetUserRoleId($user_role_id)
+	{
+		$this->user_role_id = $user_role_id;
+
+		$this->__id = $user_role_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Login
+	 *
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Role Id
+	 * 
+	 * @param int $role_id Role Id
+	 */
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = $role_id;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

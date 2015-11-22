@@ -1,0 +1,180 @@
+<?php
+/**
+ * Domain Object for Account Panel Country Cost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountPanelCountryCost extends Hb_App_Object
+{
+	/**
+	 * Account panel country attribute id
+	 *
+	 * @var int
+	 **/
+	protected $account_panel_country_attr_id = null;
+	
+	/**
+	 * Account panel country cost id
+	 *
+	 * @var int
+	 **/
+	protected $account_panel_country_cost_id = null;
+
+	/**
+	 * Cost per complete
+	 *
+	 * @var double
+	 **/
+	protected $cost_per_complete = null;
+
+	/**
+	 * Incidence rate
+	 *
+	 * @var int
+	 **/
+	protected $incidence_rate = null;
+
+	/**
+	 * Survey length
+	 *
+	 * @var int
+	 **/
+	protected $survey_length = null;
+
+	/**
+	 * Create AccountPanelCountryCost Object
+	 *
+	 * @param int $id Account panel country cost id
+	 * @param int $account_panel_country_attr_id Account panel country attribute id
+	 * @param int $survey_length Survey length
+	 * @param int $incidence_rate Incidence rate
+	 * @param double $cost_per_complete Cost per complete
+	 */
+	function __construct($id = null,
+  							   $account_panel_country_attr_id = null,
+  							   $survey_length = null, 
+  							   $incidence_rate = null,
+  							   $cost_per_complete = null)
+	{
+		$this->account_panel_country_cost_id = $id;
+		$this->account_panel_country_attr_id = $account_panel_country_attr_id;
+		$this->survey_length = $survey_length;
+		$this->incidence_rate = $incidence_rate;
+		$this->cost_per_complete = $cost_per_complete;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Account panel country attribute id
+ 	* 
+	* @return int Account panel country attribute id
+	**/
+	public function GetAccountPanelCountryAttrId()
+	{
+		return $this->account_panel_country_attr_id;
+	}
+
+	/**
+	* Returns the Account panel country cost id
+ 	* 
+	* @return int The Account panel country cost id
+	**/
+	public function GetAccountPanelCountryCostId()
+	{
+		return $this->account_panel_country_cost_id;
+	}
+
+	/**
+	* Returns the Cost per complete
+ 	* 
+	* @return double The Cost per complete
+	**/
+	public function GetCostPerComplete()
+	{
+		return $this->cost_per_complete;
+	}
+
+	/**
+	* Returns the Incidence rate
+ 	* 
+	* @return int The Incidence rate
+	**/
+	public function GetIncidenceRate()
+	{
+		return $this->incidence_rate;
+	}
+
+	/**
+	* Returns The Survey length
+ 	* 
+	* @return int The Survey length
+	**/
+	public function GetSurveyLength()
+	{
+		return $this->survey_length;
+	}
+
+	/**
+	 * Sets the Account panel country attribute id
+ 	 * 
+	 * @param int $account_panel_country_attr_id Account panel country attribute id
+	 */
+	public function SetAccountPanelCountryAttrId($account_panel_country_attr_id)
+	{
+		$this->account_panel_country_attr_id = $account_panel_country_attr_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account panel country cost id
+ 	 * 
+	 * @param int $account_panel_country_cost_id Account panel country cost id
+	 */
+	public function SetAccountPanelCountryCostId($account_panel_country_cost_id)
+	{
+		$this->account_panel_country_cost_id = $account_panel_country_cost_id;
+		$this->__id = (int) $account_panel_country_cost_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Cost per complete
+ 	 * 
+	 * @param double $cost_per_complete Cost per complete
+	 */
+	public function SetCostPerComplete($cost_per_complete)
+	{
+		$this->cost_per_complete = $cost_per_complete;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Incidence rate
+ 	 * 
+	 * @param int $incidence_rate Incidence rate
+	 */
+	public function SetIncidenceRate($incidence_rate)
+	{
+		$this->incidence_rate = $incidence_rate;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Survey length
+ 	 * 
+	 * @param int $survey_length Survey length
+	 */
+	public function SetSurveyLength($survey_length)
+	{
+		$this->survey_length = $survey_length;
+		$this->MarkDirty();
+	}
+
+}
+?>

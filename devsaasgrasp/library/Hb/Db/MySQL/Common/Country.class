@@ -1,0 +1,21 @@
+<?php
+
+class Hb_Db_MySQL_Common_Country extends Hb_Db_MySQL_MySQL 
+{
+	static function GetList()
+	{
+		$db = parent::GetConnection();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from('country', array('country_code', 'country_description'));
+		
+		$select->where('status = ?', 'A');
+		
+		
+		return $db->FetchAssoc($select);
+	}	
+}
+?>

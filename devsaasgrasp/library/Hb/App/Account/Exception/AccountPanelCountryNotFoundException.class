@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Exception class for Hb_App_Account_AccountPanelCountry not found
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account/Exception
+ */
+
+require_once ('class/Hb/Exception.class');
+
+/**
+ * AccountPanelCountry Not Found Exception
+ *
+ */
+class Hb_App_Account_Exception_AccountPanelCountryNotFoundException extends Hb_Exception 
+{
+	
+}

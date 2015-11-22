@@ -1,0 +1,302 @@
+<?php
+
+/**
+ * An Account User, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountUser extends Hb_App_Object 
+{
+	/**
+	 * Account User Id
+	 * 
+	 * @var int
+	 */
+	protected $account_user_id = null;
+	
+	/**
+	 * Account Id
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+
+	/**
+	 * Product Id
+	 * 
+	 * @var int
+	 */
+	protected $product_id = null;
+	
+	/**
+	 * User Id
+	 * 
+	 * @var int
+	 */	
+	public $user_id    = null;
+	
+	/**
+	 * Role Id
+	 * 
+	 * @var int
+	 */	
+	public $role_id    = null;
+
+
+	/**
+	 * Account Object
+	 * 
+	 * @var Hb_App_Account_Account
+	 */	
+	protected $account  = null;
+	
+	/**
+	 * User Object
+	 * 
+	 * @var Hb_App_Common_User
+	 */	
+	protected $user  = null;	
+
+	/**
+	 * Account Product Object
+	 * 
+	 * @var Hb_App_Account_AccountProduct
+	 */
+	protected $product  = null;
+	
+	/**
+	 * Hb_App_Common_Role Object
+	 * 
+	 * @var Hb_App_Common_Role
+	 */	
+	protected $role	  = null;
+
+	/**
+	* Contructor of the Account User Domain
+	* 
+	* @param int $id Account user id
+	* @param int $account_id Account id
+	* @param int $product_id Product id
+	* @param int $role_id Role id
+	*/		
+	public function __construct($id			 = null,										 
+										 $account_id = null, 
+										 $product_id = null,
+										 $user_id 	 = null, 
+										 $role_id 	 = null)
+	{
+		$this->account_user_id 	= $id;
+		$this->account_id 		= $account_id;
+		$this->product_id 		= $product_id;
+		$this->user_id 			= $user_id;
+		$this->role_id    		= $role_id;
+		parent::__construct($id);
+	}
+
+	/**
+	 * Get the Account User id
+	 *	
+	 * @return int $account_user_id Account User id
+	 */
+	public function GetAccountUserId()
+	{
+		return $this->account_user_id;
+	}	
+	
+	/**
+	 * Get the Account Object
+	 *	
+	 * @return Hb_App_Account_Account $account Account Object
+	 */
+	public function GetAccount()
+	{
+		if (is_null($this->account)) {
+			$this->account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->account_id);
+		}
+		
+		return $this->account;
+	}
+	
+	/**
+	 * Returns the User Object from the Mapper (Protected Method)
+	 * 
+	 * @return Hb_App_Common_User
+	 */
+	protected function doGetUser()
+	{ 
+		if (is_null($this->user)) {
+			if (is_null($this->user_id)) {
+				throw new Hb_App_Common_Exception_UserNotFoundException();
+			}
+			
+			$this->user = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_User')->Find($this->user_id);
+		} 
+		return $this->user;
+	}
+	
+	/**
+	 * Sets the User Object
+	 *
+	 * @param Hb_App_Common_User $user
+	 */
+	public function SetUser(Hb_App_Common_User $user)
+	{
+		$this->user_id = $user->GetUserId();
+		$this->user = $user;
+		
+		$this->MarkDirty();
+	}	
+
+	/**
+	 * Sets the Account Object
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account_id = $account->GetAccountId();
+		$this->account = $account;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Get the Account Product Object
+	 *	
+	 * @return Hb_App_Account_AccountProduct $product Account Product Object
+	 */
+	public function GetProduct()
+	{
+		if (is_null($this->product)) {
+			$this->product = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Product')->Find($this->product_id);
+		}
+		
+		return $this->product;
+	}
+	
+	/**
+	 * Get the Role id
+	 *	
+	 * @return int $role_id Role id
+	 */
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+	
+	/**
+	 * Get the Product id
+	 *	
+	 * @return int $product_id Product id
+	 */
+	public function GetProductId()
+	{
+		return $this->product_id;
+	}	
+
+	/**
+	 * Get the Account id
+	 *	
+	 * @return int $account_id Account id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}		
+
+	/**
+	 * Get the User id
+	 *	
+	 * @return int $user_id User id
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Sets the User Id
+ 	 * 
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		$this->MarkDirty();		
+	}	
+
+	/**
+	 * Sets the Account User Id
+ 	 * 
+	 * @param int $account_user_id Account User Id
+	 */
+	public function SetAccountUserId($account_user_id)
+	{
+		$this->account_user_id = $account_user_id;
+		$this->__id 				= $account_user_id;
+		$this->MarkDirty();		
+	}		
+	
+	/**
+	 * Sets the Account id
+ 	 * 
+	 * @param int $account_id Account id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		$this->MarkDirty();		
+	}
+
+	/**
+	 * Sets the Product id
+ 	 * 
+	 * @param int $product_id Product id
+	 */
+	public function SetProductId($product_id)
+	{
+		$this->product_id = $product_id;
+		$this->MarkDirty();		
+	}		
+
+	/**
+	 * Sets the Role id
+ 	 * 
+	 * @param int $role_id Role id
+	 */
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = $role_id;
+		$this->MarkDirty();		
+	}		
+	
+	/**
+	 * Get the User Object
+	 *	
+	 * @return Hb_App_Common_User User Object
+	 */	
+	public function GetUser()
+	{
+		return $this->doGetUser();
+	}
+	
+	/**
+	 * Get the Role Object
+	 *	
+	 * @return Hb_App_Common_Role Role Object
+	 */	
+	public function GetRole()
+	{
+		if(is_null($this->role)){
+			$this->role = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Role')->Find($this->role_id);
+		}
+		return $this->role;
+	}	
+}
+?>

@@ -1,0 +1,125 @@
+<?php 
+/**
+ * Domain Object for Project Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */ 
+class Hb_App_Project_ProjectAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Project instance
+	 *
+	 * @var HB_App_Project_Project 
+	 */
+	protected $project = null;
+	
+	/**
+	 * Project Id
+	 *
+	 * @var int 
+	 */
+	protected $project_id	= null;
+	
+	
+	/**
+	 * Create Project Attribute Object
+	 *
+	 * @param int $id Project Attribute Id
+	 * @param int $project_id Project Id
+	 * @param string $name Project Attribute Name
+	 * @param string $value Project Attribute Value
+	 */
+	function __construct($id 			= null,
+								$project_id = null,
+								$name			= null,
+								$value 		= null
+							   )
+	{
+		$this->project_id = $project_id;
+
+		parent::__construct($id, $name, $value);	
+	}
+	
+	
+	/**
+	 * Set the Project Attribute Id for the  Project Attribute
+	 * 
+	 * @param int $project_attribute_id Project Attribute Id
+	 */
+	public function SetProjectAttributeId($project_attribute_id)
+	{
+		$this->__id	= $project_attribute_id;
+	}
+	
+	
+	/**
+	 * Set the Project for the  Project Attribute
+	 * 
+	 * @param HB_App_Project_Project $project Project
+	 */
+	public function SetProject(Hb_App_Project_Project $project)
+	{
+		$this->project		= $project;
+		$this->project_id	= $project->GetProjectId();
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Return the Project Object for the Project Attribute
+	 *
+	 * @return HB_App_Project_Project Project Object
+	 */
+	protected function doGetProject()
+	{
+		if(is_null($this->project)) {
+			if(is_null($this->project_id))
+				throw new Hb_App_Project_Exception_ProjectNotFoundException();
+			$this->project	= Hb_App_ObjectHelper::GetMapper('Hb_App_Project_Project')->Find($this->project_id);
+		}
+		
+		return $this->project;
+	}
+	
+	
+	/**
+	 * Return the Project Id for the Project Attribute
+	 *
+	 * @return int Project Id
+	 */
+	public function GetProjectId()
+	{
+		if(is_null($this->project_id)) {
+			$this->project_id	= $this->doGetProject()->GetProjectId();
+		}
+		return $this->project_id;
+	}
+	
+	
+	/**
+	 * Return the Project instance for the Project Attribute
+	 *
+	 * @return HB_App_Project_Project Project instance
+	 */
+	public function GetProject()
+	{
+		return $this->doGetProject();
+	}
+	
+	
+	/**
+	 * Set the Project Id for the  Project Attribute
+	 * 
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id	= $project_id;
+	}	
+}
+
+?>

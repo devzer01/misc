@@ -1,0 +1,34 @@
+<?php 
+class Hb_View_Account_AccountCreditLimitConfirmedAlert extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/email_credit_limit_confirmed.html";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;	
+	
+	protected $credit	= array();
+	
+	protected function LoadData()
+	{
+		$this->SetData('account', $this->account);			
+		$this->SetData('credit', $this->credit);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetRequestReason($reason)
+	{
+		$this->credit['reason'] = $reason;
+	}
+	
+	public function SetCreditLimit($limit)
+	{
+		$this->credit['limit']		= $limit;
+	}
+}
+
+?>

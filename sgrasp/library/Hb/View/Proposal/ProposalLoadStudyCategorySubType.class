@@ -1,0 +1,28 @@
+<?php
+class Hb_View_Proposal_ProposalLoadStudyCategorySubType extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/xml_study_category_subtype.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $study_categories = null;
+	protected $level = null;
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('study_categories', $this->study_categories);
+		$this->SetData('level', $this->level);
+	}	
+	
+	public function SetStudyCategoryTypes($study_categories)
+	{
+		$this->study_categories = $study_categories;
+	}
+	
+	public function SetStudyCategoryLevel($level)
+	{
+		$this->level	= $level;
+	}
+}
+
+?>

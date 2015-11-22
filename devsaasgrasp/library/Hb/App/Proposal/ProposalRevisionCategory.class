@@ -1,0 +1,168 @@
+<?php 
+/**
+ * Domain class of Proposal Revision Category
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author sujith
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_ProposalRevisionCategory extends Hb_App_Object 
+{ 
+	
+	protected $proposal_revision_category_id = null;
+	
+	protected $proposal_revision_id = null;
+	
+	protected $proposal_revision = null;
+	
+	protected $proposal_category_type_id = null;
+	
+	protected $proposal_category_type = null;
+	
+	protected $status = null;
+	
+	
+	/**
+	 * Domain Constructor
+	 *
+	 * @param int $revision_category_id Proposal Revision Category Id
+	 * @param int $revision_id Proposal Revision Id
+	 * @param int $category_type_id Proposal Category Type Id	
+	 */ 
+	function __construct($revision_category_id = null, $revision_id = null, $category_type_id = null) 
+	{ 
+		$this->proposal_revision_category_id	= $revision_category_id;
+		$this->proposal_revision_id				= $revision_id;		
+		$this->proposal_category_type_id			= $category_type_id;				
+		
+		parent::__construct($revision_category_id);
+	}
+	
+	public function SetStatus($status)
+	{
+		$this->status	= $status;
+		$this->MarkDirty();
+	}
+	
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+	
+	
+	/**
+	 * Return Proposal Revision Category Id
+	 *
+	 * @return int
+	 */
+	function GetProposalRevisionCategoryId() 
+	{ 
+		return $this->proposal_revision_category_id;
+	}
+	
+	/**
+	 * Return Proposal Revision Id
+	 *
+	 * @return int
+	 */
+	function GetProposalRevisionId() 
+	{ 
+		return $this->proposal_revision_id;
+	}
+	
+	/**
+	 * Return Proposal Revision
+	 *
+	 * @return Hb_App_Proposal_ProposalRevision
+	 */
+	function GetProposalRevision() 
+	{ 
+		if(is_null($this->proposal_revision) && is_numeric($this->proposal_revision_id)) {
+			$this->proposal_revision = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalRevision')->Find($this->proposal_revision_id);
+		}
+		return $this->proposal_revision;
+	}
+	
+	/**
+	 * Return Proposal Category Type Id
+	 *
+	 * @return int
+	 */
+	function GetProposalCategoryTypeId() 
+	{ 
+		return $this->proposal_category_type_id;
+	}
+	
+	/**
+	 * Return Proposal Category Type
+	 *
+	 * @return Hb_App_Proposal_ProposalCategoryType
+	 */
+	function GetProposalCategoryType() 
+	{ 
+		if(is_null($this->proposal_category_type) && is_numeric($this->proposal_category_type_id)) {
+			$this->proposal_category_type = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalCategoryType')->Find($this->proposal_category_type_id);
+		}
+		return $this->proposal_category_type;
+	}
+	
+	/**
+	 * Sets Proposal Revision Category Id
+	 * 
+	 * @param int $id
+	 */
+	public function SetProposalRevisionCategoryId($id)
+	{
+		$this->proposal_revision_category_id = (int) $id;
+		$this->__id = (int) $id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Proposal Revision Id
+	 * 
+	 * @param int $revision_id
+	 */
+	function SetProposalRevisionId($revision_id) 
+	{ 
+		$this->proposal_revision_id = $revision_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Proposal Revision
+	 * 
+	 * @param Hb_App_Proposal_ProposalRevision $revision
+	 */
+	function SetProposalRevision($revision) 
+	{ 
+		$this->proposal_revision = $revision;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Proposal Category Type Id
+	 * 
+	 * @param int $type_id
+	 */
+	function SetProposalCategoryTypeId($type_id) 
+	{ 
+		$this->proposal_category_type_id = $type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Proposal Category Type
+	 * 
+	 * @param Hb_App_Proposal_ProposalCategoryType $type
+	 */
+	function SetProposalCategoryType($type) 
+	{ 
+		$this->proposal_category_type = $type;
+		$this->MarkDirty();
+	}
+}
+?>

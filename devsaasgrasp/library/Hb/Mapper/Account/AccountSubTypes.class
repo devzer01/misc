@@ -1,0 +1,46 @@
+<?php
+
+class Hb_Mapper_Account_AccountSubTypes extends Hb_Mapper_Account_AccountSubType  
+{
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountSubTypes');
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+	
+	protected function doFindByAccountTypeId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_type_id = ?', $id);
+	
+		return $this->getRows($select);
+	}
+	
+	public function FindByAccountTypeId($id)
+	{
+		$result = $this->doFindByAccountTypeId($id);
+		return $this->BuildCollection($result, 'Hb_App_Account_AccountSubTypes');
+	}
+	
+	
+}
+?>

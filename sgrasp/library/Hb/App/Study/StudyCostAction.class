@@ -1,0 +1,155 @@
+<?php
+/**
+ * Domain Object for Study Cost Action
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+
+class Hb_App_Study_StudyCostAction extends Hb_App_Object
+{
+
+	/**
+	 * Study Cost Action Id
+	 *
+	 * @var int
+	 */
+	protected $study_cost_action_id;
+	
+	/**
+	 * Study Cost Action Type Id
+	 *
+	 * @var int
+	 */
+	protected $study_cost_action_type_id;
+	
+	/**
+	 * Study Cost Id
+	 *
+	 * @var int
+	 */
+	protected $study_cost_id;
+	
+	/**
+	 * Study Cost Action Status
+	 *
+	 * @var string
+	 */
+	protected $status;
+
+	/**
+	 * Create Study Cost Action Object
+	 *
+	 * @param int $id The Study Cost Action  Id
+	 * @param int $study_cost_id The Study Cost Id
+	 * @param int $study_cost_action_type_id The Study Cost Action Type Id
+	 */
+	function __construct($id 								= null,
+								$study_cost_id 				= null,
+								$study_cost_action_type_id = null,
+								$status  = null
+								)
+	{
+		$this->study_cost_action_id 		= $id;
+		$this->study_cost_id 				= $study_cost_id;
+		$this->study_cost_action_type_id = $study_cost_action_type_id;
+		$this->status                    = $status ;
+		
+		parent::__construct($id);
+		
+	}
+
+	/**
+	 * Returns The Study Cost Action Id
+	 *
+	 * @return int The Study Cost Action Id
+	 */
+	public function GetStudyCostActionId()
+	{
+		return $this->study_cost_action_id;
+	}
+
+	/**
+	 * Returns The Study Cost Action Type Id
+	 *
+	 * @return int The Study Cost Action Type Id
+	 */
+	public function GetStudyCostActionTypeId()
+	{
+		return $this->study_cost_action_type_id;
+	}
+
+	/**
+	 * Returns The Study Cost Id
+	 *
+	 * @return int The Study Cost Id
+	 */
+	public function GetStudyCostId()
+	{
+		return $this->study_cost_id;
+	}
+	
+	/**
+	 * Returns The Study Cost Action Status
+	 *
+	 * @return int The Study Cost Action Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Sets The Study Cost Action Id
+	 * 
+	 * @param int $study_cost_action_id The Study Cost Action Id
+	 */
+	public function SetStudyCostActionId($study_cost_action_id)
+	{
+		$this->study_cost_action_id = $study_cost_action_id;
+		$this->__id =  $study_cost_action_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Cost Action Type Id
+	 * 
+	 * @param int $study_cost_action_type_id The Study Cost Action Type Id
+	 */
+	public function SetStudyCostActionTypeId($study_cost_action_type_id)
+	{
+		$this->study_cost_action_type_id = $study_cost_action_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Cost Id
+	 * @param int $study_cost_id The Study Cost Id
+	 */
+	public function SetStudyCostId($study_cost_id)
+	{
+		$this->study_cost_id = $study_cost_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets The Study Cost Action Status
+	 *
+	 * @param int $status The Study Cost Action Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status = $status;		
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

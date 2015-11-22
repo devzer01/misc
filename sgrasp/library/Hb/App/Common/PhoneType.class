@@ -1,0 +1,27 @@
+<?php 
+/**
+ * Domain Object for Phone Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_PhoneType extends Hb_App_Common_Type 
+{	
+	/**
+	 * Create Phone Type Object
+	 *
+	 * @param int $id Phone type id
+	 * @param string $description Phone type description
+	 */
+	public function __construct($id 				= null,
+									    $description 	= null
+									   )
+   {  	
+   	parent::__construct($id, $description);	
+   } 
+}
+?>

@@ -1,0 +1,61 @@
+<?php
+
+class Hb_App_Common_Currency extends Hb_App_Object
+{
+	protected $currency_id = null;
+	
+	protected $currency_code;
+	
+	protected $country_code;
+
+	protected $currency_description = null;	
+	
+	private $currency_rate = null;
+	
+	public function __construct($id = null, $code = null, $country_code = null, $description = null, $currency_rate = null)
+	{
+		$this->currency_id = $id;
+		$this->currency_code = $code;
+		$this->country_code = $country_code;
+		$this->currency_description    = $description;
+		$this->currency_rate    = $currency_rate;
+		
+		parent::__construct($id);
+	}
+
+	public function GetDescription()
+	{
+		return $this->currency_description;
+	}
+	
+	public function GetCurrencyId()
+	{
+		return $this->currency_id;
+	}
+	
+	public function SetCurrencyId($currency_id)
+	{
+		$this->currency_id = $currency_id;
+	}
+	
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+		
+	public function GetCurrencyCode()
+	{
+		return $this->currency_code;
+	}
+	
+	public function GetExchangeRate()
+	{
+		if(is_null($this->currency_rate)) {
+			$this->currency_rate = Hb_App_ObjectHelper::GetMapper('Hb_Mapper_Common_CurrencyRate')->FindByCode($this->currency_code);
+		}
+		
+		return $this->currency_rate;
+	}
+	
+}
+?>

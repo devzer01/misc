@@ -1,0 +1,181 @@
+<?php
+/**
+ * Domain Object for Sales Region
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Sales
+ *
+ */
+ 
+class Hb_App_Sales_SalesRegion extends Hb_App_Object
+{
+
+	/**
+	 * Amount
+	 *
+	 * @var double
+	 **/
+	protected $amount = null;
+
+	/**
+	 * Region id
+	 *
+	 * @var int
+	 **/
+	protected $region_id = null;
+	
+	/**
+	 * Sales date
+	 *
+	 * @var string
+	 **/
+	protected $sales_date = null;
+	
+	/**
+	 * Sales region id
+	 *
+	 * @var int
+	 **/
+	protected $sales_region_id = null;
+	
+	/**
+	 * Sales type id
+	 *
+	 * @var int
+	 **/
+	protected $sales_type_id = null;
+
+	/**
+	 * Create SalesRegion Object
+	 *
+	 * @param int $id Sales region id
+	 * @param int $region_id Region id
+	 * @param int $sales_type_id Sales type id
+	 * @param string $sales_date Sales date
+	 * @param double $amount Amount
+	 */	
+	function __construct($id = null,
+				  				$region_id = null,
+				  				$sales_type_id = null,
+				  				$sales_date = null,
+				  				$amount = null )
+	{
+		$this->sales_region_id 	= $id;
+		$this->region_id 			= $region_id;
+		$this->sales_type_id 	= $sales_type_id;
+		$this->sales_date 		= $sales_date;	
+		$this->amount 				= $amount;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Amount
+ 	* 
+	* @return double The Amount
+	**/
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	* Returns the Region id
+ 	* 
+	* @return int The Region id
+	**/
+	public function GetRegionId()
+	{
+		return $this->region_id;
+	}
+
+	/**
+	* Returns the Sales date
+ 	* 
+	* @return string The Sales date
+	**/
+	public function GetSalesDate()
+	{
+		return $this->sales_date;
+	}
+
+	/**
+	* Returns the Sales region id
+ 	* 
+	* @return int The Sales region id
+	**/
+	public function GetSalesRegionId()
+	{
+		return $this->sales_region_id;
+	}
+
+	/**
+	* Returns the Sample type id
+ 	* 
+	* @return int The Sample type id
+	**/
+	public function GetSalesTypeId()
+	{
+		return $this->sales_type_id;
+	}
+
+	/**
+	 * Sets the Amount
+ 	 * 
+	 * @param double $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Region id
+ 	 * 
+	 * @param int $region_id Region id
+	 */
+	public function SetRegionId($region_id)
+	{
+		$this->region_id = $region_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sales date
+ 	 * 
+	 * @param string $region_id Sales date
+	 */
+	public function SetSalesDate($sales_date)
+	{
+		$this->sales_date = $sales_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sales region id
+ 	 * 
+	 * @param int $sales_region_id  Sales region id
+	 */
+	public function SetSalesRegionId($sales_region_id)
+	{
+		$this->sales_region_id = $sales_region_id;
+		$this->__id = $sales_region_id;		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sample type id
+ 	 * 
+	 * @param int $sales_type_id Sample type id
+	 */
+	public function SetSalesTypeId($sales_type_id)
+	{
+		$this->sales_type_id = $sales_type_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

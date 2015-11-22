@@ -1,0 +1,113 @@
+<?php
+/**
+ * Specialized Account Attributes Collection, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+class Hb_App_Account_AccountAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Domain Object of Account
+	 *
+	 * @var Hb_App_Account_Account 
+	 */ 
+	protected $account = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_id = null;
+	
+	/**
+	 * Adds attributes into the collection
+	 *
+	 * @param Hb_App_Account_AccountAttribute $attribute Object of Account Attribute
+	 * @throws Hb_Data_ObjectInCollectionException
+	 */ 
+	public function AddAttribute(Hb_App_Account_AccountAttribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		}  catch (Hb_Data_ObjectInCollectionException $e)  {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Account ". $this->account_id . " - " . $attribute->GetAttributeName(), 
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Returns Hb_Data_Attribute object
+	 *
+	 * @param string $name Attribute Name
+	 * @return Hb_Data_Attribute
+	 * @throws Hb_Data_ObjectNotInCollectionException
+	 */ 
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Account " . $this->account_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Sets Account
+	 *
+	 * @param Hb_App_Account_Account $account Account domain object 
+	 */ 
+	function SetAccount(Hb_App_Account_Account $account) 
+	{ 
+		$this->account		= $account;
+		$this->account_id	= $account->GetAccountId();
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns Accounts Domain Object
+	 *
+	 * @return Hb_App_Account_Account Domain object of Account Domain class
+	 */ 
+	function GetAccount() 
+	{ 
+		if (is_null($this->account)) {
+			if (is_null($this->account_id)) {
+				throw new Hb_App_Proposal_Exception_StudyTimeLineNotFoundException();
+			}
+			$this->account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->account_id);
+		}
+		
+		return $this->account;
+	}
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */ 
+	function SetAccountId($account_id) 
+	{ 
+		$this->account_id = $account_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns Account Id
+	 *
+	 * @return int Account Id
+	 */ 
+	function GetAccountId() 
+	{ 
+		return $this->account_id;
+	}
+	
+}
+?>

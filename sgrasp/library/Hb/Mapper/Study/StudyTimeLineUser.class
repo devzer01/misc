@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mapper for Study Time Line User 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyTimeLineUser extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Study_StudyTimeLineUser';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Study_StudyTimeLineUser';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_timeline_user_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_timeline_user";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTimeLineUser($row->study_timeline_user_id,
+														      $row->study_timeline_id, 
+															   $row->login);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('study_timeline_user_id', 	
+													 'study_timeline_id', 	
+													 'login'
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Study Time Line User  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		/* @var $obj Hb_App_StudyTimeLineUser */
+		
+		$data = array('study_timeline_id' => $obj->GetStudyTimeLineId(),
+					     'login' 				 => $obj->GetStudyTimeLineUserLogin(),
+					    );
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyTimeLineUserId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}	
+}
+?>

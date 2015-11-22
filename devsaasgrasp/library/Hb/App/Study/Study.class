@@ -1,0 +1,666 @@
+<?php
+/**
+ * Domain Object for Study
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_Study extends Hb_App_Object
+{
+	/**
+	 * Alert level Id 
+	 *
+	 * @var int
+	 **/	
+	protected $alert_level_id = null;
+	
+	/**
+	 * Current estimated complete date 
+	 *
+	 * @var string
+	 **/	
+	protected $current_estimated_complete_date = null;
+	
+	/**
+	 * Current revision number
+	 *
+	 * @var int
+	 **/	
+	protected $current_revision_number = null;
+	
+	/**
+	 * Current task functional group Id
+	 *
+	 * @var int
+	 **/	
+	protected $current_task_functional_group_id = null;
+	
+	/**
+	 * Current task owner login
+	 *
+	 * @var int
+	 **/	
+	protected $current_task_owner_login = null;
+	
+	/**
+	 * Partner Id
+	 *
+	 * @var int
+	 **/	
+	protected $partner_id = null;
+	
+	/**
+	 * Start date
+	 *
+	 * @var string
+	 **/	
+	protected $start_date = null;
+
+	/**
+	 * Study datasource Id
+	 *
+	 * @var int
+	 **/	
+	protected $study_datasource_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 **/	
+	protected $study_id = null;
+	
+	/**
+	 * Study Cost Collection
+	 *
+	 * @var Hb_App_Study_StudyCosts
+	 * @access protected
+	 */
+	protected $study_costs = null;
+	
+	/**
+	 * Study invoice date
+	 *
+	 * @var string
+	 **/	
+	protected $study_invoice_date = null;
+	
+	/**
+	 * Study name
+	 *
+	 * @var string
+	 **/
+	protected $study_name = null;
+	
+	/**
+	 * Study stage Id
+	 *
+	 * @var int
+	 **/
+	protected $study_stage_id = null;
+	
+	/**
+	 * Study status Id
+	 *
+	 * @var int
+	 **/
+	protected $study_status_id = null;
+	
+	/**
+	 * Study type Id
+	 *
+	 * @var int
+	 **/
+	protected $study_type_id = null;
+	
+	/**
+	 * Timeline created date
+	 *
+	 * @var string
+	 **/
+	protected $timeline_created_date = null;
+	
+	/**
+	 * Study attributes
+	 *
+	 * @var Hb_App_Study_StudyAttributes 
+	 */
+	protected $attributes = null;
+
+	/**
+	 * Create Study Object
+	 *
+	 * @param int $id Study Id
+	 * @param int $alert_level_id Alert Id
+	 * @param string $current_estimated_complete_date Current Estimated Complete Date
+	 * @param int $current_revision_number Current Revision Number
+	 * @param int $current_task_functional_group_id Current Task Functional Group Id
+	 * @param int $current_task_owner_login Current Task Owner Login
+	 * @param int $partner_id Partner Id
+	 * @param string $start_date Start Date
+	 * @param int $study_datasource_id Study Datesource Id
+	 * @param int $study_id Study Id
+	 * @param string $study_invoice_date Study Invoice Date
+	 * @param string $study_name Study Name
+	 * @param int $study_stage_id Study Stage Id
+	 * @param int $study_status_id Study Status Id
+	 * @param string $timeline_created_date Timeline created Date
+	 */
+	function __construct(	$id = null, 
+				 		 	$alert_level_id = null, 
+							$current_estimated_complete_date = null,
+      						$current_revision_number = null,
+      						$current_task_functional_group_id = null,
+      						$current_task_owner_login = null,
+      						$partner_id = null,
+      						$start_date = null,
+      						$study_datasource_id = null,
+      						$study_invoice_date = null,
+      						$study_name = null,
+      						$study_stage_id = null,
+      						$study_status_id = null,
+      						$study_type_id = null,
+      						$timeline_created_date = null
+						)
+	{
+		$this->study_id  = $id;
+		$this->alert_level_id  = $alert_level_id;
+		$this->current_estimated_complete_date  = $current_estimated_complete_date;
+		$this->current_revision_number  = $current_revision_number;
+		$this->current_task_functional_group_id  = $current_task_functional_group_id;
+		$this->current_task_owner_login  = $current_task_owner_login;
+		$this->partner_id  = $partner_id;
+		$this->start_date  = $start_date;
+		$this->study_datasource_id  = $study_datasource_id;	
+		$this->study_invoice_date  = $study_invoice_date;
+		$this->study_name  = $study_name;
+		$this->study_stage_id  = $study_stage_id;
+		$this->study_status_id  = $study_status_id;
+		$this->study_type_id  = $study_type_id;
+		$this->timeline_created_date  = $timeline_created_date;		
+		parent::__construct($id);
+	}
+
+	public function GetAccountName()
+	{			
+		return $this->doGetAttributeByName('ACCOUNT_NAME')->GetAttributeValue();
+	}
+	
+	/**
+	 * Returns the Alert level id for the study
+ 	 * 
+	 * @return int The alert level Id
+	 **/
+	function GetAlertLevelId()
+	{
+		return $this->alert_level_id;
+	}
+
+	/**
+	 * Return the Current estimated complete date for the study
+ 	 * 
+	 * @return string Current estimated complete date
+	 **/
+	function GetCurrentEstimatedCompleteDate()
+	{
+		return $this->current_estimated_complete_date;
+	}
+
+	/**
+	 * Sets the Alert level Id for the Study
+ 	 * 
+	 * @param int $alert_level_id The alert level Id
+	 */
+	function SetAlertLevelId($alert_level_id)
+	{
+		$this->alert_level_id = $alert_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Current estimated complete date for the Study
+ 	 * 
+	 * @param int $current_estimated_complete_date The Current estimated complete date
+	 */
+	function SetCurrentEstimatedCompleteDate($current_estimated_complete_date)
+	{
+		$this->current_estimated_complete_date = $current_estimated_complete_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the current revision number for the Study
+ 	 * 
+	 * @return int The current revision number
+	 **/
+	function GetCurrentRevisionNumber()
+	{
+		return $this->current_revision_number;
+	}
+
+	/**
+	 * Sets the Current revision number for the Study
+ 	 * 
+	 * @param int $current_revision_number The current revision number
+	 */
+	function SetCurrentRevisionNumber($current_revision_number)
+	{
+		$this->current_revision_number = $current_revision_number;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Current task functional group Id for the Study
+ 	 * 
+	 * @return int The Current task functional group Id
+	 **/
+	function GetCurrentTaskFunctionalGroupId()
+	{
+		return $this->current_task_functional_group_id;
+	}
+
+	/**
+	 * Returns the Current task owner login for the Study
+ 	 *
+	 * @return int The Current task owner login
+	 **/
+	function GetCurrentTaskOwnerLogin()
+	{
+		return $this->current_task_owner_login;
+	}
+	
+	/**
+	 * Returns the Partner Id for the Study
+ 	 * 
+	 * @return int The Partner Id
+	 **/
+	function GetPartnerId()
+	{
+		return $this->partner_id;
+	}
+
+	/**
+	 * Returns the Start date for the Study
+ 	 *
+	 * @return string The Start Date
+	 **/
+	function GetStartDate()
+	{
+		return $this->start_date;
+	}
+
+	/**
+	 * Returns the Study datasource Id for the Study
+ 	 * 
+	 * @return int The study datasource Id
+	 **/
+	function GetStudyDatasourceId()
+	{
+		return $this->study_datasource_id;
+	}
+	
+	/**
+	 * Returns the Study Id for the Study
+ 	 * 
+	 * @return int The Study Id
+	 **/
+	function GetStudyId()
+	{
+		return $this->study_id;
+	}
+	
+	/**
+	 * Returns the Study Cost Collection object
+	 * 	
+	 * @return Hb_App_Study_StudyCosts
+	 */
+	public function GetStudyCosts()
+	{
+		if (is_null($this->study_costs))	
+		{
+			$this->study_costs = Hb_App_ObjectHelper::GetMapper(
+				'Hb_App_Study_StudyCosts')->Find($this->study_id);
+		}	
+		
+		return $this->study_costs;
+	}
+	
+	protected function doGetStudyCostsStatus($status ='A')
+	{
+		$this->GetStudyCosts();
+		$costs = new Hb_App_Study_StudyCosts();
+		
+		
+		foreach($this->study_costs AS $cost) {
+			/* @var $cost Hb_App_Study_StudyCost */
+			if ($cost->GetStatus() == $status) {
+   			$costs->AddItem($cost);
+			}
+		}		
+		
+		return $costs;
+	}
+	
+	/**
+	 * Check whether input date is a valid date
+	 *
+	 * @param string $date_time date and time
+	 * @return boolean
+	 */
+	
+	public function IsInvoiceDateValid()
+	{
+	   return Hb_Util_Lang_Date::isValidDate($this->study_invoice_date);
+	}
+
+	/**
+	 * Get the Study attributes collection object
+	 *
+	 * @return Hb_App_Study_StudyAttributes
+	 */
+	public function GetAttributes()
+	{
+		if(is_null($this->attributes)) {
+			if(is_null($this->study_id)) {
+				throw new Hb_App_Study_Exception_StudyNotFoundException('Study id is not set ...!');
+			}
+			$this->attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyAttributes')->Find($this->study_id);
+		}
+		
+		return $this->attributes;
+	}
+
+	/**
+	 * Get the instance of Hb_App_Study_StudyAttribute
+	 *
+	 * @param string $name Attirbute name
+	 * @return Hb_App_Study_StudyAttribute
+	 */
+	protected function doGetAttributeByName($name)
+	{
+		return $this->GetAttributes()->GetAttribute($name);
+	}
+
+	/**
+	 * Get Billing report Id
+	 * 
+	 * @return Hb_App_Study_StudyAttribute
+	 */
+	public function GetBillingReportId()
+	{				
+		return $this->doGetAttributeByName('BR_REFERENCE')->GetAttributeValue();
+	}	
+	
+	
+	public function GetStudyQuotedValue()
+	{
+		return $this->doGetAttributeByName('QVALUE')->GetAttributeValue();
+	}
+	
+	/**
+	 * Get the Proposal ID
+	 *
+	 * @return int
+	 */
+	public function GetProposalId()
+	{
+		try {
+			return $this->doGetAttributeByName('PROPOSAL_ID')->GetAttributeValue();
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			return 0;
+		}
+	}
+	
+	/**
+	 * Returns the ACTIVE study costs collection object
+	 * 
+	 * @return Hb_App_Study_StudyCosts
+	 */
+	public function GetStudyCostsActive()
+	{
+		return $this->doGetStudyCostsStatus('A');
+	}
+	
+	/**
+	 * Returns the Study invoice date for the Study
+ 	 *
+	 * @return string The Study invoice date
+	 **/
+	function GetStudyInvoiceDate()
+	{
+		return $this->study_invoice_date;
+	}
+	
+	/**
+	 * Returns the Study name for the Study
+ 	 * 
+	 * @return string The study name
+	 **/
+	function GetStudyName()
+	{
+		return $this->study_name;
+	}
+
+	/**
+	 * Returns the Study stage Id for the Study
+ 	 * 
+	 * @return int The study stage Id
+	 **/
+	function GetStudyStageId()
+	{
+		return $this->study_stage_id;
+	}
+
+	/**
+	 * Returns the Study status Id for the Study
+ 	 *
+	 * @return int The Study status Id
+	 **/
+	function GetStudyStatusId()
+	{
+		return $this->study_status_id;
+	}
+
+	/**
+	 * Returns the Study type Id for the Study
+ 	 *
+	 * @return int The study type Id
+	 **/
+	function GetStudyTypeId()
+	{
+		return $this->study_type_id;
+	}
+	
+	/**
+	 * Returns the Timeline created date for the Study
+ 	 *
+	 * @return int The timeline created date
+	 **/
+	function GetTimelineCreatedDate()
+	{
+		return $this->timeline_created_date;
+	}
+
+	/**
+	 * Sets the Current task frunctional group Id for the Study
+ 	 *
+	 * @param int $current_task_functional_group_id The Current task functional group Id
+	 */
+	function SetCurrentTaskFunctionalGroupId($current_task_functional_group_id)
+	{
+		$this->current_task_functional_group_id = $current_task_functional_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the current task owner login for the Study
+ 	 * 
+	 * @param int $current_task_owner_login The Current task owner login
+	 */
+	function SetCurrentTaskOwnerLogin($current_task_owner_login)
+	{
+		$this->current_task_owner_login = $current_task_owner_login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Partner Id for the Study
+ 	 * 
+	 * @param int $partner_id the Partner Id
+	 */
+	function SetPartnerId($partner_id)
+	{
+		$this->partner_id = $partner_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Start date for the Study
+ 	 * 
+	 * @param string $start_date The Start date
+	 */
+	function SetStartDate($start_date)
+	{
+		$this->start_date = $start_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study datasource Id for the Study
+ 	 * 
+	 * @param int $study_datasource_id The Study datasource Id
+	 */
+	function SetStudyDatasourceId($study_datasource_id)
+	{
+		$this->study_datasource_id = $study_datasource_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Id for the Study
+ 	 * 
+	 * @param int $study_id The Study Id
+	 */
+	function SetStudyId($study_id)
+	{		
+		$this->study_id = (int) $study_id;
+		$this->__id = (int) $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study invoice date for the Study
+ 	 * 
+	 * @param string $study_invoice_date The Study invoice date
+	 */
+	function SetStudyInvoiceDate($study_invoice_date)
+	{
+		$this->study_invoice_date = $study_invoice_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study name for the Study
+ 	 *
+	 * @param string $study_name The Study name
+	 */
+	function SetStudyName($study_name)
+	{
+		$this->study_name = $study_name;
+		$this->MarkDirty();
+
+	}
+
+	/**
+	 * Sets the Study stage Id for the Study
+ 	 *
+	 * @param int $study_stage_id The Study stage Id
+	 */
+	function SetStudyStageId($study_stage_id)
+	{
+		$this->study_stage_id = $study_stage_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study status Id for the Study
+ 	 *
+	 * @param int $study_status_id The study Id
+	 */
+	function SetStudyStatusId($study_status_id)
+	{
+		$this->study_status_id = $study_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study type Id for the Study
+ 	 * 
+	 * @param int $study_type_id The study type Id
+	 */
+	function SetStudyTypeId($study_type_id)
+	{
+		$this->study_type_id = $study_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Timeline created date for the Study
+ 	 *
+	 * @param string $timeline_created_date The timeline created date
+	 */
+	function SetTimelineCreatedDate($timeline_created_date)
+	{
+		$this->timeline_created_date = $timeline_created_date;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Defines whether a new study cost can be  added.
+	 *
+	 * @return boolean
+	 */	
+	public function allowAddingNewStudyCost()
+	{	
+		if ( !Hb_Util_Lang_Date::isValidDate($this->GetStudyInvoiceDate()) || Hb_Util_Security::HasSecurity('PJM_STMC_COST_OVERRIDE_NEW') )
+			return true ;
+		else 
+			return false ;			
+	}
+	
+	/**
+	 * Set the Attribute value
+	 *  
+	 * @param $attr_name Attribute name
+	 * @param $attr_value Attribute value
+	 */
+	public function SetAttribute($attr_name, $attr_value)
+	{	
+	    try {
+            $this->GetAttribute($attr_name)->SetAttributeValue($attr_value);
+	        
+	    } catch (Hb_Data_ObjectNotInCollectionException $e){
+	        $attr = new Hb_App_Study_StudyAttribute(null, $this->study_id, $attr_name, $attr_value);
+	        $this->attributes->AddAttribute($attr);
+	    }
+	}
+		
+	/**
+	 * Returns an Attribute object when called with a attribute name
+	 * 
+	 * @param string $attr_name
+	 * @return Hb_App_Study_StudyAttribute
+	 * 
+	 * @param attr_name
+	 */
+	public function GetAttribute($attr_name)
+	{ 
+		return $this->GetAttributes()->GetAttribute($attr_name);
+	}	
+	
+}
+?>

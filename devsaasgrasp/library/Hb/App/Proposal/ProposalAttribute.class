@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * Proposal Attribute Domain Object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */
+
+class Hb_App_Proposal_ProposalAttribute extends Hb_App_Attribute
+{
+	protected $proposal = null;
+	
+	protected $proposal_id = null;
+
+	public function __construct($id = null, $proposal_id = null, $name = null, $value = null)
+	{
+		$this->proposal_id = $proposal_id;
+		parent::__construct($id, $name, $value);
+	}
+	
+	public function SetProposalAttrId($id)
+	{		
+		$this->__id = $id;
+	}
+	
+	public function SetProposal(Hb_App_Proposal_Proposal $proposal)
+	{
+		$this->proposal_id = $proposal->GetProposalId();
+		$this->proposal    = $proposal;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * @return int proposal id
+	 */
+	public function GetProposalId()
+	{
+		if (is_null($this->proposal_id)) {
+			$this->proposal_id = $this->doGetProposal()->GetProposalId();
+		}
+		return $this->proposal_id;
+	}
+	
+	/**
+	 * 
+	 * @return Hb_App_Proposal_Proposal
+	 * @throws Hb_App_Proposal_Exception_ProposalNotFoundException
+	 */
+	protected function doGetProposal()
+	{
+		if (is_null($this->proposal)) {
+			if (is_null($this->proposal_id)) {
+				throw new Hb_App_Proposal_Exception_ProposalNotFoundException(); 
+			}
+			$this->proposal = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_Proposal')->Find($this->proposal_id);
+		}
+		
+		return $this->proposal;
+	}
+	
+	/**
+	 * 
+	 * @return Hb_App_Proposal_Proposal
+	 */
+	public function GetProposal()
+	{
+		return $this->doGetProposal();		
+	}
+	
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = $proposal_id;
+	}
+	
+}
+
+?>

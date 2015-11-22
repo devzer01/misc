@@ -1,0 +1,7 @@
+<?php
+
+class Hb_Data_Account_PurchaseOrder extends Hb_Data_PurchaseOrder 
+{
+	public $account;
+}
+?>

@@ -1,0 +1,221 @@
+<?php
+/**
+ * Domain Object for Account Merge Update
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountMergeUpdate  extends Hb_App_Object
+{
+
+	/**
+	 * Account Merge Id
+	 *
+	 * @var int
+	 */
+	protected $account_merge_id = null;
+	
+	/**
+	 * Account Merge Update Definition Id
+	 *
+	 * @var int
+	 */
+	protected $account_merge_update_def_id = null;
+	
+	/**
+	 * Account Merge Update Id
+	 *
+	 * @var int
+	 */
+	protected $account_merge_update_id = null;
+	
+	/**
+	 * Table Name Id Filed Value
+	 *
+	 * @var int
+	 */
+	protected $table_name_id_field_value = null;
+	
+	/**
+	 * Update Fileld Value After Update
+	 *
+	 * @var string
+	 */
+	protected $update_field_value_after_update = null;
+	
+	/**
+	 * Update Fileld Value Before Update
+	 *
+	 * @var string
+	 */
+	protected $update_field_value_before_update = null;
+
+	/**
+	 * Create Account Merge Update object
+	 *
+	 * @param int $id Account Merge Update Id
+	 * @param int $account_merge_update_def_id Account Merge Update Definition Id
+	 * @param int $account_merge_id Account Merge Update Id
+	 * @param int $table_name_id_field_value Update Fileld Value After Update
+	 * @param string $update_field_value_before_update Update Fileld Value Before Update
+	 * @param string $update_field_value_after_update Update Fileld Value After Update
+	 */
+	function __construct(	$id = null,
+							$account_merge_update_def_id = null,
+							$account_merge_id = null,
+							$table_name_id_field_value = null,
+							$update_field_value_before_update = null,
+							$update_field_value_after_update = null)
+						
+	{
+		$this->account_merge_update_id = $id;
+		$this->account_merge_update_def_id = $account_merge_update_def_id;
+		$this->account_merge_id = $account_merge_id;
+		$this->table_name_id_field_value = $table_name_id_field_value;
+		$this->update_field_value_before_update = $update_field_value_before_update;
+		$this->update_field_value_after_update = $update_field_value_after_update;
+		
+		parent::__construct($id);
+	}
+
+
+	/**
+	 * Returns The Account Merge Id
+	 *
+	 * @return int The Account Merge Id
+	 */
+	public function GetAccountMergeId()
+	{
+		return $this->account_merge_id;
+	}
+
+	/**
+	 * Returns The Account Merge Update Definition Id
+	 *
+	 * @return int The Account Merge Update Definition Id
+	 */
+	public function GetAccountMergeUpdateDefinitionId()
+	{
+		return $this->account_merge_update_def_id;
+	}
+
+	/**
+	 * Retuns The Account Merge Update Id
+	 *
+	 * @return int The Account Merge Update Id
+	 */
+	public function GetAccountMergeUpdateId()
+	{
+		return $this->account_merge_update_id;
+	}
+
+	/**
+	 * Returns The Table Name Id Filed Value
+	 *
+	 * @return int The Table Name Id Filed Value
+	 */
+	public function GetTableNameIdFieldValue()
+	{
+		return $this->table_name_id_field_value;
+	}
+
+	/**
+	 * Returns The UPdate Field Value After Update
+	 *
+	 * @return string The UPdate Field Value After Update
+	 */
+	public function GetUpdateFieldValueAfterUpdate()
+	{
+		return $this->update_field_value_after_update;
+	}
+
+	/**
+	 * Returns The Update Field Value Before Update
+	 *
+	 * @return string The Update Field Value Before Update
+	 */
+	public function GetUpdateFieldValueBeforeUpdate()
+	{
+		return $this->update_field_value_before_update;
+	}
+
+	/**
+	 * Sets The Account Merge Id
+	 * 
+	 * @param int $account_merge_id
+	 */
+	public function SetAccountMergeId($account_merge_id)
+	{
+		$this->account_merge_id = $account_merge_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Merge Update Definition Id
+	 * 
+	 * @param int $account_merge_update_def_id The Account Merge Update Definition Id
+	 */
+	public function SetAccountMergeUpdateDefinitionId($account_merge_update_def_id)
+	{
+		$this->account_merge_update_def_id = $account_merge_update_def_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Merge Update Id
+	 * 
+	 * @param int $account_merge_update_id The Account Merge Update Id
+	 */
+	public function SetAccountMergeUpdateId($account_merge_update_id)
+	{
+		$this->account_merge_update_id = $account_merge_update_id;
+		$this->__id = $account_merge_update_id;
+		
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Table Name Id Field Value
+	 * 
+	 * @param int $table_name_id_field_value The Table Name Id Field Value
+	 */
+	public function SetTableNameIdFieldValue($table_name_id_field_value)
+	{
+		$this->table_name_id_field_value = $table_name_id_field_value;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Update Field Value After Update
+	 * 
+	 * @param string $update_field_value_after_update The Update Field Value After Update
+	 */
+	public function SetUpdateFieldValueAfterUpdate($update_field_value_after_update)
+	{
+		$this->update_field_value_after_update = $update_field_value_after_update;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The UpdateField Value Before Update
+	 * 
+	 * @param string $update_field_value_before_update The UpdateField Value Before Update
+	 */
+	public function SetUpdateFieldValueBeforeUpdate($update_field_value_before_update)
+	{
+		$this->update_field_value_before_update = $update_field_value_before_update;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

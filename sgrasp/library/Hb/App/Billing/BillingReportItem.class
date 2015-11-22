@@ -1,0 +1,243 @@
+<?php
+
+/**
+ * Domain object for the Billing Report Item
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */
+class Hb_App_Billing_BillingReportItem extends Hb_App_Object
+{
+	/**
+	 * Billing Report Item ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_budget_line_item_def_id = null;
+	
+	/**
+	 * Billing Report Item Description
+	 *
+	 * @var string 
+	 */
+	protected $armc_budget_line_item_description = null;
+	
+	/**
+	 * Accounting GL account instance
+	 *
+	 * @var object 
+	 */
+	protected $atm_gl_account = null;
+	
+	/**
+	 * Accounting GL Account ID
+	 *
+	 * @var int 
+	 */
+	protected $atm_gl_account_id =  null;
+	
+	/**
+	 * Default quantity
+	 *
+	 * @var int 
+	 */
+	protected $default_quantity = null;
+	
+	/**
+	 * Default unit price
+	 *
+	 * @var float
+	 */
+	protected $default_rate = null;
+	
+	/**
+	 * Billing Report Item Number
+	 *
+	 * @var int 
+	 */
+	protected $item_number = null;
+
+	/**
+	 * Constructor for the BillingReportItem
+	 *
+	 * @param int $id billing report item id
+	 * @param string $armc_budget_line_item_description billing report budget line item description
+	 * @param object $atm_gl_account accounting GL account object
+	 * @param int $atm_gl_account_id accounting GL account id
+	 * @param int $default_quantity default quantity
+	 * @param float $default_rate default rate
+	 * @param int $item_number item number
+	 */ 
+	function __construct($id = null,								
+								$armc_budget_line_item_description = null,
+								$atm_gl_account = null,
+								$atm_gl_account_id =  null,
+								$default_quantity = null,
+								$default_rate = null,
+								$item_number = null
+								)
+	{
+		$this->armc_budget_line_item_def_id			= $id;
+		$this->armc_budget_line_item_description	= $armc_budget_line_item_description;
+		$this->atm_gl_account							= $atm_gl_account;
+		$this->atm_gl_account_id						= $atm_gl_account_id;
+		$this->default_quantity							= $default_quantity;
+		$this->default_rate								= $default_rate;
+		$this->item_number								= $item_number;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Billing Report Item Description for Billing Report Item
+	 *	 
+	 * @return string billing report item description
+	 */
+	public function GetBillingReportItemDescription()
+	{
+		return $this->armc_budget_line_item_description;
+	}
+
+	/**
+	 * Return the Billing Report Item ID for Billing Report Item
+	 *	 
+	 * @return int billing report item id
+	 */
+	public function GetBillingReportItemID()
+	{
+		return (int) $this->armc_budget_line_item_def_id;
+	}
+
+	/**
+	 * Return the Default quantity for Billing Report Item
+	 *	 
+	 * @return int default queantity
+	 */
+	public function GetDefaultQuantity()
+	{
+		return $this->default_quantity;
+	}
+
+	/**
+	 * Return the Default unit price for Billing Report Item
+	 *	 
+	 * @return float default rate
+	 */
+	public function GetDefaultRate()
+	{
+		return $this->default_rate;
+	}
+	//
+	/**
+	 * Return the Accounting GL account instance for Billing Report Item
+	 *	 
+	 * @return object accouning GL account object
+	 */
+	public function GetGLAccount()
+	{
+		return $this->atm_gl_account;
+	}
+
+	/**
+	 * Return the Accounting GL Account ID for Billing Report Item
+	 *	 
+	 * @return int accouning GL account id
+	 */
+	public function GetGLAccountID()
+	{
+		return $this->atm_gl_account_id;
+	}
+
+	/**
+	 * Return the Billing Report Item Number for Billing Report Item
+	 *	 
+	 * @return int Item number
+	 */
+	public function GetItemNumber()
+	{
+		return $this->item_number;
+	}
+
+	/**
+	 * Set the Billing Report Item Description
+	 * 
+	 * @param string  $armc_budget_line_item_description billing repirt item description
+	 */
+	public function SetBillingReportItemDescription($armc_budget_line_item_description)
+	{
+		$this->armc_budget_line_item_description = $armc_budget_line_item_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Item ID
+	 * 
+	 * @param int $armc_budget_line_item_def_id billing report item id
+	 */
+	public function SetBillingReportItemID($armc_budget_line_item_def_id)
+	{
+		$this->armc_budget_line_item_def_id = $armc_budget_line_item_def_id;
+		$this->__id 						= (int)$armc_budget_line_item_def_id;
+		$this->MarkDirty();
+	}
+    // 
+	/**
+	 * Set the Default quantity
+	 * 
+	 * @param int $default_quantity default quantity
+	 */
+	public function SetDefaultQuantity($default_quantity)
+	{
+		$this->default_quantity = $default_quantity;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Default unit price
+	 * 
+	 * @param float $default_rate default rate
+	 */
+	public function SetDefaultRate($default_rate)
+	{
+		$this->default_rate = $default_rate;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Accounting GL account instance
+	 * 
+	 * @param object $atm_gl_account accouning GL account object
+	 */
+	public function SetGLAccount($atm_gl_account)
+	{
+		$this->atm_gl_account = $atm_gl_account;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Accounting GL Account ID
+	 * 
+	 * @param int $atm_gl_account_id accounting GL account id 
+	 */
+	public function SetGLAccountID($atm_gl_account_id)
+	{
+		$this->atm_gl_account_id = $atm_gl_account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Item Number
+	 * 
+	 * @param int $item_number item number
+	 */
+	public function SetItemNumber($item_number)
+	{
+		$this->item_number = $item_number;
+		$this->MarkDirty();
+	}
+
+}
+?>

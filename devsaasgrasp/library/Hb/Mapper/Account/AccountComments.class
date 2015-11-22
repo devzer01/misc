@@ -1,0 +1,92 @@
+<?php
+/**
+ * Mapper for Account Comments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ *
+ */
+class Hb_Mapper_Account_AccountComments extends Hb_Mapper_Mapper
+{
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'account_comment_id';	
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'account_comment';	
+	
+	/**
+	 * Finds Account Comment by Account Id
+	 *
+	 * @param  int $id Account Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{	
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);
+		
+
+		return $this->getRows($select);
+	}	
+	
+	protected function doFindByTypeId($id, $type)
+   {
+   	$select = $this->GetBaseSelect();	
+   
+	  	$select->where('ac.account_id = ?', $id );   	
+	  	$select->where('ac.account_comment_type_id = ?', $type);
+	  	
+	  return $this->getRows($select);
+   }
+  
+   public function GetAuditComments($id, $type)
+   {
+   	$result = $this->doFindByTypeId($id, $type);
+   	return $this->BuildCollection($result, 'Hb_App_Account_AccountComments');
+   }
+   	
+	protected function doBuildObject($row)
+	{
+ 	 
+		return new Hb_App_Account_AccountComment($row->account_comment_id,
+													 $row->account_comment_type_id,
+													 $row->account_id,
+													 $row->comment_text,
+													 $row->status,
+													 $row->created_by);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('ac' => $this->table), array('account_comment_id',
+																		 'account_id',
+																		 'account_comment_type_id',
+																		 'comment_text',
+	 	                                                 'status',
+	 	                                                 'created_by'
+																		 )
+									);
+	 	
+	 	return $select;
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+?>

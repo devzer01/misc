@@ -1,0 +1,120 @@
+<?php 
+/**
+ * Domain Object for Study Time Line Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyTimeLineAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Objectt of Study Time Line domain
+	 *
+	 * @var Hb_App_Study_StudyTimeLine 
+	 */
+	protected $study_time_line = null;
+	
+	/**
+	 * Study Time Line Id
+	 *
+	 * @var int 
+	 */
+	protected $study_time_line_id = null;
+	
+	/**
+	 * Create Study Time Line Attribute Object
+	 *
+	 * @param int $id Study time line attribute id
+	 * @param int $study_time_line_id Study time line id
+	 * @param string $name Study time line attribute name
+	 * @param string $value Study time line attribute value 
+	 */
+	public function __construct($id 						= null,
+										 $study_time_line_id = null,
+										 $name 					= null,
+										 $value 					= null
+										 )
+	{
+		$this->study_time_line_id	= $study_time_line_id;
+		
+		parent::__construct($id, $name, $value);
+	}
+	
+	/**
+	 * Set the Study time line attribute id for the  Study Time Line Attribute
+	 * 
+	 * @param int $study_time_line_attribute_id Study time line attribute id
+	 */
+	public function SetStudyTimeLineAttributeId($study_time_line_attribute_id)
+	{
+		$this->__id	= $study_time_line_attribute_id;
+	}
+	
+	/**
+	 * Set the Study Time line and Study time line id for the  Study Time Line Attribute
+	 * 
+	 * @param Hb_App_Study_StudyTimeLine $study_time_line Study Time line and Study time line id
+	 */
+	public function SetStudyTimeLine(Hb_App_Study_StudyTimeLine $study_time_line)
+	{
+		$this->study_time_line_id 	= $study_time_line->GetStudyTimeLineId();
+		$this->study_time_line		= $study_time_line;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Return the Study time line object for the Study Time Line Attribute
+	 *
+	 * @return Hb_App_Study_StudyTimeLine 
+	 * @throws Hb_App_Proposal_Exception_StudyTimeLineNotFoundException
+	 */
+	protected function doGetStudyTimeLine()
+	{
+		if(is_null($this->study_time_line)) {
+			if(is_null($this->study_time_line_id))
+				throw new Hb_App_Proposal_Exception_StudyTimeLineNotFoundException();
+			$this->study_time_line	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyTimeLine')->Find($this->study_time_line_id);
+		}
+		return $this->study_time_line;
+	}
+	
+	/**
+	 * Return the Study time line id for the Study Time Line Attribute
+	 *
+	 * @return int Study time line id
+	 */
+	public function GetStudyTimeLineId()
+	{
+		if(is_null($this->study_time_line_id)) {
+			$this->study_time_line_id	= $this->doGetStudyTimeLine()->GetStudyTimeLineId();
+		}
+		
+		return $this->study_time_line_id;		
+	}
+	
+	/**
+	 * Return the Study Time Line for the Study Time Line Attribute
+	 *
+	 * @return Hb_App_Study_StudyTimeLine Study Time Line
+	 */
+	public function GetStudyTimeLine()
+	{
+		return $this->doGetStudyTimeLine();
+	}
+	
+	/**
+	 * Set the Study time line id for the  Study Time Line Attribute
+	 * 
+	 * @param int $study_time_line_id Study time line id
+	 */
+	public function SetStudyTimeLineId($study_time_line_id)
+	{
+		$this->study_time_line_id	= $study_time_line_id;
+	}
+}
+
+?>

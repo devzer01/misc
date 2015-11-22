@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * User Security Groups Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */
+
+class Hb_App_User_UserSecurityGroups extends Hb_App_Collection 
+{
+	/**
+	 * Login
+	 *
+	 * @var int
+	 */ 
+	protected $login = null;
+	
+	/**
+	 * Add User Security Groups
+	 *
+	 * @param Hb_App_User_UserSecurityGroup $security_group User Security group
+	 */ 
+	public function AddItem(Hb_App_User_UserSecurityGroup $security_group)
+	{
+		$this->login = $security_group->GetLogin();
+		parent::AddItem($security_group);
+	}
+}
+?>

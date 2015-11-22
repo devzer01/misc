@@ -1,0 +1,55 @@
+<?php 
+/**
+ * Domain Object for Account Attribute Definitions
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountAttributeDefinitions extends Hb_App_Collection 
+{
+	/**
+	 * AccountAttributeDefinition instance
+	 *
+	 * @var Hb_App_Account_AccountAttributeDefinition 
+	 */
+	protected $account_attribute_definitions = array();	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 */
+	public function AddItem(Hb_App_Account_AccountAttributeDefinition $account_attribute_definition) 
+	{
+		try {
+			
+			parent::AddItem($account_attribute_definition);		
+			
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Attribute Definition Already Exists In Collection For Account Attribute Definitions ". $account_attribute_definition->attr_definition_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($account_attribute_definition_id)
+	{
+		try {
+			return parent::GetItem($account_attribute_definition_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Attribute Definition Not Found For Account Attribute Definitions  Collection" . $account_attribute_definition_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}	
+	
+	
+}
+?>

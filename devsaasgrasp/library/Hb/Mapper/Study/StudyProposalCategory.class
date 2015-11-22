@@ -1,0 +1,101 @@
+<?php 
+/**
+ * Mapper Object for Study Proposal Category
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyProposalCategory extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_proposal_category_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_proposal_category';
+	
+	/**
+	 * Builds and returns the Study Proposal Cateogry domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_proposal_category table
+	 * @return object An instance of the Study Proposal Cateogry domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyProposalCategory($row->study_proposal_category_id,
+									$row->study_id,
+									$row->proposal_category_type_id
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('spc' => $this->table), array('study_proposal_category_id',
+	 																	  'study_id',
+	 																	  'proposal_category_type_id', 
+	 																	  'status'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Proposal  by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_proposal_category table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('spc.'. $this->primary_key .'= ?', $id);
+		$select->where('spc.status = ? ', 'A');
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Proposal Category domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyProposalCategory   */
+		 	
+	 	$data  = array(
+			'study_id'				=> $obj->GetStudyID(),
+			'proposal_category_type_id'	=> $obj->GetProposalCategoryTypeID(),
+			'status'								=> $obj->GetStatus()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyProposalCategoryID($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

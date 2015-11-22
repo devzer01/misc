@@ -1,0 +1,111 @@
+<?php 
+/**
+ * Mapper class of Proposal Revision Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Proposal
+ */  
+class Hb_Mapper_Proposal_ProposalRevisionAttribute extends Hb_Mapper_Mapper 
+{  
+   /**
+    * Domain object class name
+    *
+    * @var string 
+    */ 
+   protected static $__domain = 'Hb_App_Proposal_ProposalRevisionAttribute'; 
+
+   /**
+    * primary key of the table
+    *
+    * @var string 
+    */
+   protected $primary_key = 'proposal_revision_attr_id';
+   
+   /**
+    * table name
+    *
+    * @var string 
+    */  
+   protected $table = 'proposal_revision_attr';   
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('pra' => $this->table), array('proposal_revision_attr_id', 
+	  'proposal_revision_id', 'proposal_revision_attr_name', 'proposal_revision_attr_value'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Find by id
+    *
+    * @param int id Proposal Revision Attribute Id
+    * @return Hb_App_Proposal_ProposalRevisionAttribute Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('pra.proposal_revision_attr_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Proposal_ProposalRevisionAttribute Returns domain object
+    */ 
+    protected function doBuildObject($row)
+   { 
+   	  return new Hb_App_Proposal_ProposalRevisionAttribute($row->proposal_revision_attr_id,
+   	  			$row->proposal_revision_id,
+   	  			$row->proposal_revision_attr_name,
+   	  			$row->proposal_revision_attr_value);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Proposal_ProposalRevisionAttribute
+    */ 
+    protected function doSave(Hb_App_Object $obj)
+   {
+   	require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO proposal_revision_attr (proposal_revision_id, proposal_revision_attr_name, proposal_revision_attr_value ) "
+          			. "VALUES (" . $obj->GetProposalRevisionId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetProposalRevisionAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE proposal_revision_attr "
+						. "SET proposal_revision_id = " . $obj->GetProposalRevisionId() . ", "
+						. " proposal_revision_attr_name = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+						. " proposal_revision_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+						. "WHERE proposal_revision_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+   }
+} 
+?>

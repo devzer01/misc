@@ -1,0 +1,121 @@
+<?php 
+/**
+ * Mapper Object for Proposal Revision Action
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalRevisionAction extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Domain for the Mapper
+	 *
+	 * @var string 
+	 */
+	protected $__domain = 'Hb_App_Proposal_ProposalRevisionAction';
+	
+	/**
+	 * Gateway for the Mapper
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionAction';
+	
+	/**
+	 * Primary Key
+	 *
+	 * @var sting 
+	 */
+	protected $primary_key	= 'proposal_revision_action_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_revision_action';
+	
+	/**
+	 * Builds and returns the ProposalRevisionAction domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the proposa_revision_action table
+	 * @return object An instance of the  ProposalRevisionAction domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevisionAction($row->proposal_revision_action_id,
+																		  $row->login,
+																		  $row->is_copy,
+																		  $row->action_date,
+																		  $row->action_comment,
+																		  $row->proposal_action_id,
+																		  $row->proposal_revision_id,
+																		  $row->proposal_review_group_id
+																		  );
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object for the proposa_revision_action table
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework  for the proposa_revision_action table
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+		
+		$select->from(array('pra' => 'proposal_revision_action'), array('proposal_revision_action_id',																										 
+																										 'proposal_review_group_id',
+																										 'proposal_revision_id',
+																										 'proposal_action_id',
+																										 'action_comment',
+																										 'action_date',
+																										 'is_copy',
+																										 'login')
+										);
+		return $select;
+	}
+	
+	/**
+	 * Finds a proposal Revision Action by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the proposa_revision_action table
+	 */	
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('proposal_revision_action_id = ?', $id);
+		
+		return $this->getrow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj Instance of the ProposalRevisionAction domain 
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->proposal_review_group_id 	= $obj->GetProposalReviewGroupId();
+		$row->proposal_revision_id			= $obj->GetProposalRevisionId();
+		$row->proposal_action_id			= $obj->GetProposalActionId();
+		$row->action_comment					= $obj->GetActionComment();
+		$row->action_date						= $obj->GetActionDate();
+		$row->is_copy							= $obj->GetIsCopy();
+		$row->login								= $obj->GetLogin();
+		
+		$row->Save();
+		
+		$obj->SetProposalRevisionActionId($row->proposal_revision_action_id);
+	}
+}
+
+?>

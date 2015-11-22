@@ -1,0 +1,99 @@
+<?php 
+/**
+ * Mapper class of Account Panel Country Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountPanelCountryAttributeDefinition extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountPanelCountryAttributeDefinition'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_panel_country_attr_def_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_panel_country_attr_def';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Panel Country Attribute Definition Id
+    * @return Hb_App_Account_AccountPanelCountryAttributeDefinition Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('apcad.account_panel_country_attr_def_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('apcad' => 'account_panel_country_attr_def'), array('account_panel_country_attr_def_id', 'account_panel_country_type_id', 
+	  																						'country_code','account_panel_country_attr_name','account_panel_country_attr_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountPanelCountryAttributeDefinition Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Account_AccountPanelCountryAttributeDefinition(	$row->account_panel_country_attr_def_id, $row->account_panel_country_type_id,
+   																					$row->country_code, $row->account_panel_country_attr_name, $row->account_panel_country_attr_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountPanelCountryAttributeDefinition
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'account_panel_country_type_id'    			=>	$obj->GetAccountPanelCountryTypeId(),
+      	'country_code'										=>	$obj->GetCountryCode(),
+      	'account_panel_country_attr_name'			=> $obj->GetAttributeName(),
+      	'account_panel_country_attr_description'	=> $obj->GetAttributeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('account_panel_country_attr_def', $data);
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+	  	} else {
+			$db->update('account_panel_country_attr_def', $data, 'account_panel_country_attr_def_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?>

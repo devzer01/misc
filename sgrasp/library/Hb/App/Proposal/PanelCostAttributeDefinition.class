@@ -1,0 +1,27 @@
+<?php 
+/**
+ * Domain class Panel Cost Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_PanelCostAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{ 
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Panel Cost Attribute Definition Id
+	 * @param string $attribute_name Panel Cost Attribute Definition Name
+	 * @param string $description Panel Cost Attribute Definition Description
+	 */ 
+	function __construct($id = null, 
+						 $attribute_name = null, 
+						 $description = null) 
+	{ 
+		parent::__construct($id, $attribute_name, $description);
+	}
+}
+?>

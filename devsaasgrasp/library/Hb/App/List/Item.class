@@ -1,0 +1,28 @@
+<?php
+
+require_once ('class/Hb/App/Object.class') ;
+
+class Hb_App_List_Item extends Hb_App_Object 
+{
+	protected $key = null;
+	
+	protected $value = null;
+	
+	public function __construct($key, $value)
+	{
+		$this->key  = $key;
+		$this->value = $value;
+	}
+	
+	public function GetKey()
+	{
+		return $this->key;
+	}
+	
+	public function GetValue()
+	{
+		return $this->value;
+	}
+}
+
+?>

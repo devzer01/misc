@@ -1,0 +1,52 @@
+<?php
+class Hb_View_Study_NewStudyCostApprovedOrRejected extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/stm/email_study_cost_approved_rejected.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $study_id = null;
+	
+	protected $study = null;
+	
+	protected $study_cost = null;		
+	
+	protected $user = null;
+	
+	protected $action_type = null;
+		
+	protected  function LoadData()
+	{				
+		$this->SetData('action_type', $this->action_type);
+		$this->SetData('user', $this->user);
+		$this->SetData('study_object', $this->study);	
+		$this->SetData('study_cost', $this->study_cost);	
+	}	
+
+	public function SetActionType($action_type)
+	{
+		
+		$this->action_type = $action_type;
+	}
+	
+	public function SetStudyID($study_id)
+	{
+		$this->study_id = $study_id;		
+	}
+	
+	public function SetStudy($study)
+	{
+		$this->study = $study;
+	}
+	
+	public function SetStudyCost($study_cost)
+	{
+		$this->study_cost = $study_cost;
+	}	
+	
+	public function SetUser($user)
+	{
+		$this->user = $user;
+	}
+}
+?>

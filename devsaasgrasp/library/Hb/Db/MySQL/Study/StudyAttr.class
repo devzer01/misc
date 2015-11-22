@@ -1,0 +1,25 @@
+<?php
+
+class Hb_Db_MySQL_Study_StudyAttr
+{
+	static function Get($study_id, $attr = array())
+	{
+		$db = new Hb_Util_Connector_Db();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from('study_attr', array('study_attr', 'study_value'));
+		
+		$select->where('status = ?', 'A');
+		$select->where('study_id = ?', $study_id);
+		
+		if (!empty($attr)) {
+			$select->where('study_attr IN (?)', $attr);
+		}
+		
+		return $db->FetchAssoc($select);
+	}	
+}
+?>

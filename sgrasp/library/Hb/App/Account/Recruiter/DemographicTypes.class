@@ -1,0 +1,47 @@
+<?php 
+/**
+ * Domain Object for Account Recruiter Demographic Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_DemographicTypes extends Hb_App_Collection 
+{
+    protected $account_recruiter_demographic_type_id = null;
+
+	public function AddItem(Hb_App_Account_Recruiter_DemographicType $account_recruiter_demographic_type) 
+	{
+		try {
+			parent::AddItem($account_recruiter_demographic_type);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Recruiter Demographic Type Already Exists In Collection ". $account_recruiter_demographic_type->account_recruiter_demographic_type_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetItem($account_recruiter_demographic_type_id)
+	{
+		try {
+			return parent::GetItem($account_recruiter_demographic_type_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Recruiter Demographic Type Not Found In Collection " . $account_recruiter_demographic_type_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+
+	public function SetAccountRecruiterDemographicTypeId($account_recruiter_demographic_type_id)
+	{
+	    $this->account_recruiter_demographic_type_id = $account_recruiter_demographic_type_id;
+	}
+	
+
+	public function GetAccountRecruiterDemographicTypeId()
+	{
+	    return $this->account_recruiter_demographic_type_id;
+	}	
+}
+?>

@@ -1,0 +1,60 @@
+<?php
+
+require_once("XML/RPC.php");
+
+class Hb_Util_Connector_XMLRPC extends Hb_Util_Connector_Abstract 
+{
+
+	private $__client = null;
+	
+	private $__debug  = false;
+
+
+	/**
+	 * @var $path string
+	 * @var $server string
+    * @var $port int
+	 **/
+	function __construct($conf)
+	{
+		$this->ParseConf($conf);
+		
+		if (!isset($this->__configuration['path'])) throw new Hb_Util_Connector_XMLRPC_Exception("Path Not Given", -1);
+		
+		if (!isset($this->__configuration['server'])) throw new Hb_Util_Connector_XMLRPC_Exception("Server Not Given", -2);
+		
+		if (!isset($this->__configuration['port'])) throw new Hb_Util_Connector_XMLRPC_Exception("Port Not Given", -3);
+		
+		$this->__client = new XML_RPC_Client(
+			$this->__configuration['path'],
+			$this->__configuration['server'],
+			$this->__configuration['port']
+		);
+	}
+	
+	/**
+	 * @var $message Hb_Util_Connector_XMLRPC_Message
+	 * @return Hb_Util_Connector_XMLRPC_Response 
+	 **/
+	function Query(Hb_Util_Connector_XMLRPC_Message $message)
+	{
+		if ($this->__debug) {
+			$this->__client->setDebug(1);	
+			
+			$message->message->createPayload();
+
+			echo $message->message->payload;		
+		}
+		
+		$response = $this->__client->send($message->message);
+		
+		if (!$response) {
+			throw new Hb_Util_Connector_XMLRPC_Exception("Did Not Receive Valid Response Object", -4);
+		}
+		
+		
+		return new Hb_Util_Connector_XMLRPC_Response($response);
+	}
+}
+
+?>

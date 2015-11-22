@@ -1,0 +1,15 @@
+<?php
+class Hb_Db_Proposal_ProposalContact extends Hb_Util_Db_Table
+{
+	protected $_name = 'proposal_contact';
+	
+	protected $_dependentTables = array('Hb_Db_Proposal_Proposal');
+	
+	protected $_referenceMap    = array(
+        'Hb_Db_Proposal' => array(
+            'columns'           => 'proposal_id',
+            'refTableClass'     => 'Hb_Db_Proposal_Proposal',
+            'refColumns'        => 'proposal_id'
+        ));
+}
+?>

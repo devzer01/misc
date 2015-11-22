@@ -1,0 +1,54 @@
+<?php 
+/**
+ * Domain Object for User Roles
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */ 
+class Hb_App_User_UserRoles extends Hb_App_Collection 
+{
+	/**
+	 * UserRole instance
+	 *
+	 * @var HB_App_User_UserRole 
+	 */
+	protected $user_role = null;
+	
+	/**
+	 * User Role Id
+	 *
+	 * @var int 
+	 */
+	protected $user_role_id	= null;	
+	
+	public function AddItem(Hb_App_User_UserRole $user_role) 
+	{
+		try {
+			parent::AddItem($user_role);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("User Role Already Exists In Collection For User role id ". $user_role->user_role_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}	
+	
+	public function GetItem($user_role_id)
+	{
+		try {
+			return parent::GetItem($user_role_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested User Role Not Found For User Roles Collection" . $user_role_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}	
+	
+	public function AddUserRole(Hb_App_User_UserRole $user_role)
+	{
+		$this->user_role		= $user_role;
+		$this->user_role_id	= $study->GetUserRoleId();
+	}	
+}
+?>

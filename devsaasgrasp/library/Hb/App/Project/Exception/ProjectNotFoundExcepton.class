@@ -1,0 +1,10 @@
+<?php
+
+require_once('class/Hb/Exception.class');
+
+class Hb_App_Project_Exception_ProjectNotFoundException extends Hb_Exception 
+{
+	
+}
+
+?>

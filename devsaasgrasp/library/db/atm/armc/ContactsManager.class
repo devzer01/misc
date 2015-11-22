@@ -1,0 +1,304 @@
+<?php
+/**
+ * This groups Contact Data into a single component class
+ *
+ * @author - krathnayake
+ * @since  - Fri May 18 13:26:01 IST 2007
+ **/
+
+class db_atm_armc_ContactsManager extends db 
+{	
+	/**
+	 * GetARMCContacts($armc_id, $type_ids = array())
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri May 18 13:31:01 IST 2007
+	 **/	
+	
+	/**
+	 * GetARMCContactName($armc_contact_id)
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu Jun 14 07:11:46 IST 2007
+	 **/
+	function GetARMCContactDetails($armc_contact_id)
+	{
+	 	$param['armc_contact_id'] 	= $armc_contact_id;
+
+	  	$attr['fetch_row']  	= 1;    	   	
+   	return $this->__GetARMCContactDetails( $param, $attr ); 
+	} 
+	
+	protected function __GetARMCContactDetails( $param, $attr )
+	{
+		$this->SetSelect();
+						
+		$this->select->from(array('ac' => 'armc_contact'), array('armc_id', 'armc_contact_type_id', 'contact_id', 'salutation', 'first_name', 'middle_initial', 'last_name', 'address_1', 'address_2', 'city', 'state', 'province', 'zip', 'country_code', 'phone', 'fax', 'email'));
+				
+		if( isset( $param['armc_contact_id'] ) ) 
+		{
+			$this->select->where('armc_contact_id = ?', $param['armc_contact_id']);
+		}
+		$this->select->where('status = ?', 'A');
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	}
+	
+	function GetARMCContacts($armc_id, $type_ids = array())
+	{
+		$param['armc_id'] 	= $armc_id;
+	  	$param['type_ids'] 	= $type_ids;
+   	
+	  	$attr['fetch_row']  	= 0;    	   	
+   	
+	  	return $this->__SelectARMCContact( $param, $attr ); 
+	} 
+							 
+	protected function __SelectARMCContact( $param = array(), $attr = array() )
+   {
+	  	$this->SetSelect();
+						
+		$this->select->from(array('ac' => 'armc_contact'), array(
+		'armc_contact_id', 
+		'armc_contact_type_id', 
+		'contact_id', 
+		'salutation', 
+		'first_name', 
+	   'last_name', 
+	   'address_1', 
+	   'address_2', 
+	   'city', 
+	   'state', 
+	   'zip', 
+	   'country_code', 
+	   'phone', 
+	   'fax', 
+	   'email'));
+	   $this->select->joinLeft(array('act' => 'armc_contact_type'), 'act.armc_contact_type_id = ac.armc_contact_type_id AND act.status = "A"',  
+	 		array('armc_contact_type_description'));
+	 	$this->select->joinLeft(array('c' => 'country'), 'c.country_code = ac.country_code', array('country_description'));
+	 	$this->select->joinLeft(array('ca' => 'country_attr'), 'ca.country_id = c.country_id AND ca.country_attr_name = "ISO_2_CODE"',
+	 		array('iso2_country_code' => 'country_attr_value'));
+	 			
+		if (isset( $param['armc_id'] ))  
+		{
+			$this->select->where('ac.armc_id = ?', $param['armc_id']);
+		}
+	
+		if (sizeof($param['type_ids'])!=0)
+		{
+			$this->select->where('ac.armc_contact_type_id IN (?)', $param['type_ids']);
+		}		
+		
+		$this->select->where('ac.status = ?', 'A');
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+ 	}
+
+ 	/**
+	 * isARMCContact($armc_id, $armc_contact_type_id)
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri May 18 15:01:30 IST 2007
+	 **/
+	
+	function isARMCContact($armc_id, $armc_contact_type_id)
+	{
+   	$param['armc_id'] 					= $armc_id;
+   	$param['armc_contact_type_id'] 	= $armc_contact_type_id;
+     	
+     	$attr['fetch_row']          		= 1;
+   	
+ 	  	$ret = $this->__CheckARMCContacts( $param, $attr );   	
+ 	   return ($ret?$ret["armc_contact_id"]:false);
+ 	} 
+ 	
+	protected function __CheckARMCContacts( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('ac' => 'armc_contact'), array('armc_contact_id'));
+				
+		if (isset( $param['armc_id'] ) && isset( $param['armc_contact_type_id'] )) 
+		{
+			$this->select->where('armc_id = ?', $param['armc_id']);
+			$this->select->where('armc_contact_type_id = ?', $param['armc_contact_type_id']);
+		}
+		$this->select->where('status = ?', 'A');
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	}
+	
+	/**
+	 * InsertARMCContact($armc_id, $info)
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri May 18 15:02:56 IST 2007
+	 **/
+	   	
+	function InsertARMCContact($armc_id, $info)
+	{
+		$param['armc_id']						= $armc_id;
+		$param['armc_contact_type_id']	= mysql_real_escape_string($info['armc_contact_type_id']);
+		$param['contact_id']  				= mysql_real_escape_string($info['contact_id']);
+		$param['salutation']  				= mysql_real_escape_string($info['salutation']);
+		$param['first_name']					= mysql_real_escape_string($info['first_name']);
+		$param['last_name']					= mysql_real_escape_string($info['last_name']);
+		$param['address_1'] 					= mysql_real_escape_string($info['address_1']);
+		$param['address_2'] 					= mysql_real_escape_string($info['address_2']);
+		$param['city']  						= mysql_real_escape_string($info['city']);
+		$param['state']  						= mysql_real_escape_string($info['state']);
+		$param['zip']  						= mysql_real_escape_string($info['zip']);
+		$param['province']  					= mysql_real_escape_string($info['province']);
+		$param['country_code']				= mysql_real_escape_string($info['country_code']);
+		$param['phone']  						= mysql_real_escape_string($info['phone']);
+		$param['fax']  						= mysql_real_escape_string($info['fax']);
+		$param['email']  						= mysql_real_escape_string($info['email']);
+		$param['status']						= 'A';
+				
+		$this->__AddARMCContact($param);
+		
+		return $this->last_insert_id; 	
+	}
+	
+	protected function __AddARMCContact($param)
+	{
+		$table = 'armc_contact';
+		$this->__Insert($table, $param);
+	} 
+
+	/**
+	 * UpdateARMCContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri May 18 15:05:47 IST 2007
+	 **/
+	function UpdateARMCContact($armc_contact_id, $info)
+	{
+		if ( is_array($armc_contact_id) )
+		{
+			$param['armc_id'] 					= $armc_contact_id['armc_id'];
+		  	$param['armc_contact_type_id']	= $armc_contact_id['armc_contact_type_id'];
+     	}
+		else 
+		{
+			$param['armc_contact_id']        = $armc_contact_id;
+		}
+   	
+		$fields['contact_id']  				= mysql_real_escape_string($info['contact_id']);
+		$fields['salutation'] 				= mysql_real_escape_string($info['salutation']);
+		$fields['first_name']				= mysql_real_escape_string($info['first_name']);
+		$fields['last_name']					= mysql_real_escape_string($info['last_name']);
+		$fields['address_1'] 				= mysql_real_escape_string($info['address_1']);
+		$fields['address_2'] 				= mysql_real_escape_string($info['address_2']);
+		$fields['city']  						= mysql_real_escape_string($info['city']);
+		$fields['state']  					= mysql_real_escape_string($info['state']);
+		$fields['zip']  						= mysql_real_escape_string($info['zip']);
+		$fields['province'] 					= mysql_real_escape_string($info['province']);
+		$fields['country_code']				= mysql_real_escape_string($info['country_code']);
+		$fields['phone']  					= mysql_real_escape_string($info['phone']);
+		$fields['fax']  						= mysql_real_escape_string($info['fax']);
+		$fields['email']  					= mysql_real_escape_string($info['email']);
+
+		$fields['status']						= 'A';
+   	   	
+		$this->__UpdateARMCContact($param, $fields);
+		
+		return $this->affected_rows;
+	} 
+   
+	protected function __UpdateARMCContact($param = array(), $fields = array())
+   {
+ 		$table = 'armc_contact';
+		
+ 		if (isset($param['armc_contact_id']))
+ 		{
+			$where = $this->db->quoteInto('armc_contact_id = ?', $param['armc_contact_id'] );
+ 		}
+		
+ 		if (isset($param['armc_id']) && isset($param['armc_contact_type_id']))
+		{
+			$where = $this->db->quoteInto('armc_id = ?', $param['armc_id'] )
+						.$this->db->quoteInto('AND armc_contact_type_id = ?', $param['armc_contact_type_id'] );
+		}
+		
+		$this->__Update($table, $fields, $where);		
+	}
+   
+	/**
+	 * DeleteARMCContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Mon Jun 11 10:52:36 IST 2007
+	 **/
+	function DeleteARMCContact($armc_contact_id)
+	{
+		$param['armc_contact_id']			=	$armc_contact_id;
+
+		$fields['status']						= 'D';
+   	   	
+		$this->__UpdateARMCContact($param, $fields);
+		return $this->affected_rows;
+	} 
+	
+ 	/**
+	 * SetARMCContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri May 18 14:56:20 IST 2007
+	 **/
+ 	
+	function SetARMCContact($armc_id, $info)
+	{
+   	$param['armc_id'] 					= $armc_id;
+
+	  	$param['armc_contact_type_id']	= mysql_real_escape_string($info['armc_contact_type_id']);
+     	
+	  	$attr['fetch_row']          		= 1;
+   	
+     	$rst =  $this->__CheckARMCContacts( $param, $attr );   		  	
+     		  	
+     	$today_date =  date("Y-m-d", time());
+			  	
+     	if ($rst == false) 
+		{
+			$this->InsertARMCContact($armc_id, $info);
+			
+			return $this->last_insert_id; 	
+	   }
+	   else
+	   {
+ 	  		$this->UpdateARMCContact($param, $fields);
+			return $this->affected_rows;
+		}
+   }
+}
+?>

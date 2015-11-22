@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * THrown when a provided configuration file is not found
+ * 
+ * @package  Util
+ * @subpackage  Config
+ *
+ */
+class Hb_Util_Config_Exception_LogConfigFileNotFoundException extends  Hb_Util_Config_Exception 
+{
+
+}
+
+?>

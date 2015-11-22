@@ -1,0 +1,129 @@
+<?php 
+/**
+ * Domain Object for Pricing Item
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_PricingItem extends Hb_App_Object 
+{
+	/**
+	 * Pricing Item Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_id = null;
+
+	/**
+	 * Pricing Item Group Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_group_id = null;
+	
+	/**
+	 * Pricing Item Description
+	 * 
+	 * @var string
+	 */
+	protected $pricing_item_description = null;
+		
+	
+	/**
+	* Contructor of the Pricing Item Domain
+	* 
+	* @param int $id Pricing Item Id
+	* @param int $pricing_item_group_id Pricing Item Group Id
+	* @param string $pricing_item_description Pricing Item Description
+	*/		
+	function __construct($id 						     = null,	
+							   $pricing_item_group_id    = null,
+							   $pricing_item_description = null )
+	{		 					
+		
+		$this->pricing_item_id 		     = $id;
+		$this->pricing_item_group_id    = $pricing_item_group_id;
+		$this->pricing_item_description = $pricing_item_description ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Pricing Item Id
+	 *	
+	 * @return int $pricing_item_id Pricing Item Id
+	 */
+	public function GetPricingItemId()
+	{
+		return $this->pricing_item_id;
+	}
+
+	
+	/**
+	 * Get Pricing Item Group Id
+	 *	
+	 * @return int $pricing_item_group_id Pricing Item Group Id
+	 */
+
+	public function GetPricingItemGroupId()	
+	{
+		return $this->pricing_item_group_id;
+	}
+	
+	
+	/**	
+	 * Get Pricing Item Group Id
+	 *
+	 * @return string $pricing_item_description Pricing Item Description	
+	 */
+	public function GetPricingItemDescription()
+	{
+		return $this->pricing_item_description;
+	}
+
+	
+	/**
+	 * Sets the Pricing Item Id
+	 *
+	 * @param int $pricing_item_id Pricing Item Id
+	 */
+	public function SetPricingItemId($pricing_item_id)
+	{
+		$this->pricing_item_id = (int) $pricing_item_id;
+
+		$this->__id = (int) $pricing_item_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Pricing Item Group Id
+	 *
+	 * @param int $pricing_item_group_id Pricing Item Group Id
+	 */
+	public function SetPricingItemGroupId($pricing_item_group_id)
+	{
+		$this->pricing_item_group_id = (int) $pricing_item_group_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Pricing Item Description
+	 * 
+	 * @param string $pricing_item_description Pricing Item Description
+	 */
+	public function SetPricingItemDescription($pricing_item_description)
+	{
+		$this->pricing_item_description = $pricing_item_description;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

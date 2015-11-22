@@ -1,0 +1,26 @@
+<?php 
+/**
+ * Domain Object for Study Interview Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+class Hb_App_Study_StudyInterviewType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Study Interview Type Object
+	 *
+	 * @param int $id study Interview type id
+	 * @param string $description study interview type file description
+	 */
+	public function __construct($id 				= null,
+									     $description = null
+									   )
+   {
+   	parent::__construct($id, $description);	
+   }	
+}
+?>

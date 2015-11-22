@@ -1,0 +1,180 @@
+<?php
+/**
+ * Domain Object for ProjectComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */
+
+class Hb_App_Project_ProjectComment extends Hb_App_Object
+{
+	/**
+	 * Alert level Id
+	 *
+	 * @var int
+	 **/
+	protected $alert_level_id = null;
+	
+	/**
+	 * Project comment Id
+	 *
+	 * @var int
+	 **/
+	protected $project_comment_id = null;
+	
+	/**
+	 * Project comment text 
+	 *
+	 * @var string
+	 **/
+	protected $project_comment_text = null;
+
+	/**
+	 * Project comment type Id
+	 *
+	 * @var int	
+	 **/
+	protected $project_comment_type_id = null;
+	
+	/**
+	 * Project Id
+	 *
+	 * @var int
+	 **/
+	protected $project_id = null;
+
+	/**
+	 * Create a Project Comment Object
+	 *
+	 * @param int $id Project Comment Id
+	 * @param int $alert_level_id Alert Level Id
+	 * @param int $project_comment_id Project Comment Id
+	 * @param string $project_comment_text Project Comment Text
+	 * @param int $project_comment_type_id Project Comment Type Id
+	 * @param int $project_id Project Id
+	 */
+	function __construct($id = null,
+							$project_id = null,
+							$alert_level_id = null,
+							$project_comment_type_id = null,
+							$project_comment_text = null)
+	{
+		$this->project_comment_id  = $id;
+		$this->alert_level_id  = $alert_level_id;
+		$this->project_comment_text  = $project_comment_text;
+		$this->project_comment_type_id  = $project_comment_type_id;
+		$this->project_id  = $project_id;
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Alert level Id for Project comment
+	 * 
+	 * @return int The alert level ID for a project
+	 **/
+	public function GetAlertLevelId()
+	{
+		return $this->alert_level_id;
+	}
+
+	/**
+	 * Returns the comment ID for the Project comment
+	 * 
+	 * @return int The Project comment Id for the project
+	 **/
+	public function GetProjectCommentId()
+	{
+		return (int) $this->project_comment_id;
+	}
+
+	/**
+	 * Returns the Project comment text for the Project comment
+	 *
+	 * @return string The Project comment text for the project
+	 **/
+	public function GetProjectCommentText()
+	{
+		return $this->project_comment_text;
+	}
+
+	/**
+	 * Returns the Project comment type id for the Project comment
+	 * 
+	 * @return int The Project comment type Id for the project
+	 **/
+	public function GetProjectCommentTypeId()
+	{
+		return $this->project_comment_type_id;
+	}
+
+	/**
+	 * Returns the Project Id for the Project comment
+	 * 
+	 * @return int The Project Id for the project
+	 **/
+	public function GetProjectId()
+	{
+		return $this->project_id;
+	}
+
+	/**
+	 * Sets the Alert level Id for the Project comment
+	 * 
+	 * @param $alert_level_id The Alert level Id
+	 */
+	public function SetAlertLevelId($alert_level_id)
+	{
+		$this->alert_level_id = $alert_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project comment Id for the Project comment
+	 *
+	 * @param $project_comment_id The Project comment Id
+	 */
+	public function SetProjectCommentId($project_comment_id)
+	{
+		$this->project_comment_id = $project_comment_id;
+		$this->__id = $project_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project comment text for the Project comment
+	 *
+	 * @param string $project_comment_text The Project comment text
+	 */
+	public function SetProjectCommentText($project_comment_text)
+	{
+		$this->project_comment_text = $project_comment_text;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project comment type Id for the Project comment
+	 *
+	 * @param  $project_comment_type_id The Project comment type Id
+	 */
+	public function SetProjectCommentTypeId($project_comment_type_id)
+	{
+		$this->project_comment_type_id = $project_comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project Id for the Project comment
+	 *
+	 * @param $project_id The Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id = $project_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

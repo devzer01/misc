@@ -1,0 +1,121 @@
+<?php
+/**
+ * Common Attribute Definition domain class 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @package App
+ * @subpackage Common
+ */ 
+
+class Hb_App_Common_AttributeDefinition extends Hb_App_Object  
+{
+
+	/**
+	 * Attribute definition Id
+	 * 
+	 * @var int
+	 */				
+	protected  $attr_definition_id=null;
+	
+	/**
+	 * Attribute definition description
+	 * 
+	 * @var string
+	 */				
+	protected  $attr_definition_description=null;
+	
+	/**
+	 * Attribute name
+	 * 
+	 * @var string
+	 */				
+	protected  $attr_name=null;
+	
+	/**
+	 * Creates a attribute definition object
+	 *
+	 * @param int $id Attr defintion id
+	 * @param string $attr_name Attr name
+	 * @param string $attr_def_desc Attr definition description
+	 */			
+	public function __construct($id=null, $attr_name=null, $attr_def_desc=null)
+	{
+		$this->attr_definition_id 				= $id;
+		$this->attr_name 							= $attr_name;
+		$this->attr_definition_description 	= $attr_def_desc;
+	
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns attr definition id
+	 * 
+	 * @return int Attr definition id
+	 */							
+	function GetAttributeDefinitionId()
+	{
+		return $this->attr_definition_id;
+	}
+	
+	/**
+	 * Returns attr definition id
+	 * 
+	 * @return int Attr definition id
+	 */								
+	function GetAttributeDescription()
+	{
+		return $this->attr_definition_description;
+	}
+
+	/**
+	 * Gets attr name
+	 * 
+	 * @return string Attr name
+	 */								
+	function GetAttributeName()
+	{
+		return $this->attr_name;
+	}
+
+	
+	/**
+	 * Sets attr definition id
+	 * 
+	 * @param int $id Attr definition id
+	 */						
+	function SetAttributeDefinitionId($id)
+	{
+		$this->attr_definition_id = $id;
+		$this->__id = $id;
+	}
+
+
+	/**
+	 * Sets attr definition description
+	 * 
+	 * @param string $description Attr definition description
+	 */
+	function SetAttributeDescription($description)
+	{
+		$this->attr_definition_description = $description;
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets attr name
+	 * 
+	 * @param string $name Attr name
+	 */
+	function SetAttributeName($name)
+	{
+		$this->attr_name = $name;
+		$this->MarkDirty();
+	}
+
+}
+
+
+
+?>

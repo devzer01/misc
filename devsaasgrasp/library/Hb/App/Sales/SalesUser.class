@@ -1,0 +1,211 @@
+<?php
+/**
+ * Domain Object for Sales User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Sales
+ *
+ */ 
+class Hb_App_Sales_SalesUser extends Hb_App_Object 
+{
+	/**
+	 * Amount
+	 *
+	 * @var flost 
+	 */
+	protected $amount = null;
+	
+	/**
+	 * region id
+	 *
+	 * @var int 
+	 */
+	protected $region_id = null;
+	
+	/**
+	 * Sales date
+	 *
+	 * @var string 
+	 */
+	protected $sales_date = null;
+	
+	/**
+	 * Sales type id
+	 *
+	 * @var int 
+	 */
+	protected $sales_type_id = null;
+	
+	/**
+	 * Sales user id
+	 *
+	 * @var int 
+	 */
+	protected $sales_user_id = null;
+	
+	/**
+	 * User id
+	 *
+	 * @var int 
+	 */
+	protected $user_id = null;
+
+	/**
+	 * Create Sales User Object
+	 *
+	 * @param int $id Sales user id
+	 * @param flsot $amount Amount
+	 * @param int $region_id Region id
+	 * @param string $sales_date Sales date
+	 * @param int $sales_type_id Sales type id
+	 * @param int $user_id User id
+	 */
+	function __construct($id 				= null,
+								$amount 			= null,
+								$region_id 		= null,
+								$sales_date 	= null,
+								$sales_type_id = null,
+								$user_id 		= null)
+	{
+		$this->sales_user_id	= $id;
+		$this->amount			= $amount;
+		$this->user_id			= $user_id;
+		$this->region_id		= $region_id;
+		$this->sales_date		= $sales_date;
+		$this->sales_type_id	= $sales_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Amount  for the Sales User
+	 *
+	 * @return flost Amount 
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Return the Region id for the Sales User
+	 *
+	 * @return int Region id
+	 */
+	public function GetRegionId()
+	{
+		return $this->region_id;
+	}
+
+	/**
+	 * Return the Sales date for the Sales User
+	 *
+	 * @return string Sales date
+	 */
+	public function GetSalesDate()
+	{
+		return $this->sales_date;
+	}
+
+	/**
+	 * Return the Sales type id for the Sales User
+	 *
+	 * @return int Sales type id
+	 */
+	public function GetSalesTypeId()
+	{
+		return $this->sales_type_id;
+	}
+
+	/**
+	 * Return the Sales user id for the Sales User
+	 *
+	 * @return int Sales user id
+	 */
+	public function GetSalesUserId()
+	{
+		return $this->sales_user_id;
+	}
+
+	/**
+	 * Return the User id for the Sales User
+	 *
+	 * @return int User id
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Set the Amount for the  Sales User
+	 * 
+	 * @param flost $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Region id for the  Sales User
+	 * 
+	 * @param int $region_id Region id
+	 */
+	public function SetRegionId($region_id)
+	{
+		$this->region_id = $region_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Sales date for the  Sales User
+	 * 
+	 * @param string $sales_date Sales date
+	 */
+	public function SetSalesDate($sales_date)
+	{
+		$this->sales_date = $sales_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Sales type id for the  Sales User
+	 * 
+	 * @param int $sales_type_id Sales type id
+	 */
+	public function SetSalesTypeId($sales_type_id)
+	{
+		$this->sales_type_id = $sales_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Sales user id for the  Sales User
+	 * 
+	 * @param int $sales_user_id Sales user id
+	 */
+	public function SetSalesUserId($sales_user_id)
+	{
+		$this->sales_user_id 	= $sales_user_id;
+		$this->__id				= $sales_user_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User id for the  Sales User
+	 * 
+	 * @param int $user_id User id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

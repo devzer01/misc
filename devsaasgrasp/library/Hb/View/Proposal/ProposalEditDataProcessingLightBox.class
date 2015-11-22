@@ -1,0 +1,36 @@
+<?php
+class Hb_View_Proposal_ProposalEditDataProcessingLightBox extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/edit_data_processing_lightbox.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $hours_arr = array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7);
+	protected $langs_arr = array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7);
+	
+	protected $data = array();
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('data', $this->data);
+		$this->SetData('hours', $this->hours_arr);
+		$this->SetData('langs', $this->langs_arr);
+	}	
+	
+	public function SetHours($hours)
+	{
+		$this->data['hours'] = $hours;
+	}
+	
+	public function SetLanguages($lanuages)
+	{
+		$this->data['lanuages'] = $lanuages;
+	}
+	
+	public function SetWords($words)
+	{
+		$this->data['words'] = $words;
+	}
+}
+
+?>

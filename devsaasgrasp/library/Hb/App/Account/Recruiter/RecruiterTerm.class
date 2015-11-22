@@ -1,0 +1,66 @@
+<?php 
+/**
+ * Domain Object for Recruiter Terms
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Recruiter
+ *
+ */ 
+class Hb_App_Account_Recruiter_RecruiterTerm
+{
+	/**
+	 * Account Id
+	 *
+	 * @var int 
+	 */
+	private $account_id = null;
+	
+	/**
+	 * Campaign code
+	 *
+	 * @var string 
+	 */
+	private $campaign_code = null;
+	
+	/**
+	 * Campaign Info Object 
+	 *
+	 * @var Hb_App_Account_Recruiter_CampaignInfo 
+	 */
+	private $campaign_info = null;
+	
+	/**
+	 * Construct method of the domain
+	 *
+	 * @param int $account_id Account ID
+	 * @param string $campign_code Campign Code
+	 */
+	function __construct($account_id 	= null, 
+								$campign_code	= null
+								)
+	{
+		$this->account_id		= $account_id;
+		$this->campaign_code	= $campign_code;
+	}
+	
+	/**
+	 * Return the Conversion Rate for the Recruiter Campign Domain
+	 *
+	 * @return Hb_App_Account_Recruiter_CampaignInfo Conversion Rate
+	 */
+	public function GetCampaignInfo()
+	{
+		if(is_null($this->campaign_info)) {
+			$this->campaign_info	= new Hb_App_Account_Recruiter_CampaignInfo(4, 35);
+		}
+		
+		return $this->campaign_info;
+	}
+	
+		
+}
+
+?>

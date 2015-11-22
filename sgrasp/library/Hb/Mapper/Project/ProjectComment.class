@@ -1,0 +1,99 @@
+<?php
+	/**
+	 * Project Comment Mapper
+	 * 
+	 * @copyright 2007 Global Market Insite Inc
+	 * @author jsadique
+	 * @version 1.1
+	 * @package Mapper 
+	 * @subpackage Project
+	 */  
+	
+	class Hb_Mapper_Project_ProjectComment extends Hb_Mapper_Mapper 
+	{  
+		
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "pjm_comment_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "pjm_comment";
+	
+		
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */		
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Project_ProjectComment($row->pjm_comment_id, 
+												 $row->pjm_id, 
+												 $row->alert_level_id, 
+												 $row->pjm_comment_type_id, 
+												 $row->pjm_comment_text );		
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+        $select = $db->select(); 
+         
+		$select->from('pjm_comment', array('pjm_comment_id', 
+										   'pjm_id', 
+										   'alert_level_id', 
+										   'pjm_comment_type_id', 
+										   'pjm_comment_text'));
+			         
+      return $select; 		
+		
+	}	
+	
+	/**
+	 * Finds a ProjectComment by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('pjm_comment_id = ?', $id);
+             
+    	return $this->getRow($select); 						
+		
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */			
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+				 	 			
+		$row->pjm_id 				= $obj->GetAlertLevelId();
+		$row->alert_level_id 		= $obj->GetAlertLevelId();
+		$row->pjm_comment_type_id 	= $obj->GetProjectCommentTypeId();
+		$row->pjm_comment_text 		= $obj->GetProjectCommentText();
+				
+		$row->Save();		
+		
+		$obj->SetProjectCommentId($row->pjm_comment_id);		
+	}	       
+} 
+?>

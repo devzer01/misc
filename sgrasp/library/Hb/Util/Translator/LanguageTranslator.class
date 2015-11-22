@@ -1,0 +1,16 @@
+<?php
+
+class Hb_Util_Translator_LanguageTranslator
+{
+	public static function GetLanguageArray()
+	{
+		$config = Hb_Util_Config_SystemConfigReader::Read();
+		
+		global $lbl;
+		
+		include($config->base_dir . '/locale/en_US.inc');
+		
+		return $lbl;
+	}
+}
+?>

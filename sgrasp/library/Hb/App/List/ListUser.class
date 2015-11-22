@@ -1,0 +1,19 @@
+<?php
+
+require_once ('class/Hb/App/List/List.class') ;
+
+class Hb_App_List_ListUser extends Hb_App_List_List 
+{
+	protected $role_id = null;
+	
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = $role_id;
+	}
+	
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+}
+?>

@@ -1,0 +1,13 @@
+<?php
+
+abstract class Hb_Mapper_ListMapper 
+{
+	public static function GetList($key, $value)
+	{
+		return $this->doGetList($key, $value);		
+	}
+	
+	abstract static function doGetList();
+}
+
+?>

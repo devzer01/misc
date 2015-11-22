@@ -1,0 +1,3223 @@
+<?php
+
+class db_stm extends db {
+
+/******************************************************************
+   PROTECTED HELPER FUNCTIONS
+******************************************************************/
+
+   /**
+   * db_stm()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Tue Aug 01 14:21:39 PDT 2006
+   */
+   public function db_stm($tz = '00:00')
+   {
+      $this->tz = $tz;
+      $this->__construct();
+   }
+
+//   /**
+//   * CONVERT_TZ()
+//   *
+//   * @param
+//   * @todo NOT YET COMPLETED
+//   * @return
+//   * @since  - 2.0.1 - Thu Aug 03 13:02:16 PDT 2006
+//   */
+//   public function CONVERT_TZ($date_time, $from_tz, $to_tz, $date_format = "Y-m-d H:i:s")
+//   {
+//      if (!preg_match("/[+-][0-9][0-9]*:[0-9][0-9]*/", $from_tz) || !preg_match("/[+-][0-9][0-9]*:[0-9][0-9]*/", $to_tz)) {
+//         return null;
+//      } elseif (($time = strtotime($date_time, time())) === -1) {
+//         return null;
+//      } else {
+//         $from = preg_split("/:/", $from_tz);
+//         $to = preg_split("/:/", $to_tz);
+//         $from = array("hours"=>$from[0], "minutes"=>substr($from[0], 0, 1).$from[1]);
+//         $to = array("hours"=>$to[0], "minutes"=>substr($to[0], 0, 1).$to[1]);
+//
+//         $hours = $to["hours"] - $from["hours"];
+//         $minutes = $to["minutes"] - $from["minutes"];
+//         $new_time = $time + $hours*60*60 + $minutes*60;
+//
+//         return date($date_format, $new_time);
+//      }
+//   }
+//
+//   /**
+//   	* NOW()
+//   	*
+//   	* @param
+//   	* @todo NOT YET COMPLETED
+//   	* @return
+//   	* @since  - 2.0.1 - Fri Aug 04 08:52:20 PDT 2006
+//   	*/
+//   	public function NOW($date_format = "Y-m-d H:i:s")
+//   	{
+//   	   return date($date_format);
+//   	}
+
+/***********************************************
+   Protected __Get functions
+***********************************************/
+   /**
+   * __GetStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 13:12:30 PDT 2006
+   */
+   protected function __GetStudyAttr($where)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array('sa' => 'study_attr'), array('study_attr_id', 'study_id', 'study_attr', 'study_value'));
+      foreach ($where AS $field_name=>$field_value) {
+			$this->select->where($field_name.' = ?', $field_value);
+      }
+
+		return $this->db->fetchRow($this->select);
+   }
+
+   /**
+   * __GetStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:02:02 PDT 2006
+   */
+   protected function __GetStudyAttrMemo($where)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array('sam' => 'study_attr_memo'), array('study_attr_memo_id', 'study_id', 'study_attr', 'study_value', 'created_by', 'created_date', 'modified_by', 'modified_date'));
+      
+      foreach ($where AS $field_name=>$field_value) {
+			$this->select->where($field_name.' = ?', $field_value);
+      }
+		
+		return $this->db->fetchRow($this->select);
+   }
+
+   /**
+   * __GetStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:50:47 PDT 2006
+   */
+   protected function __GetStudyTimelineAttr($where)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("sta" => "study_timeline_attr"), array("study_timeline_attr_id", "study_timeline_id", "study_timeline_attr", "study_timeline_value"));
+      foreach ($where as $field_name => $field_value) {
+      	$this->select->where($field_name.' = ?', $field_value);
+      }
+
+      return $this->db->fetchRow($this->select);
+   }
+
+   /**
+   * __GetStudyAttrDef()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 11:30:38 PDT 2006
+   */
+   protected function __GetStudyAttrDef($where)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array('sad' => 'study_attr_def'), array('study_attr_def_id', 'study_attr', 'attribute_type', 'study_attribute_description'));
+      foreach ($where AS $field_name=>$field_value) {
+			$this->select->where($field_name.' = ?', $field_value);
+      }
+
+		return $this->db->fetchRow($this->select);
+   }
+
+   /**
+   * __GetStudyAttrDefs()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 18:43:49 PDT 2006
+   */
+   protected function __GetStudyAttrDefs()
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("sad" => "study_attr_def"), array("study_attr", "attribute_type", "study_attribute_description"));
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyFileTypes()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Jul 28 20:50:38 PDT 2006
+   */
+   protected function __GetStudyFileTypes()
+   {
+      $this->SetSelect();
+      $this->select->from(array("sft" => "study_file_type"), array("study_file_type_id", "study_file_type_description"));
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudy()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 20:07:29 PDT 2006
+   */
+   protected function __GetStudy($fields, $where, $joins=array(), $group=false)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array('s' => 'study'), $fields);
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+            if (isset($cond["or"]) && ($cond["or"])) {
+               $this->select->orWhere($cond["field"]." ".$cond["operator"], $cond["value"]);
+            } else {
+   	      $this->select->where($cond["field"]." ".$cond["operator"], $cond["value"]);
+            }
+         } else {
+            if (isset($cond["or"]) && ($cond["or"])) {
+               $this->select->where($cond["field"]." ".$cond["operator"]);
+            } else {
+               $this->select->where($cond["field"]." ".$cond["operator"]);
+            }
+         }
+      }
+      if ($group)
+         $this->select->group("s.study_id");
+      return $this->db->fetchAssoc($this->select);
+   }
+   
+   protected function __GetStudySampleType($fields, $where, $joins=array())
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('sst' => 'study_sample_type'), $fields);
+      
+   	foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+            $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+            $this->select->where($cond["field"]." ".$cond["operator"]);
+         }
+      }
+      return $this->db->fetchAssoc($this->select);
+   	
+   }
+
+   /**
+   * __GetStudyComments()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Dec 14 07:49:09 PST 2006
+   */
+   protected function __GetStudyComments($fields, $where, $joins=array(), $sort=array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("sc" => "study_comment"), $fields);
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+   	      $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      
+      if (isset($sort['field']) && isset($sort['order'])) {
+      	$this->select->order($sort['field'] . " " . $sort['order']);
+      }
+      
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyTypeTask()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 13:16:12 PDT 2006
+   */
+   protected function __GetStudyTypeTask($fields, $where, $joins = array())
+   {
+      $this->SetSelect();
+      $this->select->from(array("stt" => "study_type_task"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $field_name=>$field_value) {
+			$this->select->where($field_name.' = ?', $field_value);
+      }
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyTimelineAlert()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sat Aug 05 07:32:49 PDT 2006
+   */
+   protected function __GetStudyTimelineAlert($fields, $where, $joins=array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("sta" => "study_timeline_alert"), $fields);
+
+      foreach ($joins as $joins) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+
+      foreach ($where AS $field_name=>$field_value) {
+			$this->select->where($field_name.' = ?', $field_value);
+      }
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyTimeline()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 15:27:58 PDT 2006
+   */
+   protected function __GetStudyTimeline($fields, $where, $joins=array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("st" => "study_timeline"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+			   $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      $this->select->order("st.sort_order");
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+      * __GetStudyAccount()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Wed Aug 23 11:02:20 PDT 2006
+      */
+   private function __GetStudyAccount($fields, $where, $joins=array())
+   {
+      $this->SetSelect();
+      $this->select->from(array("sa" => "study_account"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+			   $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyContact()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 25 14:04:24 PDT 2006
+   */
+   private function __GetStudyContact($fields, $where, $joins = array())
+   {
+      $this->SetSelect();
+      $this->select->from(array("sc" => "study_contact"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+			   $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyTimelineUser()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sun Aug 06 08:46:25 PDT 2006
+   */
+   protected function __GetStudyTimelineUser($fields, $where, $joins = array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("stu" => "study_timeline_user"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+			   $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyTimelineComment()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sun Aug 06 09:00:19 PDT 2006
+   */
+   private function __GetStudyTimelineComment($fields, $where, $joins = array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("stc" => "study_timeline_comment"), $fields);
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+			   $this->select->where($cond["field"]." ".$cond["operator"]." ?", $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyUsers()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sat Jul 29 11:52:54 PDT 2006
+   */
+   protected function __GetStudyUsers($where, $joins = array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("su" => "study_user"), array("study_user_id", "study_id", "login", "role_id"));
+
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+
+      foreach ($where AS $field_name=>$field_value) {
+         $this->select->where($field_name.' = ?', $field_value);
+      }
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyDatasource()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Tue Jan 23 10:05:47 PST 2007
+   */
+   protected function __GetStudyDatasource($fields, $where, $joins=array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("ssd" => "study_study_datasource"), $fields);
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+   	      $this->select->where($cond["field"]." ".$cond["operator"], $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudySetting()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Thu Jan 25 12:00:25 PST 2007
+   */
+   protected function __GetStudySetting($fields, $where, $joins=array())
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("ss" => "study_setting"), $fields);
+      foreach ($joins AS $join) {
+         $this->select->joinLeft($join["table"], $join["on"], $join["fields"]);
+      }
+      foreach ($where AS $cond) {
+         if (isset($cond["value"])) {
+   	      $this->select->where($cond["field"]." ".$cond["operator"], $cond["value"]);
+         } else {
+			   $this->select->where($cond["field"]." ".$cond["operator"]);
+			}
+      }
+      return $this->db->fetchAssoc($this->select);
+   }
+
+/***********************************************
+   Protected __Insert functions
+***********************************************/
+   /**
+   * __InsertStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 15:52:45 PDT 2006
+   */
+   protected function __InsertStudyAttr($fields)
+   {
+      $table_name="study_attr";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:02:38 PDT 2006
+   */
+   protected function __InsertStudyAttrMemo($fields)
+   {
+      $table_name="study_attr_memo";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:55:24 PDT 2006
+   */
+   protected function __InsertStudyTimelineAttr($fields)
+   {
+      $table_name = "study_timeline_attr";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyEventLog()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:14:33 PDT 2006
+   */
+   protected function __InsertStudyEventLog($fields)
+   {
+      $table_name="study_event_log";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyAttrHistory()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 19:24:07 PDT 2006
+   */
+   protected function __InsertStudyAttrHistory($fields)
+   {
+      $table_name = "study_attr_history";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyFile()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 20:46:15 PDT 2006
+   */
+   protected function __InsertStudyFile($fields)
+   {
+      $table_name = "study_file";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyComment()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 13:09:15 PDT 2006
+   */
+   protected function __InsertStudyComment($fields)
+   {
+      $table_name = "study_comment";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyTimeline()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 02 15:34:38 PDT 2006
+   */
+   protected function __InsertStudyTimeline($fields)
+   {
+      $table_name = "study_timeline";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyTimelineLog()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 02 15:44:15 PDT 2006
+   */
+   protected function __InsertStudyTimelineLog($fields)
+   {
+      $table_name = "study_timeline_log";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyTimelineComment()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 17:27:27 PDT 2006
+   */
+   protected function __InsertStudyTimelineComment($fields)
+   {
+      $table_name = "study_timeline_comment";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 13:49:22 PDT 2006
+   */
+   protected function __InsertStudyAccount($fields)
+   {
+      $table_name = "study_account";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+   /**
+   * __InsertStudyContact()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 17:35:01 PDT 2006
+   */
+   protected function __InsertStudyContact($fields)
+   {
+      $table_name = "study_contact";
+      $this->__Insert($table_name, $fields);
+      return $this->last_insert_id;
+   }
+
+/***********************************************
+   Protected __Update functions
+***********************************************/
+
+   /**
+   * __UpdateStudy()
+   *
+   * @param
+   * @todo
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:22:38 PDT 2006
+   */
+   protected function __UpdateStudy($study_id, $fields)
+   {
+      $table = "study";
+
+      $where = $this->db->quoteInto('status = ?', 'A')
+             . $this->db->quoteInto(' AND study_id = ?', $study_id);
+
+      $this->__Update($table, $fields, $where);
+      return $this->affected_rows;
+   }
+   /**
+   * __UpdateStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 15:55:47 PDT 2006
+   */
+   protected function __UpdateStudyAttr($study_id, $study_attr_name, $fields)
+   {
+  		/* table to update */
+		$table = 'study_attr';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_id = ?', $study_id)
+		       . $this->db->quoteInto(' AND study_attr = ?', $study_attr_name);
+
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+
+   }
+
+   /**
+   * __UpdateStudyAttrs()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:18:55 PDT 2006
+   */
+   protected function __UpdateStudyAttrs($study_id, $fields)
+   {
+  		/* table to update */
+		$table = 'study_attr';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_id = ?', $study_id);
+
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+   }
+
+   /**
+   * __UpdateStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:03:03 PDT 2006
+   */
+   protected function __UpdateStudyAttrMemo($study_id, $study_attr_name, $fields)
+   {
+  		/* table to update */
+		$table = 'study_attr_memo';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_id = ?', $study_id)
+		       . $this->db->quoteInto(' AND study_attr = ?', $study_attr_name);
+     
+
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+   }
+
+   /**
+   * __UpdateStudyTimelineAttr()
+   *
+   * @param
+   * @todo
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:56:11 PDT 2006
+   */
+   protected function __UpdateStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name, $fields)
+   {
+  		/* table to update */
+		$table = 'study_timeline_attr';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_timeline_id = ?', $study_timeline_id)
+		       . $this->db->quoteInto(' AND study_timeline_attr = ?', $study_timeline_attr_name);
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+   }
+
+   /**
+   * __UpdateStudyAttrsMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:19:41 PDT 2006
+   */
+   protected function __UpdateStudyAttrsMemo($study_id, $fields)
+   {
+  		/* table to update */
+		$table = 'study_attr_memo';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_id = ?', $study_id);
+
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+   }
+
+   /**
+   * __UpdateStudyFiles()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:25:35 PDT 2006
+   */
+   protected function __UpdateStudyFiles($study_id, $fields)
+   {
+      $table = "study_file";
+
+      $where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND study_id = ?', $study_id);
+
+		$this->__Update($table, $fields, $where);
+		return $this->affected_rows;
+
+   }
+
+   /**
+   * __UpdateStudyFile()
+   *
+   * @param -
+   * @return -
+   * @author - Jon Vonica
+   * @since  - Wed Oct 18 11:48:15 PDT 2006
+   */
+   protected function __UpdateStudyFile($study_file_id, $fields)
+   {
+      //TODO add code
+      $table = "study_file";
+
+      $where = $this->db->quoteInto('status = ?', 'A')
+             . $this->db->quoteInto(' AND study_file_id = ?', $study_file_id);
+
+      $this->__Update($table, $fields, $where);
+      return $this->affected_rows;
+   }
+
+   /**
+   * __UpdateStudyTimeline()
+   *
+   * @param
+   * @todo
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 10:04:59 PDT 2006
+   */
+   protected function __UpdateStudyTimeline($study_timeline_id, $fields)
+   {
+      $table_name = "study_timeline";
+
+      $where = $this->db->quoteInto('status = ?', 'A')
+             . $this->db->quoteInto(' AND study_timeline_id = ?', $study_timeline_id);
+
+      $this->__Update($table_name, $fields, $where);
+      return $this->affected_rows;
+   }
+
+   /**
+      * __UpdateStudyAccount()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Wed Aug 23 13:52:18 PDT 2006
+      */
+      protected function __UpdateStudyAccount($study_id, $account_id, $account_type_id, $account_sub_type_id, $fields)
+      {
+         $table_name = "study_account";
+         $where = $this->db->quoteInto("study_id = ?", $study_id)
+                . $this->db->quoteInto(" AND account_id = ?", $account_id)
+                . $this->db->quoteInto(" AND account_type_id = ?", $account_type_id)
+                . $this->db->quoteInto(" AND account_sub_type_id = ?", $account_sub_type_id);
+
+         $this->__Update($table_name, $fields, $where);
+         return $this->affected_rows;
+      }
+
+      /**
+      * __UpdateStudyAccountByID()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Wed Aug 23 14:25:37 PDT 2006
+      */
+      protected function __UpdateStudyAccountByID($study_account_id, $fields)
+      {
+         $table_name = "study_account";
+         $where = $this->db->quoteInto("status = ?", "A")
+                . $this->db->quoteInto(" AND study_account_id = ?", $study_account_id);
+
+         $this->__Update($table_name, $fields, $where);
+         return $this->affected_rows;
+      }
+
+      /**
+      * __UpdateStudyUser()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Wed Aug 23 15:33:14 PDT 2006
+      */
+      protected function __UpdateStudyUserByID($study_user_id, $fields)
+      {
+         $table_name = "study_user";
+         $where = $this->db->quoteInto("status = ?","A")
+                . $this->db->quoteInto(" AND study_user_id = ?", $study_user_id);
+
+         $this->__Update($table_name, $fields, $where);
+         return $this->affected_rows;
+      }
+
+//      /**
+//      * __UpdateStudyContactByID()
+//      *
+//      * @param
+//      * @todo NOT YET COMPLETED
+//      * @return
+//      * @since  - 2.0.1 - Wed Aug 23 15:50:59 PDT 2006
+//      */
+//      protected function __UpdateStudyContactByID($study_contact_id, $fields)
+//      {
+//         $table_name = "study_contact";
+//         $where = $this->db->quoteInto("status = ?","A")
+//                . $this->db->quoteInto(" AND study_contact_id = ?", $study_contact_id);
+//
+//         $this->__Update($table_name, $fields, $where);
+//         return $this->affected_rows;
+//      }
+
+      /**
+      * __UpdateStudyContactByID()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Wed Aug 23 17:45:45 PDT 2006
+      */
+      protected function __UpdateStudyContactByID($study_contact_id, $fields)
+      {
+         $table_name = "study_contact";
+         $where = $this->db->quoteInto("status = ?","A")
+                . $this->db->quoteInto(" AND study_contact_id = ?", $study_contact_id);
+
+         $this->__Update($table_name, $fields, $where);
+         return $this->affected_rows;
+      }
+
+      /**
+      * __UpdateStudyContactsByAccount()
+      *
+      * @param
+      * @todo NOT YET COMPLETED
+      * @return
+      * @since  - 2.0.1 - Fri Aug 25 14:46:23 PDT 2006
+      */
+      protected function __UpdateStudyContactsByAccount($study_account_id, $fields)
+      {
+         $table_name = "study_contact";
+         $where = $this->db->quoteInto("status = ?", "A")
+                . $this->db->quoteInto(" AND study_account_id = ?", $study_account_id);
+         $this->__Update($table_name, $fields, $where);
+      }
+
+/***********************************************************
+   PUBLIC FUNCTIONS
+***********************************************************/
+
+/**************************************
+   Get functions
+**************************************/
+   /**
+   * GetStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 13:01:24 PDT 2006
+   */
+   public function GetStudyAttr($study_id, $study_attr_name)
+   {
+      return $this->__GetStudyAttr(
+         array(
+            "study_id"     => $study_id,
+            "study_attr"   => $study_attr_name));
+   }
+
+   /**
+   * GetStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:03:47 PDT 2006
+   */
+   public function GetStudyAttrMemo($study_id, $study_attr_name)
+   {
+      return $this->__GetStudyAttrMemo(
+         array(
+            "study_id"=>$study_id,
+            "study_attr"=>$study_attr_name));
+   }
+
+   /**
+   * GetStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:49:26 PDT 2006
+   */
+   public function GetStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name)
+   {
+      return $this->__GetStudyTimelineAttr(
+         array(
+            "study_timeline_id"     => $study_timeline_id,
+            "study_timeline_attr"   => $study_timeline_attr_name));
+   }
+
+   /**
+   * GetStudyAttrDef()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 11:31:27 PDT 2006
+   */
+   public function GetStudyAttrDef($study_attr_name)
+   {
+      return $this->__GetStudyAttrDef(array("study_attr" => $study_attr_name));
+   }
+
+   /**
+   * GetStudyAttrDefs()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 18:43:18 PDT 2006
+   */
+   public function GetStudyAttrDefs()
+   {
+      return $this->__GetStudyAttrDefs();
+   }
+
+   /**
+   * GetStudyAttrByID()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 11:26:02 PDT 2006
+   */
+   public function GetStudyAttrByID($study_attr_id)
+   {
+      $where = array("study_attr_id"=>$study_attr_id);
+      return $this->__GetStudyAttr($where);
+   }
+
+   /**
+   * GetStudyAttrHistory()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 11:34:32 PDT 2006
+   */
+   public function GetStudyAttrHistory($study_attr_id, $desc=false)
+   {
+      $this->SetSelect();
+      $this->select->from(array("sah" => "study_attr_history", array("study_attr_history_id", "study_attr_id", "created_by", "created_date", "study_attr_value")));
+      
+      if ($desc) {
+         $this->select->joinLeft(array("u" => "user"), "u.login = sah.created_by", array("first_name", "last_name"));
+         $this->select->joinLeft(array("sa" => "study_attr"), "sa.study_attr_id = sah.study_attr_id", array("study_attr", "study_id"));
+         $this->select->joinLeft(array("sad" => "study_attr_def"), "sad.study_attr = sa.study_attr", array("study_attribute_description", "attribute_type"));
+      }
+      
+      
+      $this->select->where("sah.study_attr_id = ?", $study_attr_id);
+      $this->select->order("sah.created_date DESC");
+      
+      return $this->db->fetchAll($this->select);
+   }
+
+   /**
+   * GetStudyNameAndAccount()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 11:44:55 PDT 2006
+   */
+   public function GetStudyNameAndAccount($study_id)
+   {
+      $fields = array(
+         "study_id",
+         "study_name",
+         "partner_id");
+         
+      $where = array(
+         array("field"     => "s.status",
+               "operator"  => "= ?",
+               "value"     => "A"),
+         array("field"     => "s.study_id",
+               "operator"  => "= ?",
+               "value"     => $study_id));
+               
+      $joins = array(
+         array(
+            "table"  => array("sa" => "study_attr"),
+            "on"     => "sa.study_id = s.study_id AND sa.study_attr = 'ACCOUNT_NAME'",
+            "fields" => array("account_name" => "study_value")));
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyHeader()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sat Jul 29 09:44:18 PDT 2006
+   */
+   public function GetStudyDetailForSamplePlanMessage($study_id)
+   {
+      $joins = array(
+         array(
+            "table"     => array("sa_account_name" => "study_attr"),
+            "on"        => "sa_account_name.study_id = s.study_id AND sa_account_name.study_attr='ACCOUNT_NAME'",
+            "fields"    => array("company_name" => "study_value")),
+         array(
+            "table"     => array("al" => "alert_level"),
+            "on"        => "al.alert_level_id = s.alert_level_id",
+            "fields"    => array("alert_level_description")),
+         array(
+            "table"     => array("st" => "study_type"),
+            "on"        => "st.study_type_id = s.study_type_id",
+            "fields"    => array("study_type_description")));
+      $where = array(
+         array("field"     => "s.status",
+               "operator"  => "= ?",
+               "value"     => "A"),
+         array("field"     => "s.study_id",
+               "operator"  => "= ?",
+               "value"     => $study_id));
+      $fields = array(
+         "study_id",
+         "study_name",
+         "start_date",
+         "study_type_id",
+         "alert_level_id",
+         "partner_id",
+         "created_date");
+
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   public function GetStudySampleTypes($study_id)
+   {
+   	$joins = array(
+         array(
+            "table"        => array("st" => "sample_type"),
+            "on"           => "st.sample_type_id = sst.sample_type_id",
+            "fields"       => array("sample_type_id", "sample_type_description")));
+      $where = array(
+         array("field"     => "sst.status",
+               "operator"  => "=",
+               "value"     => "A"),
+         array("field"     => "sst.study_id",
+               "operator"  => "=",
+               "value"     => $study_id));
+      $fields = array();
+   	return $this->__GetStudySampleType($fields, $where, $joins);
+   }
+   /**
+   * GetStudyDetailsForPriority()
+   *
+   * @param -
+   * @return -
+   * @author - Jon Vonica
+   * @since  - Tue Oct 24 12:30:50 PDT 2006
+   */
+   public function GetStudyDetailsForPriority($study_id = array())
+   {
+      //TODO add code
+      $joins = array(
+         array(
+            "table"        => array("sa_completes" => "study_attr"),
+            "on"           => "sa_completes.study_id = s.study_id AND sa_completes.study_attr = 'N_COMPLETE'",
+            "fields"       => array("completes" => "study_value")),
+         array(
+            "table"        => array("sa_value" => "study_attr"),
+            "on"           => "sa_value.study_id = s.study_id AND sa_value.study_attr = 'PVALUE'",
+            "fields"       => array("value" => "study_value")),
+         array(
+            "table"        => array("sa_tier" => "study_attr"),
+            "on"           => "sa_tier.study_id = s.study_id AND sa_tier.study_attr = 'GLOBAL_ACCOUNT_TIER_LEVEL'",
+            "fields"       => array("account_tier" => "study_value")));
+
+      $where = array(
+         array("field"     => "s.status",
+               "operator"  => "= ?",
+               "value"     => "A"),
+         array("field"     => "s.study_status_id",
+               "operator"  => "= ?",
+               "value"     => 1),
+         array("field"     => "s.current_estimated_complete_date",
+               "operator"  => "!= ?",
+               "value"     => "0000-00-00 00:00:00"));
+      if (!empty($study_id)) {
+         $where[] =
+         array("field"     => "s.study_id",
+               "operator"  => "IN(?)",
+               "value"     => $study_id);
+      }
+      $fields = array(
+         "study_id",
+         "alert_level_id",
+         "study_type_id",
+         "study_name",
+         "study_status_id",
+         "study_stage_id",
+         "current_estimated_complete_date");
+      //echo ("<pre>".print_r($fields, true).print_r($where, true).print_r($joins, true)."</pre>");
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyFileTypes()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Jul 28 20:49:50 PDT 2006
+   */
+   public function GetStudyFileTypes()
+   {
+      return $this->__GetStudyFileTypes();
+   }
+
+   /**
+   * GetStudyUsers()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sat Jul 29 11:57:12 PDT 2006
+   */
+   public function GetStudyUsers($study_id, $desc=true)
+   {
+      $joins = array();
+
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("u" => "user"),
+               "on"        => "u.login = su.login",
+               "fields"    => array("first_name", "last_name", "name" => new Zend_Db_Expr("CONCAT(u.first_name, ' ', u.last_name)"))),
+            array(
+               "table"     => array("r" => "role"),
+               "on"        => "r.role_id = su.role_id",
+               "fields"    => array("role_description")));
+      }
+
+      $where = array(
+         "su.status"    => "A",
+         "su.study_id"  => $study_id);
+
+      return $this->__GetStudyUsers($where, $joins);
+   }
+
+   /**
+   * GetStudyType()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Tue Aug 01 13:39:24 PDT 2006
+   */
+   public function GetStudyType($study_id, $desc = false)
+   {
+      $fields = array(
+         "study_id",
+         "study_type_id");
+
+      $where = array(
+         array("field"     => "s.status",
+               "operator"  => "= ?",
+               "value"     => "A"),
+         array("field"     => "s.study_id",
+               "operator"  => "= ?",
+               "value"     => $study_id));
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("st" => "study_type"),
+               "on"        => "st.study_type_id = s.study_type_id",
+               "fields"    => array("study_type_description")));
+      }
+
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyTimelineCreatedDate()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 18:57:29 PDT 2006
+   */
+   public function GetStudyTimelineCreatedDate($study_id)
+   {
+      $fields = array(
+         "study_id",
+         "timeline_created_date" => new Zend_Db_Expr("DATE_FORMAT(CONVERT_TZ(s.timeline_created_date ,'+00:00','".$this->tz."'),'%Y-%m-%d %H:%i:%S')"));
+      $where = array(
+         array("field"     => "s.status",
+               "operator"  => "= ?",
+               "value"     => "A"),
+         array("field"     => "s.study_id",
+               "operator"  => "= ?",
+               "value"     => $study_id));
+
+      return $this->__GetStudy($fields, $where);
+   }
+
+   /**
+   * GetStudyTypeTasks()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Tue Aug 01 13:59:19 PDT 2006
+   */
+   public function GetStudyTypeTasks($study_type_id)
+   {
+      $this->SetSelect();
+
+      $this->select->from(array("stt" => "study_type_task"), array("study_task_id", "task_duration", "sort_order"));
+
+      $this->select->joinLeft(array("st" => "study_task"), "st.study_task_id = stt.study_task_id", array("primary_task", "study_task_description"));
+
+      $this->select->where("stt.status = ?", "A");
+      $this->select->where("stt.study_task_id != ?", 26);
+      $this->select->where("stt.study_type_id = ?", $study_type_id);
+
+      $this->select->order("stt.sort_order");
+
+      return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * GetStudyTimelineTaskOwners()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 15:29:32 PDT 2006
+   */
+   public function GetStudyTimelineTaskOwners($study_id, $desc=false)
+   {
+      $fields = array(
+         "study_timeline_id",
+         "login",
+         "functional_group_id");
+
+      $where = array(
+         array(
+            "field"     => "st.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "st.study_id",
+            "operator"  => "=",
+            "value"     => $study_id));
+
+      $joins = array();
+      if ($desc)
+         $joins = array(
+            array(
+               "table"     => array("u" => "user"),
+               "on"        => "u.login = st.login",
+               "fields"    => array("first_name", "last_name", "email_address")));
+
+      return $this->__GetStudyTimeline($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineTaskComments()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sun Aug 06 08:56:02 PDT 2006
+   */
+   public function GetTimelineTaskComments($study_timeline_id, $desc = false)
+   {
+      $fields = array(
+         "study_timeline_comment_id",
+         "notes",
+         "created_by",
+         "comment_date" => new Zend_Db_Expr("DATE_FORMAT(CONVERT_TZ(stc.created_date,'+00:00','".$this->tz."'),'%Y-%m-%d %h:%i %p')"));
+      $where = array(
+         array(
+            "field"     => "stc.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "stc.study_timeline_id",
+            "operator"  => "=",
+            "value"     => $study_timeline_id));
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("u" => "user"),
+               "on"        => "u.login = stc.created_by",
+               "fields"    => array("first_name", "last_name")));
+      }
+
+      return $this->__GetStudyTimelineComment($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineDetailsForSchedule()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 16:35:15 PDT 2006
+   */
+   public function GetTimelineDetailsForSchedule($study_id)
+   {
+      $fields = array(
+         "study_timeline_id",
+         "login");
+
+      $where = array(
+         array(
+            "field"     => "st.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "st.study_id",
+            "operator"  => "=",
+            "value"     => $study_id));
+
+      $joins = array(
+         array(
+            "table"     => array("t" => "study_task"),
+            "on"        => "t.study_task_id = st.study_task_id",
+            "fields"    => array("study_task_description")),
+         array(
+            "table"     => array("sta" => "study_timeline_attr"),
+            "on"        => "sta.study_timeline_id = st.study_timeline_id AND sta.study_timeline_attr = 'CUREST' AND sta.status='A'",
+            "fields"    => array("curest_date" => new Zend_Db_Expr("DATE_FORMAT(CONVERT_TZ(sta.study_timeline_value,'+00:00','".$this->tz."'), '%Y-%m-%d %h:%i %p')"))),
+         array(
+            "table"     => array("u" => "user"),
+            "on"        => "u.login = st.login",
+            "fields"    => array("task_owner" => "CONCAT(u.first_name, ' ', u.last_name)")),
+         array(
+            "table"     => array("fg" => "functional_group"),
+            "on"        => "fg.functional_group_id = st.functional_group_id",
+            "fields"    => array("functional_group_description")));
+
+      return $this->__GetStudyTimeline($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineDetailsForUpdate()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.l1 - Fri Aug 04 12:18:39 PDT 2006
+   */
+   public function GetTimelineDetailsForUpdate($study_id)
+   {
+      $fields = array(
+         "study_timeline_id",
+         "study_task_id",
+         "login",
+         "functional_group_id",
+         "sort_order",
+         "task_duration");
+
+      $where = array(
+         array(
+            "field"     => "st.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "st.study_id",
+            "operator"  => "=",
+            "value"     => $study_id));
+
+      $joins = array(
+         array(
+            "table"     => array("t" => "study_task"),
+            "on"        => "t.study_task_id=st.study_task_id",
+            "fields"    => array("primary_task")),
+         array(
+            "table"     => array("sta" => "study_timeline_attr"),
+            "on"        => "sta.study_timeline_id=st.study_timeline_id AND sta.study_timeline_attr='COMPDATE' AND sta.status='A'",
+            "fields"    => array("comp_date" => new Zend_Db_Expr("DATE_FORMAT(CONVERT_TZ(sta.study_timeline_value,'+00:00','".$this->tz."'),'%Y-%m-%d %h:%i %p')"))),
+         array(
+            "table"     => array("curest" => "study_timeline_attr"),
+            "on"        => "curest.study_timeline_id=st.study_timeline_id AND curest.study_timeline_attr='CUREST' AND curest.status='A'",
+            "fields"    => array("mil_curest_date" => new Zend_Db_Expr("DATE_FORMAT(CONVERT_TZ(curest.study_timeline_value,'+00:00','".$this->tz."'),'%Y-%m-%d %H:%i:%S')"))));
+
+       return $this->__GetStudyTimeline($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineDetails()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 12:59:59 PDT 2006
+   */
+   public function GetTimelineTaskDetails($study_timeline_id, $desc = false)
+   {
+      $fields = array(
+         "study_timeline_id",
+         "study_id",
+         "study_task_id",
+         "task_duration",
+         "functional_group_id",
+         "login");
+      $where = array(
+         array(
+            "field"     => "st.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "st.study_timeline_id",
+            "operator"  => "=",
+            "value"     => $study_timeline_id));
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"  => array("t" => "study_task"),
+               "on"     => "t.study_task_id = st.study_task_id",
+               "fields" => array("primary_task", "study_task_description")),
+            array(
+               "table"  => array("fg" => "functional_group"),
+               "on"     => "fg.functional_group_id = st.functional_group_id",
+               "fields" => array("functional_group_description")),
+            array(
+               "table"  => array("u" => "user"),
+               "on"     => "u.login = st.login",
+               "fields" => array("first_name", "last_name")),
+            array(
+               "table"  => array("sta" => "study_timeline_attr"),
+               "on"     => "sta.study_timeline_id = st.study_timeline_id AND sta.study_timeline_attr = 'CUREST' AND sta.status='A'",
+               "fields" => array("estimated_due_date" => "study_timeline_value")),
+            array(
+               "table"  => array("comp" => "study_timeline_attr"),
+               "on"     => "comp.study_timeline_id = st.study_timeline_id AND comp.study_timeline_attr = 'COMPDATE' AND sta.status='A'",
+               "fields" => array("completed_date" => "study_timeline_value")),
+            array(
+               "table"  => array("comp_by" => "study_timeline_attr"),
+               "on"     => "comp_by.study_timeline_id = st.study_timeline_id AND comp_by.study_timeline_attr = 'COMPBY' AND sta.status='A'",
+               "fields" => array("completed_by_login" => "study_timeline_value")),
+            array(
+               "table"  => array("c" => "user"),
+               "on"     => "c.login = comp_by.study_timeline_value",
+               "fields" => array("completed_by_first_name" => "first_name", "completed_by_last_name" => "last_name")));
+      }
+
+      return $this->__GetStudyTimeline($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineTaskWatchers()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sun Aug 06 08:42:10 PDT 2006
+   */
+   public function GetTimelineTaskWatchers($study_timeline_id, $desc = false)
+   {
+      $fields = array(
+         "study_timeline_user_id",
+         "login");
+
+      $where = array(
+         array(
+            "field"     => "stu.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "stu.study_timeline_id",
+            "operator"  => "=",
+            "value"     => $study_timeline_id));
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("u" => "user"),
+               "on"        => "u.login = stu.login",
+               "fields"    => array("first_name", "last_name", "email_address")));
+      }
+
+      return $this->__GetStudyTimelineUser($fields, $where, $joins);
+   }
+
+   /**
+   * GetTimelineLastCompletedPrimary()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 15:36:04 PDT 2006
+   */
+   public function GetTimelineLastCompletedPrimary($study_id)
+   {
+      $fields = array(
+         "study_timeline_id",
+         "study_task_id");
+      $where = array(
+         array(
+            "field"     => "st.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "st.study_id",
+            "operator"  => "=",
+            "value"     => $study_id),
+         array(
+            "field"     => "st.login",
+            "operator"  => "!=",
+            "value"     => "0"),
+         array(
+            "field"     => "sta.study_timeline_value",
+            "operator"  => "IS NOT NULL"),
+         array(
+            "field"     => "t.primary_task",
+            "operator"  => "=",
+            "value"     => "1"));
+
+      $joins = array(
+         array(
+            "table"     => array("sta" => "study_timeline_attr"),
+            "on"        => "sta.study_timeline_id=st.study_timeline_id AND sta.study_timeline_attr='COMPDATE' AND sta.status='A'",
+            "fields"    => array("study_timeline_value")),
+         array(
+            "table"     => array("t" => "study_task"),
+            "on"        => "t.study_task_id=st.study_task_id",
+            "fields"    => array("primary_task")));
+
+      $this->__GetStudyTimeline($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyStageByTypeAndTask()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 13:09:29 PDT 2006
+   */
+   public function GetStudyStageByTypeAndTask($study_type_id, $study_task_id, $desc = false)
+   {
+      $fields = array(
+         "study_task_id",
+         "study_type_id",
+         "study_stage_id");
+
+      $where = array(
+         "stt.status"      => "A",
+         "stt.study_type_id"  => $study_type_id,
+         "stt.study_task_id"  => $study_task_id);
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("type" => "study_type"),
+               "on"        => "type.study_type_id = stt.study_type_id",
+               "fields"    => array("study_type_description")),
+            array(
+               "table"     => array("task" => "study_task"),
+               "on"        => "task.study_task_id = stt.study_task_id",
+               "fields"    => array("study_task_description")),
+            array(
+               "table"     => array("stage" => "study_stage"),
+               "on"        => "stage.study_stage_id = stt.study_stage_id",
+               "fields"    => array("study_stage_description")));
+      }
+
+      return $this->__GetStudyTypeTask($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyTimelineAlertRecipients()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Sat Aug 05 07:28:33 PDT 2006
+   */
+   public function GetStudyTimelineAlertRecipients($study_timeline_id, $desc = false)
+   {
+      $fields = array(
+         "study_timeline_alert_id",
+         "login",
+         "alert_mobile",
+         "alert_email",
+         "alert_jabber");
+
+      $where = array(
+         "sta.status"            => "A",
+         "sta.study_timeline_id" => $study_timeline_id);
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("u" => "user"),
+               "on"        => "u.login = sta.login",
+               "fields"    => array("first_name", "last_name")));
+      }
+
+      return $this->__GetStudyTimelineAlert($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyAccounts()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 10:55:27 PDT 2006
+   */
+   public function GetStudyAccounts($study_id, $desc=false, $account_type_id=array(), $account_subtype_id=array())
+   {
+      $fields = array(
+         "study_account_id",
+         "study_id",
+         "account_id",
+         "account_name",
+         "account_type_id",
+         "account_sub_type_id");
+      $where = array(
+         array(
+            "field"     => "sa.status",
+            "operator"  => "=",
+            "value"     => "A"),
+         array(
+            "field"     => "sa.study_id",
+            "operator"  => "=",
+            "value"     => $study_id));
+      if (is_array($account_type_id) && !empty($account_type_id)) {
+         $where[] = array(
+            "field"     => "sa.account_type_id",
+            "operator"  => "IN (".implode(", ", $account_type_id).")");
+      }
+
+      if (is_array($account_subtype_id) && !empty($account_subtype_id)) {
+         $where[] = array(
+            "field"     => "sa.account_subtype_id",
+            "operator"  => "IN (".implode(", ", $account_subtype_id).")");
+      }
+
+      $joins = array();
+      if ($desc) {
+         $joins = array(
+            array(
+               "table"     => array("at" => "account_type"),
+               "on"        => "at.account_type_id = sa.account_type_id",
+               "fields"    => array("account_type_description")),
+            array(
+               "table"     => array("ast" => "account_sub_type"),
+               "on"        => "ast.account_sub_type_id = sa.account_sub_type_id",
+               "fields"    => array("account_sub_type_description")));
+      }
+
+      return $this->__GetStudyAccount($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 13:44:36 PDT 2006
+   */
+   public function GetStudyAccount($study_id, $account_id, $account_type_id, $account_subtype_id)
+   {
+      $fields = array(
+         "study_account_id",
+         "account_name");
+      $where = array(
+         array(
+            "field"     => "sa.study_id",
+            "operator"  => "=",
+            "value"     => $study_id),
+         array(
+            "field"     => "sa.account_id",
+            "operator"  => "=",
+            "value"     => $account_id),
+         array(
+            "field"     => "sa.account_type_id",
+            "operator"  => "=",
+            "value"     => $account_type_id),
+         array(
+            "field"     => "sa.account_sub_type_id",
+            "operator"  => "=",
+            "value"     => $account_subtype_id));
+      return $this->__GetStudyAccount($fields, $where);
+   }
+
+   /**
+   * GetStudyAccountByID()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 17:11:41 PDT 2006
+   */
+   public function GetStudyAccountByID($study_account_id)
+   {
+      $fields = array(
+         "study_account_id",
+         "study_id",
+         "account_id",
+         "account_name",
+         "account_type_id",
+         "account_sub_type_id");
+      $where = array(
+         array(
+            "field"     => "sa.study_account_id",
+            "operator"  => "=",
+            "value"     => $study_account_id));
+
+      return $this->__GetStudyAccount($fields, $where);
+   }
+
+   /**
+   * GetStudyContactStatusByID()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 25 14:01:54 PDT 2006
+   */
+   public function GetStudyContactStatusByID($study_contact_id)
+   {
+      $fields = array(
+         "study_contact_id",
+         "status");
+      $where = array(
+         array(
+            "field"     => "sc.study_contact_id",
+            "operator"  => "=",
+            "value"     => $study_contact_id));
+      return $this->__GetStudyContact($fields, $where);
+   }
+
+   /**
+   * GetStudiesForProfitability()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Dec 14 05:37:20 PST 2006
+   */
+   public function GetStudiesForProfitability($include_all=false)
+   {
+
+   	$attrs = array(
+			'PVALUE'       => 'project_estimated_value',
+			'N_COMPLETE_GMI' => 'number_of_gmi_completes',
+			'NUMBER_COMPLETED_GTM' => 'gtm_completes',
+			'NUMBER_SCREENED_GTM' => 'gtm_screeners',
+			'NUMBER_INCOMPLETE_GTM' => 'gtm_incompletes',
+			'MAX_INCIDENCE' => "max_incidence",
+			'TABHR' => 'data_delivery_cost',
+			'GMI_PROG' => 'gmi_programming',
+			'DDHOUR' => 'data_delivery_hours',
+			'TOTALQP' => 'questions_programmed',
+			'GMI_DATA_PROCESSING' => 'data_processing',
+			'PJM_STMC_MARKET_POINTS' => 'market_points', // market points
+			'PJM_STMC_MARKET_POINTS_SCREEND' => 'market_points_screened_out' // market point screened out
+		);
+  
+  
+		$cost = array(
+			2 => 'cost_translation',
+			3 => 'cost_panel',
+			4 => 'cost_sb'
+		);
+
+      $role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+
+		$fields = array('study_id', 'study_status_id', 'status');
+		if (!$include_all) {
+         $where = array(
+                    array("field"=>"s.study_status_id", "operator"=>"= ?", "value"=>"1"),
+                    array("field"=>"stla1.study_timeline_value", "operator"=>">= ?", "value"=>date("Y-m-d h:i:s", time()-60*24), "or"=>true));
+		}
+      $joins = array(
+         array(
+            "table"     => array("stl" => "study_timeline"),
+            "on"        => "stl.study_id = s.study_id AND stl.study_task_id = 17 AND stl.status='A'",
+            "fields"    => array("study_task_id")),
+         array(
+            "table"     => array("stla1" => "study_timeline_attr"),
+            "on"        => "stla1.study_timeline_id = stl.study_timeline_id AND stla1.study_timeline_attr = 'COMPDATE' AND stla1.status='A'",
+            "fields"    => array("study_close_date" => "study_timeline_value")),
+         array(
+            "table"     => array("stla2" => "study_timeline_attr"),
+            "on"        => "stla2.study_timeline_id = stl.study_timeline_id AND stla2.study_timeline_attr = 'CUREST' AND stla2.status='A'",
+            "fields"    => array("study_close_date_estimated" => "study_timeline_value")));
+      foreach ($attrs AS $attr_name=>$field_name) {
+         $joins[] = array(
+                        "table"      => array("sa_".$attr_name => "study_attr"),
+                        "on"         => "sa_$attr_name.study_id = s.study_id AND sa_$attr_name.study_attr='$attr_name'",
+                        "fields"     => array($field_name => "study_value"));
+      }
+
+      foreach ($cost AS $cost_type_id=>$label) {
+         $joins[] = array(
+                        "table"      => array("sc_".$cost_type_id => "study_cost"),
+                        "on"         => "sc_$cost_type_id.study_id = s.study_id AND sc_$cost_type_id.study_cost_type_id='$cost_type_id' AND sc_$cost_type_id.status='A'",
+                        "fields"     => array($label."_proposed" => new Zend_Db_Expr("SUM(sc_".$cost_type_id.".proposed_rate * sc_".$cost_type_id.".proposed_quantity)"),
+                                              $label."_actual" => new Zend_Db_Expr("SUM(sc_".$cost_type_id.".actual_rate * sc_".$cost_type_id.".actual_quantity)")));
+      }
+
+      foreach ($role AS $role_id=>$label) {
+         $joins[] = array(
+                        "table"      => array("su_".$role_id => "study_user"),
+                        "on"         => "su_$role_id.study_id = s.study_id AND su_$role_id.role_id='$role_id' AND su_$role_id.status='A'",
+                        "fields"     => array($label."_login" => "login"));
+      }
+      //echo ("<pre>".print_r($fields, true).print_r($where,true).print_r($joins,true)."</pre>");
+
+      return $this->__GetStudy($fields, $where, $joins, true);
+   }
+
+   /**
+   * GetStudyAlerts()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Dec 14 07:42:30 PST 2006
+   */
+   public function GetStudyAlerts($study_id, $descr=false)
+   {
+      $fields = array("study_comment_id", "study_id", "department_id", "comment_type_id", "comment_date", "alert_level_id", "notes", "comment_reported", "comment_reported_date");
+      $where = array(
+         array(
+            "field"     => "sc.study_id",
+            "operator"  => "=",
+            "value"     => $study_id),
+         array(
+            "field"     => "sc.comment_type_id",
+            "operator"  => "=",
+            "value"     => 1));
+      $joins = array();
+      if ($descr) {
+         $joins = array(
+            array(
+               "table"     => array("d" => "department"),
+               "on"        => "d.department_id = sc.department_id",
+               "fields"    => array("department_description" => "department")),
+            array(
+               "table"     => array("al" => "alert_level"),
+               "on"        => "al.alert_level_id = sc.alert_level_id",
+               "fields"    => array("alert_level_description")));
+      }
+
+      return $this->__GetStudyComments($fields, $where, $joins);
+   }
+   
+   /**
+    * Retrieve Study Comments
+    *
+    * @param int $study_id Study Id
+    * @param int $comment_type_id
+    * @param int $comment_id
+    * @return array
+    */ 
+   function GetStudyComments($study_id, $comment_type_id, $comment_id = null) 
+   { 
+   	 $fields = array("study_comment_id", "study_id", "created_date", "created_by", "notes");
+   	 $where  = array(
+   	 		 array(
+            "field"     => "sc.study_id",
+            "operator"  => "=",
+            "value"     => $study_id),
+            array(
+            "field"     => "sc.comment_type_id",
+            "operator"  => "=",
+            "value"     => $comment_type_id)
+        );
+        		       
+       if(!is_null($comment_id) && is_numeric($comment_id)) {
+       	$where[2] = array(
+            "field"     => "study_comment_id",
+            "operator"  => "=",
+            "value"     => $comment_id);
+           
+         $join = array();
+       }  
+      
+      $sort = array('field' => 'study_comment_id', 'order' => 'DESC');
+      		
+      return $this->__GetStudyComments($fields, $where, array(), $sort);
+   }
+
+   /**
+   * GetStudyDatasources()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Tue Jan 23 09:47:12 PST 2007
+   */
+   public function GetStudyDatasources($study_id, $descr=false)
+   {
+      $fields = array("study_study_datasource_id", "study_id", "study_datasource_id");
+      $where = array(
+         array("field" => "ssd.study_id", "operator" => " = ?", "value" => $study_id),
+         array("field" => "ssd.status", "operator" => " = ?", "value" => "A"));
+      $joins = array();
+      if ($descr) {
+         $joins = array(
+            array("table" => array("sd" => "study_datasource"), "on" => "sd.study_datasource_id = ssd.study_datasource_id", "fields"=>array("study_datasource_description")));
+      }
+      return $this->__GetStudyDatasource($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudySetting()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Thu Jan 25 11:57:27 PST 2007
+   */
+   public function GetStudySetting($study_setting_name)
+   {
+      $fields = array("study_setting_name", "study_setting_value");
+      $where = array(
+         array("field" => "ss.study_setting_name", "operator" => " = ?", "value" => $study_setting_name),
+         array("field" => "ss.status", "operator" => " = ?", "value" => "A"));
+      return $this->__GetStudySetting($fields, $where);
+   }
+
+   /**
+   * GetStudiesForRouterUpdate()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Thu Jan 25 13:47:29 PST 2007
+   */
+   public function GetStudiesForRouterUpdate()
+   {
+		$attrs = array('ROUTED_CLIENT_APPROVED', 'ROUTED_SB_APPROVED', 'ROUTED_PRIORITY', 'ROUTED_PRIORITY_OVERRIDE', 'ROUTED_SYSTEMS_DISABLED', 'ROUTED_UPDATED_APPROVED', 'ROUTED_UPDATED_PRIORITY');
+
+		$fields = array('study_id', 'study_name');
+		foreach ($attrs AS $attr_name) {
+         $joins[] = array(
+                        "table"      => array("sa_".$attr_name => "study_attr"),
+                        "on"         => "sa_$attr_name.study_id = s.study_id AND sa_$attr_name.study_attr='$attr_name'",
+                        "fields"     => array($attr_name => "study_value"));
+      }
+
+      $where = array(
+         array("field"=>"s.status", "operator"=>" = ?", "value"=>"A"),
+         array("field"=>"(sa_ROUTED_UPDATED_APPROVED.study_value", "operator"=>" = ?", "value"=>"on"),
+         array("field"=>"sa_ROUTED_UPDATED_PRIORITY.study_value", "operator"=>" = ?)", "value"=>"on", "or"=>true));
+      //echo ("<pre>".print_r($fields, true).print_r($where,true).print_r($joins,true)."</pre>");
+
+      return $this->__GetStudy($fields, $where, $joins);
+
+   }
+
+   /**
+   * GetStudyDetailsForRouter()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Jan 31 09:06:57 PST 2007
+   */
+   public function GetStudyDetailsForRouter($study_id)
+   {
+      $attrs = array('ROUTED_CLIENT_APPROVED', 'ROUTED_SB_APPROVED', 'ROUTED_PRIORITY', 'ROUTED_PRIORITY_OVERRIDE', 'ROUTED_SYSTEMS_DISABLED', 'ROUTED_UPDATED_APPROVED', 'ROUTED_UPDATED_PRIORITY');
+
+      $fields = array('study_id', 'study_name');
+		foreach ($attrs AS $attr_name) {
+         $joins[] = array(
+                        "table"      => array("sa_".$attr_name => "study_attr"),
+                        "on"         => "sa_$attr_name.study_id = s.study_id AND sa_$attr_name.study_attr='$attr_name'",
+                        "fields"     => array($attr_name => "study_value"));
+      }
+
+      $where = array(
+         array("field"=>"s.status", "operator"=>" = ?", "value"=>"A"),
+         array("field"=>"s.study_id", "operator"=>" = ?", "value"=>$study_id));
+      //echo ("<pre>".print_r($fields, true).print_r($where,true).print_r($joins,true)."</pre>");
+
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudies()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Wed Jan 31 15:22:28 PST 2007
+   */
+   public function GetStudiesForSystemsRouter($study_id, $study_name)
+   {
+      $attrs = array('ACCOUNT_NAME', 'ROUTED_CLIENT_APPROVED', 'ROUTED_SB_APPROVED', 'ROUTED_PRIORITY', 'ROUTED_PRIORITY_OVERRIDE', 'ROUTED_SYSTEMS_DISABLED');
+      $fields = array('study_id', 'study_name', 'account_id'=>'partner_id');
+		foreach ($attrs AS $attr_name) {
+         $joins[] = array(
+                        "table"      => array("sa_".$attr_name => "study_attr"),
+                        "on"         => "sa_$attr_name.study_id = s.study_id AND sa_$attr_name.study_attr='$attr_name'",
+                        "fields"     => array($attr_name => "study_value"));
+      }
+
+      $where = array(array("field"=>"s.status", "operator"=>" = ?", "value"=>"A"));
+      if ($study_id != "") {
+         $where[] = array("field"=>"s.study_id", "operator"=>"= ?", "value"=>$study_id);
+      }
+      if ($study_name != "") {
+         $where[] = array("field"=>"s.study_name", "operator"=>"LIKE '%".$study_name."%'");
+      }
+      //echo ("<pre>".print_r($fields, true).print_r($where,true).print_r($joins,true)."</pre>");
+
+      return $this->__GetStudy($fields, $where, $joins);
+   }
+
+   /**
+   * GetStudyAlertLevel()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Tue Feb 20 19:30:14 PST 2007
+   */
+   
+   public function GetStudyAlertLevel($study_id)
+   {
+      $fields = array("study_id", "alert_level_id");
+      $where = array(
+         array("field" => "study_id", "operator" => " = ?", "value" => $study_id));
+
+      return $this->__GetStudy($fields, $where);
+   }
+
+/**************************************
+   Insert functions
+**************************************/
+   /**
+   * InsertStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 15:47:37 PDT 2006
+   */
+   public function InsertStudyAttr($study_id, $study_attr_name, $study_attr_value)
+   {
+      $fields = array(
+         "study_id"     => $study_id,
+         "study_attr"   => $study_attr_name,
+         "study_value"  => $study_attr_value);
+
+      return $this->__InsertStudyAttr($fields);
+   }
+
+   /**
+   * InsertStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:04:14 PDT 2006
+   */
+   public function InsertStudyAttrMemo($study_id, $study_attr_name, $study_attr_value)
+   {
+      $fields = array(
+         "study_id"     => $study_id,
+         "study_attr"   => $study_attr_name,
+         "study_value"  => $study_attr_value);
+
+      return $this->__InsertStudyAttrMemo($fields);
+   }
+
+   /**
+   * InsertStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:53:29 PDT 2006
+   */
+   public function InsertStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name, $study_timeline_attr_value)
+   {
+      $fields = array(
+         "study_timeline_id"        => $study_timeline_id,
+         "study_timeline_attr"      => $study_timeline_attr_name,
+         "study_timeline_value"     => $study_timeline_attr_value);
+
+      return $this->__InsertStudyTimelineAttr($fields);
+   }
+
+   /**
+   * InsertStudyTimelineAttrDirectQuery()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 09:16:01 PDT 2006
+   */
+   public function InsertStudyTimelineAttrDirectQuery($study_timeline_id, $study_timeline_attr_name, $study_timeline_attr_value)
+   {
+   	
+      $q = "INSERT INTO study_timeline_attr (`study_timeline_id`, `study_timeline_attr`, `study_timeline_value`, `created_by`, `created_date`, `status`) ";
+      $q .= "VALUES ('$study_timeline_id', '$study_timeline_attr_name', $study_timeline_attr_value, '".$_SESSION["admin_id"]."', NOW(), 'A')";
+
+      $this->db->query($q);
+      $this->last_insert_id = $this->db->lastInsertId();
+      return $this->last_insert_id;
+   }
+
+   /**
+   * InsertStudyAttrHistory()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 19:30:13 PDT 2006
+   */
+   public function InsertStudyAttrHistory($study_attr_id, $study_attr_value)
+   {
+      $fields = array(
+         "study_attr_id"=>$study_attr_id,
+         "study_attr_value"=>$study_attr_value);
+      return $this->__InsertStudyAttrHistory($fields);
+   }
+
+   /**
+   * InsertStudyEventLog()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:12:05 PDT 2006
+   */
+   public function InsertStudyEventLog($study_id, $study_event_type_id)
+   {
+      $fields = array(
+         "study_id"=>$study_id,
+         "study_event_id"=>$study_event_type_id,
+         "login"=>$_SESSION["admin_id"],
+         "remote_address"=>$_SERVER['REMOTE_ADDR'],
+         "user_agent"=>$_SERVER['HTTP_USER_AGENT']);
+      return $this->__InsertStudyEventLog($fields);
+   }
+
+   /**
+   * InsertStudyFile()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 20:37:31 PDT 2006
+   */
+   public function InsertStudyFile($study_id, $study_file_type_id, $file_type_id, $study_file_name, $study_file_title, $study_file_data)
+   {
+      $study_file_size = strlen($study_file_data);   // note: this line must go before addslashes($data)
+      $file_type_id = sprintf('%d', $file_type_id);
+      $study_file_type_id = sprintf('%d', $study_file_type_id);
+
+      $fields = array(
+         "study_id"           => $study_id,
+         "study_file_type_id" => $study_file_type_id,
+         "file_type_id"       => $file_type_id,
+         "study_file_name"    => $study_file_name,
+         "study_file_title"   => $study_file_title,
+         "study_file_data"    => $study_file_data,
+         "study_file_size"    => $study_file_size);
+
+      return $this->__InsertStudyFile($fields);
+   }
+
+   /**
+   * InsertStudySpecChangeComment()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 13:10:29 PDT 2006
+   */
+   public function InsertStudySpecChangeComment($study_id, $notes)
+   {
+      $fields = array(
+         "study_id"           => $study_id,
+         "comment_type_id"    => COMMENT_SPEC_CHANGE,
+         "comment_date"       => date("Y-m-d H:i:s"),
+         "notes"              => $notes);
+
+      $this->__InsertStudyComment($fields);
+   }
+
+   /**
+   * InsertStudySamplePlanComment()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Fri Jul 28 14:42:55 PDT 2006
+   */
+   public function InsertStudySamplePlanComment($study_id, $notes)
+   {
+      $fields = array(
+         "study_id"           => $study_id,
+         "comment_type_id"    => COMMENT_SAMPLE_PLAN,
+         "comment_date"       => date("Y-m-d H:i:s"),
+         "notes"              => $notes);
+
+      $this->__InsertStudyComment($fields);
+   }
+
+   /**
+   * InsertStudyAlertComment()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Tue Feb 20 19:00:53 PST 2007
+   */
+   public function InsertStudyAlertComment($study_id, $alert_level_id, $department_id, $notes)
+   {
+      $fields = array(
+         "study_id"           => $study_id,
+         "comment_type_id"    => COMMENT_ALERT_CHANGE,
+         "alert_level_id"     => $alert_level_id,
+         "department_id"      => $department_id,
+         "comment_date"       => date("Y-m-d H:i:s"),
+         "notes"              => $notes);
+
+      $this->__InsertStudyComment($fields);
+   }
+   
+   /**
+    * Inserts into study comment table for Detailed Quota Description
+    *
+    * @param int study_id
+    * @param string notes
+    */ 
+   function InsertStudyQuotaComment($study_id, $notes, $login = null, $date = null) 
+   { 
+   	$fields = array(
+         "study_id"           => $study_id,
+         "comment_type_id"    => STUDY_COMMENT_TYPE_STUDY_QUOTA_DESC_HISTORY,
+         "comment_date"       => date("Y-m-d H:i:s"),
+         "notes"              => $notes);
+		
+      //if login or date is not provided the relavant element will not be created
+      if($login != null) {
+      	$fields['created_by'] = $login;
+      }
+      
+      if ($date != null) {
+      	$fields['created_date'] = $date;
+      }
+      $this->__InsertStudyComment($fields);
+   }
+
+   /**
+   * InsertStudyTimeline()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Tue Aug 01 14:30:26 PDT 2006
+   */
+   public function InsertStudyTimeline($study_id, $study_task_id, $revision_number, $functional_group_id, $login, $sort_order)
+   {
+      $fields = array(
+         "study_id"                          => $study_id,
+         "study_task_id"                     => $study_task_id,
+         "revision_number"                   => $revision_number,
+         "functional_group_id"               => $functional_group_id,
+         "login"                             => $login,
+         "sort_order"                        => $sort_order);
+
+      return $this->__InsertStudyTimeline($fields);
+   }
+
+   /**
+   * InsertStudyTimelineLog()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 02 15:40:56 PDT 2006
+   */
+   public function InsertStudyTimelineLog($study_timeline_id, $login, $task_due_date)
+   {
+      $fields = array(
+         "study_timeline_id"     => $study_timeline_id,
+         "login"                 => $login,
+         "task_due_date"         => $task_due_date);
+
+      return $this->__InsertStudyTimelineLog($fields);
+   }
+
+   /**
+   * InsertStudyTimelineLogDirectQuery()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 10:04:47 PDT 2006
+   */
+   public function InsertStudyTimelineLogDirectQuery($study_timeline_id, $login, $task_due_date)
+   {
+      $q = "INSERT INTO study_timeline_log (`study_timeline_id`, `login`, `task_due_date`, `created_by`, `created_date`, `status`) VALUES ";
+      $q .= "($study_timeline_id, $login, $task_due_date, '".$_SESSION["admin_id"]."', NOW(), 'A')";
+      $this->db->query($q);
+      $this->last_insert_id = $this->db->lastInsertid();
+      return $this->last_insert_id;
+   }
+
+   /**
+   * InsertStudyTimelineComment()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 17:26:15 PDT 2006
+   */
+   public function InsertStudyTimelineComment($study_timeline_id, $notes)
+   {
+      $fields = array(
+         "study_timeline_id"  => $study_timeline_id,
+         "notes"              => $notes);
+
+      return $this->__InsertStudyTimelineComment($fields);
+   }
+
+   /**
+   * InsertStudyAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 13:47:08 PDT 2006
+   */
+   public function InsertStudyAccount($study_id, $account_id, $account_name, $account_type_id, $account_subtype_id)
+   {
+      $fields = array(
+         "study_id"              => $study_id,
+         "account_id"            => $account_id,
+         "account_name"          => $account_name,
+         "account_type_id"       => $account_type_id,
+         "account_sub_type_id"   => $account_subtype_id);
+
+      return $this->__InsertStudyAccount($fields);
+   }
+
+   /**
+   * InsertStudyContact()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 17:32:05 PDT 2006
+   */
+   public function InsertStudyContact($study_account_id, $study_id, $contact_id, $first_name, $last_name, $phone, $email, $study_contact_type_id=1, $tcm_recipient=1)
+   {
+      $fields = array(
+         "study_account_id"   => $study_account_id,
+         "study_id"           => $study_id,
+         "contact_id"         => $contact_id,
+         "first_name"         => $first_name,
+         "last_name"          => $last_name,
+         "phone"              => $phone,
+         "email"              => $email,
+         "study_contact_type_id" => $study_contact_type_id,
+         "tcm_recipient"         => $tcm_recipient);
+      return $this->__InsertStudyContact($fields);
+   }
+
+/**************************************
+   Update functions
+**************************************/
+   /**
+   * UpdateStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 15:56:30 PDT 2006
+   */
+   public function UpdateStudyAttr($study_id, $study_attr_name, $study_attr_value)
+   {
+      $fields = array(
+         "study_value"=>$study_attr_value);
+
+      return $this->__UpdateStudyAttr($study_id, $study_attr_name, $fields);
+   }
+
+   /**
+   * UpdateStudyAttrMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:04:47 PDT 2006
+   */
+   public function UpdateStudyAttrMemo($study_id, $study_attr_name, $study_attr_value)
+   {
+      $fields = array(
+         "study_value"=>$study_attr_value);
+
+      return $this->__UpdateStudyAttrMemo($study_id, $study_attr_name, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 09:58:11 PDT 2006
+   */
+   public function UpdateStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name, $study_timeline_attr_value)
+   {
+      $fields = array(
+         "study_timeline_value"  => $study_timeline_attr_value);
+
+      return $this->__UpdateStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineAttrDirectQuery()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 09:55:33 PDT 2006
+   */
+   public function UpdateStudyTimelineAttrDirectQuery($study_timeline_id, $study_timeline_attr_name, $study_timeline_attr_value)
+   {
+      $q = "UPDATE study_timeline_attr SET study_timeline_value = $study_timeline_attr_value, modified_by='".$_SESSION["admin_id"]."', modified_date=NOW(), status='A' WHERE study_timeline_id=$study_timeline_id AND study_timeline_attr = '$study_timeline_attr_name'";
+      $this->db->query($q);
+   }
+
+   /**
+   * UpdateStudyTimelineTaskDuration()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 10:03:20 PDT 2006
+   */
+   public function UpdateStudyTimelineTaskDuration($study_timeline_id, $task_duration)
+   {
+      $fields = array(
+         "task_duration"   => $task_duration);
+
+      return $this->__UpdateStudyTimeline($study_timeline_id, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineFunctionalGroup()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 16:48:49 PDT 2006
+   */
+   public function UpdateStudyTimelineFunctionalGroup($study_timeline_id, $functional_group_id)
+   {
+      $fields = array(
+         "functional_group_id"   => $functional_group_id);
+
+      return $this->__UpdateStudyTimeline($study_timeline_id, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineLogin()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 16:54:59 PDT 2006
+   */
+   public function UpdateStudyTimelineLogin($study_timeline_id, $login)
+   {
+      $fields = array(
+         "login"  => $login);
+
+      return $this->__UpdateStudyTimeline($study_timeline_id, $fields);
+   }
+
+   /**
+   * UpdateStudyFunctionalGroup()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:24:24 PDT 2006
+   */
+   public function UpdateStudyFunctionalGroup($study_id, $functional_group_id)
+   {
+      $fields = array(
+         "current_task_functional_group_id"  => $functional_group_id);
+
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyTaskOwner()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:26:47 PDT 2006
+   */
+   public function UpdateStudyTaskOwner($study_id, $login)
+   {
+      $fields = array(
+         "current_task_owner_login" => $login);
+
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineCreated()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:30:19 PDT 2006
+   */
+   public function UpdateStudyTimelineCreated($study_id, $timeline_created)
+   {
+      $fields = array(
+         "timeline_created_date"    => $timeline_created);
+
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyTimelineCreatedDirectQuery()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Mon Aug 07 15:30:04 PDT 2006
+   */
+   public function UpdateStudyTimelineCreatedDirectQuery($study_id, $timeline_created)
+   {
+      $q = "UPDATE study SET timeline_created_date = $timeline_created, modified_by='".$_SESSION["admin_id"]."', modified_date=NOW() WHERE study_id = $study_id";
+      $this->db->query($q);
+   }
+
+   /**
+   * UpdateStudyEstimatedCompleteDate()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:33:20 PDT 2006
+   */
+   public function UpdateStudyEstimatedCompleteDate($study_id, $estimated_complete_date)
+   {
+      $fields = array(
+         "current_estimated_complete_date"   => $estimated_complete_date);
+
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyEstimatedCompleteDateDirectQuery()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 17:34:28 PDT 2006
+   */
+   public function UpdateStudyEstimatedCompleteDateDirectQuery($study_id, $estimated_complete_date)
+   {
+      $q = "UPDATE study SET current_estimated_complete_date = $estimated_complete_date, modified_by='".$_SESSION["admin_id"]."', modified_date=NOW(), status='A' WHERE study_id=$study_id";
+      $this->db->query($q);
+   }
+
+   /**
+   * UpdateStudyRevisionNumber()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thu Aug 03 11:35:59 PDT 2006
+   */
+   public function UpdateStudyRevisionNumber($study_id, $revision_number)
+   {
+      $fields = array(
+         "current_revision_number"  => $revision_number);
+
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyStage()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 14:30:44 PDT 2006
+   */
+   public function UpdateStudyStage($study_id, $study_stage_id)
+   {
+      $fields = array(
+         "study_stage_id"  => $study_stage_id);
+         
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+   /**
+   * UpdateStudyAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 13:50:05 PDT 2006
+   */
+   public function UpdateStudyAccount($study_id, $account_id, $account_name, $account_type_id, $account_subtype_id)
+   {
+      $fields = array(
+         "status"          => "A",
+         "account_name"    => $account_name);
+      return $this->__UpdateStudyAccount($study_id, $account_id, $account_type_id, $account_subtype_id, $fields);
+   }
+
+   /**
+   * UpdateStudyUserTCMRecipient()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 15:34:40 PDT 2006
+   */
+   public function UpdateStudyUserTCMRecipient($study_user_id, $tcm_recipient)
+   {
+      $fields = array(
+         "tcm_recipient"   => $tcm_recipient);
+      return $this->__UpdateStudyUserByID($study_user_id, $fields);
+   }
+
+   /**
+   * UpdateStudyContactTCMRecipient()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 15:51:46 PDT 2006
+   */
+   public function UpdateStudyContactTCMRecipient($study_contact_id, $tcm_recipient)
+   {
+      $fields = array(
+         "tcm_recipient"   => $tcm_recipient);
+      return $this->__UpdateStudyContactByID($study_contact_id, $fields);
+
+   }
+
+//   /**
+//   * UpdateStudyAccountContactTCMRecipient()
+//   *
+//   * @param
+//   * @todo NOT YET COMPLETED
+//   * @return
+//   * @since  - 2.0.1 - Wed Aug 23 17:44:49 PDT 2006
+//   */
+//   public function UpdateStudyAccountContactTCMRecipient($study_contact_id, $tcm_recipient)
+//   {
+//      $fields = array(
+//         "tcm_recipient"   => $tcm_recipient);
+//
+//      return $this->__UpdateStudyContactByID($study_contact_id, $fields);
+//   }
+
+   /**
+   * UpdateStudyContactStatus()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 25 14:10:40 PDT 2006
+   */
+   public function UpdateStudyContactStatus($study_contact_id, $status)
+   {
+      $table_name = "study_contact";
+      $fields = array(
+         "status"    => $status);
+      $where = $this->db->quoteInto("study_contact_id = ?", $study_contact_id);
+
+      $this->__Update($table_name, $fields, $where);
+      return $this->affected_rows;
+   }
+
+   /**
+   * UpdateStudyContactContactType()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 25 14:21:56 PDT 2006
+   */
+   public function UpdateStudyContactContactType($study_contact_id, $study_contact_type_id)
+   {
+      $fields = array(
+         "study_contact_type_id"    => $study_contact_type_id);
+      return $this->__UpdateStudyContactByID($study_contact_id, $fields);
+   }
+
+   /**
+   * UpdateStudyAlertLevel()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Tue Feb 20 19:33:08 PST 2007
+   */
+   public function UpdateStudyAlertLevel($study_id, $alert_level_id)
+   {
+      $fields = array("alert_level_id" => $alert_level_id);
+      return $this->__UpdateStudy($study_id, $fields);
+   }
+
+
+/**************************************
+   Delete functions
+**************************************/
+   /**
+   * DeleteStudyAttr()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 19:37:13 PDT 2006
+   */
+   public function DeleteStudyAttr($study_id, $study_attr_name)
+   {
+      $fields = array(
+         "status"=>"D");
+      $this->__UpdateStudyAttr($study_id, $study_attr_name, $fields);
+   }
+   /**
+   * DeleteStudyAttrs()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:16:57 PDT 2006
+   */
+   public function DeleteStudyAttrs($study_id)
+   {
+      $fields = array(
+         "status"=>"D");
+      $this->__UpdateStudyAttrs($study_id, $fields);
+   }
+
+   /**
+   * DeleteStudyAttrsMemo()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:20:10 PDT 2006
+   */
+   public function DeleteStudyAttrsMemo($study_id)
+   {
+      $fields = array(
+         "status"=>"D");
+      $this->__UpdateStudyAttrsMemo($study_id, $fields);
+   }
+
+   /**
+   * DeleteStudyFiles()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 17:24:47 PDT 2006
+   */
+   public function DeleteStudyFiles($study_id)
+   {
+      $fields = array(
+         "status"=>"D");
+      $this->__UpdateStudyFiles($study_id, $fields);
+   }
+
+   /**
+   * DeleteStudyFile()
+   *
+   * @param -
+   * @return -
+   * @author - Jon Vonica
+   * @since  - Wed Oct 18 11:43:56 PDT 2006
+   */
+   public function DeleteStudyFile($study_file_id)
+   {
+      //TODO add code
+      $fields = array(
+            "status"=>"D");
+      $this->__UpdateStudyFile($study_file_id, $fields);
+   }
+
+   /**
+   * DeleteStudyTimelineAttr()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 04 15:44:37 PDT 2006
+   */
+   public function DeleteStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name)
+   {
+      $fields = array(
+         "status" => "D");
+
+      return $this->__UpdateStudyTimelineAttr($study_timeline_id, $study_timeline_attr_name, $fields);
+   }
+
+    /**
+   * DeleteStudyTimeline()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Thus July 05 10:10:10  2007
+   */
+   public function DeleteStudyTimeline($study_timeline_id)
+   {
+      $fields = array(
+         "status" => "D");
+
+      return $this->__UpdateStudyTimeline($study_timeline_id, $fields);
+   }
+   //
+
+   /**
+   * DeleteStudyAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Wed Aug 23 14:24:20 PDT 2006
+   */
+   public function DeleteStudyAccount($study_account_id)
+   {
+      $fields = array(
+         "status" => "D");
+
+      return $this->__UpdateStudyAccountByID($study_account_id, $fields);
+   }
+
+   /**
+   * DeleteStudyContactsByAccount()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Aug 25 14:37:32 PDT 2006
+   */
+   public function DeleteStudyContactsByAccount($study_account_id)
+   {
+      $fields = array(
+         "status"    => "D");
+      $this->__UpdateStudyContactsByAccount($study_account_id, $fields);
+   }
+
+/*************************************************
+   isXXX functions
+*************************************************/
+   /**
+   * isTimelineCreated()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Thu Jul 27 20:10:39 PDT 2006
+   */
+   public function isTimelineCreated($study_id)
+   {
+      $fields = array("study_id", "timeline_created_date");
+      $where = array(
+         array("field"     => "s.study_id",
+               "operator"  => "= ?",
+               "value"     => $study_id));
+
+      $r = $this->__GetStudy($fields, $where);
+      if (!empty($r) && ($r[$study_id]["timeline_created_date"] != "0000-00-00 00:00:00")) {
+         return true;
+      } else {
+         return false;
+      }
+
+   }
+
+   /**
+   * hasUserRole()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.2 - Thu Jan 25 12:03:00 PST 2007
+   */
+   public function hasUserRole($user_id, $roles)
+   {
+      $this->SetSelect();
+      
+      if (is_array($roles)) {
+         $roles = implode(", ", $roles);
+      }
+
+      $this->select->from(array("ur" => "user_role"), array("user_role_id"));
+      
+      $this->select->where("login = ?", $user_id);
+      $this->select->where("role_id IN (".$roles.")");
+      $this->select->where("status = ?", "A");
+      $r = $this->db->fetchAssoc($this->select);
+      //echo ("<pre>".print_r($r, true)."</pre>");
+      if (!empty($r))
+         return true;
+      else
+         return false;
+
+   }
+
+
+}
+
+?>

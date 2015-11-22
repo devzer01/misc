@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+    <rows> 
+    	<head> 
+            <column width="100" type="ed" align="right" color="white" sort="str">Name</column> 
+            <settings> 
+                    <colwidth>20%</colwidth> 
+            </settings> 
+        </head> 
+        <userdata name="NameOfGlobalUserDataBlock"></userdata> 
+<?php 
+    	foreach ($feed as $entry) { 
+        	printf("<row id='%s'><cell>%s</cell></row>", $entry->id, $entry->title()); 
+ } ?>
+ </rows>

@@ -1,0 +1,39 @@
+<?php
+
+class Hb_App_Report_ReportCondition
+{
+	/**
+	 * @param Hb_App_Common_ReportField
+	 */
+	protected $field = null;
+	
+	protected $value = null;
+	
+	protected $operator = null;
+	
+	const EQUAL = '=';
+	
+	const INARRAY = 'IN';
+	
+	public function __construct(Hb_App_Report_ReportSearchField $field, $value = null, $operator = self::EQUAL)
+	{
+		$this->field = $field;
+		$this->value = $value;
+		$this->operator = $operator;
+	}
+	
+	public function __toString()
+	{
+		switch ($this->operator) 
+		{
+			case self::EQUAL:
+				return $this->field->GetTable(). "." . $this->field->GetName() . " " . $this->operator . " '" . mysql_real_escape_string($this->value) ."' ";
+				break;
+			case self::INARRAY:
+				return $this->field->GetTable(). "." . $this->field->GetName() . " " . $this->operator . " ( '" . implode("','", $this->value) . "' ) ";
+				break;
+		}
+		return false;
+	}
+}
+?>

@@ -1,0 +1,29 @@
+<?php 
+/**
+ * Domain Object for Billing Report Budget Line Item Definition Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_BillingReportBudgetLineItemDefinitionAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{
+	/**
+	 * Create Billing Report Budget Line Item Definition Attribute Definition Object
+	 *
+	 * @param int $id Billing report budget line item definition attribute definition Id
+	 * @param string $attribute_name Billing report budget line item definition attribute definition Name
+	 * @param string $description Billing report budget line item definition attribute definition Description
+	 */
+	public function __construct($id = null,
+										 $attribute_name = null,
+										 $description 		= null
+										 )
+	{
+		parent::__construct($id, $attribute_name, $description);
+	}
+}
+?>

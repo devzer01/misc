@@ -1,0 +1,61 @@
+<?php
+class Hb_View_Proposal_ProposalEditProgrammingFeesLightBox extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/edit_programming_fees_lightbox.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $data = array();
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('data', $this->data);
+	}	
+	
+	public function SetTranslation($translation)
+	{
+		$this->data['translation'] = $translation;
+	}
+	
+	public function SetHosting($hosting)
+	{
+		$this->data['hosting'] = $hosting;
+	}
+	
+	public function SetQuestionLengthPrograming($length)
+	{
+		$this->data['q_len_prog'] = $length;
+	}
+	public function SetDataExport($data_export)
+	{
+		$this->data['data_export'] = $data_export;
+	}
+	
+	public function SetQuestioniareLength($questioniare_length)
+	{
+		$this->data['questioniare_length'] = $questioniare_length;
+	}
+	
+	public function SetNumberOfWords($number_of_words)
+	{
+		$this->data['number_of_words'] = $number_of_words;
+	}
+	
+	public function SetTabHours($hours)
+	{
+		$this->data['tab_hours'] = $hours;
+	}
+	
+	public function SetManagementHours($hours)
+	{
+		$this->data['management_hours'] = $hours;
+	}	
+	
+	public function SetManagementDes($des)
+	{
+		$this->data['management_des'] = $des;
+	}	
+	
+}
+
+?>

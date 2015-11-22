@@ -1,0 +1,72 @@
+<?php
+
+require_once ('class/Hb/Mapper/Mapper.class') ;
+
+/**
+ *
+ */
+class Hb_Mapper_Common_User extends Hb_Mapper_Mapper {
+
+	protected $primary_key = 'login';
+
+   protected $table = 'user';
+   
+	/**
+	 *
+	 */
+	protected function doBuildObject ($row) 
+	{	
+		return new Hb_App_Common_User($row->user_id, $row->login, $row->first_name, $row->last_name);		
+	}
+	
+	/**
+	 *
+	 */
+	protected function doFindById ($id) 
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('login = ?', $id);	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 *
+	 */
+	protected function doSave (Hb_App_Object $obj) 
+	{
+		/* $obj Hb_App_Common_User */
+		$db = Hb_Util_Db_Connection::GetInstance();			
+		
+		$data = array(
+			'first_name' => $obj->GetFirstName(),
+			'last_name'  => $obj->GetLastName()
+		);
+		
+		if (is_null($obj->GetId())) {
+			$db->insert($data);
+			$obj->SetUserId($db->GetLastInsertId());
+		} else {
+			$db->update($data, 'login = ' . $obj->GetId());
+		}
+	}
+	
+	/**
+	 *
+	 */
+	protected function GetBaseSelect () {
+		
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	
+		$select->from(array('u' => 'user'),
+	 					array('user_id',
+							  	'login',
+							  	'first_name',
+							  	'last_name'
+							  )
+						 );
+	 	return $select;
+	}
+}
+
+?>

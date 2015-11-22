@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Mapper object for AccountVendors
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ *
+ */
+
+
+class Hb_Mapper_Account_AccountVendors extends Hb_Mapper_Account_AccountVendor
+{
+	protected $primary_key = 'account_vendor_id';
+	
+	protected $table       = 'account_vendor';
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id Account Id
+	 * @return Hb_App_Account_AccountVendors
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		
+		$select->where('account_vendor_id = ?', $id);
+		$select->where('status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+
+	protected function doFindByAccountId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $id);
+		$select->where('status = ? ', 'A');
+	
+		return $this->getRows($select);
+	}
+	
+	public function FindByAccountId($id)
+	{
+		$result = $this->doFindByAccountId($id);
+		return $this->BuildCollection($result, 'Hb_App_Account_AccountVendors');
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountVendors');
+	}
+
+	
+}
+?>

@@ -1,0 +1,103 @@
+<?php
+/**
+ * Mapper Class for ProposalAuctionBidComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_ProposalAuctionBidComment extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Proposal auction bid comment
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'proposal_auction_bid_comment_id';
+
+	/**
+	 * Proposal auction bid comment table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_auction_bid_comment';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalAuctionBidComment';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Proposal_ProposalAuctionBidComment';
+	
+	/**
+	 * Build the ProposalAuctionBidComment Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalAuctionBidComment
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Proposal_ProposalAuctionBidComment($row->proposal_auction_bid_comment_id,
+																												 $row->proposal_auction_bid_id,
+																												 $row->comment);
+	}
+	
+	/**
+	 * Get the base data set for ProposalAuctionBidComment
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'proposal_auction_bid_comment'), array('proposal_auction_bid_comment_id', 
+																																			'proposal_auction_bid_id', 
+																																			'comment'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Proposal auction bid comment id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('proposal_auction_bid_comment_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Proposal Auction Bid Comment Object
+	 *
+	 * @param int $id Proposal auction bid comment Id
+	 * @return object Proposal Auction Bid Comment
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+
+		$row->proposal_auction_bid_id 	= $obj->GetProposalAuctionBidId();
+		$row->comment = $obj->GetComment();
+
+		$row->Save();
+	
+	  $obj->SetProposalAuctionBidCommentId($row->proposal_auction_bid_comment_id);
+	  
+	}
+
+} 

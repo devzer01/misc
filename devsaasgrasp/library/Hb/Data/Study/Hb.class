@@ -1,0 +1,22 @@
+<?php
+class Hb_Data_Study_Hb extends Hb_Data_Study 
+{
+	private static $cache = array();
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $study_id
+	 * @param unknown_type $study_name
+	 * @return unknown
+	 */
+	public static function getInstance($study_id, $study_name = '')
+	{
+		if (!isset(self::$cache[$study_id])) {
+			self::$cache[$study_id] = new Hb_Data_Study_Hb($study_id, $study_name);
+		}
+
+		return self::$cache[$study_id];
+	}
+}
+?>

@@ -1,0 +1,115 @@
+<?php
+/**
+ * Mapper Class for RegionCountryTier
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_RegionCountryTier extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Region country tier
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'region_country_tier_id';
+
+	/**
+	 * Region country tier table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'region_country_tier';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_RegionCountryTier';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Proposal_RegionCountryTier';
+	
+	/**
+	 * Build the RegionCountryTier Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_RegionCountryTier
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_RegionCountryTier($row->region_country_tier_id,
+																  	$row->region_id,
+																  	$row->country_code,
+															 	  	$row->country_tier_id);
+	}
+	
+	/**
+	 * Get the base data set for RegionCountryTier
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('rct' => 'region_country_tier'), array('region_country_tier_id',
+																					  'region_id', 
+																					  'country_code', 
+																	    		  	  'country_tier_id'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Region country tier
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('rct.region_country_tier_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Region country tier
+	 *
+	 * @param Hb_App_Object RegionCountryTier
+	 * @return object Region Country Tier
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'region_id' 		=> $obj->GetRegionId(),
+							'country_code' 	=> $obj->GetCountryCode(),
+							'country_tier_id'	=> $obj->GetCountryTierId()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetRegionCountryTierId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

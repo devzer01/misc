@@ -1,0 +1,96 @@
+<?php 
+/**
+ * Mapper Object for Sales Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Sales
+ *
+ */
+ 
+class Hb_Mapper_Sales_SalesType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for sam_type
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'sam_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'sam_type';
+	
+	/**
+	 * Builds and returns the Sales Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the sam_type table
+	 * @return object An instance of the Sales Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Sales_SalesType($row->sam_type_id, $row->sam_type_description);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('st' => 'sam_type'), array('sam_type_id',
+																	  'sam_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Sales Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the sam_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('st.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the sam_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	$data  = array(
+			'sam_type_description' => $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) 
+	 	{
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}
+	 	else 
+	 	{
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

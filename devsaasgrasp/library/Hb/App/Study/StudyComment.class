@@ -1,0 +1,309 @@
+<?php
+
+/**
+ * Domain Object for Study Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyComment extends Hb_App_Object
+{
+	/**
+	 * Alert Level Id
+	 *
+	 * @var int
+	 */
+	protected $alert_level_id = null;
+	
+	/**
+	 * Cooment Date
+	 *
+	 * @var string
+	 */
+	protected $comment_date = null;
+	
+	/**
+	 * Comment Reported
+	 *
+	 * @var int
+	 */
+	protected $comment_reported = null;
+	
+	/**
+	 * Comment Reported Date
+	 *
+	 * @var string
+	 */
+	protected $comment_reported_date = null;
+	
+	/**
+	 * Comment Type Id
+	 *
+	 * @var int
+	 */
+	protected $comment_type_id = null;
+	
+	/**
+	 * Department Id
+	 *
+	 * @var int
+	 */
+	protected $department_id = null;
+	
+	/**
+	 * Notes
+	 *
+	 * @var string
+	 */
+	protected $notes = null;
+	
+	/**
+	 * Study Comment Id
+	 *
+	 * @var int
+	 */
+	protected $study_comment_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+
+	/**
+	 * Create Study Comment object
+	 *
+	 * @param int $id Study Comment ID
+	 * @param int $study_id Study Id
+	 * @param int $department_id Department Id
+	 * @param string $comment_date Comment Date
+	 * @param int $comment_type_id Comment Type Id
+	 * @param int $alert_level_id Alert Level Id
+	 * @param string $notes Notes
+	 * @param int $comment_reported Commet Reported
+	 * @param string $comment_reported_date Comment Reported Date
+	 */
+	function __construct($id = null,
+						 $study_id = null,
+						 $department_id = null,
+						 $comment_date = null,
+						 $comment_type_id = null,
+						 $alert_level_id = null,
+						 $notes = null,
+						 $comment_reported = null,
+						 $comment_reported_date = null)
+	{
+		$this->study_comment_id = $id;
+		$this->study_id = $study_id;
+		$this->department_id = $department_id;
+		$this->comment_date = $comment_date;
+		$this->comment_type_id = $comment_type_id;
+		$this->alert_level_id = $alert_level_id;
+		$this->notes = $notes;
+		$this->comment_reported = $comment_reported;
+		$this->comment_reported_date = $comment_reported_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Alert Level Id
+	 *
+	 * @return int The Alert Level Id
+	 */
+	public function GetAlertLevelId()
+	{
+		return $this->alert_level_id;
+	}
+
+	/**
+	 * Returns The Comment Date
+	 *
+	 * @return string The Comment Date
+	 */
+	public function GetCommentDate()
+	{
+		return $this->comment_date;
+	}
+
+	/**
+	 * Returns The Comment Reported
+	 *
+	 * @return int The Comment Reported
+	 */
+	public function GetCommentReported()
+	{
+		return $this->comment_reported;
+	}
+
+	/**
+	 * Returns The Comment Reported Date
+	 *
+	 * @return string The Comment Reported Date
+	 */
+	public function GetCommentReportedDate()
+	{
+		return $this->comment_reported_date;
+	}
+
+	/**
+	 * Returns The Comment Type Id
+	 *
+	 * @return int The Comment Type Id
+	 */
+	public function GetCommentTypeId()
+	{
+		return $this->comment_type_id;
+	}
+
+	/**
+	 * Returns The Department Id
+	 *
+	 * @return int Department Id
+	 */
+	public function GetDepartmentId()
+	{
+		return $this->department_id;
+	}
+
+	/**
+	 * Returns The Notes
+	 *
+	 * @return string Notes
+	 */
+	public function GetNotes()
+	{
+		return $this->notes;
+	}
+
+	/**
+	 * Returns The Study Comment Id
+	 *
+	 * @return int Study Comment Id
+	 */
+	public function GetStudyCommentId()
+	{
+		return $this->study_comment_id;
+	}
+
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Sets The Alert Level Id
+	 * 
+	 * @param int $alert_level_id Alert Level Id
+	 */
+	public function SetAlertLevelId($alert_level_id)
+	{
+		$this->alert_level_id = $alert_level_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Comment Type Id
+	 * 
+	 * @param int $comment_type_id Comment Type Id
+	 */
+	public function SetCommentTypeId($comment_type_id)
+	{
+		$this->comment_type_id =  $comment_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Comment Date
+	 * 
+	 * @param string $comment_date Comment Date
+	 */
+	public function SetCommentDate($comment_date)
+	{
+		$this->comment_date = $comment_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Comment Reported
+	 * 
+	 * @param int $comment_reported Comment Reported
+	 */
+	public function SetCommentReported($comment_reported)
+	{
+		$this->comment_reported =  $comment_reported;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Comment Reported Date
+	 * 
+	 * @param string $comment_reported_date Comment Reported Date
+	 */
+	public function SetCommentReportedDate($comment_reported_date)
+	{
+		$this->comment_reported_date = $comment_reported_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Department Id
+	 * 
+	 * @param int $department_id Department Id
+	 */
+	public function SetDepartmentId($department_id)
+	{
+		$this->department_id =  $department_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Notes
+	 * 
+	 * @param string $notes Notes
+	 */
+	public function SetNotes($notes)
+	{
+		$this->notes = $notes;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Comment Id
+	 * 
+	 * @param int $study_comment_id Study Comment Id
+	 */
+	public function SetStudyCommentId($study_comment_id)
+	{
+		$this->study_comment_id =  $study_comment_id;
+		$this->__id =  $study_comment_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Id
+	 * 
+	 * @param int $study_id Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id =  $study_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

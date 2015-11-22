@@ -1,0 +1,78 @@
+<?php
+
+class Hb_Transaction_Study_Study
+{
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $study_id
+	 * @return unknown
+	 */
+	public static function GetStudy($study_id)
+	{
+		if (!is_numeric($study_id)) {
+			throw new Hb_Transaction_Exception("Study ID Must be a number", 2);
+		}
+		
+		$raw_study = Hb_Db_MySQL_Study_Study::Get($study_id);
+		
+		if (empty($raw_study)) {
+			throw new Hb_Transaction_Exception("Record Not Found", 1);
+		}
+		
+		$study = Hb_Data_Study_Hb::getInstance($study_id);
+		
+		$study->study_id   = $study_id;
+		$study->study_name = $raw_study[$study_id]['study_name'];
+		
+		self::__GetStudyAttributes($study_id);		
+		
+		self::__GetPanelProviders($study_id);
+		
+		return $study;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $study_id
+	 */
+	private static function __GetStudyAttributes($study_id)
+	{
+		$study = Hb_Data_Study_Hb::getInstance($study_id);
+		
+		$raw_attr = Hb_Db_MySQL_Study_StudyAttr::Get($study_id);
+		
+		foreach ($raw_attr as $key => $value)
+		{
+			try {
+				$study->AddAttribute($key, $value['study_value']);
+			} catch (Hb_Data_ObjectInCollectionException $e) {
+				
+				$study->UpdateAttribute($key, $value['study_value']);	
+				
+			}
+		}
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $study_id
+	 */
+	private static function __GetPanelProviders($study_id)
+	{
+		$study = Hb_Data_Study_Hb::getInstance($study_id);
+		
+		$raw_ds = Hb_Db_MySQL_Study_StudyStudyDataSource::Get($study_id);
+		
+		foreach ($raw_ds AS $key => $value) 
+		{
+			$study->AddPanelProvider(
+				new Hb_Data_Study_PanelProvider($value['study_datasource_id'], $value['study_datasource_name'])
+				);
+		}
+	}
+	
+}
+?>

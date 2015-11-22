@@ -1,0 +1,117 @@
+<?php
+/**
+ * Domain Object for Common Region
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_Region extends Hb_App_Object 
+{
+	/**
+	 * Region id
+	 *
+	 * @var int 
+	 */
+	protected $region_id = null;
+	
+	/**
+	 * Region Description
+	 *
+	 * @var int 
+	 */
+	protected $region_description = null;
+	
+	/**
+	 * Region Code
+	 *
+	 * @var string 
+	 */
+	protected $region_code = null;
+	
+	
+	/**
+	 * Construct a Contact Object
+	 *
+	 * @param int $id
+	 * @param string $description Region Description
+	 * @param string $code Region Code
+	 */
+	public function __construct($id = null, $description = null, $code = null)
+	{
+		$this->region_id 						= $id;
+		$this->region_description  		= $description;
+		$this->region_code 					= $code;
+		
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Return the Region id for the Common Region
+	 *
+	 * @return int Region id
+	 */
+	public function GetRegionId()
+	{
+		return $this->region_id;
+	}
+	
+	/**
+	 * Return the Description for the Common Region
+	 *
+	 * @return string Description
+	 */
+	public function GetDescription()
+	{
+		return $this->region_description;	
+	}
+	
+	/**
+	 * Return the Region Code for the Common Region
+	 *
+	 * @return string Region Code
+	 */
+	public function GetCode()
+	{
+		return $this->region_code;	
+	}
+	
+	/**
+	 * Set the Region id for the  Common Region
+	 * 
+	 * @param int $id Region id
+	 */
+	public function SetRegionId($id)
+	{
+		$this->region_id = $id;
+		$this->__id 	  = $id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Description for the  Common Region
+	 * 
+	 * @param string $description Description
+	 */
+	public function SetDescription($description)
+	{
+		$this->region_description = $description;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Region code for the  Common Region
+	 * 
+	 * @param int $id Region code
+	 */
+	public function SetCode($code)
+	{
+		$this->region_code = $code;
+		$this->MarkDirty();
+	}	
+}
+?>

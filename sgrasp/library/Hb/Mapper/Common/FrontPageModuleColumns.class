@@ -1,0 +1,48 @@
+<?php 
+/**
+ * Mapper Object for Front Page Module Columns
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_FrontPageModuleColumns extends Hb_Mapper_Common_FrontPageModuleColumn  
+{
+	/**
+	 * Find By Id
+	 * 
+	 * @param $id Module id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('frontpage_module_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the collection
+	 *
+	 * @param  $rows
+	 * @return Hb_App_Proposal_ProposalRevisionCategories
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Common_FrontPageModuleColumns');
+	}
+	
+	/**
+	 * Do Save 
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+
+?>

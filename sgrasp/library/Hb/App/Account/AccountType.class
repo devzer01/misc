@@ -1,0 +1,27 @@
+<?php
+/**
+ * Domain Object for AccountType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountType extends Hb_App_Common_Type
+{
+	/**
+	 * Create AccountType Object
+	 *
+	 * @param int $id Account Type Id
+	 * @param string $description Account type description
+	 */ 
+	public function __construct(
+											$id = null,
+							   			$description 	= null
+									   )
+   {
+   	parent::__construct($id, $description);
+   }
+}
+?>

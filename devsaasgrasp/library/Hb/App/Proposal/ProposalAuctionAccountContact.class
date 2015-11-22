@@ -1,0 +1,315 @@
+<?php
+/**
+ * Domain Object for ProposalAuctionAccountContact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Propsal
+ */ 
+
+class Hb_App_Proposal_ProposalAuctionAccountContact extends Hb_App_Object
+{
+	/**
+	 * Access key
+	 * 
+	 * @var string
+	 */
+
+	protected $access_key = null;
+	
+	/**
+	 * Account Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $account_contact_id = null;
+	
+	/**
+	 * Contact Email
+	 * 
+	 * @var string
+	 */
+	protected $contact_email = null;
+	
+	/**
+	 * Contact First Name
+	 * 
+	 * @var string
+	 */
+	protected $contact_first_name = null;
+	
+	/**
+	 * Contact Last Name
+	 * 
+	 * @var string
+	 */
+	protected $contact_last_name = null;
+	
+	/**
+	 * Invite Sent Date
+	 * 
+	 * @var string
+	 */
+	protected $invite_sent_date = null;
+	
+	/**
+	 * Proposal Auction Account Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_auction_account_contact_id = null;
+	
+	/**
+	 * Proposal Auction Account Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_auction_account_id = null;
+	
+	/**
+	 * Proposal Auction User Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_auction_user_id = null;
+
+	/**
+	 * Create a ProposalAuctionAccountContact Object
+	 * 
+	 * @author krathnayake
+	 * @param int $id Proposal Auction Account Contact Id
+	 * @param string $access_key Access Key 
+	 * @param int $account_contact_id Account Contact Id
+	 * @param string $contact_email Contact Email
+	 * @param string $contact_first_name Contact First Name
+	 * @param string $contact_last_name Contact Last Name
+	 * @param string $invite_sent_date Invite Sent Date
+	 * @param int $proposal_auction_account_id Proposal Auction Account Id
+	 * @param int $proposal_auction_user_id Proposal Auction User Id
+	 */	
+	function __construct( $id 									= null, 
+								 $access_key 						= null,
+								 $account_contact_id 			= null, 
+								 $contact_email 					= null,
+								 $contact_first_name 			= null,
+								 $contact_last_name 				= null,
+								 $invite_sent_date 				= null,
+								 $proposal_auction_account_id = null,
+								 $proposal_auction_user_id 	= null )
+	{
+		$this->proposal_auction_account_contact_id 	= $id;
+		$this->access_key 									= $access_key;
+		$this->account_contact_id 							= $account_contact_id;
+		$this->contact_email 								= $contact_email;
+		$this->contact_first_name 							= $contact_first_name;
+		$this->contact_last_name 							= $contact_last_name;
+		$this->invite_sent_date 							= $invite_sent_date;
+		$this->proposal_auction_account_id				= $proposal_auction_account_id;
+		$this->proposal_auction_user_id  				= $proposal_auction_user_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Access Key
+	 * 
+	 * @return string Access Key
+	 */
+	
+	public function GetAccessKey()
+	{
+		return $this->access_key;
+	}
+
+	/**
+	 * Returns Account Contact Id
+	 * 
+	 * @return int Account Contact Id
+	 */
+	public function GetAccountContactId()
+	{
+		return $this->account_contact_id;
+	}
+
+	/**
+	 * Returns Contact Email
+	 * 
+	 * @return string Contact Email
+	 */
+	public function GetContactEmail()
+	{
+		return $this->contact_email;
+	}
+	
+	/**
+	 * Returns Contact First Name
+	 * 
+	 * @return string Contact First Name
+	 */
+	public function GetContactFirstName()
+	{
+		return $this->contact_first_name;
+	}
+
+	/**
+	 * Returns Contact Last Name
+	 * 
+	 * @return string Contact Last Name
+	 */
+	public function GetContactLastName()
+	{
+		return $this->contact_last_name;
+	}
+	
+	/**
+	 * Returns Invite Sent Date
+	 * 
+	 * @return string Invite Sent Date
+	 */
+	public function GetInviteSentDate()
+	{
+		return $this->invite_sent_date;
+	}
+
+	/**
+	 * Returns Proposal Auction Account Contact Id
+	 * 
+	 * @return int Proposal Auction Account Contact Id
+	 */
+	public function GetProposalAuctionAccountContactId()
+	{
+		return $this->proposal_auction_account_contact_id;
+	}
+
+	/**
+	 * Returns Proposal Auction Account Id
+	 * 
+	 * @return int Proposal Auction Account Id
+	 */
+	public function GetProposalAuctionAccountId()
+	{
+		return $this->proposal_auction_account_id;
+	}
+
+	/**
+	 * Returns ProposalAuctionUserId
+	 * 
+	 * @return int ProposalAuctionUserId
+	 */
+	public function GetProposalAuctionUserId()
+	{
+		return $this->proposal_auction_user_id;
+	}
+
+	/**
+	 * Sets Access Key
+	 * 
+	 * @param string $access_key Access Key
+	 */
+	public function SetAccessKey($access_key)
+	{
+		$this->access_key = $access_key;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Account Contact Id
+	 * 
+	 * @param int $account_contact_id Account Contact Id
+	 */
+	public function SetAccountContactId($account_contact_id)
+	{
+		$this->account_contact_id = (int)$account_contact_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Contact Email
+	 * 
+	 * @param string $contact_email Contact Email
+	 */
+	public function SetContactEmail($contact_email)
+	{
+		$this->contact_email = $contact_email;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets ContactFirstName
+	 * 
+	 * @param string $contact_first_name ContactFirstName
+	 */
+	public function SetContactFirstName($contact_first_name)
+	{
+		$this->contact_first_name = $contact_first_name;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Contact Last Name
+	 * 
+	 * @param string $contact_last_name Last Name
+	 */
+	public function SetContactLastName($contact_last_name)
+	{
+		$this->contact_last_name = $contact_last_name;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Invite Sent Date
+	 * 
+	 * @param string $invite_sent_date Invite Sent Date
+	 */
+	public function SetInviteSentDate($invite_sent_date)
+	{
+		$this->invite_sent_date = $invite_sent_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Auction Account Contact Id
+	 * 
+	 * @param int $proposal_auction_account_contact_id Proposal Auction Account Contact Id
+	 */
+	public function SetProposalAuctionAccountContactId($proposal_auction_account_contact_id)
+	{
+		$this->proposal_auction_account_contact_id = (int)$proposal_auction_account_contact_id;
+		$this->__id = (int) $proposal_auction_account_contact_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Auction AccountId
+	 * 
+	 * @param int $proposal_auction_account_id Proposal Auction AccountId
+	 */
+	public function SetProposalAuctionAccountId($proposal_auction_account_id)
+	{
+		$this->proposal_auction_account_id = (int)$proposal_auction_account_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Auction User Id
+	 * 
+	 * @param int $proposal_auction_user_id  Proposal Auction User Id
+	 */
+	public function SetProposalAuctionUserId($proposal_auction_user_id)
+	{
+		$this->proposal_auction_user_id = (int)$proposal_auction_user_id;
+		
+		$this->MarkDirty();
+	}
+}
+?>

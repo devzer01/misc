@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Mapper object for AccountProduct
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ *
+ */
+
+
+class Hb_Mapper_Account_AccountProducts extends Hb_Mapper_Mapper
+{
+	protected $primary_key = 'account_product_id';
+	
+	protected $table       = 'account_product';
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id Account Id
+	 * @return Hb_App_Account_AccountProducts
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		
+		$select->where('account_id = ?', $id);
+		$select->where('status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountProduct($row->account_product_id, $row->account_id, $row->product_id, 
+				$row->license_level_id, $row->pricing_regime_id, $row->account_identifier);
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountProducts');
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('account_product');
+		
+		
+		return $select;
+	}
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+
+	
+}
+?>

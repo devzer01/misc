@@ -1,0 +1,22 @@
+<?php
+
+class acm_VendorManager extends Acm 
+{
+	/**
+* DeleteAccountPanelItemType()
+*
+* @param
+* @param 
+* @return
+* @since  - 12:22:04
+*/
+	function DeleteAccountPanelItemType()
+	{
+		$a = new accountDB();
+
+		$a->UpdateAccountPanelItemTypeStatus($this->__o['account_panel_item_type_id'], 'D');
+
+		header("Location: ?action=display_standard_table_manager");
+	}
+}
+?>

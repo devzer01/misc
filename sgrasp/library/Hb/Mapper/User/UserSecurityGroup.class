@@ -1,0 +1,98 @@
+<?php 
+/**
+ * Mapper Object for User Security Group
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage User
+ *
+ */ 
+class Hb_Mapper_User_UserSecurityGroup extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Primary key
+	 *
+	 * @var stirng 
+	 */
+	protected $primary_key = 'user_security_group_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var stirng 
+	 */
+	protected $table	= 'user_security_group';
+	
+	/**
+	 * Builds and returns the User Security Group domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the user_security_group table
+	 * @return object An instance of the User Security Group domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserSecurityGroup($row->user_security_group_id,
+															  $row->login,
+															  $row->security_group_id
+															  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('usg' => 'user_security_group'), array('user_security_group_id',
+																					  'security_group_id',
+																					  'login')
+						 );
+		return $select;
+	}
+	
+	/**
+	 * Finds a User Security  by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the user_security_group table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('usg.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the User Security Group domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_User_UserSecurityGroup   */
+		 	
+	 	$data  = array(
+			'security_group_id'	=> $obj->GetSecurityGroupId(),
+			'login'					=> $obj->GetLogin()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetUserSecurityGroupId($db->lastInsertId());
+	 	}else {	 		
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

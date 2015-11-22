@@ -1,0 +1,72 @@
+<?php
+/**
+ * Mapper Object for Recruiter comment Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_CommentTypes extends Hb_Mapper_Account_Recruiter_CommentType  
+{
+	/**
+	 * Find the Comment types and retutn the all types row object
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where($this->primary_key .' = ?', $id);
+		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the Collection class of Typs of comments
+	 *
+	 * @param Row Object $rows
+	 * @return 
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_Recruiter_CommentTypes');
+	}
+	
+	/**
+	 * Find the All Comment types
+	 *
+	 * @return Row Object
+	 */
+	protected function doFindCommentTypes()
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('status = ?', 'A');
+		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Find the All Comment Types
+	 *
+	 * @return Hb_App_Account_Recruiter_CommentTypes
+	 */
+	public function FindCommentTypes()
+	{
+		$result = $this->doFindCommentTypes();
+		
+		return $this->BuildCollection($result);
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

@@ -1,0 +1,107 @@
+<?php 
+/**
+ * Mapper Object for Pricing Volume Discount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_PricingVolumeDiscount extends Hb_Mapper_Mapper 
+{
+	/**
+	 * primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key 	= 'pricing_volume_discount_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table	= 'pricing_volume_discount';
+	
+	/**
+	 * Builds and returns the Pricing Volume Discount domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the pricing_volume_discount table
+	 * @return object An instance of the Pricing Volume Discount domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PricingVolumeDiscount($row->pricing_volume_discount_id,
+																		 $row->expire_date,
+																		 $row->volume_amount,
+																		 $row->effective_date,
+																		 $row->discount_amount,
+																		 $row->license_level_id
+																		 );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	$select = $db->select();
+	 	
+	 	$select->from(array('pvd'	=> 'pricing_volume_discount'), array('pricing_volume_discount_id',
+																							 'license_level_id',
+																							 'volume_amount',
+																							 'discount_amount',
+																							 'effective_date',
+																							 'expire_date')
+									 );
+		return $select;
+	}
+	 
+	/**
+	 * Finds a Pricing Volume Discount by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the pricing_volume_discount table
+	 */	
+	protected function doFindById($id)
+	{
+	  	$select 	= $this->GetBaseSelect();
+	  	$select->where('pricing_volume_discount_id = ?', $id);
+	  	
+	  	return $this->getRow($select);	  		
+	}
+	 
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Pricing Volume Discount domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Proposal_PricingVolumeDiscount */
+	 	
+	 	$data = array(
+	 		'license_level_id'	=> $obj->GetLicenseLevelId(),
+	 		'volume_amount'		=> $obj->GetVolumeAmount(),
+	 		'discount_amount'		=> $obj->GetDiscountAmount(),
+	 		'effective_date'		=> $obj->GetEffectiveDate(),
+	 		'expire_date'			=> $obj->GetExpireDate()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())){
+	 		$db->insert('pricing_volume_discount', $data);
+	 		$obj->SetPricingVolumeDiscountId($db->lastInsertId());
+	 	}else {
+	 		$db->update('pricing_volume_discount', $data, 'pricing_volume_discount_id = '. $obj->GetId());
+	 	}
+	}
+	
+}
+?>

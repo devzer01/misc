@@ -1,0 +1,11 @@
+<?php
+
+require_once 'Zend/Controller/Response/Abstract.php';
+
+class Hb_Interface_Web_Proposal_Proposal 
+{
+
+	
+	
+}
+?>

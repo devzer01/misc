@@ -1,0 +1,335 @@
+<?php
+/**
+ * class for UPSAddress 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Util
+ * @subpackage Service
+ */ 
+class Hb_Util_Service_AddressValidation_UPS_UPSAddress
+{
+	/**
+	 * Access_Key
+	 *
+	 * @var string
+	 */
+	protected $access_key = null ;
+	
+	/**
+	 * User Id
+	 *
+	 * @var string
+	 */
+	protected $user_id = null ;
+	
+	/**
+	 * Password
+	 *
+	 * @var string
+	 */
+	protected $password = null ;
+	
+	/**
+	 * Url
+	 *
+	 * @var string
+	 */
+	protected $url = null ;
+	
+	/**
+	 * City
+	 *
+	 * @var string
+	 */
+	protected $city = null ;
+	
+	/**
+	 * State
+	 *
+	 * @var string
+	 */
+	protected $state = null ;
+	
+	/**
+	 * Zip
+	 *
+	 * @var string
+	 */
+	protected $zip = null ;
+	
+	/**
+	 * Status Code
+	 *
+	 * @var string
+	 */
+	protected $status_code = null ;
+	
+	/**
+	 * Status Description
+	 *
+	 * @var string
+	 */
+	protected $status_description = null ;
+	
+	/**
+	 * Error
+	 *
+	 * @var string
+	 */
+	protected $error = null ;
+	
+	/**
+	 * Recommended addresses
+	 *
+	 * @var array
+	 */
+	protected $recommended_addresses = array();
+	
+	/**
+	 * Time out value
+	 *
+	 * @var int 
+	 */
+	protected $time_out = null;
+	
+	/**
+	 * Create UPSAddress Object
+	 * 
+	 * @param string $access_key Access Key
+	 * @param string $user_id User Id
+	 * @param string $password Password
+	 * @param string $url Url
+	 */
+	function __construct( $access_key = null, 
+								 $user_id    = null, 
+								 $password   = null, 
+								 $time_out	 = null,
+								 $url 	    = "https://wwwcie.ups.com/ups.app/xml/AV"
+							  )
+	{
+      $this->access_key = $access_key;
+      $this->user_id    = $user_id;
+      $this->password   = $password;
+      $this->url        = $url;
+      $this->time_out   = $time_out;
+	}	
+	
+	/**
+	 * Sets the City
+	 *
+	 * @param string $city
+	 */
+	public function SetCity($city)
+   {
+      $this->city = $city;
+   }
+	
+   /**
+	 * Sets the State
+	 *
+	 * @param string $city
+	 */
+   public function SetState($state)
+   {
+      $this->state = $state;
+   }
+	
+   /**
+	 * Sets the Zip
+	 *
+	 * @param int $city
+	 */
+   public function SetZip($zip)
+   {
+      $this->zip = $zip;
+   }
+   
+   /**
+    * Return the Time out value 
+    *
+    * @return int Time out value
+    */
+   public function GetTimeOut()
+   {
+   	return $this->time_out;
+   }
+   
+   /**
+    * Set the Time out value 
+    * 
+    * @param int $time_out Time out value
+    */
+   public function SetTimeOut($time_out)
+   {
+   	$this->time_out = $time_out;
+   }
+   
+   /**
+	 * Get Status Description
+	 *
+	 * @return string
+	 */
+   public function GetStatusDescription()
+   {
+      return $this->status_description ;
+   }
+   
+   /**
+	 * Get Status Code
+	 *
+	  @return string
+	 */
+   public function GetStatusCode()
+   {
+      return $this->status_code ;
+   }
+	
+   /**
+	 * Get Recommended Addresses
+	 *
+	  @return array
+	 */
+    public function GetRecommendedAddresses()
+    {
+    	return $this->recommended_addresses ;
+    }
+    
+   /**
+	 * Send the request and get the response from the UPS addres validation service
+	 *
+	 * @return Hb_Util_Service_AddressValidation_UPS_UPSAddress
+	 */
+   public function GetResponse()
+   {
+   	$xw = new XMLWriter();   	
+ 		$xw->openMemory();
+ 		
+ 		$xw->startDocument("1.0"); 		
+ 		$xw->startElement("AccessRequest");
+ 		$xw->startElement("AccessLicenseNumber"); 		
+ 		$xw->text($this->access_key);
+ 		$xw->endElement() ;
+		$xw->startElement("UserId");
+		$xw->text($this->user_id);
+		$xw->endElement() ;
+		$xw->startElement("Password");
+		$xw->text($this->password);
+		$xw->endElement() ;
+ 		$xw->endElement() ;
+ 		$xw->endDocument(); 	
+ 		
+ 		$address_request =  $xw->outputMemory() ;
+ 		
+ 		
+ 		$xw = new XMLWriter(); 		
+ 		$xw->openMemory();
+ 		
+ 		$xw->startDocument("1.0"); 	
+ 		$xw->startElement("AddressValidationRequest") ;
+ 		$xw->writeAttribute('xml:lang','en-US');
+ 		$xw->startElement("Request");
+ 		$xw->startElement("TransactionReference");
+ 		$xw->startElement("XpciVersion");
+ 		$xw->text("1.0001");
+ 		$xw->endElement() ;
+ 		$xw->endElement() ;
+ 		$xw->startElement("RequestAction");
+ 		$xw->text("AV");
+ 		$xw->endElement() ;
+ 		$xw->endElement() ;
+ 		$xw->startElement("Address");
+		$xw->startElement("City");
+		$xw->text($this->city);
+		$xw->endElement() ;
+		$xw->startElement("StateProvinceCode");
+		$xw->text($this->state);
+		$xw->endElement() ;
+		$xw->startElement("PostalCode");
+		$xw->text($this->zip);
+		$xw->endElement() ;
+		$xw->endElement() ;
+		$xw->endElement() ;
+		$xw->endDocument(); 		
+		
+		$address_validation_request = $xw->outputMemory() ;		
+   	
+		$request = $address_request . $address_validation_request ;	
+		
+      $header[] = "MIME-Version: 1.0";
+      $header[] = "Content-type: multipart/mixed; boundary=----doc";
+      $header[] = "Accept: text/xml";
+      $header[] = "Content-length: ".strlen($request);
+      $header[] = "Cache-Control: no-cache";
+      $header[] = "Connection: close \r\n";
+      $header[] = $request;
+
+      $ch = curl_init();
+      //Disable certificate check.
+      // uncomment the next line if you get curl error 60: error setting certificate verify locations
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+      // uncommenting the next line is most likely not necessary in case of error 60
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+      //-------------------------
+      //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+      //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+      //curl_setopt($ch, CURLOPT_CAINFO, "c:/ca-bundle.crt");
+      //-------------------------
+      curl_setopt($ch, CURLOPT_URL,$this->url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_TIMEOUT, $this->time_out);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'POST');
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+      
+		$response = curl_exec($ch);		
+		
+		if (curl_errno($ch)) 
+		{
+			throw new Exception('Error connecting to the service: '. curl_error($ch));
+		}      
+      else 
+      {
+			$xml = simplexml_load_string($response);	
+		
+			
+			$count_addresses = 0 ;
+			foreach ($xml->AddressValidationResult as $result) 
+			{	
+				$count_addresses++ ;
+			}			
+			
+			/*
+			If the response contains only one recommneded address and also if it's quality is 1
+			the adress will be considered valid.
+			Else if the response contains several recommneded addresses,the address is considered invalid,
+			but several address recommendations will be given.
+			If there is no at least one recommended address the address is totally and invalid address.
+			*/
+			if ( 1 == $count_addresses && '1.0' == $xml->AddressValidationResult[0]->Quality)
+			{
+				$this->status_code = 1 ; 
+				$this->status_description = 'success' ;
+			}
+			elseif ( 'Success' == $xml->Response[0]->ResponseStatusDescription) 
+			{
+				$this->status_code = 2 ; 
+				$this->status_description = 'Failure_with_recommended_addresses' ;
+				
+				foreach ($xml->AddressValidationResult as $result) 
+				{
+					$recommended_addresses[] =	$result ;			
+				} 				
+				$this->recommended_addresses = $recommended_addresses ;				
+			}
+			else 
+			{
+				$this->status_code = 3 ; 
+				$this->status_description = 'Failure' ;
+			}			
+			return $this ;			
+      }
+   }
+   
+}
+?>

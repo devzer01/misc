@@ -1,0 +1,63 @@
+<?php
+class Hb_View_Proposal_ProposalEditSampleFees extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/edit_sample_fees_lightbox.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $data = array();
+	
+	private $row_id = null;
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('data', $this->data);
+		$this->SetData('row_id', $this->row_id);
+	}	
+	
+	public function SetIncidanceRate($incidence)
+	{
+		$this->data['incidence'] = $incidence;
+	}
+		
+	public function SetSampleDescription($description)
+	{
+		$this->data['description'] = $description;
+	}
+		
+	public function SetIncidanceRateB2B($incidence_b2b)
+	{
+		$this->data['incidence_b2b'] = $incidence_b2b;
+	}
+	
+	public function SetSampleDescriptionB2B($description_b2b)
+	{
+		$this->data['description_b2b'] = $description_b2b;
+	}
+	
+	public function SetCountry($country)
+	{
+		$this->data['country'] = $country;
+	}
+	
+	public function SetTotNumberOfQuestions($value)
+	{
+		$this->data['total_no_questions'] = $value;
+	}
+	public function SetTotNumberOfSamples($value)
+	{
+		$this->data['tot_number_of_samples'] = $value;
+	}
+	public function SetIncidence($value)
+	{
+		$this->data['incidence'] = $value;
+	}
+	
+	public function SetRowId($row_id)
+	{
+		$this->row_id = $row_id;
+	}
+	
+}
+
+?>

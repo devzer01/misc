@@ -1,0 +1,113 @@
+<?php
+/**
+ * Mapper Class for ProposalAuctionAccount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_ProposalAuctionAccount extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Proposal auction account
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'proposal_auction_account_id';
+
+	/**
+	 * Proposal auction account group table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_auction_account';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalAuctionAccount';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Proposal_ProposalAuctionAccount';
+	
+	/**
+	 * Build the ProposalAuctionAccount Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalAuctionAccount
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Proposal_ProposalAuctionAccount($row->proposal_auction_account_id,
+																											$row->account_id,
+																											$row->account_name,
+																											$row->invited,
+																											$row->proposal_auction_id,
+																											$row->proposed_completes);
+	}
+	
+	/**
+	 * Get the base data set for ProposalAuctionAccount
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'proposal_auction_account'), array('proposal_auction_account_id', 
+																																	'account_id',
+																																	'account_name', 
+																																	'invited', 
+																																	'proposal_auction_id', 
+																																	'proposed_completes'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Armc group Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('m.proposal_auction_account_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Proposal Auction Account Object
+	 *
+	 * @param int $id Proposal auction account Id
+	 * @return object Proposal auction account
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+
+		$row->account_id 					= $obj->GetAccountId();		
+		$row->account_name 				= $obj->GetAccountName();		
+		$row->invited 						= $obj->GetInvited();
+		$row->proposal_auction_id 		= $obj->GetProposalAuctionId();	
+		$row->proposed_completes 		= $obj->GetProposedCompletes();
+
+		$row->Save();
+	
+	  $obj->SetProposalAuctionAccountId($row->proposal_auction_account_id);
+	  
+	}
+
+} 

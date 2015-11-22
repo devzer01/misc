@@ -1,0 +1,47 @@
+<?php
+
+require_once('Smarty/Smarty.class.php');
+
+class Hb_Util_View_Handler_SmartyHandler extends Smarty 
+{
+	private static $__instance = null;
+	
+	private function __construct()
+	{
+		parent::Smarty();
+		
+		$config = Hb_Util_Config_SystemConfigReader::Read('smarty');
+		
+		$this->template_dir  = $config->template->base_dir;
+		$this->compile_dir   = $config->template->compile_dir;
+		$this->cache_dir       = $config->template->cache_dir;
+		$this->config_dir      = $config->template->config_dir;
+
+		//$this->plugins_dir = array('plugins', $config->template->plugin_dir);
+
+		//$this->compile_check = $config->template->compile_check;
+		//$this->force_compile = $config->template->force_compile;
+
+	}
+	
+	public function Render($view)
+	{
+		$map = $view->GetBindMap();
+		
+		foreach ($map as $elm_name => $elm_values) {
+			$this->assign($elm_name, $elm_values);
+		}
+		
+		return $this->fetch($view->GetTemplateName());
+	}
+	
+	public static function getInstance()
+	{
+		if (is_null(self::$__instance)) {
+			self::$__instance = new Hb_Util_View_Handler_SmartyHandler();
+		}
+		
+		return self::$__instance;
+	}
+}
+?>

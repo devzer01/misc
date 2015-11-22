@@ -1,0 +1,61 @@
+<?php 
+/**
+ * Domain Object for Project Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ *
+ */ 
+class Hb_App_Project_ProjectAttributeDefinition extends Hb_App_Common_AttributeDefinition 
+{
+	/**
+	 * Project Attribute type
+	 *
+	 * @var string 
+	 */
+	protected $project_attribute_type = null;
+	
+	/**
+	 * Create Project Attribute Definition Object
+	 *
+	 * @param int $id Project atribute definition id
+	 * @param string $attribute_name Project attribute definition name
+	 * @param string $description Project attribute definition description
+	 * @param string $project_attribute_type Project attribute type
+	 */
+	public function __construct($id 					= null,
+										 $attribute_name 	= null,
+										 $description		= null,
+										 $project_attribute_type	= null
+										 )
+	{
+		$this->project_attribute_type	= $project_attribute_type;
+		
+		parent::__construct($id, $attribute_name, $description);
+	}
+	
+	/**
+	 * Return the Project attribute type for the Project Attribute Definition
+	 *
+	 * @return string Project attribute type
+	 */
+	public function GetProjectAttributeType()
+	{
+		return $this->project_attribute_type;
+	}
+	
+	/**
+	 * Set the Project attribute type for the  Project Attribute Definition
+	 * 
+	 * @param stirng $project_attribute_type Project attribute type
+	 */
+	public function SetProjectAttributeType($project_attribute_type)
+	{
+		$this->project_attribute_type	= $project_attribute_type;
+		$this->MarkDirty();
+	}
+}
+?>

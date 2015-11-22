@@ -1,0 +1,98 @@
+<?php
+/**
+ * Mapper Class for LicenseLevel
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+class Hb_Mapper_Proposal_LicenseLevel extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of License Level table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'license_level_id';
+	
+	/**
+	 * Variable for License Level table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'license_level';
+	
+	/**
+	 * Build the LicenseLevel Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_LicenseLevel
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_LicenseLevel
+		(	$row->license_level_id,
+			$row->license_level_description
+		);
+	}
+	
+	/**
+	 * Returns License Level data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('us' => 'license_level'), 
+							array(	'license_level_id',
+										'license_level_description'
+									)
+							);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('us.license_level_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Proposal_LicenseLevel  
+		
+		$data = array(
+			'license_level_description'	=> $obj->GetLicenseLevelDescription()
+			);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('license_level', $data);
+			$obj->SetLicenseLevelId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('license_level', $data, 'license_level_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

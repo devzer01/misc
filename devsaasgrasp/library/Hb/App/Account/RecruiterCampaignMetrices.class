@@ -1,0 +1,50 @@
+<?php 
+/**
+ * Domain Object for Recruiter Campaign Metrices
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_RecruiterCampaignMetrices extends Hb_App_Collection 
+{
+    protected $recruiter_campaign_metrics_id = null;
+    
+    protected $recruiter_campaign_metrics    = null;
+
+	public function AddItem(Hb_App_Account_RecruiterCampaignMetrics $campaign_metrics) 
+	{
+		try {
+			parent::AddItem($campaign_metrics);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Recruiter Campaign Metrics Already Exists In Collection ". $campaign_metrics->recruiter_campaign_metrics_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	public function GetItem($recruiter_campaign_metrics_id)
+	{
+		try {
+			return parent::GetItem($recruiter_campaign_metrics_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Recruiter Campaign Metrics Not Found In Collection" . $recruiter_campaign_metrics_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+
+	public function SetRecruiterCampaignMetricsId($recruiter_campaign_metrics_id)
+	{
+	    $this->recruiter_campaign_metrics_id = $recruiter_campaign_metrics_id;
+	}
+	
+
+	public function GetRecruiterCampaignMetricsId()
+	{
+	    return $this->recruiter_campaign_metrics_id;
+	}	
+}
+?>

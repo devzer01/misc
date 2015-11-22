@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper Class for StudyQuotaOnResponse
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyQuotaOnResponse extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study quota on response
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_quota_on_response_id';
+
+	/**
+	 * Study quota on response table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_quota_on_response';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyQuotaOnResponse';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyQuotaOnResponse';
+	
+	/**
+	 * Build the StudyQuotaOnResponse Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyQuotaOnResponse
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyQuotaOnResponse($row->study_quota_on_response_id,
+																	$row->study_id,
+															 		$row->study_quota_label,
+															   	$row->study_quota_name,
+															 		$row->study_quota_progress,
+																	$row->study_quota_required);
+	}
+	
+	/**
+	 * Get the base data set for StudyQuotaOnResponse
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('stor' => $this->table), array('study_quota_on_response_id',
+																			'study_id',
+																    		'study_quota_label',  
+																 	 		'study_quota_name',
+																    		'study_quota_progress', 
+																    		'study_quota_required'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study quota on response
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('stor.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study quota on response
+	 *
+	 * @param Hb_App_Object StudyQuotaOnResponse
+	 * @return object Study quota on response
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_id' 							=> $obj->GetStudyId(),
+							'study_quota_label' 				=> $obj->GetStudyQuotaLabel(),
+							'study_quota_name' 				=> $obj->GetStudyQuotaName(),
+							'study_quota_progress' 			=> $obj->GetStudyQuotaProgress(),
+							'study_quota_required' 			=> $obj->GetStudyQuotaRequired()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyQuotaOnResponseId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

@@ -1,0 +1,25 @@
+<?php
+
+class hb_file {
+	
+	public $name;
+	
+	public $data;
+	
+	/**
+	* __construct()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:47:42
+	*/
+	function __construct($name, $data)
+	{
+		$this->name = $name;
+		$this->data = $data;
+	}
+	
+}
+
+?>

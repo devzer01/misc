@@ -1,0 +1,43 @@
+<?php 
+/**
+ * Specialized Account Panel Cost Attributes Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountPanelCostAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Set the Account Panel Cost Attribute data object  for domainname
+	 * 
+	 * @param Hb_App_Account_AccountPanelCostAttribute $account_panel_cost_attribute  Account Panel Cost Attribute
+	 */
+	public function SetAttribute(Hb_App_Account_AccountPanelCostAttribute $account_panel_cost_attribute)
+	{
+		try {
+			parent::AddAttribute($account_panel_cost_attribute);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException('Attribute Already Exists In Collection.', HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Return the attribute data object 
+	 *
+	 * @param string $name Name of the attribute 
+	 * @return Hb_Data_Attribute 
+	 */
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found. ", HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}	
+}
+?>

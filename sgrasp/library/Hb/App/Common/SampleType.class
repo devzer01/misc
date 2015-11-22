@@ -1,0 +1,28 @@
+<?php
+/**
+ * Domain Object for SampleType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */
+
+class Hb_App_Common_SampleType extends Hb_App_Common_Type
+{
+	/**
+	 * Create SampleType Object
+	 *
+	 * @param int $id Sample Type Id
+	 * @param string $description sample type description
+	 */ 
+	public function __construct(
+											$id = null,
+									    	$description 	= null
+									   )
+   {
+   	parent::__construct($id, $description);
+   }
+}
+?>

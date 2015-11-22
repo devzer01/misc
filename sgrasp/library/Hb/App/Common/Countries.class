@@ -1,0 +1,70 @@
+<?php 
+/**
+ * Domain Object for Countries
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_Countries extends Hb_App_Collection 
+{
+	/**
+	 * Country instance
+	 *
+	 * @var HB_App_Common_Country 
+	 */
+	protected $country = null;
+	
+	/**
+	 * Country Id
+	 *
+	 * @var int 
+	 */
+	protected $country_id	= null;
+
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 */
+	public function AddItem(Hb_App_Common_Country $country) 
+	{
+		try {
+			parent::AddItem($country);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Country Already Exists In Collection For countries ",
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($country_id)
+	{
+		try {
+			return parent::GetItem($country_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Country Not Found For Countries Collection" . $country_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Add Country values to the Properties
+	 *
+	 */
+	public function AddCountry(Hb_App_Common_Country $country)
+	{
+		$this->country		= $country;
+		$this->country_id	= $country->GetCountryId();
+	}	
+}
+?>

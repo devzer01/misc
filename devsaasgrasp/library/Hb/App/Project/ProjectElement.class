@@ -1,0 +1,181 @@
+<?php
+
+/**
+ * Project Element Class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */
+
+class Hb_App_Project_ProjectElement  extends Hb_App_Object
+{
+   /**
+ 	* Project Element Id
+ 	*
+ 	* @var int 
+ 	*/ 
+	protected $project_element_id = null;
+	
+   /**
+ 	* Project Element Reference Description
+ 	*
+ 	* @var string 
+ 	*/
+	protected $project_element_reference_description = null;
+	
+   /**
+ 	* Project Element Reference Id
+ 	*
+ 	* @var int
+ 	*/
+	protected $project_element_reference_id = null;
+	
+   /**
+ 	* Project Element Type Id
+ 	*
+ 	* @var int
+ 	*/
+	protected $project_element_type_id = null;
+	
+   /**
+ 	* Project Id
+ 	*
+ 	* @var int
+ 	*/
+	protected $project_id = null;
+	
+   /**
+ 	* Class Constructor
+ 	*
+ 	* @param int Project Element Id
+ 	* @param string Project Element reference Description
+ 	* @param int Project Element reference Id
+ 	* @param int Project Element type Id
+ 	* @param int Project Id
+ 	*/ 
+	function __construct($id = null, 
+	                     $description = null, 
+	                     $reference_id = null, 
+	                     $type_id = null, 
+	                     $project_id = null)
+	{
+		$this->project_element_id						= $id;
+		$this->project_element_reference_description	= $description;
+		$this->project_element_reference_id				= $reference_id;
+		$this->project_element_type_id					= $type_id;
+		$this->project_id								= $project_id;
+		
+		parent::__construct($id); 
+	}
+
+   /**
+ 	* Get Project Element Id
+ 	*
+ 	* @return int Project Element Id
+ 	*/
+	public function GetProjectElementId()
+	{
+		return (int) $this->project_element_id;
+	}
+	
+   /**
+	* Get Project Element Reference Description
+	*
+	* @return string Project Element reference description
+	*/
+	public function GetProjectElementReferenceDescription()
+	{
+		return $this->project_element_reference_description;
+	}
+	
+   /**
+	* Get Project Element Reference Id
+	* 
+	* @return int Project Element reference Id
+	*/
+	public function GetProjectElementReferenceId()
+	{
+		return $this->project_element_reference_id;
+	}
+	
+   /**
+	* Get Project Element Type Id
+	* 
+	* @return int Project Element type Id
+	*/
+	public function GetProjectElementTypeId()
+	{
+		return $this->project_element_type_id;
+	}
+	
+   /**
+	* Get Project Id
+	* 
+	* @return int Project Id
+	*/
+	public function GetProjectId()
+	{
+		return $this->project_id;
+	}
+
+   /**
+	* Set Project Element Id
+	* 
+	* @param int Project Element Id
+	*/ 
+	public function SetProjectElementId($project_element_id)
+	{		
+		$this->project_element_id = (int) $project_element_id;
+		$this->__id = (int) $project_element_id;
+		$this->MarkDirty();
+	}
+
+   /**
+	* Set Project Element Reference Description
+	* 
+	* @param string Project Element reference description
+	*/
+	public function SetProjectElementReferenceDescription($description)
+	{
+		$this->project_element_reference_description = $description;
+		$this->MarkDirty();
+	}
+
+   /**
+	* Set Project Element Reference Id
+	* 
+	* @param int Project Element reference Id
+	*/
+	public function SetProjectElementReferenceId($reference_id)
+	{
+		$this->project_element_reference_id = $reference_id;
+		$this->MarkDirty();
+	}
+
+   /**
+	* Set Project Element Type Id
+	* 
+	* @param int Project Element type Id
+	*/
+	public function SetProjectElementTypeId($type_id)
+	{
+		$this->project_element_type_id = $type_id;
+		$this->MarkDirty();
+	}
+
+   /**
+	* Set Project Id
+	* 
+	* @param int Project Id
+	*/
+	public function SetProjectId($project_id)
+	{
+		$this->project_id = $project_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

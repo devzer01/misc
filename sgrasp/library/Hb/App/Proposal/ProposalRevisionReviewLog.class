@@ -1,0 +1,181 @@
+<?php
+
+/**
+ * Domain Object for Proposal Revision Review Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+
+class Hb_App_Proposal_ProposalRevisionReviewLog extends Hb_App_Object
+{
+	/**
+	 * Login
+	 *
+	 * @var int
+	 */
+	protected $login = null;
+	
+	/**
+	 * Notification Sent Date
+	 *
+	 * @var string
+	 */
+	protected $notification_sent_date = null;
+	
+	/**
+	 * Proposal Review Group Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_review_group_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Proposal Revision Review Log Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_revision_review_log_id = null;
+	
+
+	function __construct( 	$id = null ,
+							$proposal_revision_id = null,
+							$proposal_review_group_id = null,
+							$login = null,
+							$notification_sent_date = null
+							)
+	{
+		$this->proposal_revision_review_log_id = $id;
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->proposal_review_group_id = $proposal_review_group_id;
+		$this->login = $login;
+		$this->notification_sent_date = $notification_sent_date;
+		
+		parent::__construct($id);
+		
+	}
+
+	/**
+	 * Returns The Login 
+	 *
+	 * @return int The Login 
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+	
+	/**
+	 * Returns The Notification Sent Date
+	 *
+	 * @return string The Notification Sent Date
+	 */
+	public function GetNotificationSentDate()
+	{
+		return $this->notification_sent_date;
+	}
+
+	/**
+	 * Returns The Proposal Review Group Id
+	 *
+	 * @return int The Proposal Review Group Id
+	 */
+	public function GetProposalReviewGroupId()
+	{
+		return $this->proposal_review_group_id;
+	}
+
+	/**
+	 * Returns The Proposal Revision Id
+	 *
+	 * @return int The Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Returns The Proposal Revision Review Log Id
+	 *
+	 * @return int The Proposal Revision Review Log Id
+	 */
+	public function GetProposalRevisionReviewLogId()
+	{
+		return $this->proposal_revision_review_log_id;
+	}
+
+	/**
+	 * Sets The Login
+	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = (int) $login;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Notification Sent Date
+	 * 
+	 * @param string $notification_sent_date The Notification Sent Date
+	 */
+	public function SetNotificationSentDate($notification_sent_date)
+	{
+		$this->notification_sent_date = $notification_sent_date;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Review Group Id
+	 * 
+	 * @param int $proposal_review_group_id The Proposal Review Group Id
+	 */
+	public function SetProposalReviewGroupId($proposal_review_group_id)
+	{
+		$this->proposal_review_group_id = (int) $proposal_review_group_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Revision Id
+	 * 
+	 * @param int $proposal_revision_id The Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int) $proposal_revision_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Revision Review Log Id
+	 * 
+	 * @param int $proposal_revision_review_log_id The Proposal Revision Review Log Id
+	 */
+	public function SetProposalRevisionReviewLogId($proposal_revision_review_log_id)
+	{
+		$this->proposal_revision_review_log_id = (int) $proposal_revision_review_log_id;
+		$this->__id = (int) $proposal_revision_review_log_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

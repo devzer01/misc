@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Is thrown when The UPS default configration is not found 
+ *
+ * @package  Util
+ * @subpackage  Service
+ */
+class Hb_Util_Service_AddressValidation_Exception_ConfigurationNotFoundException extends Hb_Exception 
+{
+	
+}
+?>

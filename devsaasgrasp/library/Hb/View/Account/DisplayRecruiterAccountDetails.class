@@ -1,0 +1,72 @@
+<?php
+class Hb_View_Account_DisplayRecruiterAccountDetails extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/vw_recruiter_account_detail.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;
+	
+	protected $countries = null;
+	
+	protected $campaigns = null;	
+	
+	protected $demographics = null;	
+	
+	protected $display = array('view_add_basic_contact_button' => 0, 
+										'view_account_edit_button' => 0, 
+										'display_btn_update_netmr' => 0, 
+										'display_btn_create_netmr' => 0);	
+										
+	protected function LoadData()
+	{
+		
+		$this->SetData('account', $this->account);
+		$this->SetData('campaigns', $this->campaigns);
+		$this->SetData('contacts', $this->contacts);		
+		$this->SetData('demographics', $this->demographics);		
+		$this->SetData('display', $this->display);		
+	}	
+	
+	public function SetContacts($contacts)
+	{
+		$this->contacts = $contacts;
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetCampaigns($campaigns)
+	{
+		$this->campaigns = $campaigns;
+	}
+	
+	public function SetDemographics($demographics)
+	{
+		$this->demographics = $demographics;
+	}
+	
+	public function DisplayBillingContact()
+	{
+		$this->display['view_add_basic_contact_button'] = 1;
+	}
+	
+	public function DisplayAccountEdit()
+	{
+		$this->display['view_account_edit_button'] = 1;
+	}
+	
+	public function DisplayUpdateNetMr()
+	{
+		$this->display['display_btn_update_netmr'] = 1;
+	}
+	
+	public function DisplayCreateNetMr()
+	{
+		$this->display['display_btn_create_netmr'] = 1;
+	}
+}
+
+?>

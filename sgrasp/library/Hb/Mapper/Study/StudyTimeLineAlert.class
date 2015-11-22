@@ -1,0 +1,108 @@
+<?php 
+/**
+ * Mapper Object for Study Timeline Alert
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyTimeLineAlert extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_timeline_alert_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_timeline_alert';
+	
+	/**
+	 * Builds and returns the Study Timeline Alert domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_timeline_alert table
+	 * @return object An instance of the Study Timeline Alert domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTimeLineAlert($row->study_timeline_alert_id,
+																 $row->alert_email,
+																 $row->alert_jabber,
+																 $row->alert_mobile,
+																 $row->alert_sent_date,
+																 $row->login,
+																 $row->study_timeline_id
+																 );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+		$select->from(array('sta' => $this->table), array('study_timeline_alert_id',
+																		  'study_timeline_id',
+																		  'login',
+																		  'alert_mobile',
+																		  'alert_email',
+																		  'alert_jabber',
+																		  'alert_sent_date')
+						  );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Study Timeline Alert by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_timeline_alert table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sta.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study TimeLine Alert domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyTimeLineAlert  */
+	 	$data = array(
+			'study_timeline_id' 	=> $obj->GetStudyTimeLineId(),
+			'login'					=> $obj->GetLogin(),
+			'alert_mobile'			=> $obj->GetAlertMobile(),
+			'alert_email'			=> $obj->GetAlertEmail(),
+			'alert_jabber'			=> $obj->GetAlertJabber(),
+			'alert_sent_date'		=> $obj->GetAlertSentDate()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyTimeLineAlertId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * Abstract Collection Object, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ * 
+ *
+ */
+
+class Hb_App_Collection extends Hb_App_Object implements Iterator, Countable
+{
+	protected $__collection = array();	
+	
+	public function HasItem($id)
+	{
+		return (isset($this->__collection[$id])) ? true : false;
+	}
+	
+	public function AddItem(Hb_App_Object $item)
+	{
+		if (isset($this->__collection[$item->GetId()])) 
+		{
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection", 
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+		
+		$this->__collection[$item->GetId()] = $item;
+	}
+
+	/**
+	 * 
+	 *
+	 * @param unknown_type $name
+	 * @return Hb_Data_Attribute
+	 */
+	public function GetItem($id)
+	{
+		if (!isset($this->__collection[$id])) 
+		{
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Item Not Found", 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+		
+		return $this->__collection[$id];
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	public function Rewind() 
+	{
+       		reset($this->__collection);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Current() 
+   {
+       return current($this->__collection);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Key() {
+       return key($this->__collection);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Next() {
+       return next($this->__collection);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Valid() 
+   {
+       return $this->current() !== false;
+   }
+   
+   public function count()
+   {
+   		return count($this->__collection);
+   }
+	
+	function __clone()
+   {
+   	foreach ($this->__collection as $name => $attr) {
+   		$this->__collection[$name] = clone $attr;
+   	}
+   }
+}
+?>

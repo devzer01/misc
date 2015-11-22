@@ -1,0 +1,129 @@
+<?php
+include_once 'class/Hb/Mapper/MapperHelper.class';
+include_once 'class/Hb/Mapper/Exception/ObjectNotFoundException.class';
+include_once 'class/Hb/App/Collection.class';
+include_once 'class/Hb/App/Object.class';
+include_once 'class/Hb/Util/Lang/Class.class';
+include_once 'class/Hb/App/ObjectMap.class';
+include_once 'class/Hb/Util/Db/Connection.class';
+include_once 'class/Hb/Util/Log/Logger.class';
+
+/**
+ * 
+ * Domain object mapper, that implements core mapper functionality
+ * 
+ * @author nayana
+ * @version 1.1
+ * @updated 18-Jul-2007 7:21:01 PM
+ */
+abstract class Hb_Mapper_Audit
+{
+	/**
+	 * 
+	 * @var string member will be set to the domain object class by the helper, used in the caching mechanism
+	 */
+	protected $domain;
+	
+	/**
+	 * 
+	 * @var string must be set at the individual mapper level to the primary key of the table
+	 */
+	protected $primary_key;
+	
+	/**
+	 * 
+	 * @var string must be set at the individual mapper level to the primary table of the mapper
+	 */
+	protected $table;
+
+	/**
+	 * 
+	 * Loaded by Object Helper 
+	 * 
+	 * @throws Exception
+	 */
+	public final function __construct($class)
+	{
+		$this->domain = $class;			
+	}
+	
+	/**
+	 * 
+	 */
+	protected function GetRowGateway()
+	{
+		try {
+			$gateway = Hb_Mapper_MapperHelper::GetRowGatway($this->domain);
+		} catch (Exception $e) {
+			$gateway = Hb_Mapper_MapperHelper::GetRowGatewayByTable($this->table);
+		}
+		
+		return $gateway;
+	}
+
+	/**
+	 * Common Find method to retrive the Account Domain object given the id of the object
+	 * 
+	 * @param int $id object identification
+	 * @return Hb_App_Object
+	 */
+	public function Find($id)
+	{
+		try {				
+			//should we check to see if the returning domain is a collection ?
+			return $this->FindById($id);
+			
+		} catch (Exception $e) {
+			$logger = Hb_Util_Log_Logger::GetInstance('mapper');
+			$logger->LogException($e);		
+		}
+	}	
+	
+	/**
+	 * 
+	 * @return Hb_App_Account_Account
+	 */
+	protected function BuildObject($row)
+	{
+		$obj = $this->doBuildObject($row);
+			
+		return $obj; 
+	}
+	
+	/**
+	 * 
+	 * @todo Move to Abstract mapper
+	 */
+	protected function getRow($select)
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		return $db->fetchRow($select);
+	}
+		
+	protected function FindById($id)
+	{
+		$result = $this->doFindById($id);
+				
+		return $this->BuildObject($result);
+	}
+	
+	abstract protected function doBuildObject($row);
+	
+	abstract protected function GetBaseSelect();
+	
+	abstract protected function doFindById($id);
+	
+	abstract protected function doSave(Hb_App_Object $obj);
+	
+	public function GetPrimaryKey()
+	{
+		return $this->primary_key;
+	}
+	
+	public function GetTableName()
+	{
+		return $this->table;
+	}
+	
+}
+?>

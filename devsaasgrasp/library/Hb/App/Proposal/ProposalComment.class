@@ -1,0 +1,294 @@
+<?php
+
+/**
+ * Domain Object for ProposalComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+
+class Hb_App_Proposal_ProposalComment extends Hb_App_Object 
+{
+	/**
+	 * Login
+	 * 
+	 * @var int
+	 */
+	protected $login = null;
+
+	/**
+	 * Proposal comment date
+	 * 
+	 * @var int
+	 */
+	protected $proposal_comment_date = null;
+	
+	/**
+	 * Proposal comment id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_comment_id = null;
+
+	/**
+	 * Proposal comment text
+	 * 
+	 * @var string
+	 */
+	protected $proposal_comment_text = null;
+	
+	/**
+	 * Proposal comment type id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_comment_type_id = null;
+
+	/**
+	 * Proposal id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_id = null;
+	
+	/**
+	 * Proposal status id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_status_id = null;
+	
+	/**
+	 * User id
+	 * 
+	 * @var int
+	 */
+	protected $user_id = null;
+
+	/**
+	 * Contructor of the ProposalComment domain
+	 * 
+	 * @author jsadique
+	 * @param int $id Proposal comment id
+	 * @param int $proposal_id Proposal id
+	 * @param int $proposal_comment_type_id Comment type id
+	 * @param int $proposal_status_id Status Id
+	 * @param string $proposal_comment_text Comment text
+	 * @param int $proposal_comment_date Comment date
+	 * @param int $login Login id
+	 * @param int $user_id User id
+	 */		
+	function __construct(	$id = null,
+									$proposal_id = null,
+									$proposal_comment_type_id = null,
+									$proposal_status_id = null,
+									$proposal_comment_text = null,
+									$proposal_comment_date = null,
+									$login = null,
+									$user_id = null															
+							  )
+	{		 					
+		$this->proposal_comment_id = $id;
+		$this->proposal_id = $proposal_id;
+		$this->proposal_comment_type_id = $proposal_comment_type_id;
+		$this->proposal_status_id = $proposal_status_id;
+		$this->proposal_comment_text = $proposal_comment_text;
+		$this->proposal_comment_date = $proposal_comment_date;
+		$this->login = $login;
+		$this->user_id = $user_id;		
+		
+		parent::__construct($id);
+	}
+
+
+	/**
+	 * Return proposal comment id
+	 *
+	 * @author jsadique
+	 * @return int Proposal comment id
+	 */
+	public function GetProposalCommentId()
+	{
+		return $this->proposal_comment_id;
+	}
+	
+	
+	/**
+	 * Get login
+	 *
+	 * @author jsadique
+	 * @return int Login id
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return proposal comment date
+	 *
+	 * @author jsadique
+	 * @return string Proposal comment date
+	 */
+	public function GetProposalCommentDate()
+	{
+		return $this->proposal_comment_date;
+	}
+
+	/**
+	 * Return proposal comment text
+	 *
+	 * @author jsadique
+	 * @return string Proposal comment text
+	 */
+	public function GetProposalCommentText()
+	{
+		return $this->proposal_comment_text;
+	}
+
+	/**
+	 * Return proposal comment type id
+	 *
+	 * @author jsadique
+	 * @return int Proposal comment type id
+	 */
+	public function GetProposalCommentTypeId()
+	{
+		return $this->proposal_comment_type_id;
+	}
+
+	/**
+	 * Return proposal id
+	 *
+	 * @author jsadique
+	 * @return int Proposal id
+	 */
+	public function GetProposalId()
+	{
+		return $this->proposal_id;
+	}
+
+	/**
+	 * Return proposal status type id
+	 *
+	 * @author jsadique
+	 * @return int Proposal status type id
+	 */	
+	public function GetProposalStatusId()
+	{
+		return $this->proposal_status_id;
+	}
+
+	/**
+	 * Return user id
+	 *
+	 * @author jsadique
+	 * @return int Proposal user id
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Sets the Login
+	 * 
+	 * @author jsadique
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = (int) $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal comment date
+	 * 
+	 * @author jsadique
+	 * @param string $comment_date Comment date
+	 */
+	public function SetProposalCommentDate($comment_date)
+	{
+		$this->proposal_comment_date = $comment_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal comment id
+	 * 
+	 * @author jsadique
+	 * @param int $id Comment Id
+	 */
+	public function SetProposalCommentId($id)
+	{
+		$this->proposal_comment_id = (int) $id;
+		$this->__id =  (int) $id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal comment text
+	 * 
+	 * @author jsadique
+	 * @param string $comment_text Proposal comment text
+	 */
+	public function SetProposalCommentText($comment_text)
+	{
+		$this->proposal_comment_text = $comment_text;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal comment type id
+	 * 
+	 * @author jsadique
+	 * @param int $comment_type_id Proposal comment type id
+	 */
+	public function SetProposalCommentTypeId($comment_type_id)
+	{
+		$this->proposal_comment_type_id = (int) $comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal id
+	 * 
+	 * @author jsadique
+	 * @param int $proposal_id Proposal id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = (int) $proposal_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal status id
+	 * 
+	 * @author jsadique
+	 * @param int $proposal_status_id Proposal status id
+	 */
+	public function SetProposalStatusId($proposal_status_id)
+	{
+		$this->proposal_status_id = (int) $proposal_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets user id
+	 * 
+	 * @author jsadique
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = (int) $user_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

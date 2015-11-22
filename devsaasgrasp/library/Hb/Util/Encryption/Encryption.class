@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * Encryption Utility
+ *
+ * @package Util
+ * @subpackage Encryption
+ */
+class Hb_Util_Encryption_Encryption
+{
+   
+   private $__td;
+   
+   private $__iv;
+   
+   private $__ks;
+   
+   private $__key;   
+   
+   private static $__instance;
+   
+   
+   /**
+    * Enter description here...
+    *
+    * @todo provide ability to change encryption key via configuration
+    */
+   protected function __construct()
+   {
+      $this->__ks = mcrypt_get_iv_size(MCRYPT_XTEA, MCRYPT_MODE_ECB);
+      $this->__iv = mcrypt_create_iv($this->__ks, 100);
+
+      /* Create key */
+      $this->__key = 'secret key'; 
+   }
+   
+   /**
+    * Enter description here...
+    *
+    */
+   function __destruct()
+   {
+      //TODO add code
+      
+   }
+   
+   /**
+    * Encrypts a provided string
+    *
+    * @param string $str string to be encrypted
+    * @return string an encrypted string
+    */
+   function Encrypt($str)
+   {
+      //when we call this from smarty it sends us an associative array
+      if (is_array($str)) {
+         $str = $str['p1'];
+      }
+    
+      $encrypted = mcrypt_encrypt(MCRYPT_XTEA, $this->__key, $str, MCRYPT_MODE_ECB, $this->__iv);
+
+      //$encrypted =  binhex($encrypted) ."\n";
+      $encrypted =  base64_encode($encrypted);
+      
+      return $encrypted;
+   }
+   
+   /**
+    * decrypts a provided string
+    *
+    * @param string $str string to be descrypted
+    * @return string
+    */
+   function Decrypt($str)
+   {
+      $encrypted = base64_decode($str);
+      
+      $decrypted = mcrypt_decrypt(MCRYPT_XTEA, $this->__key, $encrypted, MCRYPT_MODE_ECB, $this->__iv);
+
+      return trim($decrypted);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return Hb_Util_Encryption_Encryption
+    */
+   public static function GetInstance()
+   {
+   		if (is_null(self::$__instance)) {
+   			self::$__instance = new Hb_Util_Encryption_Encryption();
+   		}
+   	
+   		return self::$__instance;
+   }
+
+   
+   
+}

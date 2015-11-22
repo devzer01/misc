@@ -1,0 +1,322 @@
+<?php 
+/**
+ * Domain Object for Proposal Revision Panel Cost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+
+class Hb_App_Proposal_ProposalRevisionPanelCost extends Hb_App_Object 
+{
+	
+	/**
+	 * Proposal Revision Panel Cost Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_panel_cost_id = null;
+
+	/**
+	 * Proposal Panel Cost Type Id
+	 * 
+	 * @var int
+	 */
+	protected $panel_cost_type_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+
+	/**
+	 * Inflator Value
+	 * 
+	 * @var float
+	 */
+	protected $inflator = null;
+	
+	/**
+	 * Contracted Discount Value
+	 * 
+	 * @var float
+	 */
+	protected $contracted_discount = null;
+
+	/**
+	 * Non Contracted Discount Value
+	 * 
+	 * @var float
+	 */
+	protected $non_contracted_discount = null;
+	
+	/**
+	 * Promotional Discount
+	 * 
+	 * @var float
+	 */
+	protected $promotional_discount = null;
+
+	/**
+	 * Ad hoc Discount
+	 * 
+	 * @var float
+	 */
+	protected $ad_hoc_discount = null;
+	
+	
+	/**
+	* Contructor of the ProposalRevisionPanelCost domain
+	* 
+	* @author ddayananda
+	* @param int $id Proposal Revision Panel Cost Id
+	* @param int $panel_cost_type_id Panel Cost Type Id
+	* @param int $proposal_revision_id Proposal Revision Id
+	* @param float $inflator Inflator Value
+	* @param float $contracted_discount Contracted Discount
+	* @param float $non_contracted_discount Non Contracted Discount
+	* @param float $promotional_discount Promotional Discount
+	* @param float $ad_hoc_discount Ad hoc Discount
+	*/		
+	
+	function __construct(	$id = null,	
+							$panel_cost_type_id = null,
+							$proposal_revision_id = null,
+							$inflator = null,
+							$contracted_discount = null,
+							$non_contracted_discount = null,
+							$promotional_discount = null,
+							$ad_hoc_discount = null )
+	{		 					
+		
+		$this->proposal_revision_panel_cost_id =  $id;
+		$this->panel_cost_type_id =  $panel_cost_type_id;
+		$this->proposal_revision_id =  $proposal_revision_id ;		
+		$this->inflator =  $inflator;
+		$this->contracted_discount =  $id;
+		$this->non_contracted_discount = $non_contracted_discount;
+		$this->promotional_discount =  $promotional_discount ;		
+		$this->ad_hoc_discount = $ad_hoc_discount;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Proposal Revision Panel Cost Id
+	 *
+	 * @author ddayananda
+	 * @return int $proposal_revision_panel_cost_id Proposal Revision Panel Cost Id
+	 */
+	public function GetProposalRevisionPanelCostId()
+	{
+		return $this->proposal_revision_panel_cost_id ;
+	}
+
+	
+	/**
+	 * Get Panel Cost Type Id
+	 *
+	 * @author ddayananda
+	 * @return int $panel_cost_type_id Panel Cost Type Id
+	 */
+	public function GetPanelCostTypeId()	
+	{
+		return $this->panel_cost_type_id;
+	}
+
+	
+	/**	
+	 * Get Proposal Revision Id
+	 *
+	 * @author ddayananda
+	 * @return int $proposal_revision_id Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id ;
+	}
+	
+
+	/**
+	 * Get value of the inflator
+	 *
+	 * @author ddayananda
+	 * @return float $inflator Inflator	 
+	 * 
+     */
+	public function GetInflator()
+	{
+		return $this->inflator;
+	}
+
+	
+	/**
+	 * Get Contracted Discount
+	 *
+	 * @author ddayananda
+	 * @return float $contracted_discount Contracted Discount
+	 */
+	public function GetContractedDiscount()
+	{
+		return $this->contracted_discount;
+	}
+
+	
+	/**
+	 * Get Non Contracted Discount
+	 *
+	 * @author ddayananda
+	 * @return float $non_contracted_discount Non Contracted Discount
+	 */
+	public function GetNonContractedDiscount()	
+	{
+		return $this->non_contracted_discount;
+	}
+
+	
+	/**	
+	 * Get Promotional Discount
+	 *
+	 * @author ddayananda
+	 * @return float $promotional_discount	Promotional Discount
+	 */
+	public function GetPromotionalDiscount()
+	{
+		return $this->promotional_discount;
+	}
+
+	
+	/**
+	 * Get Ad Hoc Discount
+	 *
+	 * @author ddayananda
+	 * @return float ad_hoc_discount Ad Hoc Discount
+     */
+	public function GetAdHocDiscount()
+	{
+		return $this->ad_hoc_discount;
+	}
+	
+	
+	/**
+	 * Sets the Proposal Revision Panel Cost Id
+	 * 
+	 * @author ddayananda
+	 * @param int $proposal_revision_panel_cost_id Proposal Revision Panel CostId 
+	*/
+	public function SetProposalRevisionPanelCostId($proposal_revision_panel_cost_id)
+	{
+		$this->proposal_revision_panel_cost_id = (int) $proposal_revision_panel_cost_id;
+
+		$this->__id = (int) $proposal_revision_panel_cost_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Panel Cost Type Id
+	 * 
+	 * @author ddayananda
+	 * @param int panel_cost_type_id Panel Cost Type Id
+	 */
+	public function SetPanelCostTypeId($panel_cost_type_id)
+	{
+		$this->panel_cost_type_id = (int) $panel_cost_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Proposal Revision Id
+	 * 
+	 * @author ddayananda
+	 * @param int proposal_revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int) $proposal_revision_id;
+		
+		$this->MarkDirty();
+	}
+ 
+	
+	/**
+	 * Sets Inflator
+	 * 
+	 * @author ddayananda
+	 * @param float $inflator Inflator
+	 */
+	public function SetInflator($inflator)
+	{
+		$this->inflator = (float) $inflator;
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets the contracted_discount
+	 * 
+	 * @author ddayananda
+	 * @param float $contracted_discount Contracted Discount
+	*/
+	public function SetContractedDiscount($contracted_discount)
+	{
+		$this->contracted_discount = (float) $contracted_discount;		
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Non Contracted Discount
+	 * 
+	 * @author ddayananda
+	 * @param float $non_contracted_discount Non Contracted Discount
+	 */
+	public function SetNonContractedDiscount($non_contracted_discount)
+	{
+		$this->non_contracted_discount = (float) $non_contracted_discount;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Promotional Discount
+	 * 
+	 * @author ddayananda
+	 * @param float $promotional_discount Promotional Discount
+	 */
+	public function SetPromotionalDiscount($promotional_discount)
+	{
+		$this->promotional_discount = (float) $promotional_discount;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets ad_hoc_discount
+	 * 
+	 * @author ddayananda
+	 * @param float $ad_hoc_discount Ad Hoc Discount
+	 */
+	public function SetAdHocDiscount($ad_hoc_discount)
+	{
+		$this->ad_hoc_discount = (float) $ad_hoc_discount;
+		
+		$this->MarkDirty();
+	}
+}	
+	
+
+	
+?>

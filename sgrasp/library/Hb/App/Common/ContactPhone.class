@@ -1,0 +1,251 @@
+<?php
+/**
+ * Domain Object for Contact Phone
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_ContactPhone extends Hb_App_Object 
+{
+	/**
+	 * Contact id
+	 *
+	 * @var int 
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Contact phone ext
+	 *
+	 * @var string 
+	 */
+	protected $contact_phone_ext = null;
+	
+	/**
+	 * Contact phone id
+	 *
+	 * @var int 
+	 */
+	protected $contact_phone_id = null;
+	
+	/**
+	 * Contact phone number
+	 *
+	 * @var string 
+	 */
+	protected $contact_phone_number = null;
+	
+	/**
+	 * Phone country code
+	 *
+	 * @var string 
+	 */
+	protected $phone_country_code = null;
+	
+	/**
+	 * Phone type id
+	 *
+	 * @var int 
+	 */
+	protected $phone_type_id = null;	
+	
+	protected $contact = null;
+	
+	
+	/**
+	 * Create Contact Phone Object
+	 *
+	 * @param int $id contact_phone_id
+	 * @param string $contact_phone_ext Contact phone ext
+	 * @param int $contact_id Contact id
+	 * @param string $contact_phone_number Contact phone number
+	 * @param string $phone_country_code Phone country code
+	 * @param int $phone_type_id Phone type id
+	 */	
+	function __construct($id 							= null,
+								$contact_phone_ext 		= null,
+								$contact_id 				= null,
+								$contact_phone_number 	= null,
+								$phone_country_code 		= null,
+								$phone_type_id				= null)
+	{
+		$this->contact_phone_id			= $id;
+		$this->contact_id					= $contact_id;
+		$this->contact_phone_ext		= $contact_phone_ext;
+		$this->contact_phone_number 	= $contact_phone_number;
+		$this->phone_country_code		= $phone_country_code;
+		$this->phone_type_id				= $phone_type_id;
+		
+		parent::__construct($id);		
+	}
+	
+	public function SetContact($contact)
+	{	
+		$this->contact_id = $contact->GetContactId();	
+		$this->contact = $contact;
+		$this->MarkDirty();		
+	}
+	
+	/**
+	 * Returns the Contact object
+	 *
+	 * @return Hb_App_Common_Contact
+	 */
+	public function GetContact()
+	{
+		return $this->doGetContact();
+	}
+	
+	/**
+	 * Returns the Contact Object from the Mapper (Protected Method)
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	protected function doGetContact()
+	{
+		if (is_null($this->contact)) {
+			if (is_null($this->contact_id)) {
+				throw new Hb_App_Account_Exception_ContactNotFoundException();
+			}
+			
+			$this->contact = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Contact')->Find($this->contact_id);
+		}
+		
+		return $this->contact;
+	}
+	
+	/**
+	 * Return the Contact id for the Cotnact Phone
+	 *
+	 * @return int Contact id
+	 */
+	public function GetContactId()
+	{
+		if (is_null($this->contact_id)) {
+			$this->contact_id = $this->doGetContact()->getContactId();
+		}
+		return $this->contact_id;
+	}
+
+	/**
+	 * Return the Cotnact phone ext for the Cotnact Phone
+	 *
+	 * @return string Cotnact phone ext
+	 */
+	public function GetContactPhoneExt()
+	{
+		return $this->contact_phone_ext;
+	}
+
+	/**
+	 * Return the Contact phone id for the Cotnact Phone
+	 *
+	 * @return int Contact phone id
+	 */
+	public function GetContactPhoneId()
+	{
+		return $this->contact_phone_id;
+	}
+
+	/**
+	 * Return the Cotnact phone number for the Cotnact Phone
+	 *
+	 * @return string Cotnact phone number
+	 */
+	public function GetContactPhoneNumber()
+	{
+		return $this->contact_phone_number;
+	}
+
+	/**
+	 * Return the Phone country code for the Cotnact Phone
+	 *
+	 * @return string Phone country code
+	 */
+	public function GetPhoneCountryCode()
+	{
+		return $this->phone_country_code;
+	}
+
+	/**
+	 * Return the Phone type id for the Cotnact Phone
+	 *
+	 * @return int Phone type id
+	 */
+	public function GetPhoneTypeId()
+	{
+		return $this->phone_type_id;
+	}
+
+	/**
+	 * Set the Contact id for the  Cotnact Phone
+	 * 
+	 * @param int $contact_id Contact id
+	 */
+	public function SetContactId($contact_id)
+	{
+		$this->contact_id = $contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact phone ext for the  Cotnact Phone
+	 * 
+	 * @param string $contact_phone_ext Contact phone ext
+	 */
+	public function SetContactPhoneExt($contact_phone_ext)
+	{
+		$this->contact_phone_ext = $contact_phone_ext;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact phone id for the  Cotnact Phone
+	 * 
+	 * @param int $contact_phone_id Contact phone id
+	 */
+	public function SetContactPhoneId($contact_phone_id)
+	{
+		$this->contact_phone_id = $contact_phone_id;
+		$this->__id					= $contact_phone_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Cotnact phone number for the  Cotnact Phone
+	 * 
+	 * @param string $contact_phone_number Cotnact phone number
+	 */
+	public function SetContactPhoneNumber($contact_phone_number)
+	{
+		$this->contact_phone_number = $contact_phone_number;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Phone country code for the  Cotnact Phone
+	 * 
+	 * @param string $phone_country_code Phone country code
+	 */
+	public function SetPhoneCountryCode($phone_country_code)
+	{
+		$this->phone_country_code = $phone_country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Phone type id for the  Cotnact Phone
+	 * 
+	 * @param int $phone_type_id Phone type id
+	 */
+	public function SetPhoneTypeId($phone_type_id)
+	{
+		$this->phone_type_id = $phone_type_id;
+		$this->MarkDirty();
+	}
+}
+?>

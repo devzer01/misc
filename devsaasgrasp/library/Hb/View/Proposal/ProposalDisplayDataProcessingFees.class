@@ -1,0 +1,42 @@
+<?php
+class Hb_View_Proposal_ProposalDisplayDataProcessingFees extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_data_proccesing_fees.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	private $hours = null;
+	private $processing_value = null;	
+	private $amount = null;	
+	private $focusTab = null;	
+	
+	protected  function LoadData()
+	{			
+		$this->SetData('hours', $this->hours);
+		$this->SetData('amount', $this->amount);
+		$this->SetData('focusTab', $this->focusTab);
+	}
+	
+	public function SetHours($hours)
+	{
+		$this->hours = $hours;
+		$this->amount = $hours*50;
+		
+		if (!is_null($this->processing_value)) {
+			$this->amount = $hours * $this->processing_value;
+		}
+	}
+	
+	public function SetFocusTab($focusTab)
+	{
+		$this->focusTab = $focusTab;
+		
+	}
+	
+	public function SetProcessingValue($value) 
+	{
+		$this->processing_value = $value;
+	}
+}
+
+?>

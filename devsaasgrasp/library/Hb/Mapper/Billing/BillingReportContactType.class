@@ -1,0 +1,93 @@
+<?php 
+/**
+ * Mapper class of Billing Report Contact Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Billing
+ */  
+class Hb_Mapper_Billing_BillingReportContactType extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Billing_BillingReportContactType'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'armc_contact_type_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'armc_contact_type';
+   
+   /**
+    * Find by id
+    *
+    * @param int $id Billing Report Contact Type Id
+    * @return Hb_App_Billing_BillingReportContactType Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('act.armc_contact_type_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('act' => 'armc_contact_type'), array('armc_contact_type_id', 'armc_contact_type_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Billing_BillingReportContactType Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Billing_BillingReportContactType($row->armc_contact_type_id, $row->armc_contact_type_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Billing_BillingReportContactType
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array('armc_contact_type_description'	=> $obj->GetTypeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('armc_contact_type', $data);
+			$obj->SetTypeId($db->lastInsertId());
+	  	} else {
+			$db->update('armc_contact_type', $data, 'armc_contact_type_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?> 

@@ -1,0 +1,65 @@
+<?php
+
+class Hb_Mapper_Proposal_ProposalAttribute extends Hb_Mapper_Mapper  
+{
+	protected $primary_key = 'proposal_attr_id';
+	
+	protected $table       = 'proposal_attr';
+	
+	protected function doFindById($id)
+	{
+		
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAttribute($row->proposal_attr_id, $row->proposal_id, $row->proposal_attr_name, $row->proposal_attr_value);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('proposal_attr', array('proposal_attr_id', 'proposal_id', 'proposal_attr_name', 'proposal_attr_value'));
+		
+		return $select;
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		/* @var $obj Hb_App_Proposal_ProposalAttribute */
+		if (is_null($obj->GetId())) {
+			
+			require_once('class/Hb/Util/Db/Query.class');
+			
+			$db = Hb_Util_Db_Query::getInstance();
+			
+			$q = "INSERT INTO proposal_attr (proposal_id, proposal_attr_name, proposal_attr_value) "
+               . "VALUES (". $obj->GetProposalId() .", '". $db->escapeString($obj->GetAttributeName()) ."', '". $db->escapeString($obj->GetAttributeValue()) ."')";
+			
+			$db->q($q);
+			
+			$obj->SetProposalAttrId($db->getLastInsertId());			
+			
+			//$db->insert('proposal_attr', $data);
+			//$obj->SetProposalAttrId($db->lastInsertId());
+		} else {
+			//$db->update('proposal_attr', $data, 'proposal_attr_id = ' . $obj->GetId());	
+		}
+		
+//		$row = (is_null($obj->GetId())) ? $this->Insert() : $this->Update();
+//		
+//		$row->proposal_id         = $obj->GetProposalId();
+//		$row->proposal_attr_name  = $obj->GetAttributeName();
+//		$row->proposal_attr_value = $obj->GetAttributeValue();
+//		
+//		$row->save();
+//		
+//		$obj->SetProposalAttrId($row->proposal_attr_id);
+		
+	}
+}
+
+?>

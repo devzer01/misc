@@ -1,0 +1,118 @@
+<?php
+
+
+/**
+ * Rate Card Object for Proposal
+ * 
+ *
+ * @todo we can refactor GetCostPerInterview method to rate method once we build an interface of rates
+ * @todo this code was written as part of a QFE release, there is alot of room for improvement
+ *
+ */
+
+class Hb_App_Proposal_RateCard
+{
+    /**
+     * @author nayana
+     * @todo I should be sacked for doing this, but i want to have the interface published so i can refactor inside later
+     */
+    public static function GetCostPerInterview($sample_type_id, $country_code, $incidence, $number_of_questions, $account_country_code = null)
+    {
+        $db = Hb_Util_Db_Query::getInstance();
+        
+        $country_tier_id = self::GetCountryTier($sample_type_id, $country_code, $account_country_code);
+                   
+        $q = "SELECT rate_card_id "
+           . "FROM sample_rate_card "
+           . "WHERE sample_type_id = " . $sample_type_id . " AND country_tier_id = " . $country_tier_id;
+        
+        $rs = $db->q($q);
+        $r = $db->getAssoc($rs);
+        
+        $q = "SELECT cost_per_complete FROM rate_card_pricing WHERE rate_card_id = " . $r['rate_card_id'] 
+           . " AND incidence >= " . $incidence . " AND questions <= " . $number_of_questions . " ORDER BY incidence, questions DESC";
+        
+        $rs = $db->q($q);
+        $r = $db->getAssoc($rs);
+       
+        return $r['cost_per_complete'];
+    }
+    
+    /**
+     * @param int $sample_type_id Type of sample
+     * @param char $country_code ISO 3 code of country
+     * @return int country tier
+     */
+    public static function GetCountryTier($sample_type_id, $country_code, $account_country_code = null)
+    {
+        $db = Hb_Util_Db_Query::getInstance();
+        
+        $internal_region_id = 7;
+        
+        if ($sample_type_id != SAMPLE_TYPE_CONSUMER_GENERAL) 
+        {
+            $regions = array(
+                REGION_AFRICA => 2, REGION_AUSTRALIA => 4, REGION_CARIBBEAN => 4, REGION_CENTRAL_AMERICA => 1,
+                REGION_EAST_ASIA => 4, REGION_EUROPE => 2, REGION_MIDDLE_EAST => 2, REGION_NORTH_AMERICA => 1,
+                REGION_OCEANIA => 4, REGION_SOUTH_AMERICA => 1, REGION_SOUTH_CENTRAL_ASIA => 4, REGION_SOUTH_EAST_ASIA => 4 
+            );
+            
+            $q = "SELECT c.region_id "
+               . "FROM country AS c "
+               . "WHERE c.country_code = '". $account_country_code . "'";
+               
+            $rs = $db->q($q);
+            $r  = $db->getAssoc($rs);
+            
+            $internal_region_id = 1;
+            
+            if (isset($regions[$r['region_id']])) {
+                $internal_region_id = $regions[$r['region_id']];
+            }
+        } 
+        
+        $q = "SELECT ctst.country_tier_id "
+            . "FROM country_tier_sample_type AS ctst "
+            . "LEFT OUTER JOIN country AS c ON c.country_id = ctst.country_id "
+            . "WHERE c.country_code = '". $country_code . "' AND ctst.sample_type_id = " . $sample_type_id 
+            . " AND ctst.internal_region_id = " . $internal_region_id;
+        
+           
+        $rs = $db->q($q);
+        $r  = $db->getAssoc($rs);
+        
+        return $r['country_tier_id'];
+        
+    }
+    
+	/**
+	 * Get the Rate Card Column values
+	 *
+	 * @param int $sample_type_id
+	 * @param ing $country_tier_id
+	 * @param string $column
+	 * @return Executed Qurty string
+	 */
+	public static function  GetRateCardColumns($sample_type_id, $country_tier_id, $column)
+	{
+		$db = Hb_Util_Db_Query::getInstance();
+		
+		$q = "SELECT rate_card_id "
+		  . "FROM sample_rate_card "
+		  . "WHERE sample_type_id = " . $sample_type_id . " AND country_tier_id = " . $country_tier_id;
+		
+		$rs = $db->q($q);
+		$r = $db->getAssoc($rs);
+		
+		
+		$q = "SELECT DISTINCT ". $column . " "
+			. "FROM rate_card_pricing "
+			. "WHERE rate_card_id = ". $r['rate_card_id']. " "
+			. "ORDER BY ". $column;				
+			
+		return $db->q($q);
+	}
+}
+
+
+?>

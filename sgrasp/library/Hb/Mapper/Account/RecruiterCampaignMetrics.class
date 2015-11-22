@@ -1,0 +1,87 @@
+<?php
+/**
+ * @author svithanapathirana
+ * @version 1.0
+ */
+class Hb_Mapper_Account_RecruiterCampaignMetrics extends Hb_Mapper_Mapper
+{
+	
+	protected $primary_key = 'recruiter_campaign_metrics_id';
+	
+	protected $table       = 'recruiter_campaign_metrics';
+	
+	/**
+ 	 * Builds and returns Recruiter Campaign Metrics domain object
+	 *
+	 * @param $row $object results row from the Zend_Db framework for account table
+	 * @return Hb_App_Account_RecruiterCampaignMetrics
+	 */ 
+	protected function doBuildObject($row)
+	{
+		$recruiter_campaign_metrics =  new Hb_App_Account_RecruiterCampaignMetrics($row->recruiter_campaign_metrics_id, $row->recruiter_campaign_id, 
+		$row->quality_rating, $row->metrics_notes);
+			
+		 
+		return $recruiter_campaign_metrics;
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from($this->table);
+		
+		return $select;
+	}
+	
+	/**
+	 * Returns a tuple by given Recruiter Campaign Metrics Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('recruiter_campaign_metrics_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+	
+	
+	protected $recruiter_campaign_metrics_id = null;
+	
+	protected $recruiter_campaign_id = null;
+	
+	protected $quality_rating = null;
+	
+	protected $metrics_notes = null;
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{
+      $data = array(
+      'recruiter_campaign_id'	=> $obj->GetRecruiterCampaignId(), 
+      'quality_rating'	=> $obj->GetQualityRating(), 
+      'metrics_notes'	=> $obj->GetMetricsNotes()
+      );
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert($this->table, $data);
+			$obj->SetRecruiterCampaignMetricsId($db->lastInsertId());
+	  	} else {
+			$db->update($this->table, $data, 'recruiter_campaign_metrics_id = ' . $obj->GetId());
+	  	}
+	}
+}
+?>

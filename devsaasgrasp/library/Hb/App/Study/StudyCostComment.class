@@ -1,0 +1,302 @@
+<?php
+/**
+ * Domain Object for Study Cost Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCostComment extends Hb_App_Object 
+{
+
+	/**
+	 * Study comment type id
+	 *
+	 * @var int 
+	 */
+	protected $study_comment_type_id = null;
+	
+	/**
+	 * Study cost comment date
+	 *
+	 * @var string 
+	 */
+	protected $study_cost_comment_date = null;
+	
+	/**
+	 * Study cost comment id
+	 *
+	 * @var int 
+	 */
+	protected $study_cost_comment_id = null;
+	
+	/**
+	 * study cost comemnt text
+	 *
+	 * @var string 
+	 */
+	protected $study_cost_comment_text = null;
+	
+	protected $status = null;
+	
+	/**
+	 * study cost id
+	 *
+	 * @var int 
+	 */
+	protected $study_cost_id = null;
+	
+	/**
+	 * created_by 
+	 *
+	 * @var int 
+	 */
+	protected $created_by = null;
+	
+	/**
+	 * Created user
+	 *
+	 * @var Hb_App_User_User 
+	 */
+	protected $user = null;
+	
+	protected $study_cost = null;
+	
+	//protected $study_cost_id = null;
+			
+	/**
+	 * Create Study Cost Comment Object
+	 *
+	 * @param int $id Study cost comment id
+	 * @param int $study_cost_id Study cost id
+	 * @param int $study_comment_type_id Study Comment type id
+	 * @param string $study_cost_comment_date Study cost comment date
+	 * @param string $study_cost_comment_text Study cost comment text
+	 * @param string $status Status
+	 * @param int $created_by Created by user login
+	 */
+	function __construct($id 								= null,
+								$study_cost_id 				= null,
+								$study_comment_type_id 		= null,
+								$study_cost_comment_date 	= null,
+								$study_cost_comment_text 	= null,
+								$status 							= null,
+								$created_by					= null								
+								)
+	{
+		$this->study_cost_comment_id 		= $id;
+		$this->study_cost_id					= $study_cost_id;		
+		$this->study_comment_type_id		= $study_comment_type_id;
+		$this->study_cost_comment_date	= $study_cost_comment_date;
+		$this->study_cost_comment_text	= $study_cost_comment_text;
+		$this->status 							= $status;		
+		
+		/* this will not be an issue when we have referential integrity in place, but until then.. */
+		if( 0 == $created_by || "" == $created_by  )
+			$this->created_by = SYSTEM_USER;
+		else 
+			$this->created_by	= $created_by;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Created user instance for the cost 
+	 *
+	 * @return Hb_App_User_User Created user instance
+	 */
+	public function GetCreatedUser()
+	{
+		if(is_null($this->user))
+		{			
+			if(is_null($this->created_by)){
+				throw new Hb_App_Study_Exception_StudyCostCommentNotFoundException('Study cost comment created by Id Not Found !');
+			}
+			$this->user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($this->created_by);
+		}		
+		return $this->user;
+	}
+	
+	
+	/**
+	 * Return the Created by user  for the Cost Comment
+	 *
+	 * @return int Created by user instance
+	 */
+	public function GetCreatedBy()
+	{
+		return $this->created_by;
+	}
+	
+	/**
+	 * Set the Created by user id for the  Cost comment
+	 * 
+	 * @param int $login Created by user id
+	 */
+	public function SetCreatedBy($login)
+	{
+		$this->created_by = $login;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Study comment type id for the Study Cost Comment
+	 *
+	 * @return int Study comment type id
+	 */
+	public function GetStudyCommentTypeId()
+	{
+		return $this->study_comment_type_id;
+	}
+
+	/**
+	 * Return the Study Cost Comment date for the Study Cost Comment
+	 *
+	 * @return string Study Cost Comment date
+	 */
+	public function GetStudyCostCommentDate()
+	{
+		return $this->study_cost_comment_date;
+	}
+
+	/**
+	 * Return the Study Cost Comment Text for the Study Cost Comment
+	 *
+	 * @return string Study Cost Comment Text
+	 */
+	public function GetStudyCostCommentText()
+	{
+		return $this->study_cost_comment_text;
+	}
+
+	/**
+	 * Return the Study Cost Comment id for the Study Cost Comment
+	 *
+	 * @return int Study Cost Comment id
+	 */
+	public function GetStudyCostCommentId()
+	{
+		return $this->study_cost_comment_id;
+	}
+
+	/**
+	 * Return the Study Cost id for the Study Cost Comment
+	 *
+	 * @return int Study Cost id
+	 */
+	public function GetStudyCostId()
+	{
+	    if (is_null($this->study_cost_id)) {
+	        if (is_null($this->study_cost)) {
+	            throw new Exception("Study cost id not set");
+	        }
+	        
+	        $this->study_cost_id = $this->study_cost->GetStudyCostId();
+	        
+	    }
+	    return $this->study_cost_id;		
+	}
+	
+	/**
+	 * 
+	 */
+	public function GetStudyCost()
+	{
+		if( is_null($this->study_cost) )
+		{
+			if( is_null($this->study_cost_id)) throw new Exception("Study cost id not set");
+			$this->study_cost =  Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCost')->Find($this->study_cost_id);			
+		}
+		
+		return $this->study_cost;
+	}
+	
+		
+	
+	/**
+	 * Return the Status for the Study Cost Comment
+	 *
+	 * @return string Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Set the Study Comment Type id for the  Study Cost Comment
+	 * 
+	 * @param int $study_comment_type_id Study Comment Type id
+	 */
+	public function SetStudyCommentTypeId($study_comment_type_id)
+	{
+		$this->study_comment_type_id = $study_comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study Cost Comment Date for the  Study Cost Comment
+	 * 
+	 * @param string $study_cost_comment_date Study Cost Comment Date
+	 */
+	public function SetStudyCostCommentDate($study_cost_comment_date)
+	{
+		$this->study_cost_comment_date = $study_cost_comment_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study Cost Comment id for the  Study Cost Comment
+	 * 
+	 * @param int $study_cost_comment_id Study Cost Comment id
+	 */
+	public function SetStudyCostCommentId($study_cost_comment_id)
+	{
+		$this->study_cost_comment_id 	= $study_cost_comment_id;
+		$this->__id							= $study_cost_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study Cost Comment Text for the  Study Cost Comment
+	 * 
+	 * @param string $study_cost_comment_text Study Cost Comment Text
+	 */
+	public function SetStudyCostCommentText($study_cost_comment_text)
+	{
+		$this->study_cost_comment_text = $study_cost_comment_text;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study Cost id for the  Study Cost Comment
+	 * 
+	 * @param int $study_cost_id Study Cost id
+	 */
+	public function SetStudyCostId($study_cost_id)
+	{
+		$this->study_cost_id = $study_cost_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Status for the  Study Cost Comment
+	 * 
+	 * @param string $status Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status = $status;
+		$this->MarkDirty();
+	}
+	
+	public function SetStudyCost(Hb_App_Study_StudyCost $study_cost)
+	{
+		$this->study_cost = $study_cost;		
+		
+	}
+}
+?>

@@ -1,0 +1,368 @@
+<?php
+/**
+ * Domain Object for Project Contact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */ 
+class Hb_App_Project_ProjectContact extends Hb_App_Object
+{
+	/**
+	 * Project Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $project_contact_id = null;
+	
+	/**
+	 * Email Address
+	 * 
+	 * @var string
+	 */	
+	protected $email = null;
+	
+	/**
+	 * Fax Number
+	 * 
+	 * @var string
+	 */	
+	protected $fax = null;
+	
+	/**
+	 * First Name
+	 * 
+	 * @var string
+	 */	
+	protected $first_name = null;
+	
+	/**
+	 * Last Name
+	 * 
+	 * @var string
+	 */	
+	protected $last_name = null;
+	
+	/**
+	 * Middle Initial of the Name
+	 * 
+	 * @var string
+	 */	
+	protected $middle_initial = null;
+	
+	/**
+	 * phone
+	 * 
+	 * @var string
+	 */	
+	protected $phone = null;
+	
+	/**
+	 * Project Contact Type Id
+	 * 
+	 * @var int
+	 */	
+	protected $project_contact_type_id = null;
+	
+	/**
+	 * Project Id
+	 * 
+	 * @var int
+	 */	
+	protected $project_id = null;
+	
+	/**
+	 * Contact Id
+	 * 
+	 * @var int
+	 */	
+	protected $contact_id = null;	
+	
+	/**
+	 * Salutation
+	 * 
+	 * @var string
+	 */	
+	protected $salutation = null;
+	
+	/**
+	 * Create a ProjectContact Object
+	 * 
+	 * @param int $id id Project Contact Id
+	 * @param string $email Email Address
+	 * @param string $fax Fax Number
+	 * @param string $first_name First Name
+	 * @param String $last_name Last Name
+	 * @param int $middle_initial Initial of the Name
+	 * @param string $phone Phone Number
+	 * @param int $project_id Project Id
+	 * @param int $project_contact_type_id Project Contact Type Id
+	 * @param string $salutation Salutation
+	 * @param int $contact_id Contact Id
+	 */	
+	function __construct(
+							$id = null , 
+							$email = null , 
+							$fax = null , 
+							$first_name = null , 
+							$last_name = null , 
+							$middle_initial = null , 
+							$phone = null , 
+							$project_id = null , 
+							$project_contact_type_id  = null ,
+							$salutation = null,
+							$contact_id = null
+						)
+	{
+		$this->project_contact_id = $id;
+		$this->email = $email;
+		$this->fax = $fax;
+		$this->first_name = $first_name;
+		$this->last_name = $last_name;
+      $this->middle_initial = $middle_initial;
+		$this->phone = $phone;
+		$this->project_id = $project_id;
+		$this->project_contact_type_id = $project_contact_type_id;
+		$this->salutation = $salutation;		
+		$this->contact_id = $contact_id;		
+		
+	 	parent::__construct($id); 
+	}
+	
+	/**
+	 * Return Project Contact Id
+	 *
+	 * @return int Project Contact Id 
+	 */
+	public function GetProjectContactId()
+	{
+		return (int) $this->project_contact_id;
+	}
+	
+	/**
+	 * Return the Email Address
+	 *
+	 * @return string Email Address
+	 */
+	public function GetEmail()
+	{
+		return $this->email;
+	}
+	
+	/**
+	 * Return the Fax Number
+	 *
+	 * @return string Fax Number
+	 */
+	public function GetFax()
+	{
+		return $this->fax;
+	}
+	
+	/**
+	 * Return the First Name
+	 *
+	 * @return string First Name
+	 */
+	public function GetFirstName()
+	{
+		return $this->first_name;
+	}
+	
+	/**
+	 * Return the Last Name
+	 *
+	 * @return string Last Name 
+	 */
+	public function GetLastName()
+	{
+		return $this->last_name;
+	}
+	
+	/**
+	 * Return the Middle Initial of the Name
+	 *
+	 * @return string Middle Initial of the Name
+	 */
+	public function GetMiddleInitial()
+	{
+		return $this->middle_initial;
+	}
+	
+	/**
+	 * Return the Phone Number
+	 *
+	 * @return string Phone number
+	 */
+	public function GetPhone()
+	{
+		return $this->phone;
+	}
+	
+	/**
+	 * Return the Project Contact Type Id
+	 *
+	 * @return int Project Contact Type Id 
+	 */
+	public function GetProjectContactTypeId()
+	{
+		return $this->project_contact_type_id;
+	}
+	
+	/**
+	 * Return the Project Id
+	 *
+	 * @return int Project Id 
+	 */
+	public function GetProjectId()
+	{
+		return $this->project_id;
+	}
+	
+	/**
+	 * Return the Salutation
+	 *
+	 * @return int Salutation 
+	 */
+	public function GetSalutation()
+	{
+		return $this->salutation;
+	}
+
+	/**
+	 * Returns the contact id
+	 *
+	 * @return int Contact Id 
+	 */
+	public function GetContact()
+	{
+		return $this->contact_id;
+	}
+	
+	/**
+	 * Sets the Project Contact Id
+	 * 
+	 * @param int $project_contaract_id Project Contact Id
+	 */
+	public function SetProjectContactId($project_contact_id)
+	{
+		$this->project_contact_id = (int) $project_contact_id;
+		$this->__id = (int) $project_contact_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Email Address
+	 * 
+	 * @param string $email Email Address
+	 */
+	public function SetEmail($email)
+	{
+		$this->email = $email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Fax Number
+	 * 
+	 * @param string $fax Fax Number
+	 */
+	public function SetFax($fax)
+	{
+		$this->fax = $fax;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the First Name
+	 * 
+	 * @param string $first_name First Name
+	 */
+	public function SetFirstName($first_name)
+	{
+		$this->first_name = $first_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Last Name
+	 * 
+	 * @param string $last_name Last Name
+	 */
+	public function SetLastName($last_name)
+	{
+		$this->last_name = $last_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Middle Initial of the Name
+	 * 
+	 * @param string $middle_initial Middle Initial of the Name
+	 */
+	public function SetMiddleInitial($middle_initial)
+	{
+		$this->middle_initial = $middle_initial;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Phone Number
+	 * 
+	 * @param string $phone Phone Number
+	 */
+	public function SetPhone($phone)
+	{
+		$this->phone = $phone;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project Contact Type Id
+	 * 
+	 * @param int $project_contact_type_id Project Contact Type Id
+	 */
+	public function SetProjectContactTypeId($project_contact_type_id)
+	{
+		$this->project_contact_type_id = $project_contact_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Project Id
+	 * 
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id = $project_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Salutation
+	 * 
+	 * @param string $saluation Saluation
+	 */
+	public function SetSalutation($saluation)
+	{
+		$this->salutation = $saluation;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Contact Id
+	 * 
+	 * @param int $contact_id Contact Id
+	 */
+	public function SetContact($contact_id)
+	{
+		$this->contact_id = (int) $contact_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,101 @@
+<?php 
+/**
+ * Mapper Object for Study Category Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyCategoryType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_category_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_category_type';
+	
+	
+	/**
+	 * Builds and returns the Study Category Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_category_type table
+	 * @return object An instance of the Study Category Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCategoryType($row->study_category_type_id,
+																$row->parent_study_category_type_id,
+																$row->study_category_type_description,
+																$row->marsc_code
+																);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sct' => $this->table), array('study_category_type_id',
+	 																	  'parent_study_category_type_id',
+	 																	  'study_category_type_description',
+	 																	  'marsc_code'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Category Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_category_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sct.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Category Type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyCategoryType   */
+		 	
+	 	$data  = array(
+			'parent_study_category_type_id'		=> $obj->GetParentStudyCategoryTypeID(),
+			'study_category_type_description'	=> $obj->GetStudyCategoryTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyCategoryTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

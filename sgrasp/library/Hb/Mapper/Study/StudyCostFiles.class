@@ -1,0 +1,82 @@
+<?php
+/**
+ * Mapper for Study Cost Cost Files
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+class Hb_Mapper_Study_StudyCostFiles extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_file_id';	
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'study_cost_file';	
+	
+	/**
+	 * Finds Study Cost Files  by Study Cost Id
+	 *
+	 * @param  int $id Study Cost Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('study_cost_id = ?', $id);
+		
+		return $this->getRows($select);
+	}	
+	
+	protected function doBuildObject($row)
+	{
+		$study_cost_file = new Hb_App_Common_File($row->study_cost_file_id,
+																null,
+																$row->study_cost_file_name,
+																$row->study_cost_file_title,
+																$row->study_cost_file_size
+																);
+		
+		return new Hb_App_Study_StudyCostFile($row->study_cost_file_id,	
+														  $row->study_id,		
+														  $row->study_cost_id,
+														  $study_cost_file,
+														  $row->study_cost_file_type_id
+														 );
+														
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('scf' => $this->table), array('study_cost_file_id',
+	 																	  'study_id',
+																		  'study_cost_id',
+																		  'study_cost_file_name',
+																		  'study_cost_file_title',
+																		  'study_cost_file_size',
+																		  'study_cost_file_type_id'
+																		 )
+						 );
+	 	
+	 	return $select;
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+?>

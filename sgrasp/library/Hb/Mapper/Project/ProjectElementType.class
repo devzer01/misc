@@ -1,0 +1,95 @@
+<?php 
+/**
+ * Mapper Object for Project Element Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Project
+ *
+ */ 
+class Hb_Mapper_Project_ProjectElementType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'pjm_element_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table	= 'pjm_element_type';
+	
+	/**
+	 * Builds and returns the Project Element Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the pjm_element_type table
+	 * @return object An instance of the Project Element Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Project_ProjectElementType($row->pjm_element_type_id,
+																	 $row->pjm_element_type_description
+																  );
+	}
+
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('pet' => 'pjm_element_type'), array('pjm_element_type_id',
+																					'pjm_element_type_description')
+						  );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Project Element Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the pjm_element_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('pet.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Proejct Element Type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Project_ProjectElementType   */
+		 	
+	 	$data  = array(
+			'pjm_element_type_description'	=> $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

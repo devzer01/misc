@@ -1,0 +1,224 @@
+<?php 
+/**
+ * Domain Object for Study Type Task
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */  
+class Hb_App_Study_StudyTypeTask extends Hb_App_Object 
+{
+	/**
+	 * Study Type Task Id
+	 * 
+	 * @var int
+	 */
+	protected $study_type_task_id = null;
+
+	/**
+	 * Study Type Id
+	 * 
+	 * @var int
+	 */
+	protected $study_type_id = null;
+	
+	/**
+	 * Study Task Id
+	 * 
+	 * @var int
+	 */
+	protected $study_task_id = null;
+
+	/**
+	 * Study Stage Id
+	 * 
+	 * @var int
+	 */
+	protected $study_stage_id = null;
+	
+	/**
+	 * Sort Order
+	 * 
+	 * @var int
+	 */
+	protected $sort_order = null;
+	
+	/**
+	 * Task Duration
+	 * 
+	 * @var float
+	 */
+	protected $task_duration = null;
+	
+	
+	/**
+	* Contructor of the Study Type Task Domain
+	* 
+	* @param int $id Study Type Task Id
+	* @param int $study_type_id Study Type Id
+	* @param string $study_task_id Study Task Id
+	* @param int $study_stage_id Study Stage Id
+	* @param int $sort_order Sort Order
+	* @param float $task_duration Task Duration
+	*/		
+	function __construct($id 				 = null,	
+							   $study_type_id  = null,
+							   $study_task_id  = null,
+							   $study_stage_id = null,	
+							   $sort_order     = null,
+							   $task_duration  = null )
+	{		 					
+		
+		$this->study_type_task_id = $id;
+		$this->study_type_id      = $study_type_id;
+		$this->study_task_id      = $study_task_id ;
+		$this->study_stage_id 	  = $study_stage_id;
+		$this->sort_order      	  = $sort_order;
+		$this->task_duration      = $task_duration ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Study Type Task Id
+	 *	
+	 * @return int $study_type_task_id Study Type Task Id
+	 */
+	public function GetStudyTypeTaskId()
+	{
+		return $this->study_type_task_id;
+	}
+
+	
+	/**
+	 * Get Study Type Id
+	 *	
+	 * @return int $study_type_id Study Type Id
+	 */
+	public function GetStudyTypeId ()	
+	{
+		return $this->study_type_id;
+	}
+	
+	
+	/**	
+	 * Get Study Task Id
+	 *
+	 * @return int $study_task_id Study Task Id	
+	 */
+	public function GetStudyTaskId()
+	{
+		return $this->study_task_id;
+	}
+	
+	/**	
+	 * Get Study Stage Id
+	 *
+	 * @return int $study_stage_id Study Stage Id
+	 */
+	public function GetStudyStageId()
+	{
+		return $this->study_stage_id;
+	}
+	
+	/**	
+	 * Get Sort Order
+	 *
+	 * @return int $sort_order Sort Order
+	 */
+	public function GetSortOrder()
+	{
+		return $this->sort_order;
+	}
+	
+	/**	
+	 * Get Task Duration
+	 *
+	 * @return float $task_duration Task Duration
+	 */
+	public function GetTaskDuration()
+	{
+		return $this->task_duration;
+	}
+
+	
+	/**
+	 * Sets the Study Type Task Id
+	 *
+	 * @param int $study_type_task_id Study Type Task Id
+	 */
+	public function SetStudyTypeTaskId($study_type_task_id)
+	{
+		$this->study_type_task_id = $study_type_task_id;
+
+		$this->__id = $study_type_task_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Study Type Id
+	 *
+	 * @param int $study_type_id Study Type Id
+	 */
+	public function SetStudyTypeId ($study_type_id)
+	{
+		$this->study_type_id = $study_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Study Task Id
+	 * 
+	 * @param int $study_task_id Study Task Id
+	 */
+	public function SetStudyTaskId($study_task_id)
+	{
+		$this->study_task_id = $study_task_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Study Stage Id
+	 * 
+	 * @param int $study_task_id Study Stage Id
+	 */
+	public function SetStudyStageId($study_stage_id)
+	{
+		$this->study_stage_id = $study_stage_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Sort Order
+	 * 
+	 * @param int $sort_order Sort Order
+	 */
+	public function SetSortOrder($sort_order)
+	{
+		$this->sort_order = $sort_order;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Task Duration
+	 * 
+	 * @param float $task_duration Task Duration
+	 */
+	public function SetTaskDuration($task_duration)
+	{
+		$this->task_duration = $task_duration;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

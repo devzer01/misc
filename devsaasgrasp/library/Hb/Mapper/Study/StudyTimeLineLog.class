@@ -1,0 +1,100 @@
+<?php 
+/**
+ * Mapper Object for Study TimeLine 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyTimeLineLog extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_timeline_log_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_timeline_log';
+	
+	/**
+	 * Builds and returns the Study TimeLine Log domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_timeline_log table
+	 * @return object An instance of the Study TimeLine Log domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTimeLineLog($row->study_timeline_log_id,
+															  $row->login,
+														     $row->study_timeline_id,									
+															  $row->task_due_date
+															  );
+	}
+
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('stll' => 'study_timeline_log'), array('study_timeline_log_id',
+																					  'study_timeline_id',
+																					  'task_due_date',
+																					  'login')
+						 );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Study TimeLine Log by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_timeline_log table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('stll.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_timeline_log domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyTimeLineLog   */
+		 	
+	 	$data  = array(
+			'study_timeline_id' 	=> $obj->GetStudyTimeLineId(),
+			'task_due_date'		=> $obj->GetTaskDueDate(),
+			'login'					=> $obj->GetLogin() 
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyTimeLineLogId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

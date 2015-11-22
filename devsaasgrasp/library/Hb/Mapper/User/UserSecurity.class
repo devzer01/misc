@@ -1,0 +1,104 @@
+<?php
+/**
+ * Mapper Class for UserSecurity
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage User
+ */
+class Hb_Mapper_User_UserSecurity extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of User Security table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'user_security_id';
+	
+	/**
+	 * Variable for User Security table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'user_security';
+	
+	/**
+	 * Build the UserSecurity Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_User_UserSecurity
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserSecurity
+		(	$row->user_security_id,
+			$row->security_id,
+			$row->login,
+			$row->invert
+		);
+	}
+	
+	/**
+	 * Returns User Security data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('us' => 'user_security'), 
+							array(	'user_security_id',
+										'security_id',
+										'login',
+										'invert'
+									)
+							);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('us.user_security_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_User_UserSecurity  
+		
+		$data = array(
+			'security_id'	=> $obj->GetSecurityId(),
+			'login'			=> $obj->GetLogin(),
+			'invert'			=> $obj->GetInvert()
+			);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('user_security', $data);
+			$obj->SetUserSecurityId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('user_security', $data, 'user_security_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

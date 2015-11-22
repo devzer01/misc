@@ -1,0 +1,21 @@
+<?php
+class Hb_View_Proposal_ProposalGetAccountDetails extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_account_details.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	private $credit_limit = null;	
+	
+	protected  function LoadData()
+	{			
+		$this->SetData('credit_limit', $this->credit_limit);
+	}
+	
+	public function SetCreditLimit($value)
+	{
+		$this->credit_limit = $value;
+	}
+}
+
+?>

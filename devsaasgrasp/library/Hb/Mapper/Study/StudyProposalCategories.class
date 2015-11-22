@@ -1,0 +1,48 @@
+<?php
+/**
+ * Mapper Object for Proposal Category Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Study_StudyProposalCategories extends Hb_Mapper_Study_StudyProposalCategory 
+{
+	/**
+	 * Find By Id
+	 * 
+	 * @param $id Study ID
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('spc.study_id = ?', $id);	
+		$select->where('spc.status = ?', 'A');	
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the collection
+	 *
+	 * @param  $rows
+	 * @return Hb_App_Study_StudyProposalCategories
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Study_StudyProposalCategories');
+	}
+	
+	/**
+	 * Do Save 
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

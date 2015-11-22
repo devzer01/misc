@@ -1,0 +1,99 @@
+<?php 
+/**
+ * Mapper class of StudyType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Study
+ */  
+class Hb_Mapper_Study_StudyType extends Hb_Mapper_Mapper  
+{
+   /**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_type_id';
+   
+  /**
+   * Table name
+   *
+   * @var string 
+   */  
+   protected $table = 'study_type';
+   
+	/**
+	 * Builds and returns the Study Type domain object
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for study_type table
+	 * @return object An instance of the Study Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyType(
+														$row->study_type_id,
+														$row->study_type_description
+														);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	
+		$select->from(array('st' => 'study_type'),
+	 					array('study_type_id',
+							  	'study_type_description'
+							  )
+						 );
+	 	return $select;
+	}
+	
+	/**
+	 * Returns a tuple by given Study Type
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		
+	 	$select->where('st.study_type_id = ?', $id);					 	
+		
+	 	return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{				
+ 		/* @var $obj Hb_App_Study_StudyType   */
+
+ 		$data = array(
+			'study_type_description' => $obj->GetTypeDescription()
+			);
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_type', $data);
+			$obj->SetTypeId ($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update('study_type', $data, 'study_type_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

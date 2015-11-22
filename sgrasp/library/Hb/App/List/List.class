@@ -1,0 +1,63 @@
+<?php
+
+class Hb_App_List_List implements Iterator 
+{
+	protected $list = array();
+	
+	public function AddItem(Hb_App_List_Item $item)
+	{
+		$this->list[$item->GetKey()] = $item;
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	public function Rewind() 
+	{
+       	reset($this->list);
+   	}
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   	public function Current() 
+   	{
+    	return current($this->list);
+   	}
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   	public function Key() 
+   	{
+    	return key($this->list);
+   	}
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   	public function Next() 
+   	{
+       return next($this->list);
+   	}
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   	public function Valid() 
+   	{
+   		return $this->current() !== false;
+   	}
+
+}
+
+?>

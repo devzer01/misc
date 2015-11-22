@@ -1,0 +1,118 @@
+<?php 
+/**
+ * Proposal Revision Attribute domain class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_ProposalRevisionAttribute extends Hb_App_Attribute
+{  
+  /**
+   * Proposal Revision Id
+   *
+   * @var int 
+   */ 
+   protected  $proposal_revision_id = null;
+   
+  /**
+   * Proposal Revision domain object
+   *
+   * @var Hb_App_Proposal_ProposalRevision 
+   */ 
+   protected  $proposal_revision = null;
+   
+   /**
+    * Class Constructor
+    *
+    * @param int $id Proposal Revision Attribute Id
+    * @param int $proposal_revision_id Proposal Revision Id
+    * @param string $name Attribute Name
+    * @param string $value Attribute Value
+    */ 
+   function __construct($id = null, $proposal_revision_id = null, $name = null, $value = null) 
+   { 
+   	$this->proposal_revision_id = $proposal_revision_id;
+   	parent::__construct($id, $name, $value);
+   }
+   
+   /**
+    * Sets Proposal Revision Attribute Id
+    *
+    * @param int $id Proposal Revision Attribute Id
+    */ 
+   function SetProposalRevisionAttributeId($id) 
+   { 
+   	$this->__id	= $id;
+   }
+   
+   /**
+    * Sets Proposal Revision
+    *
+    * @param Hb_App_Proposal_ProposalRevision $obj
+    */ 
+   function SetProposalRevision(Hb_App_Proposal_ProposalRevision $obj) 
+   { 
+    	$this->proposal_revision 		= $obj;
+    	$this->proposal_revision_id 	= $obj->GetProposalRevisionId();
+    	
+    	$this->MarkDirty(); 
+   }
+   
+   /**
+    * Returns Proposal Revision domain object
+    *
+    * @return Hb_App_Proposal_ProposalRevision
+    */ 
+   function GetProposalRevision() 
+   { 
+    	return $this->doGetProposalRevision();
+   }
+   
+   /**
+    * Returns Proposal Revision Id
+    *
+    * @param data type var name var description
+    * @return int Proposal Revision Id
+    */ 
+   function GetProposalRevisionId() 
+   { 
+    	if(is_null($this->proposal_revision_id)) {
+    		$this->proposal_revision_id = $this->doGetProposalRevision()->GetProposalRevisionId();
+    	}
+    	
+    	return $this->proposal_revision_id;
+   }
+   
+   /**
+    * Sets Proposal Revision Id
+    *
+    * @param int $revision_id Proposal Revision Id
+    */ 
+   function SetProposalRevisionId($revision_id) 
+   { 
+   	$this->proposal_revision_id = $revision_id;
+   	$this->MarkDirty();
+   }
+   
+   /**
+	 * Returns Proposal Revision domain object for Proposal Revision Attribute
+	 *
+	 * @return Hb_App_Proposal_ProposalRevision
+	 * @throws Exception
+	 */ 
+	protected function doGetProposalRevision() 
+	{ 
+		if(is_null($this->proposal_revision)) {
+			if (is_null($this->proposal_revision_id)) {
+				throw new Exception("Proposal Revision not found");
+			}
+			$this->proposal_revision = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalRevision')->Find($this->proposal_revision_id);
+		}
+		
+		return $this->proposal_revision;
+	}
+}
+?>

@@ -1,0 +1,123 @@
+<?php 
+/**
+ * Mapper class of AuthenticateSetting
+ * 
+ * @copyright 2008 Global Market Insite Inc
+ * @author Chathura J. Ediriweera
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Common
+ */  
+class Hb_Mapper_Common_AuthenticateSetting extends Hb_Mapper_Mapper  
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Common_AuthenticateSetting'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'auth_setting_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'auth_setting'; 
+ 
+   /**
+    * Find by id
+    *
+    * @param int id Authentication Setting Id
+    * @return Hb_App_Common_AuthenticateSetting Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();
+	  	$select->where('as.auth_setting_id = ?', $id);
+	  
+	  	return $this->getRow($select);
+   }
+
+   /**
+    * Find by name
+    *
+    * @param string id Authentication Setting domain
+    * @return Hb_App_Common_AuthenticateSetting Returns domain object
+    */    
+   protected function doFindByName($id)
+   {
+   	$select = $this->GetBaseSelect();
+	  	$select->where('as.auth_setting_domain = ?', $id);
+	  	
+	  	return $this->getRow($select);
+   }
+   
+   /**
+    * Find by name
+    *
+    * @param string Domain name
+    * @return Hb_App_Common_AuthenticateSetting Returns domain object
+    */    
+   public function FindByName($domain_name)
+   {
+   	$result = $this->doFindByName($domain_name);
+   	return $this->doBuildObject($result);
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	 	$select->from(array('as' => 'auth_setting'), array('auth_setting_id', 'auth_domain', 'auth_object'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return App_Common_AuthenticateSetting Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+		return new Hb_App_Common_AuthenticateSetting($row->auth_setting_id,
+   															   $row->auth_domain,
+   	  															$row->auth_object);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Common_AuthenticateSetting
+    */ 
+   function doSave(Hb_App_Object $obj)
+   {
+   	  $data = array(
+      	'auth_domain'	=> $obj->GetAuthenticateDomain(),
+      	'auth_object'	=> $obj->GetAuthenticateObject());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('auth_setting', $data);
+		$obj->SetAuthenticateSettingId($db->lastInsertId());
+	  } else {
+		$db->update('auth_setting', $data, 'auth_setting_id = ' . $obj->GetId());
+	  }
+   }
+}
+?>

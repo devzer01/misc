@@ -1,0 +1,149 @@
+<?php
+/**
+ * Domain Object for Pricing Item Rule
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_PricingItemRule extends Hb_App_Object 
+{
+	/**
+	 * amount
+	 *
+	 * @var flost 
+	 */
+	protected $amount = null;
+	
+	/**
+	 * License level pricing item id
+	 *
+	 * @var int 
+	 */
+	protected $license_level_pricing_item_id = null;
+	
+	/**
+	 * Pricing item rule id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_item_rule_id = null;
+	
+	/**
+	 * Rule condision
+	 *
+	 * @var string 
+	 */
+	protected $rule_condition = null;
+
+	/**
+	 * Create Pricing Item Rule Object
+	 *
+	 * @param int $id Pricing item rule id
+	 * @param float $amount Amount
+	 * @param int $license_level_pricing_item_id License level pricing item id
+	 * @param string $rule_condition Rule condition 
+	 */
+	function __construct($id 		= null,
+								$amount 	= null,
+								$rule_condition = null,
+								$license_level_pricing_item_id = null
+								)
+	{
+		$this->amount									= $amount;
+		$this->rule_condition						= $rule_condition;
+		$this->pricing_item_rule_id				= $id;
+		$this->license_level_pricing_item_id	= $license_level_pricing_item_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Amount for the Pricing Item Rule
+	 *
+	 * @return float Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Return the License level pricing item id for the Pricing Item Rule
+	 *
+	 * @return int License level pricing item id
+	 */
+	public function GetLicenseLevelPricingItemId()
+	{
+		return $this->license_level_pricing_item_id;
+	}
+
+	/**
+	 * Return the Pricing Item Rule Id for the Pricing Item Rule
+	 *
+	 * @return int Pricing Item Rule Id
+	 */
+	public function GetPricingItemRuleId()
+	{
+		return $this->pricing_item_rule_id;
+	}
+
+	/**
+	 * Return the Rule condition for the Pricing Item Rule
+	 *
+	 * @return string Rule condition
+	 */
+	public function GetRuleCondition()
+	{
+		return $this->rule_condition;
+	}
+
+	/**
+	 * Set the Amount for the  Pricing Item Rule
+	 * 
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = (float) $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the License level pricing item id for the  Pricing Item Rule
+	 * 
+	 * @param int $license_level_pricing_item_id License level pricing item id
+	 */
+	public function SetLicenseLevelPricingItemId($license_level_pricing_item_id)
+	{
+		$this->license_level_pricing_item_id = (int) $license_level_pricing_item_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing item rule id for the  Pricing Item Rule
+	 * 
+	 * @param int $pricing_item_rule_id Pricing item rule id
+	 */
+	public function SetPricingItemRuleId($pricing_item_rule_id)
+	{
+		$this->pricing_item_rule_id   = (int) $pricing_item_rule_id;
+		$this->__id							= (int) $pricing_item_rule_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Rule condition for the  Pricing Item Rule
+	 * 
+	 * @param string $rule_condition Rule condition
+	 */
+	public function SetRuleCondition($rule_condition)
+	{
+		$this->rule_condition = $rule_condition;
+		$this->MarkDirty();
+	}
+}
+?>

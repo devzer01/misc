@@ -1,0 +1,19 @@
+<?php
+class Hb_Transaction_Account_PurchaseOrder
+{
+
+	static function Get($id)
+	{
+		$data = Hb_Db_MySQL_Account_PurchaseOrder::Get($id);
+		
+		$po = new Hb_Data_Account_PurchaseOrder();
+		
+		$data = array_pop($data);
+		
+		$po->name = $data['account_name'];
+		
+		return $po;
+	}
+	
+}
+?>

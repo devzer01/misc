@@ -1,0 +1,47 @@
+<?php 
+class Hb_View_Account_AccountCreditLimitIncreaseRequest extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/credit_limit.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;
+	
+	protected $account_term = null;
+	
+	protected $meta = array();
+	
+	protected function LoadData()
+	{
+		$this->SetData('account', $this->account);
+		$this->SetData('account_term', $this->account_term);
+		$this->SetData('meta', $this->meta);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetAccountTerm($account_term)
+	{
+		$this->account_term = $account_term;
+	}
+	
+	public function SetProposalId($proposal_id)
+	{
+		$this->meta['proposal_id'] = $proposal_id;
+	}
+	
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->meta['proposal_revision_id'] = $proposal_revision_id;
+	}
+	
+	public function SetMessage($message) 
+	{
+		$this->meta['msg'] = $message;
+	}
+}
+
+?>

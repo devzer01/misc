@@ -1,0 +1,278 @@
+<?php
+
+
+/**
+ * Domain Object for Account Contact Comments, 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * 
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+class Hb_App_Account_AccountContactComment extends Hb_App_Object
+{
+
+	/**
+	 * Account contact comment id
+	 *
+	 * @var int
+	 */
+	protected $account_contact_comment_id = null;
+	
+	/**
+	 * Account contact comment type id
+	 *
+	 * @var int
+	 */
+	protected $account_contact_comment_type_id = null;
+	
+	/**
+	 * Account contact id
+	 *
+	 * @var int
+	 */
+	protected $account_contact_id = null;
+	
+	/**
+	 * Comment from
+	 *
+	 * @var string
+	 */
+	protected $comment_from = null;
+	
+	/**
+	 * Comment header
+	 *
+	 * @var text
+	 */
+	protected $comment_header = null;
+	
+	/**
+	 * Comment subject
+	 *
+	 * @var string
+	 */
+	protected $comment_subject = null;
+	
+	/**
+	 * Comment text
+	 *
+	 * @var text
+	 */
+	protected $comment_text = null;
+	
+	/**
+	 * Comment to
+	 *
+	 * @var string
+	 */
+	protected $comment_to = null;
+
+	/**
+	 * Creates the Hb_App_Account_AccountContactComment object
+	 *
+	 * @param int $id
+	 * @param int $account_contact_comment_type_id
+	 * @param int $account_contact_id
+	 * @param string $comment_from
+	 * @param string $comment_header
+	 * @param string $comment_subject
+	 * @param string $comment_text
+	 * @param string $comment_to
+	 */
+	function __construct(
+							$id = null,
+							$account_contact_id = null,
+							$account_contact_comment_type_id = null,
+							$comment_from = null,
+							$comment_to = null,
+							$comment_header = null,
+							$comment_subject = null,
+							$comment_text = null
+						)
+	{
+		$this->account_contact_comment_id = $id;
+		$this->account_contact_id = $account_contact_id;
+		$this->account_contact_comment_type_id = $account_contact_comment_type_id;
+		$this->comment_from = $comment_from;
+		$this->comment_to = $comment_to;
+		$this->comment_header = $comment_header;
+		$this->comment_subject = $comment_subject;
+		$this->comment_text = $comment_text;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns account contact comment id
+	 *
+	 * @return int
+	 */
+	public function GetAccountContactCommentId()
+	{
+		return $this->account_contact_comment_id;
+	}
+
+	/**
+	 * Returns account contact comment type id
+	 *
+	 * @return int
+	 */
+	public function GetAccountContactCommentTypeId()
+	{
+		return $this->account_contact_comment_type_id;
+	}
+
+	/**
+	 * Returns account contact id
+	 *
+	 * @return int
+	 */
+	public function GetAccountContactId()
+	{
+		return $this->account_contact_id;
+	}
+
+	/**
+	 * Returns comment from
+	 *
+	 * @return string
+	 */
+	public function GetCommentFrom()
+	{
+		return $this->comment_from;
+	}
+
+	/**
+	 * Returns comment header
+	 *
+	 * @return string
+	 */
+	public function GetCommentHeader()
+	{
+		return $this->comment_header;
+	}
+
+	/**
+	 * Returns comment subject
+	 *
+	 * @return string
+	 */
+	public function GetCommentSubject()
+	{
+		return $this->comment_subject;
+	}
+
+	/**
+	 * Returns comment text
+	 *
+	 * @return string
+	 */
+	public function GetCommentText()
+	{
+		return $this->comment_text;
+	}
+
+	/**
+	 * Returns comment to
+	 *
+	 * @return string
+	 */
+	public function GetCommentTo()
+	{
+		return $this->comment_to;
+	}
+
+	/**
+	 * Sets account contact comment id
+	 * 
+	 * @param int account contact comment id
+	 */
+	public function SetAccountContactCommentId($account_contact_comment_id)
+	{
+		$this->account_contact_comment_id = $account_contact_comment_id;
+		$this->__id = $account_contact_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets account contact comment type id
+	 * 
+	 * @param int account contact comment type id
+	 */
+	public function SetAccountContactCommentTypeId($account_contact_comment_type_id)
+	{
+		$this->account_contact_comment_type_id = $account_contact_comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets account contact id
+	 * 
+	 * @param int account contact id
+	 */
+	public function SetAccountContactId($account_contact_id)
+	{
+		$this->account_contact_id = $account_contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets comment from
+	 * 
+	 * @param string comment from
+	 */
+	public function SetCommentFrom($comment_from)
+	{
+		$this->comment_from = $comment_from;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets comment header
+	 * 
+	 * @param string comment header
+	 */
+	public function SetCommentHeader($comment_header)
+	{
+		$this->comment_header = $comment_header;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets comment subject
+	 * 
+	 * @param string comment subject
+	 */
+	public function SetCommentSubject($comment_subject)
+	{
+		$this->comment_subject = $comment_subject;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets comment text
+	 * 
+	 * @param string comment text
+	 */
+	public function SetCommentText($comment_text)
+	{
+		$this->comment_text = $comment_text;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets comment to
+	 * 
+	 * @param string comment to
+	 */
+	public function SetCommentTo($comment_to)
+	{
+		$this->comment_to = $comment_to;
+		$this->MarkDirty();
+	}
+
+}
+?>

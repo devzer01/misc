@@ -1,0 +1,754 @@
+<?php
+include_once 'class/Hb/App/Collection.class';
+include_once 'class/Hb/App/Proposal/ProposalAttribute.class';
+include_once 'class/Hb/App/Object.class';
+include_once 'class/Hb/App/Proposal/ProposalAttributes.class';
+include_once 'class/Hb/App/Proposal/ProposalContact.class';
+include_once 'class/Hb/App/Proposal/ProposalUser.class';
+
+/**
+ * Domain Object for Proposal
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_Proposal extends Hb_App_Object  
+{
+	/**
+	 * Proposal Id
+	 *
+	 * @var int
+	 */   
+	protected $proposal_id   			 = null;
+	
+	/**
+	 * Proposal name
+	 *
+	 * @var string
+	 */	
+	protected $proposal_name 			 = null;
+	
+	/**
+	 * Account name
+	 *
+	 * @var string
+	 */
+	protected $account_name= null;
+	
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id= null;
+		
+	
+		
+	/**
+	 * Account type id
+	 *
+	 * @var Hb_App_Account_AccountType
+	 */		
+	protected $account_type_id           = null;
+	
+	
+	/**
+	 * Product License Level 
+	 *
+	 * @var int
+	 */		
+	protected $license_level_id       = null;
+		
+	/**
+	 * Pricing Regime id
+	 *
+	 * @var int $pricing_regime_id
+	 */			
+	protected $pricing_regime_id      = null;
+			
+	/**
+	 * Account product id
+	 *
+	 * @var int $product_id
+	 */
+	protected $product_id = null;
+	
+		
+	/**
+	 * Proposal Status id
+	 *
+	 * @var int
+	 */
+	protected $proposal_status_id     = null;
+	
+	/**
+	 * Proposal Sub Status id
+	 *
+	 * @var int
+	 */
+	protected $proposal_sub_status_id     = null;
+	
+	
+	
+	
+	/**
+	 * Functional Group id 
+	 *
+	 * @var int
+	 */					
+	protected $functional_group_id       = null;
+
+	/**
+	 * Region id
+	 *
+	 * @var int
+	 */						
+	protected $region_id                = null;
+	
+	/**
+	 * Country code for this proposal
+	 *
+	 * @var string
+	 */		
+	protected $country_code           = '';
+
+	/**
+	 * Proposal date
+	 *
+	 * @var string
+	 */
+	protected $proposal_date          = null;
+	
+	/**
+	 * Current proposal revision
+	 *
+	 * @var int
+	 */		
+	protected $current_revision_id       = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int
+	 */	
+	protected $login                  = null;
+		
+	/**
+	 * User Object
+	 *
+	 * @var Hb_App_Common_User
+	 */							
+	protected $user_id                   = null;
+				
+	/**
+	 * Proposal attributes
+	 *
+	 * @var Hb_App_Proposal_ProposalAttributes
+	 */
+	protected $attributes = null;
+	
+	protected $users = null;
+	
+	/**
+	 * Proposal version number
+	 * 
+	 * @var int
+	 */
+	protected $version = null;
+	
+	/**
+	 * Create an Proposal Object
+	 *
+	 * @param int $id
+	 * @param string $name
+	 * @param 
+	 */
+	public function __construct(	$id = null, 
+											$name = null,
+											$account_id = null, 
+											$account_name = null,
+											$account_type_id = null, 
+											$license_level_id = null, 
+											$pricing_regime = null, 											
+											$product_id = null, 
+											$functional_group = null, 
+											$proposal_status = null, 
+											$proposal_sub_status = null,	
+											$region = null,	
+											$login = null, 
+											$user_id = null,
+											$country_code = null,
+											$proposal_date = null,
+											$current_revision = null,
+											$version = null	
+										)																																												
+	{
+		$this->proposal_id   		= $id;
+		$this->proposal_name 		= $name;
+		$this->product_id    		= $product_id;
+		$this->account_id			= $account_id;
+		$this->account_name			= $account_name;
+		$this->account_type_id 		= $account_type_id;
+		$this->license_level_id		= $license_level_id;		
+		$this->pricing_regime_id	= $pricing_regime;
+		$this->proposal_status_id	= $proposal_status;
+		$this->proposal_sub_status_id	= $proposal_sub_status;		
+		$this->functional_group_id 	= $functional_group;
+		$this->region_id				= $region;
+		$this->country_code 			= $country_code;
+		$this->proposal_date 		= $proposal_date;
+		$this->current_revision_id 	= $current_revision;
+		$this->login 					= $login;
+		$this->user_id 					= $user_id;
+		$this->version                = $version;
+		
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * SetProposalId
+	 *
+	 * @param int $id
+	 */
+	
+	public function SetProposalId($id)
+	{
+		$this->proposal_id = (int) $id;
+		$this->__id = (int) $id;
+		
+		$this->MarkDirty();
+	}
+	
+
+	/**
+	 * SetProposalName
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 13:59:35 IST 2007
+	 **/
+	public function SetProposalName($name)
+	{
+	 	$this->proposal_name = $name;
+	 	
+		$this->MarkDirty();
+	} 
+	
+	/**
+	 * SetAccountId
+	 *
+	 * @param int $account_id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * SetAccountName
+	 *
+	 * @param string $account
+	 */
+	public function SetAccountName($account_name)
+	{
+		$this->account_name = $account_name;
+		$this->MarkDirty();
+	}
+	
+					
+	/**
+	 * SetAccountTypeId
+	 *
+	 * @param $account_type
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:19:39 IST 2007
+	 **/
+	public function SetAccountTypeId($account_type_id)
+	{
+	 	$this->account_type_id = $account_type_id;
+	 	$this->MarkDirty();
+	} 
+	
+	
+	/**
+	 * SetLicenseLevel()
+	 *
+	 * @return  int $license_level_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:33:47 IST 2007
+	 **/
+	function SetLicenseLevelId($license_level_id)
+	{
+	 	$this->license_level_id		= $license_level_id;
+		$this->MarkDirty();
+	} 
+	
+	
+	/**
+	 * SetPricingRegimeId
+	 *
+	 * @return  int $pricing_regime_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:33:47 IST 2007
+	 **/
+	function SetPricingRegimeId($pricing_regime_id)
+	{
+	 	$this->pricing_regime_id	= $pricing_regime_id;
+		$this->MarkDirty();
+	} 
+	
+	
+	/**
+	 * SetProductId
+	 *
+	 * @param int $product_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:45:59 IST 2007
+	 **/
+	public function SetProductId($product_id)
+	{
+	 	$this->product_id = $product_id;
+	 	$this->MarkDirty();
+	} 
+	
+	
+	/**
+	 * SetFunctionalGroup()
+	 *
+	 * @param int $functional_group
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:57:57 IST 2007
+	 **/
+	public function SetFunctionalGroupId($functional_group_id)
+	{
+	 	$this->functional_group_id = $functional_group_id;
+	 	$this->MarkDirty();
+	} 
+	
+	
+	/**
+	 * SetProposalStatusId()
+	 *
+	 * @param int $status_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:57:57 IST 2007
+	 **/
+	public function SetProposalStatusId($status_id)
+	{
+	 	$this->proposal_status_id = $status_id;
+	 	$this->MarkDirty();
+	} 
+	
+	/**
+	 * SetProposalSubStatusId
+	 *
+	 * @param int $sub_status_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:57:57 IST 2007
+	 **/
+	public function SetProposalSubStatusId($sub_status_id)
+	{
+	 	$this->proposal_sub_status_id = $sub_status_id;
+	 	$this->MarkDirty();
+	} 
+	
+		
+	/**
+	 * SetRegionId()
+	 *
+	 * @param int $status_id
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:57:57 IST 2007
+	 **/
+	public function SetRegionId($region_id)
+	{
+	 	$this->region_id = $region_id;
+	 	$this->MarkDirty();
+	} 
+	
+
+	 /**
+	  * SetCurrentRevision()
+	  *
+	  * @param int $current_revision
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:20:01 IST 2007
+	  **/
+	 public function SetCurrentRevision($current_revision)
+	 {
+	  	$this->current_revision 		= $current_revision;
+		$this->MarkDirty();
+	 } 
+	
+	 
+	/**
+	 * SetCountryCode()
+	 *
+	 * @param string $country_code
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 15:09:37 IST 2007
+	 **/
+	public function SetCountryCode($country_code)
+	{
+	 	$this->country_code 		= $country_code;
+		$this->MarkDirty();
+	} 
+	 
+	/**
+	 * Set the version number
+	 * 
+	 * @param int $version
+	 * @author - jvonica
+	 * @since - Fri Mar 21 16:45:23 PDT 2008
+	 */
+	public function SetVersion($version) {
+	   $this->version = $version;
+	   $this->MarkDirty();
+	}
+		
+	/**
+	 * GetProposalId
+	 *
+	 * @return int
+	 */
+	public function GetProposalId()
+	{
+		return $this->proposal_id;
+	}	
+		
+	
+	/**
+	 * GetProposalName
+	 *
+	 * @return string The proposal name
+	 */
+	public function GetProposalName()
+	{
+		return $this->proposal_name;
+	}
+	
+	/**
+	 * GetAccountId
+	 *
+	 * @return 
+	 */
+	public function GetAccountId()
+	{		
+		return $this->account_id;
+	}
+	
+	/**
+	 * GetAccountName
+	 *
+	 * @return string
+	 */
+	public function GetAccountName()
+	{
+		return $this->account_name;
+	}
+	
+	/**
+	 * GetAccountType
+	 *
+	 */
+	public function GetAccountTypeId()
+	{	
+		return $this->account_type_id;
+	}
+
+	/**
+	 * GetLicenseLevel
+	 *
+	 */
+	public function GetLicenseLevelId()
+	{
+		
+		return $this->license_level_id;
+	}
+	
+	/**
+	 * GetLicenseLevel
+	 *
+	 */
+	public function GetPricingRegimeId()
+	{
+		
+		return $this->pricing_regime_id;
+	}
+	
+		
+	/**
+	 * GetProduct()
+	 *
+	 * @return Hb_App_Account_AccountProduct
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:49:30 IST 2007
+	 **/
+	public function GetProductId()
+	{
+	 	return $this->product_id;
+	} 	
+	
+	
+	/**
+	 * GetFunctionalGroupId()
+	 *
+	 * @return Hb_App_Function_FunctionalGroup
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 15:00:34 IST 2007
+	 **/
+	public function GetFunctionalGroupId()
+	{
+		return $this->functional_group_id;
+	} 
+
+	
+	/**
+	 * GetProposalStatusId()
+	 *
+	 * @return int
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:55:18 IST 2007
+	 **/
+	public function GetProposalStatusId()
+	{
+	 	return $this->proposal_status_id;
+	} 
+	
+	
+	/**
+	 * GetProposalStatusId()
+	 *
+	 * @return int
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 14:55:18 IST 2007
+	 **/
+	public function GetProposalSubStatusId()
+	{
+	 	return $this->proposal_sub_status_id;
+	} 
+		
+	/**
+	 * GetRegion()
+	 *
+	 * @return Hb_App_Region_Region
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 15:04:42 IST 2007
+	 **/
+	public function GetRegion()
+	{
+	 	return $this->region;
+	} 
+
+	 /**
+	  * GetLogin()
+	  *
+  	  * @return int
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:22:39 IST 2007
+	  **/
+	 public function GetLogin()
+	 {
+	  	return $this->login;
+	 } 
+	
+	 
+	 /**
+	  * GetUser()
+	  *
+	  * @return Hb_App_User_User
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:29:22 IST 2007
+	  **/
+	 public function GetUserId()
+	 {
+	 	return $this->user_id;
+	 } 	 
+	
+	 /**
+	  * SetLogin()
+	  *
+	  * @param int $login
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:24:17 IST 2007
+	  **/
+	 public function SetLogin($login)
+	 {
+	  	$this->login 		= $login;
+		$this->MarkDirty();
+	 } 
+
+	 /**
+	  * SetUser()
+	  *
+	  * @param Hb_App_User_User $user
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:27:19 IST 2007
+	  **/
+	 public function SetUserId($user_id)
+	 {
+	  	$this->user_id = $user_id;
+	 } 
+	 
+	 
+	/**
+	 * GetCountryCode()
+	 *
+	 * @return string
+	 * @author - krathnayake
+	 * @since  - Tue Jul 24 15:07:32 IST 2007
+	 **/
+	public function GetCountryCode()
+	{
+	 	return $this->country_code;
+	} 	 
+	
+	
+ 	/**
+	  * GetProposalDate()
+	  *
+	  * @return string
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:12:24 IST 2007
+	  **/
+	 public function GetProposalDate()
+	 {
+	  	 return $this->proposal_date;
+	 } 
+
+	  /**
+	  * GetRegionId()
+	  *
+	  * @return int
+	  * @author - 
+	  * @since  - Tue Aug 15 10:18:17 IST 2007
+	  **/
+	 public function GetRegionId()
+	 {
+	 	return $this->region_id;
+	 }
+	 
+	 /**
+	  * GetCurrentRevision()
+	  *
+	  * @return int
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:18:17 IST 2007
+	  **/
+	 public function GetCurrentRevision()
+	 {
+	 	return $this->current_revision;
+	 }	 
+	 
+	
+	 /**
+	  * SetProposalDate($proposal_date)
+	  *
+	  * @param string $proposal_date
+	  * @author - krathnayake
+	  * @since  - Tue Jul 24 15:13:55 IST 2007
+	  **/
+	 public function SetProposalDate($proposal_date)
+	 {
+	  	$this->proposal_date 		= $proposal_date;
+		$this->MarkDirty();
+	 } 
+
+	  
+	 /**
+	  * Get Attributes
+	  *
+	  * @return  Hb_App_Proposal_ProposalAttributes
+	  */
+	 public function GetAttributes()
+	 {
+	  	if(is_null($this->attributes))	
+		{
+			$this->attributes = Hb_App_ObjectHelper::GetMapper(
+				'Hb_App_Proposal_ProposalAttributes')->Find($this->proposal_id);
+		}
+		
+		return $this->attributes;
+	 } 
+	 
+	 /**
+	  * Get Attribute
+	  *
+	  * @param string $attr_name
+	  * @return Hb_App_Proposal_ProposalAttribute
+	  */
+	 public function GetAttribute($attr_name)
+	 {
+	 	return $this->GetAttributes()->GetAttribute($attr_name);
+	 }
+	 
+	 
+   /**
+    * GetVersion
+    * 
+    * @return int
+    * @author - jvonica
+    * @since - Fri Mar 21 16:45:34 PDT 2008
+    */
+	 public function GetVersion() {
+	    return $this->version;
+	 }
+	/**
+	 * Set Attribute
+	 *
+	 * @param string $attr_name
+	 * @param string $attr_value
+	 */
+	public function SetAttribute($attr_name, $attr_value)
+	{	
+		try {
+		   $this->GetAttribute($attr_name)->SetAttributeValue($attr_value);
+		  
+		} catch (Hb_Data_ObjectNotInCollectionException $e){
+		  $attr = new Hb_App_Proposal_ProposalAttribute(null, $this->proposal_id, $attr_name, $attr_value);
+		  $this->attributes->AddAttribute($attr);
+		}
+	}
+	 
+	 public function AddUser(Hb_App_Proposal_ProposalUser $user)
+	 {
+	 	if (is_null($this->users)) {
+	 		$this->users = new Hb_App_Collection();
+	 	}
+	 	
+	 	$user->SetProposal($this);
+	 	
+	 	try {
+	 		$this->users->AddItem($user);
+	 	} catch (Exception $e) {
+	 		
+	 	}
+	 }
+	 
+	 public function AddAttribute(Hb_App_Proposal_ProposalAttribute $attr)
+	 {
+	 	if (is_null($this->attributes)) {
+	 		$this->attributes = new Hb_App_Proposal_ProposalAttributes();
+	 	}
+	 	
+	 	$attr->SetProposal($this);
+	 	
+	 	$this->attributes->AddAttribute($attr);
+	 	
+	 }
+	 
+	 public function AddContact(Hb_App_Proposal_ProposalContact $contact)
+	 {
+	 	$contact->SetProposal($this);
+	 	$this->contact = $contact;
+	 }
+}
+?>

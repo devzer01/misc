@@ -1,0 +1,98 @@
+<?php 
+/**
+ * Mapper class of AccountComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountMerge extends Hb_Mapper_Mapper  
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountMerge'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_merge_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_merge'; 
+ 
+   /**
+    * Find by id
+    *
+    * @param int id Account Merge Id
+    * @return Hb_App_Account_AccountMerge Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	  $select = $this->GetBaseSelect();	
+	  $select->where('am.account_merge_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('am' => 'account_merge'), array('account_merge_id', 'master_account_id', 'slave_account_id'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return App_Account_AccountMerge Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	  return new Hb_App_Account_AccountMerge($row->account_merge_id,
+   	  		$row->master_account_id,
+   	  		null,
+   	  		$row->slave_account_id);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountMerge
+    */ 
+   function doSave(Hb_App_Object $obj)
+   {
+   	  $data = array(
+      	'master_account_id'	=> $obj->GetMasterAccountId(),
+      	'slave_account_id'	=> $obj->GetSlaveAccountId());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('account_merge', $data);
+		$obj->SetAccountMergeId($db->lastInsertId());
+	  } else {
+		$db->update('account_merge', $data, 'account_merge_id = ' . $obj->GetId());
+	  }
+   }
+}
+?>

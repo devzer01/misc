@@ -1,0 +1,88 @@
+<?php
+
+
+class Hb_App_Account_Query  {
+	
+	/**
+	* GetAccountById()
+	*
+	* @param int $account_id Account Id
+	* @return hb_acm_account
+	* @since  - 12:29:12
+	*/
+	function GetAccountById($account_id)
+	{
+		//TODO - CODE
+		
+	}
+	
+	/**
+	* GetDbObject()
+	*
+	* @param
+	* @param 
+	* @return db_acm
+	* @since  - 18:41:35
+	*/
+	static function GetDbObject()
+	{
+		$hb = hb::GetInstance();
+		
+		return $hb->Get('db_acm');
+	}
+	
+	/**
+	* GetAccountByEmailDomain()
+	*
+	* @param
+	* @param 
+	* @return Hb_App_Account
+	* @since  - 15:35:30
+	*/
+	static function GetAccountByEmailDomain(Hb_Util_Email_Address $email)
+	{
+		/* @var $db Hb_Db */
+		$db = Hb_Db::getInstance();
+		
+		$select = $db->getSelect();
+		
+		$select->from('account_contact AS ac', 'ac.account_id');
+		$select->joinLeft('contact AS c', 'c.contact_id = ac.contact_id', 'c.contact_id');
+		$select->where('ac.status = ?', 'A');
+		$select->where('c.contact_email LIKE ?', '%'. $email->domain .'%');
+		
+		$account_id = $db->FetchOnce($select);
+		
+		if (!$account_id) {
+			throw new Exception("Email Domain Not In Account Contact", 102);
+		}
+		
+		return Hb_App_Account::getInstance($account_id);
+	}
+	
+	/**
+	* CreateContact()
+	*
+	* @param
+	* @param 
+	* @return hb_acm_contact
+	* @since  - 16:37:06
+	*/
+	static function CreateContact($first_name, $last_name, $email_address)
+	{
+		/* @var $db db_acm */
+		$db = self::GetDbObject();
+		
+		$contact_id = $db->InsertContact(
+			array(
+				'contact_first_name' => $first_name,
+				'contact_last_name'  => $last_name,
+				'contact_email'      => $email_address
+			)
+		);
+		
+		return hb_acm_contact::getInstance($contact_id);
+	}
+	
+}
+?>

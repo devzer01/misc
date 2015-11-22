@@ -1,0 +1,281 @@
+<?php
+/**
+ * Domain class Hb_App_Account_AccountComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountComment extends Hb_App_Object
+{
+	/**
+	 * Account Comment Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_comment_id = null;
+	
+	/**
+	 * Account Comment Type Id
+	 *
+	 * @var int 
+	 */ 	
+	protected $account_comment_type_id = null;
+	
+	/**
+	 * Account Comment Type
+	 *
+	 * @var object 
+	 */ 	
+	protected $account_comment_type = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int 
+	 */
+	protected $account_id = null;
+
+	/**
+	 * Account
+	 *
+	 * @var object
+	 */
+	protected $account = null;
+	
+	/**
+	 * Comment Text
+	 *
+	 * @var string
+	 */
+	protected $comment_text = null;
+
+	/**
+	 * Status
+	 *
+	 * @var string
+	 */
+		protected $status = null;
+	
+	/**
+	 * created_by 
+	 *
+	 * @var int 
+	 */
+	protected $created_by = null;	
+
+	protected $user = null;
+		
+	/**
+	 * Class constructor
+	 *
+	 * @param int $id Account Comment Id
+	 * @param int $account_comment_type_id Account Comment Type Id
+	 * @param object $account_comment_type Account Comment Type
+	 * @param int $account_id Account Id
+	 * @param object $account Account
+	 * @param string $comment_text Comment Text
+	 * @param string $status Status
+	 * @param int $created_by Created by user login	 
+	 */ 
+	function __construct($id 							= null,
+								$account_comment_type_id = null,
+								$account_id 				= null,
+								$comment_text 				= null,
+								$status 						= null,
+								$created_by					= null		
+								)
+	{
+		$this->account_comment_id 			= $id;
+		$this->account_comment_type_id	= $account_comment_type_id;		
+		$this->account_id						= $account_id;	
+		$this->comment_text					= $comment_text;
+		$this->status 							= $status;		
+		
+		parent::__construct($id);
+	}
+
+
+	public function GetUser()
+	{
+		
+		return  Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($this->GetAudit()->GetCreatedBy());
+	}
+	
+	/**
+	 * Return the Created user instance for the Account 
+	 *
+	 * @return Hb_App_User_User Created user instance
+	 */
+	public function GetCreatedUser()
+	{
+		if(is_null($this->user))
+		{			
+			if(is_null($this->created_by)){
+				throw new Hb_App_Account_Exception_AccountCommentNotFoundException('Account comment created by Id Not Found !');
+			}
+			$this->user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($this->created_by);
+		}		
+		return $this->user;
+	}
+	
+	
+	/**
+	 * Return the Created by user  for the Account Comment
+	 *
+	 * @return int Created by user instance
+	 */
+	public function GetCreatedBy()
+	{
+		return $this->created_by;
+	}
+	
+	/**
+	 * Set the Created by user id for the  Cost comment
+	 * 
+	 * @param int $login Created by user id
+	 */
+	public function SetCreatedBy($login)
+	{
+		$this->created_by = $login;
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Returns Account Comment Id
+	 *
+	 * @return int Account Comment Id
+	 */ 
+	public function GetAccountCommentId()
+	{
+		return $this->account_comment_id;
+	}
+
+	/**
+	 * Returns Account Comment Type Id
+	 *
+	 * @return int Account Comment Type Id
+	 */ 
+	public function GetAccountCommentTypeId()
+	{
+		return $this->account_comment_type_id;
+	}
+	
+	/**
+	 * Returns Account Comment Type
+	 *
+	 * @return object Account Comment Type
+	 */ 
+	public function GetAccountCommentType()
+	{
+		return $this->account_comment_type;
+	}
+
+	/**
+	 * Returns Account Id
+	 *
+	 * @return int Account Id
+	 */ 
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Returns Account
+	 *
+	 * @return object Account
+	 */ 
+	public function GetAccount()
+	{
+		return $this->account;
+	}
+
+	/**
+	 * Return the Status for the Account Comment
+	 *
+	 * @return string Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+		
+	/**
+	 * Returns Comment Text
+	 *
+	 * @return string Comment Text
+	 */ 
+	public function GetCommentText()
+	{
+		return $this->comment_text;
+	}
+
+	/**
+	 * Sets Account Comment Id
+	 *
+	 * @param int $comment_id Account Comment Id
+	 */ 
+	public function SetAccountCommentId($comment_id)
+	{
+		$this->account_comment_id 	= $comment_id;
+		$this->__id					= $comment_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Account Comment Type Id
+	 *
+	 * @param int $comment_type_id Account Comment Type Id
+	 */ 
+	public function SetAccountCommentTypeId($comment_type_id)
+	{
+		$this->account_comment_type_id = (int)$comment_type_id;
+	}
+
+	/**
+	 * Sets Account Comment Type
+	 *
+	 * @param object $comment_type Account Comment Type
+	 */ 
+	public function SetAccountCommentType($comment_type)
+	{
+		$this->account_comment_type = $comment_type;
+	}
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */ 
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+	}
+
+	/**
+	 * Sets Account
+	 *
+	 * @param object $account Account
+	 */ 
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	/**
+	 * Sets Comment Text
+	 *
+	 * @param string $comment_text Comment Text
+	 */ 
+	public function SetCommentText($comment_text)
+	{
+		$this->comment_text = $comment_text;
+	}
+
+}
+?>

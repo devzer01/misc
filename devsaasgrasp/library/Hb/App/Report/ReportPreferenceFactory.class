@@ -1,0 +1,33 @@
+<?php
+
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 07-Sep-2007 5:40:31 PM
+ */
+class Hb_App_Report_ReportPreferenceFactory
+{
+
+	/**
+	 * @return Hb_App_Common_ReportPreferenceAbstract
+	 */
+	public static function GetPreference(Hb_App_Report_ReportDefinitionInterface $report)
+	{
+		$session = new Hb_Util_Session_Session();
+		
+		if (isset($session->user_pref)) {
+			return $session->user_pref;
+		}
+		
+		if (isset($session->adhoc_pref)) {
+			return $session->adhoc_pref;
+		}
+		
+		$pref = new Hb_App_Report_ReportDefaultPreference();
+		$pref->SetColumns($report->GetColumnFields());
+		
+		return $pref;
+	}
+}
+?>

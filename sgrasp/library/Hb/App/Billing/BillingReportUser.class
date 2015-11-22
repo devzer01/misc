@@ -1,0 +1,243 @@
+<?php
+require_once ('BillingReport.class');
+
+/**
+ * Domain object for the Billing Report User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */
+class Hb_App_Billing_BillingReportUser extends Hb_App_Object
+{
+	/**
+	 * Billing Report instance
+	 *
+	 * @var object 
+	 */
+	protected $armc = null;
+	
+	/**
+	 * Billing Report ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_id = null;
+	
+	/**
+	 * Billing Report User ID
+	 *
+	 * @var int 
+	 */
+	protected $armc_user_id = null;
+	
+	/**
+	 * User Login number
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Role instance
+	 *
+	 * @var object 
+	 */
+	protected $role = null;
+	
+	/**
+	 * Role ID
+	 *
+	 * @var int 
+	 */
+	protected $role_id = null;
+	
+	/**
+	 * User instance
+	 *
+	 * @var object 
+	 */
+	protected $user = null;
+	
+	/**
+	 * Constructor for the BillingReportUser
+	 *
+	 * @param int $id billing report user id
+	 * @param object $armc billing report instance
+	 * @param int $armc_id billing report id
+	 * @param int $login user login number
+	 * @param object $role user role instance
+	 * @param int $role_id user role id
+	 * @param object $user user instance
+	 */
+	function __construct($id = null,
+								$armc = null,
+								$armc_id = null,
+								$login = null,
+								$role = null,
+								$role_id = null,
+								$user = null
+								)
+	{
+		$this->armc_user_id 	= $id;
+		$this->armc				= $armc;
+		$this->armc_id			= $armc_id;
+		$this->login			= $login;
+		$this->role				= $role;
+		$this->role_id			= $role_id;
+		$this->user				= $user;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Billing Report instance for Billing Report User
+	 *
+	 * @return object Billing report instance
+	 */
+	public function GetBillingReport()
+	{
+		return $this->armc;
+	}
+
+	/**
+	 * Return the Billing Report ID for Billing Report User
+	 *
+	 * @return int  billing report id
+	 */
+	public function GetBillingReportID()
+	{
+		return $this->armc_id;
+	}
+
+	/**
+	 * Return the Billing Report User ID for Billing Report User
+	 *
+	 * @return int billing report user id
+	 */
+	public function GetBillingReportUserID()
+	{
+		return $this->armc_user_id;
+	}
+
+	/**
+	 * Return the User Login number for Billing Report User
+	 *
+	 * @return int user login id
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return the Role instance for Billing Report User
+	 *
+	 * @return object user role instance
+	 */
+	public function GetRole()
+	{
+		return $this->role;
+	}
+
+	/**
+	 * Return the Role ID for Billing Report User
+	 *
+	 * @return int user role id
+	 */
+	public function GetRoleID()
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * Return the User instance for Billing Report id
+	 *
+	 * @return object user instance
+	 */
+	public function GetUser()
+	{
+		return $this->user;
+	}
+
+	/**
+	 * Set the Billing Report instance for Billing Report User
+	 * 
+	 * @param object $armc billing report instance
+	 */
+	public function SetBillingReport(Hb_App_Billing_BillingReport $armc)
+	{
+		$this->armc = $armc;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report ID for Billing Report User
+	 * 
+	 * @param int $armc_id billing report Id
+	 */
+	public function SetBillingReportID($armc_id)
+	{
+		$this->armc_id = $armc_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report User ID for Billing Report User
+	 * 
+	 * @param int armc_user_id billing report user Id
+	 */
+	public function SetBillingReportUserID($armc_user_id)
+	{
+		$this->armc_user_id = $armc_user_id;
+		$this->__id			= (int)$armc_user_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User Login number for Billing Report User
+	 * 
+	 * @param int $login user loing number
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Role instance for Billing Report User
+	 * 
+	 * @param object $role user role instance
+	 */
+	public function SetRole(Hb_App_Common_Role $role)
+	{
+		$this->role = $role;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Role ID for Billing Report User
+	 * 
+	 * @param int $role_id user role Id
+	 */
+	public function SetRoleID($role_id)
+	{
+		$this->role_id = $role_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User instance for Billing Report User
+	 * 
+	 * @param object $user user instance
+	 */
+	public function SetUser(Hb_App_Common_User $user)
+	{
+		$this->user = $user;
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,123 @@
+<?php
+/**
+ * Mapper Class for study_cost_file
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyCostFile extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Study Cost File table
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_cost_file_id';
+	
+	/**
+	 * Variable for Study Cost File table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'study_cost_file';
+	
+	
+	/**
+	 * Build the study_cost_file Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyCostFile
+	 */
+	protected function doBuildObject($row)
+	{
+		$study_cost_file = new Hb_App_Common_File($row->study_cost_file_id,
+																null,
+																$row->study_cost_file_name,
+																$row->study_cost_file_title,
+																$row->study_cost_file_size
+																);
+		
+		return new Hb_App_Study_StudyCostFile($row->study_cost_file_id,	
+														  $row->study_id,		
+														  $row->study_cost_id,
+														  $study_cost_file
+														 );
+	}
+	
+	
+	/**
+	 * Returns Study Cost File data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('scf' => 'study_cost_file'), array('study_cost_file_id',
+																				 'study_id',
+																				 'study_cost_id',
+																				 'study_cost_file_name',																				 
+																				 'study_cost_file_title',																				 																					
+																				 'study_cost_file_size'
+									)
+							);
+		return $select;
+	}
+	
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('scf.study_cost_file_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of Hb_App_Object
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		// @var $obj Hb_App_Study_StudyCostFile  
+		
+		$data = array('study_cost_file_id'	 =>  $obj->GetStudyCostFileId(),
+						  'study_id'			    =>  $obj->GetStudyId(),
+						  'study_cost_id'			 =>  $obj->GetStudyCostId(),
+						  'study_cost_file_name' =>  $obj->GetFile()->GetFileName(),
+						  'study_cost_file_title'=>  $obj->GetFile()->GetFileTitle(),
+						  'study_cost_file_data' =>  $obj->GetFile()->GetFileData(),
+						  'study_cost_file_size' =>  $obj->GetFile()->GetFileSize(),
+						  'study_cost_file_type_id' => $obj->GetStudyCostFileTypeId()						
+			);
+			
+		$db = Hb_Util_Db_Connection::GetInstance();		
+		
+		if (is_null($obj->GetId())) 
+		{
+			$data['created_by'] = isset($_SESSION['admin_id']) ?  $_SESSION["admin_id"] : 0 ;
+         $data['created_date'] = date("Y-m-d h:i:s");        
+			$db->insert($this->table, $data);
+			$obj->SetStudyCostFileId($db->lastInsertId());
+		}
+		else 
+		{         
+         $data['created_by'] = isset($_SESSION['admin_id']) ?  $_SESSION["admin_id"] : 0 ;
+         $data['modified_date'] = date("Y-m-d h:i:s");
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());	
+		}
+	}
+}
+?>

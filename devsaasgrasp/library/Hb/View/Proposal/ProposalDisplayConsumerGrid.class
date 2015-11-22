@@ -1,0 +1,21 @@
+<?php
+class Hb_View_Proposal_ProposalDisplayConsumerGrid extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_consumer_grid.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $arr_country = array();
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('arr_country', $this->arr_country);	
+	}	
+	
+	public function SetArrCountry($value)
+	{
+		$this->arr_country = $value;
+	}
+}
+
+?>

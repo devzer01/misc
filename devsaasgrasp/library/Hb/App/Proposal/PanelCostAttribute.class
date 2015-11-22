@@ -1,0 +1,21 @@
+<?php
+
+class Hb_App_Proposal_PanelCostAttribute extends Hb_App_Attribute
+{
+	protected $panel_cost = null;
+	
+	
+	public function SetPanelCost(Hb_App_Proposal_PanelCost $panelcost)
+	{
+		$this->panel_cost = $panelcost;
+		//$this->__id = $panelcost->GetPanelCostId();
+	}
+	
+	public function GetPanelCost()
+	{
+		return $this->panel_cost;
+	}
+	
+}
+
+?>

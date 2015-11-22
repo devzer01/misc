@@ -1,0 +1,27 @@
+<?php 
+/**
+ * Domain Object for Pricing Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_PricingType extends Hb_App_Common_Type 
+{	
+	/**
+	 * Create Pricing Type Object
+	 *
+	 * @param int $id Pricing type id
+	 * @param string $description Pricing type description
+	 */
+	public function __construct($id = null,
+									    $description = null
+									   )
+   {
+   	parent::__construct($id, $description);	
+   }   
+}
+?>

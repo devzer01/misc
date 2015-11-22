@@ -1,0 +1,27 @@
+<?php
+
+class Hb_App_Study_Manager_Cost
+{
+
+   /**
+    * Return the next Study Cost Purchase Order number and increases it by one for subsequent calls
+    * 
+    * @return int Next Study Cost Purchase Order number
+    */
+   public function NextPONumber()
+   {
+      $db = Hb_Util_Db_Connection::GetInstance();
+      
+      $select = $db->select();
+      $select->from("study_setting", array("study_setting_value"));
+      $select->where("study_setting_name = ?", "NEXT_PO_NUMBER");
+      
+      $row = $db->fetchRow($select);
+      $ret = ++$row->study_setting_value;
+      
+      $db->update("study_setting", array("study_setting_value" => $ret), "study_setting_name = 'NEXT_PO_NUMBER'");
+      return $ret;
+   }
+
+}
+?>

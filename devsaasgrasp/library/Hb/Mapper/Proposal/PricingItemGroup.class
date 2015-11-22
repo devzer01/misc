@@ -1,0 +1,103 @@
+<?php 
+/**
+ * Mapper class AccountPanelDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_Mapper_Proposal_PricingItemGroup extends Hb_Mapper_Mapper
+{
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Proposal_PricingItemGroup'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'pricing_item_group_id';
+   
+  /**
+   * Table Name
+   *
+   * @var string 
+   */  
+   protected $table = 'pricing_item_group'; 
+   
+   /**
+    * Find by id
+    *
+    * @param int id Pricing Item Group Id
+    * @return Hb_App_Proposal_PricingItemGroup Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  if (Hb_App_ObjectMap::hasObject('Hb_App_Proposal_PricingItemGroup', $id)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Proposal_PricingItemGroup', $id);	
+		}
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('pig.pricing_item_group_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('pig' => 'pricing_item_group'), array('pricing_item_group_id', 'pricing_item_group_description'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Proposal_PricingItemGroup
+    */ 
+   function doSave(Hb_App_Object $obj) 
+   { 
+      $data = array(
+      	'pricing_item_group_id'				=> $obj->GetPricingItemGroupId(),
+      	'pricing_item_group_description'	=> $obj->GetPricingItemGroupDescription()
+        );
+      
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+		$db->insert('pricing_item_group', $data);
+		$obj->SetPricingItemGroupId($db->lastInsertId());
+	  } else {
+		$db->update('pricing_item_group', $data, 'pricing_item_group_id = ' . $obj->GetId());
+	  }
+   } 
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Proposal_PricingItemGroup Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+      return new Hb_App_Proposal_PricingItemGroup(
+      		$row->pricing_item_group_id,
+      		$row->pricing_item_group_description);
+   }
+} 
+?>

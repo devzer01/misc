@@ -1,0 +1,38 @@
+<?php 
+class Hb_View_Account_AccountCreditLimitRequest extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/vw_change_credit_limit.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;
+	
+	protected $account_term = null;
+	
+	protected $requester = null;
+	
+	
+	protected function LoadData()
+	{
+		$this->SetData('account', $this->account);
+		$this->SetData('account_term', $this->account_term);
+		$this->SetData('requester', $this->requester);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetAccountTerm($account_term) 
+	{
+		$this->account_term = $account_term;
+	}
+	
+	public function SetRequester($requester)
+	{
+		$this->requester = $requester;
+	}
+}
+
+?>

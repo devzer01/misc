@@ -1,0 +1,108 @@
+<?php
+/**
+ * Mapper for Proposal Auction User
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @updated 24-Aug-2007 10:50:50 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalAuctionUser extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalAuctionUser';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalAuctionUser';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_auction_user_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_auction_user";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+				
+		return new Hb_App_Proposal_ProposalAuctionUser(		
+														$row->proposal_auction_user_id,
+														$row->proposal_auction_id, 
+														$row->role_id,
+														$row->login
+														);		
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+          	 	 	 	 	
+			$select->from(	array('pau' => 'proposal_auction_user'), 
+										array('proposal_auction_user_id',
+												'proposal_auction_id', 'role_id', 'login'));
+      		         
+      return $select; 				
+	}
+	
+	/**
+	 * Finds a proposal auction user by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_auction_user_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+									
+		$row->proposal_auction_id  = $obj->GetProposalAuctionId();
+		$row->role_id   				= $obj->GetRoleId();
+		$row->login    				= $obj->GetLoginId();
+		
+		$row->save();				
+		
+		$obj->SetProposalAuctionUserId($row->proposal_auction_user_id);				
+	}
+	
+}
+?>

@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Panel Cost Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_PanelCostType extends Hb_App_Common_Type
+{
+		/**
+	 * Create Panel Cost Type Object
+	 *
+	 * @param int $id Panel Cost type id
+	 * @param string $description Phone type description
+	 */
+	public function __construct($id 				= null,
+									    $description 	= null
+									   )
+   {  	
+   	parent::__construct($id, $description);	
+   }
+}
+
+?>

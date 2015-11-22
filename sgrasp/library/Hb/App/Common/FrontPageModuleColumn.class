@@ -1,0 +1,112 @@
+<?php 
+/**
+ * Domain Object for FrontPageModuleColumn
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_FrontPageModuleColumn extends Hb_App_Object 
+{
+	/**
+	 * Front page module column id
+	 *
+	 * @var int 
+	 */
+	private $frontpage_module_column_id = null;
+	
+	/**
+	 * Front page module id
+	 *
+	 * @var int 
+	 */
+	private $frontpage_module_id = null;
+	
+	/**
+	 * Column name
+	 *
+	 * @var string 
+	 */
+	private $column_name = null;
+	
+	
+	function __construct($id = null,
+								$frontpage_module_id = null,
+								$column_name	= null)
+	{
+		$this->frontpage_module_column_id	= $id;
+		$this->frontpage_module_id		= $frontpage_module_id;
+		$this->column_name	= $column_name;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Front page Module column id for the Front Page Module Column
+	 *
+	 * @return int Front page Module column id
+	 */
+	public function GetFrontPageModuleColumnID()
+	{
+		return $this->frontpage_module_column_id;
+	}
+	
+	/**
+	 * Return the Front Page Module Id for the Front Page Module Column
+	 *
+	 * @return int Front Page Module Id
+	 */
+	public function GetFrontPageModuleID()
+	{
+		return $this->frontpage_module_id;
+	}
+	
+	/**
+	 * Return the Column Name for the Front Page Module Column
+	 *
+	 * @return string Column Name
+	 */
+	public function GetColumnName()
+	{
+		return $this->column_name;
+	}
+	
+	/**
+	 * Set the Front Page Module Column ID for the  Front Page Module Column
+	 * 
+	 * @param int $module_column_id Front Page Module Column ID
+	 */
+	public function SetFrontPageModuleColumnID($module_column_id)
+	{
+		$this->frontpage_module_column_id	= $module_column_id;
+		$this->__id	= $module_column_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Front page module id for the  Front Page Module Column
+	 * 
+	 * @param int $module_id Front page module id
+	 */
+	public function SetFrontPageModuleID($module_id)
+	{
+		$this->frontpage_module_id	= $module_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Column Name for the  Front Page Module Column
+	 * 
+	 * @param string $column_name Column Name
+	 */
+	public function SetColumnName($column_name)
+	{
+		$this->column_name	= $column_name;
+		$this->MarkDirty();
+	}
+}
+
+?>

@@ -1,0 +1,536 @@
+<?php
+
+class db_rem extends db {
+
+//	/**
+//	* GetOpenStudyList()
+//	*
+//	* @param
+//	* @param
+//	* @return
+//	* @since  - 11:30:03
+//	*/
+//	function GetOpenStudyList($where = array())
+//	{
+//		return $this->__GetStudyList($where);
+//	}
+//
+//	/**
+//	* __GetStudyList()
+//	*
+//	* @param
+//	* @param
+//	* @return
+//	* @since  - 11:30:12
+//	*/
+//	protected function __GetStudyList($where)
+//	{
+//		$this->SetSelect();
+//
+//		$attrs = array(
+//			'ACCOUNT_NAME' => 'account_name',
+//			'QVALUE'       => 'project_quoted_value',
+//			'PVALUE'       => 'project_estimated_value',
+//			'N_COMPLETE'   => 'number_of_completes',
+//			'N_COMPLETE_GMI' => 'number_of_gmi_completes',
+//			'N_COMPLETE_NON_GMI' => 'number_of_non_gmi_completes',
+//			'SAMPLE_BUY_COMPLETES' => 'sample_buy_completes',
+//			'SAMPLE_BUY_COST' => 'sample_buy_cost',
+//			'NUMBER_COMPLETED_GTM' => 'gtm_completes',
+//			'NUMBER_COMPLETED_NON_GTM' => 'nongtm_completes',
+//			'NUMBER_SCREENED_GTM' => 'gtm_screeners',
+//			'NUMBER_INVITED_GTM' => 'gtm_invites',
+//			'MAX_INCIDENCE' => "max_incidence",
+//			'ALERT_OVERHEAD_COST' => "overhead",
+//			'TABHR' => 'data_tab_hours',
+//			'DDHOUR' => 'data_delivery_hours',
+//			'TOTALQP' => 'questions_programmed',
+//			'GLOBAL_ACCOUNT_TIER_LEVEL' => 'account_tier',
+//			'ACCOUNT_COUNTRY_CODE' => 'acm_country_code'
+//		);
+//
+//		$this->select->from('study AS s', 's.study_id, s.study_name, s.partner_id AS account_id, s.alert_level_id');
+//
+//		$this->select->joinLeft("study_sample_type AS sst", "sst.study_id = s.study_id AND sst.status='A'", "GROUP_CONCAT(DISTINCT sst.sample_type_id SEPARATOR ',') AS sample_type_id");
+//		$this->select->joinLeft("sample_type AS st", "st.sample_type_id = sst.sample_type_id", "GROUP_CONCAT(DISTINCT st.sample_type_description SEPARATOR ',') AS sample_type_description");
+//
+//		$this->select->joinLeft("study_timeline AS stl", "stl.study_id = s.study_id AND stl.study_task_id = 17 AND stl.status='A'", "stl.study_task_id");
+//		$this->select->joinLeft("study_timeline_attr AS stla1", "stla1.study_timeline_id = stl.study_timeline_id AND stla1.study_timeline_attr = 'COMPDATE'", "stla1.study_timeline_value AS study_close_date");
+//		$this->select->joinLeft("study_timeline_attr AS stla2", "stla2.study_timeline_id = stl.study_timeline_id AND stla2.study_timeline_attr = 'CUREST'", "stla2.study_timeline_value AS study_close_date_estimated");
+//
+//		foreach ($attrs as $key => $label) {
+//			$this->select->joinLeft("study_attr AS sa_". $key, "sa_". $key .".study_id = s.study_id AND sa_". $key .".study_attr = '" . $key . "'", "sa_". $key .".study_value AS ". $label);
+//		}
+//
+//		$cost = array(
+//			2 => 'cost_translation',
+//			3 => 'cost_panel',
+//			4 => 'cost_sb'
+//		);
+//
+//		foreach ($cost as $cost_type_id => $label) {
+//			$table = 'sc_'. $label;
+//			$this->select->joinLeft(
+//				"study_cost AS ". $table,
+//				$table .".study_id = s.study_id AND ". $table .".study_cost_type_id = '" . $cost_type_id . "' AND ". $table .".status = 'A'",
+//					  "SUM(". $table .".proposed_rate * ". $table .".proposed_quantity)  AS ". $label ."_proposed, "
+//               . "SUM(". $table .".actual_rate * ". $table .".actual_quantity)  AS ". $label ."_actual, "
+//               . $table. ".proposed_quantity AS ". $label ."_proposed_quantity
+//				");
+//		}
+//
+//
+//		$role = array(
+//			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+//			ROLE_PRIMARY_ACCT_MGR  => 'am'
+//		);
+//
+//		foreach ($role as $role_id => $label) {
+//			$table = 'su_'. $label;
+//			$this->select->joinLeft(
+//				'study_user AS '. $table,
+//				$table .".study_id = s.study_id AND ". $table .".role_id = ". $role_id,
+//				$table .".login AS ". $label ."_login"
+//			);
+//		}
+//
+//		$this->select->joinLeft('country AS c', 'c.country_code = sa_ACCOUNT_COUNTRY_CODE.study_value', 'c.region_id');
+//
+//
+//		//$this->select->where('s.study_status_id = ?', $study_status_id);
+//
+//		if (!empty($where)) {
+//			foreach ($where AS $key => $elm) {
+//				$this->select->where($elm['field'] . " = ?", $elm['value']);
+//			}
+//		}
+//
+//		$this->select->group('s.study_id');
+//
+//		return $this->db->fetchAssoc($this->select);
+//
+//	}
+
+   /**
+   * __GetStudyProfitability_5_0()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Dec 22 04:31:55 PST 2006
+   */
+   private function __GetStudyProfitability_5_0($where, $sort, $limit)
+   {
+		$this->SetSelect();
+
+		$attr_casts["DECIMAL(10,2)"] = array(
+			'PROF_REP_REVENUE' => 'revenue',
+			'PROF_REP_MARKET_POINTS' => 'market_points',
+			'PROF_REP_PANEL_ATTRITION' => 'panel_attrition',
+			'PROF_REP_SALES_COMMISSION' => 'sales_commission',
+			'PROF_REP_SB_COST' => 'sb_cost',
+			'PROF_REP_PANEL_BUY' => 'panel_buy',
+			'PROF_REP_HOSTING' => 'hosting',
+			'PROF_REP_DP_COST' => 'dp_cost',
+			'PROF_REP_TRANSLATION_COST' => 'translation',
+			'PROF_REP_OVERHEAD' => 'overhead',
+			'PROF_REP_GROSS_COST' => 'gross_cost',
+			'PROF_REP_GROSS_PERCENT' => 'gross_percent',
+			'PROF_REP_GROSS_MARGIN' => 'gross_margin',
+			'PROF_REP_OPERATING_MARGIN' => 'operating_margin',
+			'PROF_REP_OPERATING_PERCENT' => 'operating_percent'
+		);
+
+		$attr_casts["SIGNED"] = array(
+			'N_COMPLETE_GMI' => 'gtm_completes',
+			'SAMPLE_BUY_COMPLETES' => 'nongtm_completes',
+			'GLOBAL_ACCOUNT_TIER_LEVEL' => 'account_tier',
+		);
+
+		$attr_casts[""] = array(
+			'ACCOUNT_NAME' => 'account_name',
+			'PROF_REP_CLOSE_DATE' => 'study_close_date',
+			'ACCOUNT_COUNTRY_CODE' => 'acm_country_code'
+		);
+
+		$this->select->from(array('s' => 'study'), array('study_id', 'study_name', 'account_id' => 'partner_id', 'alert_level_id'));
+
+		$this->select->joinLeft(array("sst" => "study_sample_type"), "sst.study_id = s.study_id AND sst.status='A'", array('sample_type_id' => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT sst.sample_type_id SEPARATOR ',')")));
+		$this->select->joinLeft(array("st" => "sample_type"), "st.sample_type_id = sst.sample_type_id", array(" sample_type_description" => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT st.sample_type_description SEPARATOR ',')")));
+
+		foreach ($attr_casts AS $type=>$attrs) {
+   		foreach ($attrs as $key => $label) {
+   		   if ($type != "") {
+               $this->select->joinLeft(array("sa_". $key => 'study_attr'), "sa_". $key .".study_id = s.study_id AND sa_". $key .".study_attr = '" . $key . "'", array($label => new Zend_Db_Expr("CAST(sa_" . $key .".study_value AS $type)"), "sort_" . $label => new Zend_Db_Expr("CAST(sa_" . $key .".study_value AS $type)")));
+   		   } else {
+               $this->select->joinLeft(array("sa_". $key => "study_attr"), "sa_". $key .".study_id = s.study_id AND sa_". $key .".study_attr = '" . $key . "'", array($label => "study_value"));
+   		   }
+		   }
+		}
+
+//		$cost = array(
+//			2 => 'cost_translation',
+//			3 => 'cost_panel',
+//			4 => 'cost_sb'
+//		);
+//
+//		foreach ($cost as $cost_type_id => $label) {
+//			$table = 'sc_'. $label;
+//			$this->select->joinLeft(
+//				"study_cost AS ". $table,
+//				$table .".study_id = s.study_id AND ". $table .".study_cost_type_id = '" . $cost_type_id . "' AND ". $table .".status = 'A'",
+//					  "SUM(". $table .".proposed_rate * ". $table .".proposed_quantity)  AS ". $label ."_proposed, "
+//               . "SUM(". $table .".actual_rate * ". $table .".actual_quantity)  AS ". $label ."_actual, "
+//               . $table. ".proposed_quantity AS ". $label ."_proposed_quantity
+//				");
+//		}
+
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'su_'. $label;
+			$this->select->joinLeft(
+				array($table => 'study_user'),
+				$table .".study_id = s.study_id AND ". $table .".role_id = ". $role_id,
+				array($label . "_login" => "login")
+			);
+		}
+
+		$this->select->joinLeft(array('c' => 'country'), 'c.country_code = sa_ACCOUNT_COUNTRY_CODE.study_value', array('region_id'));
+
+
+		$this->select->where('s.status = ?', "A");
+		$this->select->where('sa_PROF_REP_REVENUE.study_value != ?', 0);
+
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		//echo ("Sort : $sort<br/>");
+
+		$this->select->order($sort);
+		if ($limit) {
+         $this->select->limit($limit);
+		}
+
+		$this->select->group('s.study_id');
+
+		return $this->db->fetchAssoc($this->select);
+   }
+
+   /**
+   * __GetStudyProfitability_4_1()
+   *
+   * @param
+   * @todo NOT YET COMPLETED
+   * @return
+   * @since  - 2.0.1 - Fri Dec 22 04:36:03 PST 2006
+   */
+   private function __GetStudyProfitability_4_1($where, $sort, $limit)
+   {
+		$this->SetSelect();
+
+		$attr_casts["SIGNED"] = array(
+			'PROF_REP_REVENUE' => 'revenue',
+			'PROF_REP_MARKET_POINTS' => 'market_points',
+			'PROF_REP_PANEL_ATTRITION' => 'panel_attrition',
+			'PROF_REP_SALES_COMMISSION' => 'sales_commission',
+			'PROF_REP_SB_COST' => 'sb_cost',
+			'PROF_REP_PANEL_BUY' => 'panel_buy',
+			'PROF_REP_HOSTING' => 'hosting',
+			'PROF_REP_DP_COST' => 'dp_cost',
+			'PROF_REP_TRANSLATION_COST' => 'translation',
+			'PROF_REP_OVERHEAD' => 'overhead',
+			'PROF_REP_GROSS_COST' => 'gross_cost',
+			'PROF_REP_GROSS_MARGIN' => 'gross_margin',
+			'PROF_REP_GROSS_PERCENT' => 'gross_percent',
+			'PROF_REP_OPERATING_MARGIN' => 'operating_margin',
+			'PROF_REP_OPERATING_PERCENT' => 'operating_percent'
+		);
+
+		$attr_casts["SIGNED"] = array_merge($attr_casts["SIGNED"], array(
+			'N_COMPLETE_GMI' => 'gtm_completes',
+			'SAMPLE_BUY_COMPLETES' => 'nongtm_completes',
+			'GLOBAL_ACCOUNT_TIER_LEVEL' => 'account_tier',
+		));
+
+		$attr_casts[""] = array(
+			'ACCOUNT_NAME' => 'account_name',
+			'PROF_REP_CLOSE_DATE' => 'study_close_date',
+			'ACCOUNT_COUNTRY_CODE' => 'acm_country_code'
+		);
+
+		$this->select->from(array('s' => 'study'), array('study_id', 'study_name', 'account_id' => 'partner_id', 'alert_level_id'));
+
+		$this->select->joinLeft(array("sst" => "study_sample_type"), "sst.study_id = s.study_id AND sst.status='A'", array("sample_type_id" => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT sst.sample_type_id SEPARATOR ',')")));
+		$this->select->joinLeft(array("st" => "sample_type"), "st.sample_type_id = sst.sample_type_id", array("sample_type_description" => new Zend_Db_Expr("GROUP_CONCAT(DISTINCT st.sample_type_description SEPARATOR ',')")));
+
+		foreach ($attr_casts AS $type=>$attrs) {
+   		foreach ($attrs as $key => $label) {
+   		   if ($type != "") {
+               $this->select->joinLeft(array("sa_". $key => 'study_attr'), "sa_". $key .".study_id = s.study_id AND sa_". $key .".study_attr = '" . $key . "'", array($label => new Zend_Db_Expr("CAST(sa_" . $key .".study_value AS $type)"), "sort_" . $label => new Zend_Db_Expr("CAST(sa_" . $key .".study_value AS $type)")));
+   		   } else {
+               $this->select->joinLeft(array("sa_". $key => "study_attr"), "sa_". $key .".study_id = s.study_id AND sa_". $key .".study_attr = '" . $key . "'", array($label => "study_value"));
+   		   }
+		   }
+		}
+
+//		$cost = array(
+//			2 => 'cost_translation',
+//			3 => 'cost_panel',
+//			4 => 'cost_sb'
+//		);
+//
+//		foreach ($cost as $cost_type_id => $label) {
+//			$table = 'sc_'. $label;
+//			$this->select->joinLeft(
+//				"study_cost AS ". $table,
+//				$table .".study_id = s.study_id AND ". $table .".study_cost_type_id = '" . $cost_type_id . "' AND ". $table .".status = 'A'",
+//					  "SUM(". $table .".proposed_rate * ". $table .".proposed_quantity)  AS ". $label ."_proposed, "
+//               . "SUM(". $table .".actual_rate * ". $table .".actual_quantity)  AS ". $label ."_actual, "
+//               . $table. ".proposed_quantity AS ". $label ."_proposed_quantity
+//				");
+//		}
+
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'su_'. $label;
+			$this->select->joinLeft(
+				array($table => 'study_user'),
+				$table .".study_id = s.study_id AND ". $table .".role_id = ". $role_id,
+				array($label . '_login' => 'login')
+			);
+		}
+
+		$this->select->joinLeft(array('c' => 'country'), 'c.country_code = sa_ACCOUNT_COUNTRY_CODE.study_value', array('region_id'));
+
+
+		$this->select->where('s.status = ?', "A");
+		$this->select->where('sa_PROF_REP_REVENUE.study_value != ?', 0);
+
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		//echo ("Sort : $sort<br/>");
+
+		$this->select->order($sort);
+		if ($limit) {
+         $this->select->limit($limit);
+		}
+
+		$this->select->group('s.study_id');
+
+		return $this->db->fetchAssoc($this->select);
+   }
+
+	/**
+	* GetStudyProfitabilityData()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.1 - Thu Dec 14 08:29:01 PST 2006
+	*/
+	public function GetStudyProfitabilityData($where, $sort, $limit = 0)
+	{
+	   $ret = array();
+	   if (isset($this->version)) {
+	      if ($this->version >= "5.0") {
+            $ret = $this->__GetStudyProfitability_5_0($where, $sort, $limit);
+	      } else {
+	         $ret = $this->__GetStudyProfitability_4_1($where, $sort, $limit);
+	      }
+	   } else {
+	      $ret = $this->__GetStudyProfitability_4_1($where, $sort, $limit);
+	   }
+
+	   return $ret;
+	}
+	/**
+	* GetUniqueAccountsWithBRsIn()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.1 - Fri Aug 18 12:25:42 PDT 2006
+	*/
+	public function GetUniqueAccountsWithBRsIn($period, $where = array())
+	{
+      $this->SetSelect();
+
+      $this->select->from(array("a" => "armc"), array());
+      $this->select->joinLeft(array("aa_account_id" => "armc_attr"), "aa_account_id.armc_id = a.armc_id AND aa_account_id.armc_attr_name='ACCOUNT_ID'", array('count' => new Zend_Db_Expr("COUNT(DISTINCT aa_account_id.armc_id)"),"account_id" => "armc_attr_value"));
+      $this->select->joinLeft(array("aa_ACCOUNT_COUNTRY_CODE" => "armc_attr"), "aa_ACCOUNT_COUNTRY_CODE.armc_id = a.armc_id AND aa_ACCOUNT_COUNTRY_CODE.armc_attr_name='ACCOUNT_COUNTRY_CODE'", array("ACCOUNT_COUNTRY_CODE" => "armc_attr_value"));
+		$this->select->joinLeft(array('c' => 'country'), 'c.country_code = aa_ACCOUNT_COUNTRY_CODE.armc_attr_value', array('region_id'));
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'su_'. $label;
+			$this->select->joinLeft(
+				array($table => 'armc_user'),
+				$table .".armc_id = a.armc_id AND ". $table .".role_id = ". $role_id,
+				array($label . "_login" => "login")
+			);
+		}
+
+		$this->select->where("a.status='A' AND a.armc_group_id = 0 AND a.armc_date BETWEEN '".$period["start"]."' AND '".$period["end"]."'");
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		$this->select->group("aa_account_id.armc_attr_value");
+
+		return $this->db->fetchAssoc($this->select);
+	}
+
+	/**
+	* GetUniqueAccountsWithMBRsIn()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.1 - Fri Aug 18 12:59:42 PDT 2006
+	*/
+	public function GetUniqueAccountsWithMBRsIn($period, $where = array())
+	{
+      $this->SetSelect();
+
+      $this->select->from(array("ag" => "armc_group"), array());
+      $this->select->joinLeft(array("a" => "armc"), "a.armc_group_id = ag.armc_group_id", array("armc_count" => new Zend_Db_Expr("COUNT(DISTINCT a.armc_id)")));
+      $this->select->joinLeft(array("aga_account_id" => "armc_group_attr"), "aga_account_id.armc_group_id = ag.armc_group_id AND aga_account_id.armc_group_attr_name='ACCOUNT_ID'", array("count" => new Zend_Db_Expr("COUNT(DISTINCT aga_account_id.armc_group_id)"), "account_id" => "armc_group_attr_value"));
+      $this->select->joinLeft(array("aga_ACCOUNT_COUNTRY_CODE" => "armc_group_attr"), "aga_ACCOUNT_COUNTRY_CODE.armc_group_id = ag.armc_group_id AND aga_ACCOUNT_COUNTRY_CODE.armc_group_attr_name='ACCOUNT_COUNTRY_CODE'", array("ACCOUNT_COUNTRY_CODE" => "armc_group_attr_value"));
+   	  $this->select->joinLeft(array('c' => 'country'), 'c.country_code = aga_ACCOUNT_COUNTRY_CODE.armc_group_attr_value', array('region_id'));
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'au_'. $label;
+			$this->select->joinLeft(
+				array($table => 'armc_user'),
+				$table .".armc_id = a.armc_id AND ". $table .".role_id = ". $role_id,
+				array($label ."_login" => "login")
+			);
+		}
+
+		$this->select->where("ag.status='A' AND ag.armc_group_date BETWEEN '".$period["start"]."' AND '".$period["end"]."'");
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		$this->select->group("aga_account_id.armc_group_attr_value");
+
+		return $this->db->fetchAssoc($this->select);
+
+	}
+
+	/**
+	* GetUniqueAccountsWithRFPsIn()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.1 - Fri Aug 18 13:38:26 PDT 2006
+	*/
+	public function GetUniqueAccountsWithRFPsIn($period, $where=array())
+	{
+      $this->SetSelect();
+
+      $this->select->from(array("p" => "proposal"), array("account_id" , "country_code", "count" => new Zend_Db_Expr("COUNT(DISTINCT p.proposal_id)")));
+	  $this->select->joinLeft(array('c' => 'country'), 'c.country_code = p.country_code', array('region_id'));
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'pu_'. $label;
+			$this->select->joinLeft(
+				array($table => 'proposal_user'),
+				$table .".proposal_id = p.proposal_id AND ". $table .".role_id = ". $role_id,
+				array($label ."_login" => "login")
+			);
+		}
+
+		$this->select->where("p.status='A' AND p.created_date BETWEEN '".$period["start"]."' AND '".$period["end"]."'");
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		$this->select->group("p.account_id");
+
+		return $this->db->fetchAssoc($this->select);
+	}
+
+	/**
+	* GetUniqueAccountsWithPRJsIn()
+	*
+	* @param
+	* @todo NOT YET COMPLETED
+	* @return
+	* @since  - 2.0.1 - Fri Aug 18 14:44:58 PDT 2006
+	*/
+	public function GetUniqueAccountsWithPRJsIn($period, $where=array())
+	{
+      $this->SetSelect();
+
+      $this->select->from(array("p" => "proposal"), array("account_id" , "country_code", "count" => new Zend_Db_Expr("COUNT(DISTINCT p.proposal_id)")));
+	  $this->select->joinLeft(array('c' => 'country'), 'c.country_code = p.country_code', array('region_id'));
+
+		$role = array(
+			ROLE_PRIMARY_ACCT_EXEC => 'ae',
+			ROLE_PRIMARY_ACCT_MGR  => 'am'
+		);
+
+		foreach ($role as $role_id => $label) {
+			$table = 'pu_'. $label;
+			$this->select->joinLeft(
+				array($table => 'proposal_user'),
+				$table .".proposal_id = p.proposal_id AND ". $table .".role_id = ". $role_id,
+				array($label ."_login" => "login")
+			);
+		}
+
+		$this->select->where("p.status='A' AND p.proposal_status_id = ".PROPOSAL_STATUS_WON." AND p.created_date BETWEEN '".$period["start"]."' AND '".$period["end"]."'");
+		if (!empty($where)) {
+			foreach ($where AS $key => $elm) {
+				$this->select->where($elm['field'] . " = ?", $elm['value']);
+			}
+		}
+
+		$this->select->group("p.account_id");
+
+		return $this->db->fetchAssoc($this->select);
+
+	}
+
+}
+
+?>

@@ -1,0 +1,118 @@
+<?php
+/**
+ * Mapper class for Hb_App_Account_AccountFile object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountFile extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for this table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'account_file_id';
+	
+	/**
+	 * Table name for this table
+	 *
+	 * @var string
+	 */
+	protected $table = 'account_file';
+	
+	/**
+	 * Build the Hb_App_Account_AccountFile object
+	 *
+	 * @param Zend Db Table Row $row
+	 * @return Hb_App_Account_AccountFile object
+	 */
+	protected function doBuildObject($row)
+	{
+		
+		$account_file = new Hb_App_Common_File($row->account_file_id,
+																$row->file_type_id,
+																$row->account_file_name,
+																$row->account_file_title,
+																$row->account_file_size
+																);
+		return new Hb_App_Account_AccountFile(
+												$row->account_file_id,
+												$row->account_id,
+												$account_file );
+		
+	}
+
+	/**
+	 * Get the base select object for Hb_App_Account_AccountFile
+	 *
+	 * @return Zend Db Table Row
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(
+						array('af' => 'account_file'),
+						array(
+								'account_file_id', 
+								'account_id',
+								'file_type_id', 
+								'account_file_name', 
+								'account_file_title', 
+								'account_file_size'
+							)
+					);
+					
+		return $select;
+	}
+	
+	/**
+	 * Find the Hb_App_Account_AccountFile by Id
+	 *
+	 * @param int $id
+	 * @return Zend Db Table row 
+	 */
+	protected function doFindbyId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('af.account_file_id = ?', $id);
+		
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Save the Hb_App_Account_AccountFile object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+						'account_id' => $obj->GetAccountId(),
+						'file_type_id' => $obj->GetFile()->GetFileTypeId(), 
+						'account_file_name' => $obj->GetFile()->GetFileName(), 
+						'account_file_title' => $obj->GetFile()->GetFileTitle(), 
+						'account_file_data' => $obj->GetFile()->GetFileData(), 
+						'account_file_size' => $obj->GetFile()->GetFileSize()
+					);
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		if (is_null($obj->GetId())) {
+		
+			$db->Insert($this->table, $data);
+			$obj->SetAccountFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->Update($this->table, $data, $this->primary_key . '=' . $obj->GetId());
+		}
+		
+	}
+}
+?>

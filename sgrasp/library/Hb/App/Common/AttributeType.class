@@ -1,0 +1,64 @@
+<?php 
+/**
+ * Domain Object for Attribute Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_AttributeType extends Hb_App_Common_Type 
+{
+	/**
+	 * Attribute Type 
+	 *
+	 * @var string
+	 */
+	protected $attribute_type = null;
+	
+	/**
+	 * Create Attribute Type Object
+	 *
+	 * @param int $id Attribute type id
+	 * @param string $attribute_type Attribute type
+	 * @param string $description Description
+	 */
+	public function __construct($id = null,
+										 $attribute_type = null,
+									    $description = null
+									   )
+   {
+   
+   	$this->attribute_type 		= $attribute_type;
+   	
+   	parent::__construct($id , $description);	
+   }
+   
+   /**
+    * Return the Attribute type for the Attribute Type
+    *
+    * @return string Attribute type 
+    */
+   public function GetAttributeType()
+   {
+   	
+   	return $this->attribute_type;
+   	
+   }
+   
+   /**
+    * Set the Attribute Type  for the  Attribute Type
+    * 
+    * @param string $attribute_type Attribute Type 
+    */
+   public function SetAttributeType($attribute_type)
+   {
+   	$this->attribute_type		= $attribute_type;
+   	
+   	$this->MarkDirty();
+   }
+   	
+}
+?>

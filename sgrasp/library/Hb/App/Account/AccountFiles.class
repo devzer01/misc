@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * An Account Files Collection, 
+ * 
+ * @copyright 2008 Global Market Insite Inc
+ * @author Jon
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountFiles extends Hb_App_Collection 
+{
+	/**
+	 * The account the files belong to
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected $account  = null;
+	
+	/**
+	 * Sets the account object
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account = $account;
+	}
+		
+}
+?>

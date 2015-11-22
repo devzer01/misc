@@ -1,0 +1,26 @@
+<?php
+
+require_once("XML/RPC.php");
+
+class Hb_Util_Connector_XMLRPC_Message
+{
+	private $__params = array();
+	
+	private $__method = '';
+	
+	public $message = null;
+	
+	function __construct($method, $params, $encode = true)
+	{
+		$this->__method = $method;
+		
+		if ($encode) {
+			$this->__params = array(XML_RPC_encode($params)); //there is an inherit problem with this, we can only use struct with this method
+		} else {
+			$this->__params = $params;
+		}
+		
+		$this->message = new XML_RPC_Message($this->__method, $this->__params);
+	}
+}
+?>

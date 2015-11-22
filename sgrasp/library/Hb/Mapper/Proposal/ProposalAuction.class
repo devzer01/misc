@@ -1,0 +1,135 @@
+<?php
+
+?><?php
+/**
+ * Mapper for ProposalAuction
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalAuction extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalAuction';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalAuction';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_auction_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_auction";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAuction(	$row->proposal_auction_id,$row->auction_name,$row->proposal_id ,$row->proposal_revision_id,
+													$row->proposal_revision_option_id , $row->proposal_auction_status_id,$row->proposal_auction_duration_type_id, 
+													$row->sample_type_id,$row->completes,$row->country_code,$row->incidence_rate,$row->auction_start_date,
+													$row->auction_end_date,$row->starting_bid,$row->current_bid,$row->current_bid_by_account_id,
+													$row->current_bid_by_contact_id);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('proposal_auction', array(	'proposal_auction_id',
+      											'auction_name',
+      											'proposal_id',
+      											'proposal_revision_id',
+      											'proposal_revision_option_id',
+      											'proposal_auction_status_id',
+      											'proposal_auction_duration_type_id',
+      											'sample_type_id',
+      											'completes',
+      											'country_code',
+      											'incidence_rate',
+      											'auction_start_date',
+      											'auction_end_date',
+      											'starting_bid',
+      											'current_bid',
+      											'current_bid_by_contact_id',
+      											'current_bid_by_account_id'));
+      																		
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a proposal_auction by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_auction_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+		
+		$row->auction_name 						=$obj->GetAuctionName();
+		$row->proposal_id 						= $obj->GetProposalId();
+		$row->proposal_revision_id 				= $obj->GetProposalRevisionId();
+		$row->proposal_revision_option_id 		= $obj->GetProposalRevisionOptionId();
+		$row->proposal_auction_status_id 		= $obj->GetProposalAuctionStatusId();
+		$row->proposal_auction_duration_type_id = $obj->GetProposalAuctionDurationTypeId();
+		$row->sample_type_id 					= $obj->GetProposalRevisionOptionId();
+		$row->completes 						= $obj->GetCompletes();
+		$row->country_code 						= $obj->GetCountryCode();
+		$row->incidence_rate 					= $obj->GetIncidenceRate();
+		$row->auction_start_date 				= $obj->GetAuctionStartDate();
+		$row->auction_end_date 					= $obj->GetAuctionEndDate();
+		$row->starting_bid 						= $obj->GetStartingBid();
+		$row->current_bid 						= $obj->GetCurrentBid();
+		$row->current_bid_by_contact_id 		= $obj->GetCurrentBidByContactId();
+		$row->current_bid_by_account_id 		= $obj->GetCurrentBidByAccountId();
+		
+		$row->save();				
+		$obj->SetProposalAuctionId($row->proposal_auction_id);				
+	}	
+	
+}
+?>

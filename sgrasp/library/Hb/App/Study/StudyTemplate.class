@@ -1,0 +1,121 @@
+<?php
+/**
+ * Domain Object for StudyTemplate
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyTemplate extends Hb_App_Object
+{
+	/**
+	 * Study Template Id
+	 *
+	 * @var int
+	 */
+	protected $study_template_id = null;
+	
+	/**
+	 * Study Template Description
+	 *
+	 * @var string
+	 */
+	protected $study_template_description = null;
+	
+	/**
+	 * Study Type Id
+	 *
+	 * @var int
+	 */
+	protected $study_type_id = null;
+	
+	/**
+	 * Create StudyTemplate Object
+	 * 
+	 * @param int $id Study Template Id
+	 * @param string $study_template_description Study Template Description 
+	 * @param int $study_type_id Study Type Id
+	 */
+	function __construct($id 									= null, 
+								$study_template_description	= null,							
+								$study_type_id						= null)
+	{
+		$this->study_template_id 				= $id;
+		$this->study_template_description 	= $study_template_description;
+		$this->study_type_id						= $study_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Study Template Id
+	 *
+	 * @return int Study Template Id
+	 */
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+	
+	/**
+	 * Returns the Study Template Description
+	 *
+	 * @return string Study Template Description
+	 */
+	public function GetStudyTemplateDescription()
+	{
+		return $this->study_template_description;
+	}
+
+	/**
+	 * Returns the Study Type Id
+	 *
+	 * @return int Study Type Id
+	 */
+	public function GetStudyTypeId()
+	{
+		return $this->study_type_id;
+	}
+
+	/**
+	 * Sets the Study Template Id
+	 * 
+	 * @param int $study_template_id Study Template Id
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		
+		$this->__id =  $study_template_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Study Template Description
+	 * 
+	 * @param string $study_template_description Study Template Description
+	 */
+	public function SetStudyTemplateDescription($study_template_description)
+	{
+		$this->study_template_description = $study_template_description;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Type Id
+	 * 
+	 * @param int $study_type_id Study Type Id
+	 */
+	public function SetStudyTypeId($study_type_id)
+	{
+		$this->study_type_id = $study_type_id;
+
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,55 @@
+<?php
+/**
+ * Domain Object for Account Product Atributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountProductAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Objectt of Account Product domain
+	 *
+	 * @var Hb_App_Account_AccountProduct
+	 */
+	protected $account_product = null;
+	
+	/**
+	 * Account product Id
+	 *
+	 * @var int 
+	 */
+	protected $account_product_id = null;
+	
+	public function AddAttribute(Hb_App_Account_AccountProductAttribute $attribute)
+	{
+		try {
+				parent::AddAttribute($attribute);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Account product ". $this->account_product_id,	
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try { 
+			return parent::GetAttribute($name);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Account product " . $this->account_product_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddAccountProduct(Hb_App_Account_AccountProduct $account_product)
+	{
+		$this->account_product		= $account_product;
+		$this->account_product_id	= $account_product->GetAccountProductId();
+	}
+}
+
+?>

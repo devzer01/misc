@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Is thrown when The logger name is not provided 
+ *
+ * @package  Util
+ * @subpackage  Log
+ */
+class Hb_Util_Log_Exception_LoggerNameNotProvidedException extends Hb_Util_Log_Exception 
+{
+	
+}
+?>

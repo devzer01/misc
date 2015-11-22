@@ -1,0 +1,101 @@
+<?php 
+/**
+ * Mapper class of AccountSetting
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountSetting extends Hb_Mapper_Mapper  
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountSetting'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'acm_setting_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'acm_setting'; 
+ 
+   /**
+    * Find by id
+    *
+    * @param int id Account Merge Id
+    * @return Hb_App_Account_AccountSetting Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('as.acm_setting_name = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('as' => $this->table), array($this->primary_key, 'acm_setting_name', 'acm_setting_description', 'acm_setting_value'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountSetting Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	  return new Hb_App_Account_AccountSetting($row->acm_setting_id,
+   	  		$row->acm_setting_name,
+   	  		$row->acm_setting_value,
+   	  		$row->acm_setting_description
+   	  		);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountSetting
+    */ 
+   function doSave(Hb_App_Object $obj)
+   {
+   	$data = array(
+      	'acm_setting_name'				=> $obj->GetSettingName(),
+      	'acm_setting_description'	=> $obj->GetSettingDescription(),
+      	'acm_setting_value'			=> $obj->GetSettingValue());
+      	
+  
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert($this->table, $data);
+			$obj->SetSettingId($db->lastInsertId());
+	  	} else {
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+	  	}
+   }
+}
+?>

@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Database Connection Object
+ *
+ * @package  Util
+ * @subpackage  Connector
+ * @todo  Move to Package Db under Util
+ */
+class Hb_Util_Connector_Db_Connection extends Hb_Util_Connector_Db 
+{
+
+	/**
+	 * Server DNS/IP or the connection
+	 *
+	 * @var string
+	 */
+	public $server;
+
+	/**
+	 *  Username for the connection
+	 *
+	 * @var string
+	 */
+	public $user;
+
+	/**
+	 *  Password for the connection
+	 *
+	 * @var string
+	 */
+	public $pass;
+
+	/**
+	 * Database name for the connection
+	 *
+	 * @var string
+	 */
+	public $db;
+	
+	private static $__instance = null;
+	
+	public  function __construct($server, $user, $pass, $db)
+	{
+		parent::__construct(
+			array('host' => $server, 'username' => $user, 'password' => $pass, 'dbname' => $db)
+		);
+	}
+
+	
+	public  static function getInstance($server, $user, $pass, $db)
+	{
+		if (is_null(self::$__instance)) {
+			self::$__instance = new Hb_Util_Connector_Db_Connection($server, $user, $pass, $db);
+		}
+		
+		return self::$__instance;
+	}
+	
+}
+?>

@@ -1,0 +1,153 @@
+<?php
+/**
+ * Domain Object for AccountCountry
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountCountry extends Hb_App_Object
+{
+	/**
+	 * Country Code
+	 *
+	 * @var string
+	 */
+	protected $country_code = null;
+	
+	/**
+	 * Country Tier Id
+	 *
+	 * @var int
+	 */
+	protected $country_tier_id = null;
+
+	/**
+	 * Account Country Id
+	 * 
+	 * @var int
+	 */
+	protected $account_country_id = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id = null;
+
+	/**
+	 * Create AccountCountry Object
+	 * 
+	 * @param int $id Account Country Id
+	 * @param string $country_code Country code
+	 * @param int $country_tier_id Country Tier Id
+	 * @param int $account_id Account Id
+	 */
+	function __construct($id 					= null, 
+								$account_id 		= null,
+								$country_code 		= null,
+								$country_tier_id 	= null
+								)
+	{
+		$this->account_country_id 	= $id;
+		$this->account_id				= $account_id;
+		$this->country_code 			= $country_code;
+		$this->country_tier_id 		= $country_tier_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Country Code
+	 *
+	 * @return string country_code
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	 * Returns the Country Tier Id
+	 *
+	 * @return int country_tier_id
+	 */
+	public function GetCountryTierId()
+	{
+		return $this->country_tier_id;
+	}
+
+	/**
+	 * Returns the Account Country Id
+	 *
+	 * @return int account_country_id
+	 */
+	public function GetAccountCountryId()
+	{
+		return $this->account_country_id;
+	}
+
+	/**
+	 * Returns the Account Id
+	 *
+	 * @return int account_id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Sets the Country Code
+	 * 
+	 * @param string $country_code Country Code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Country Tier Id
+	 * 
+	 * @param int $country_tier_id Country Tier Id
+	 */
+	public function SetCountryTierId($country_tier_id)
+	{
+		$this->country_tier_id = (int)$country_tier_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account Country Id
+	 * 
+	 * @param int $account_country_id Account Country Id
+	 */
+	public function SetAccountCountryId($account_country_id)
+	{
+		$this->account_country_id = $account_country_id;
+		$this->__id = (int) $account_country_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account Id
+	 * 
+	 * @param int $$account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+
+		$this->MarkDirty();
+	}
+}
+?>

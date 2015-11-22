@@ -1,0 +1,123 @@
+<?php 
+/**
+ * Domain Object for User Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ *
+ */ 
+class Hb_App_User_UserAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * User instance
+	 *
+	 * @var HB_App_Billing_BillingReport 
+	 */
+	protected $user = null;
+	
+	/**
+	 * User Id
+	 *
+	 * @var int 
+	 */
+	protected $user_id	= null;
+	
+	/**
+	 * Create User Attribute Object
+	 *
+	 * @param int $id user attribute id
+	 * @param int $user_id User id
+	 * @param int $name Attribute name
+	 * @param int $value Attribute value
+	 */
+	function __construct($id 		= null, 
+								$user_id = null,
+								$name 	= null,
+								$value	= null
+								)
+	{
+		$this->user_id	= $user_id;
+
+		parent::__construct($id, $name, $value);	
+	}
+	
+	/**
+	 * Set the User attribute id for the  User Attribute
+	 * 
+	 * @param int $user_attribute_id User attribute id
+	 */
+	public function SetUserAttributeId($user_attribute_id)
+	{
+		$this->__id	= $user_attribute_id;
+	}
+	
+	/**
+	 * Set the User for the  User Attribute
+	 * 
+	 * @param Hb_App_User_User $user User
+	 */
+	public function SetUser(Hb_App_User_User $user)
+	{
+		$this->user		= $user;
+		$this->user_id	= $user->GetUserId();
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the User object for the User Attribute
+	 *
+	 * @return Hb_App_User_User User object
+	 */
+	protected function doGetUser()
+	{
+		if(is_null($this->user)) {
+			if(is_null($this->user_id))
+				throw new Hb_App_User_Exception_UserNotFoundException();
+			
+			$this->user	= Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->Find($this->user_id);
+		}
+		
+		return $this->user;
+	}
+	
+	/**
+	 * Return the User id for the User Attribute
+	 *
+	 * @return int User id
+	 */
+	public function GetUserId()
+	{
+		if(is_null($this->user_id)) {
+			$this->user_id	= $this->doGetUser()->GetUserId();
+		}
+		return $this->user_id;
+	}
+	
+	/**
+	 * Return the User object for the User Attribute
+	 *
+	 * @return Hb_App_User_User User object
+	 */
+	public function GetUser()
+	{
+		return $this->doGetUser();
+	}
+	
+	/**
+	 * Set the User id for the  User Attribute
+	 * 
+	 * @param int $user_id User id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id	= $user_id;
+		$this->__id		= $user_id;
+		$this->MarkDirty();
+	}
+}
+
+
+?>

@@ -1,0 +1,29 @@
+<?php
+  class Hb_Util_PDF_Generator_PDFGeneratorFactory
+  {
+         
+   	/**
+   	 * Factory method to return the pdf generator object.
+   	 *
+   	 * @param char $handler
+   	 * @return object
+   	 */         
+     public static function GetInstance($handler)
+     {
+        switch (strtoupper($handler))
+        {
+        		case "DOMPDF":
+            	return new Hb_Util_PDF_Handler_DOMPDFHandler();
+              	break;         
+           		
+           	case 'HTML_TOPDF':
+           		return new Hb_Util_PDF_Handler_HTMLTOPDFHandler();
+           		break;
+                                          
+            default:
+                 throw new Exception("Handler ".$handler." not implemented.");
+        }
+     }     
+  }
+  
+?>

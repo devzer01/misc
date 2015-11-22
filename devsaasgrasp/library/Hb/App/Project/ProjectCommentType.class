@@ -1,0 +1,85 @@
+<?php 
+/**
+ * Hb_App_Project_ProjectCommenType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Project
+ */  
+class Hb_App_Project_ProjectCommentType extends Hb_App_Object
+{  
+
+/**
+    * Project Comment Type Description
+    *
+    * @var string 
+    */ 
+	protected $project_comment_type_description = null;
+	
+   /**
+    * Project Comment Type Id
+    *
+    * @var int 
+    */ 
+	protected $project_comment_type_id = null;
+	
+	/**
+	 * Class Constructor
+	 *
+	 * @param int $id Project Comment Type Id
+	 * @param string $comment_type_description Project Comment Type Description
+	 */ 
+	function __construct($id = null, $comment_type_description = null)
+	{
+		$this->project_comment_type_id			= $id;
+		$this->project_comment_type_description	= $comment_type_description;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Project Comment Type Id
+	 *
+	 * @return int Project Comment Type Id
+	 */ 
+	public function GetProjectCommentTypeId()
+	{
+		return $this->project_comment_type_id;
+	}
+
+    /**
+     * Sets Project Comment Type Id
+     *
+     * @param int $comment_type_id Project Comment Type Id
+     */
+	public function SetProjectCommentTypeId($comment_type_id)
+	{
+		$this->project_comment_type_id 	= (int)$comment_type_id;
+		$this->__id				   		= (int)$comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns Project Comment Type Description
+	 *
+	 * @return string Project Comment Type Description
+	 */ 
+	public function GetProjectCommentTypeDescription()
+	{
+		return $this->project_comment_type_description;
+	}
+
+    /**
+     * Sets Project Comment Type Description
+     *
+     * @param string $comment_type_description Project Comment Type Description
+     */ 
+	public function SetProjectCommentTypeDescription($comment_type_description)
+	{
+		$this->project_comment_type_description = $comment_type_description;
+		$this->MarkDirty();
+	}
+} 
+?>

@@ -1,0 +1,213 @@
+<?php
+/**
+ * Domain Object for Account Task
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountTask extends Hb_App_Object 
+{
+	/**
+	 * Account id
+	 *
+	 * @var int 
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account task id
+	 *
+	 * @var int 
+	 */
+	protected $account_task_id = null;
+	
+	/**
+	 * Task comment
+	 *
+	 * @var string 
+	 */
+	protected $task_comment = null;
+	
+	/**
+	 * Task date
+	 *
+	 * @var string 
+	 */
+	protected $task_date = null;
+	
+	/**
+	 * Task location
+	 *
+	 * @var string 
+	 */
+	protected $task_location = null;
+	
+	/**
+	 * Task subject
+	 *
+	 * @var string 
+	 */
+	protected $task_subject = null;
+
+	/**
+	 * Create Account Task Object
+	 *
+	 * @param int $id account task id
+	 * @param int $account_id Account id 
+	 * @param string $task_comment Task comment
+	 * @param string $task_date Task date 
+	 * @param srring $task_location Task location
+	 * @param string $task_subject Task subject
+	 */
+	function __construct($id 				= null,
+								$account_id 	= null,
+								$task_comment 	= null,
+								$task_date 		= null,
+								$task_location = null,
+								$task_subject 	= null)
+	{
+		$this->account_task_id	= $id;
+		$this->account_id			= $account_id;
+		$this->task_comment		= $task_comment;
+		$this->task_date			= $task_date;
+		$this->task_location		= $task_location;
+		$this->task_subject		= $task_subject;
+		
+		parent::__construct($id);
+		
+	}
+
+	/**
+	 * Return the Account id for the Account Task
+	 *
+	 * @return int Account id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Return the Account task id for the Account Task
+	 *
+	 * @return int Account task id
+	 */
+	public function GetAccountTaskId()
+	{
+		return $this->account_task_id;
+	}
+
+	/**
+	 * Return the Task Comment for the Account Task
+	 *
+	 * @return string Task Comment
+	 */
+	public function GetTaskComment()
+	{
+		return $this->task_comment;
+	}
+
+	/**
+	 * Return the Task date for the Account Task
+	 *
+	 * @return string Task date
+	 */
+	public function GetTaskDate()
+	{
+		return $this->task_date;
+	}
+
+	/**
+	 * Return the Task location for the Account Task
+	 *
+	 * @return string Task location
+	 */
+	public function GetTaskLocation()
+	{
+		return $this->task_location;
+	}
+
+	/**
+	 * Return the Task subject for the Account Task
+	 *
+	 * @return string Task subject
+	 */
+	public function GetTaskSubject()
+	{
+		return $this->task_subject;
+	}
+
+	/**
+	 * Set the Account id for the  Account Task
+	 * 
+	 * @param int $account_id Account id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int) $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account task id for the  Account Task
+	 * 
+	 * @param int $account_task_id Account task id
+	 */
+	public function SetAccountTaskId($account_task_id)
+	{
+		$this->account_task_id 	= (int) $account_task_id;
+		$this->__id					= (int) $account_task_id;
+		$this->MarkDirty();
+		
+	}
+
+	/**
+	 * Set the Task comment for the  Account Task
+	 * 
+	 * @param string $task_comment Task comment
+	 */
+	public function SetTaskComment($task_comment)
+	{
+		$this->task_comment = $task_comment;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Task date for the  Account Task
+	 * 
+	 * @param string $task_date Task date
+	 */
+	public function SetTaskDate($task_date)
+	{
+		$this->task_date = $task_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Task location for the  Account Task
+	 * 
+	 * @param sting $task_location Task location
+	 */
+	public function SetTaskLocation($task_location)
+	{
+		$this->task_location = $task_location;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Task subject for the  Account Task
+	 * 
+	 * @param string $task_subject Task subject
+	 */
+	public function SetTaskSubject($task_subject)
+	{
+		$this->task_subject = $task_subject;
+		$this->MarkDirty();
+	}
+
+}
+?>

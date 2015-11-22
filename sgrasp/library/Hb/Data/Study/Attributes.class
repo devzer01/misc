@@ -1,0 +1,32 @@
+<?php
+
+class Hb_Data_Study_Attributes extends Hb_Data_Attributes 
+{
+	private $__study_id;
+	
+	public function __construct($study_id)
+	{
+		$this->__study_id = $study_id;
+	}
+	
+	public function AddAttribute(Hb_Data_Study_Attribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		}  catch (Hb_Data_ObjectInCollectionException $e)  {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Study ". $this->__study_id, 
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Study " . $this->__study_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+}
+?>

@@ -1,0 +1,259 @@
+<?php
+
+
+/**
+ * @author jvonica
+ * @version 1.0
+ * @created 26-Jul-2007 4:08:22 PM
+ */
+class Hb_App_Billing_GLAccount
+{
+
+	/**
+	 * Accounting GL account description
+	 */
+	protected $atm_gl_account_description;
+	/**
+	 * Accounting GL account ID
+	 */
+	protected $atm_gl_account_id;
+	/**
+	 * Accounting GL account 1
+	 */
+	protected $atm_gl_account_segment1;
+	/**
+	 * Accounting GL account 2
+	 */
+	protected $atm_gl_account_segment2;
+	/**
+	 * Accounting GL account 3
+	 */
+	protected $atm_gl_account_segment3;
+	/**
+	 * GL Account Segment 4
+	 */
+	protected $atm_gl_account_segment4;
+	/**
+	 * Accounting GL account 5
+	 */
+	protected $atm_gl_account_segment5;
+	/**
+	 * Accounting GL account 6
+	 */
+	protected $atm_gl_account_segment6;
+	/**
+	 * Accounting GL account 7
+	 */
+	protected $atm_gl_account_segment7;
+
+	function __construct()
+	{
+	}
+
+	function __destruct()
+	{
+	}
+
+
+
+	/**
+	 * Accounting GL account description
+	 */
+	public function GetGLAccountDescription()
+	{
+		return $this->atm_gl_account_description;
+	}
+
+	public function GetGLAccountID()
+	{
+		return $this->atm_gl_account_id;
+	}
+
+	/**
+	 * Accounting GL account 1
+	 */
+	public function GetGLAccountSegment1()
+	{
+		return $this->atm_gl_account_segment1;
+	}
+
+	/**
+	 * Accounting GL account 1
+	 */
+	public function GetGLAccountSegment2()
+	{
+		return $this->atm_gl_account_segment2;
+	}
+
+	/**
+	 * Accounting GL account 3
+	 */
+	public function GetGLAccountSegment3()
+	{
+		return $this->atm_gl_account_segment3;
+	}
+
+	/**
+	 * GL Account Segment 4
+	 */
+	public function GetGLAccountSegment4()
+	{
+		return $this->atm_gl_account_segment4;
+	}
+
+	/**
+	 * Accounting GL account 5
+	 */
+	public function GetGLAccountSegment5()
+	{
+		return $this->atm_gl_account_segment5;
+	}
+
+	/**
+	 * Accounting GL account 6
+	 */
+	public function GetGLAccountSegment6()
+	{
+		return $this->atm_gl_account_segment6;
+	}
+
+	/**
+	 * Accounting GL account 7
+	 */
+	public function GetGLAccountSegment7()
+	{
+		return $this->atm_gl_account_segment7;
+	}
+
+	/**
+	 * Set all GL segments at once
+	 * 
+	 * @param atm_gl_account_segment1
+	 * @param atm_gl_account_segment2
+	 * @param atm_gl_account_segment3
+	 * @param atm_gl_account_segment4
+	 * @param atm_gl_account_segment5
+	 * @param atm_gl_account_segment6
+	 * @param atm_gl_account_segment7
+	 */
+	public function SetGLAcccountSegments($atm_gl_account_segment1, $atm_gl_account_segment2, $atm_gl_account_segment3, $atm_gl_account_segment4, $atm_gl_account_segment5, $atm_gl_account_segment6, $atm_gl_account_segment7)
+	{
+		$this->SetGLAccountSegment1($atm_gl_account_segment1);
+		$this->SetGLAccountSegment2($atm_gl_account_segment2);
+		$this->SetGLAccountSegment3($atm_gl_account_segment3);
+		$this->SetGLAccountSegment4($atm_gl_account_segment4);
+		$this->SetGLAccountSegment5($atm_gl_account_segment5);
+		$this->SetGLAccountSegment6($atm_gl_account_segment6);
+		$this->SetGLAccountSegment7($atm_gl_account_segment7);
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account description
+	 * 
+	 * @param atm_gl_account_description
+	 */
+	public function SetGLAccountDescription($atm_gl_account_description)
+	{
+		$this->atm_gl_account_description = $atm_gl_account_description;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * 
+	 * @param atm_gl_account_id
+	 */
+	public function SetGLAccountID($atm_gl_account_id)
+	{
+		$this->atm_gl_account_id = $atm_gl_account_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 1
+	 * 
+	 * @param atm_gl_account_segment1
+	 */
+	public function SetGLAccountSegment1($atm_gl_account_segment1)
+	{
+		$this->atm_gl_account_segment1 = $atm_gl_account_segment1;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 1
+	 * 
+	 * @param atm_gl_account_segment2
+	 */
+	public function SetGLAccountSegment2($atm_gl_account_segment2)
+	{
+		$this->atm_gl_account_segment2 = $atm_gl_account_segment2;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 3
+	 * 
+	 * @param atm_gl_account_segment3
+	 */
+	public function SetGLAccountSegment3($atm_gl_account_segment3)
+	{
+		$this->atm_gl_account_segment3 = $atm_gl_account_segment3;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * GL Account Segment 4
+	 * 
+	 * @param atm_gl_account_segment4
+	 */
+	public function SetGLAccountSegment4($atm_gl_account_segment4)
+	{
+		$this->atm_gl_account_segment4 = $atm_gl_account_segment4;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 5
+	 * 
+	 * @param atm_gl_account_segment5
+	 */
+	public function SetGLAccountSegment5($atm_gl_account_segment5)
+	{
+		$this->atm_gl_account_segment5 = $atm_gl_account_segment5;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 6
+	 * 
+	 * @param atm_gl_account_segment6
+	 */
+	public function SetGLAccountSegment6($atm_gl_account_segment6)
+	{
+		$this->atm_gl_account_segment6 = $atm_gl_account_segment6;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Accounting GL account 7
+	 * 
+	 * @param atm_gl_account_segment7
+	 */
+	public function SetGLAccountSegment7($atm_gl_account_segment7)
+	{
+		$this->atm_gl_account_segment7 = $atm_gl_account_segment7;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

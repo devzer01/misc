@@ -1,0 +1,24 @@
+<?php
+class Hb_View_Proposal_TestDisplay extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/testdisplay.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	private $value = null;
+	
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('value', $this->value);
+	}
+	
+	public function setValue($value)
+	{
+		$this->value = $value;
+	}
+	
+	
+}
+
+?>

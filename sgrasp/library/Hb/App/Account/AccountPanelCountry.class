@@ -1,0 +1,196 @@
+<?php 
+/**
+ * Domain Object for Account Panel Country
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountPanelCountry extends Hb_App_Object 
+{
+	/**
+	 * Account Panel Country Id
+	 * 
+	 * @var int
+	 */
+	protected $account_panel_country_id = null;
+
+	/**
+	 * Account Id
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Country Code
+	 * 
+	 * @var string
+	 */
+	protected $country_code = null;
+
+	/**
+	 * Panel Count
+	 * 
+	 * @var int
+	 */
+	protected $panel_count = null;
+	
+	/**
+	 * Response Rate
+	 * 
+	 * @var float
+	 */
+	protected $response_rate = null;
+	
+	
+	/**
+	* Contructor of the Account Panel Country Domain
+	* 
+	* @param int $id Account Panel Country Id
+	* @param int $account_id Account Id
+	* @param string $country_code Country Code
+	* @param int $panel_count Panel Count
+	* @param float $response_rate Response Rate
+	*/		
+	function __construct($id 			   = null,	
+							   $account_id    = null,
+							   $country_code  = null,
+							   $panel_count   = null,	
+							   $response_rate = null)
+	{		 					
+		
+		$this->account_panel_country_id = $id;
+		$this->account_id      			  = $account_id;
+		$this->country_code      		  = $country_code ;
+		$this->panel_count 	  			  = $panel_count;
+		$this->response_rate      	  	  = $response_rate;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Account Panel Country Id
+	 *	
+	 * @return int $account_panel_country_id Account Panel Country Id
+	 */
+	public function GetAccountPanelCountryId()
+	{
+		return $this->account_panel_country_id;
+	}
+
+	
+	/**
+	 * Get Account Id
+	 *	
+	 * @return int $account_id Account Id
+	 */
+	public function GetAccountId ()	
+	{
+		return $this->account_id;
+	}
+	
+	
+	/**	
+	 * Get Country Code
+	 *
+	 * @return int $country_code Country Code	
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+	
+	
+	/**	
+	 * Get Panel Count
+	 *
+	 * @return int $panel_count Panel Count
+	 */
+	public function GetPanelCount()
+	{
+		return $this->panel_count;
+	}
+	
+	
+	/**	
+	 * Get Response Rate
+	 *
+	 * @return int $response_rate Response Rate
+	 */
+	public function GetResponseRate()
+	{
+		return $this->response_rate;
+	}	
+	
+	
+	/**
+	 * Sets the Account Panel Country Id
+	 *
+	 * @param int $account_panel_country_id Account Panel Country Id
+	 */
+	public function SetAccountPanelCountryId($account_panel_country_id)
+	{
+		$this->account_panel_country_id = $account_panel_country_id;
+
+		$this->__id = $account_panel_country_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId ($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets Country Code
+	 * 
+	 * @param int $country_code Country Code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Panel Count
+	 * 
+	 * @param int $country_code Panel Count
+	 */
+	public function SetPanelCount($panel_count)
+	{
+		$this->panel_count = $panel_count;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Response Rate
+	 * 
+	 * @param int $response_rate Response Rate
+	 */
+	public function SetResponseRate($response_rate)
+	{
+		$this->response_rate = $response_rate;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

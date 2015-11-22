@@ -1,0 +1,404 @@
+<?php
+/**
+ * Domain Object for Address
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_Address extends Hb_App_Object 
+{
+	/**
+	 * Address city
+	 *
+	 * @var string 
+	 */
+	protected $address_city = null;
+	
+	/**
+	 * Address country code
+	 *
+	 * @var string 
+	 */
+	protected $address_country_code = null;
+	
+	/**
+	 * Address id
+	 *
+	 * @var int 
+	 */
+	protected $address_id = null;
+	
+	/**
+	 * Address province
+	 *
+	 * @var string 
+	 */
+	protected $address_province = null;
+	
+	/**
+	 * Address state
+	 *
+	 * @var string 
+	 */
+	protected $address_state = null;
+	
+	/**
+	 * Address street 1
+	 *
+	 * @var string 
+	 */
+	protected $address_street_1 = null;
+	
+	/**
+	 * Address street 2
+	 *
+	 * @var string 
+	 */
+	protected $address_street_2 = null;
+	
+	/**
+	 * Address type id
+	 *
+	 * @var int 
+	 */
+	protected $address_type_id = null;
+	
+	/**
+	 * Address zip
+	 *
+	 * @var string 
+	 */
+	protected $address_zip = null;
+	
+	/**
+	 * Contact id
+	 *
+	 * @var int 
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Contact object
+	 * 
+	 * @var Hb_App_Common_Contact
+	 */
+	protected $contact = null;
+	
+	/**
+	 * Hb_App_Common_Country object
+	 * 
+	 * @var Hb_App_Common_Country
+	 */	
+	private $country = null;
+
+	/**
+	 * Create Address Object
+	 *
+	 * @param int $id Address id
+	 * @param string $address_city Address city
+	 * @param string $address_country_code Address country code
+	 * @param string $address_province Address province
+	 * @param string $address_state Address state
+	 * @param string $address_street_1 Address street 1
+	 * @param string $address_street_2 Address street 2
+	 * @param int $address_type_id Address type id
+	 * @param string $address_zip Address zip
+	 * @param int $contact_id Contact id
+	 */
+	function __construct($id 						= null,
+								$address_city 			= null,
+								$address_country_code = null,
+								$address_province 	= null,
+								$address_state 		= null,
+								$address_street_1 	= null,
+								$address_street_2 	= null,
+								$address_type_id 		= null,
+								$address_zip 			= null,
+								$contact_id 			= null)
+	{
+		$this->address_id 				= $id;
+		$this->address_city 				= $address_city;
+		$this->address_country_code 	= $address_country_code;
+		$this->address_province 		= $address_province;
+		$this->address_state 			= $address_state;
+		$this->address_street_1 		= $address_street_1;
+		$this->address_street_2 		= $address_street_2;
+		$this->address_type_id			= $address_type_id;
+		$this->address_zip 				= $address_zip;
+		$this->contact_id 				= $contact_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Address city for the Address
+	 *
+	 * @return string Address city
+	 */
+	public function GetAddressCity()
+	{
+		return $this->address_city;
+	}
+
+	/**
+	 * Return the Address country code for the Address
+	 *
+	 * @return string Address country code
+	 */
+	public function GetAddressCountryCode()
+	{
+		return $this->address_country_code;
+	}
+
+	/**
+	 * Return the Address id for the Address
+	 *
+	 * @return int Address id
+	 */
+	public function GetAddressId()
+	{
+		return $this->address_id;
+	}
+
+	/**
+	 * Return the Adderss province for the Address
+	 *
+	 * @return string Adderss province
+	 */
+	public function GetAddressProvince()
+	{
+		return $this->address_province;
+	}
+
+	/**
+	 * Return the Address state for the Address
+	 *
+	 * @return string Address state
+	 */
+	public function GetAddressState()
+	{
+		return $this->address_state;
+	}
+
+	/**
+	 * Return the Address street 1 for the Address
+	 *
+	 * @return string Address street 1
+	 */
+	public function GetAddressStreet1()
+	{
+		return $this->address_street_1;
+	}
+
+	/**
+	 * Return the Address Street 2 for the Address
+	 *
+	 * @return string Address Street 2
+	 */
+	public function GetAddressStreet2()
+	{
+		return $this->address_street_2;
+	}
+
+	/**
+	 * Return the Address type id for the Address
+	 *
+	 * @return int Address type id
+	 */
+	public function GetAddressTypeId()
+	{
+		return $this->address_type_id;
+	}
+
+	/**
+	 * Return the Address zip for the Address
+	 *
+	 * @return string Address zip
+	 */
+	public function GetAddressZip()
+	{
+		return $this->address_zip;
+	}
+
+	/**
+	 * Return the Contact id for the Address
+	 *
+	 * @return int Contact id
+	 */
+	public function GetContactId()
+	{
+		if (is_null($this->contact_id)) {
+			$this->contact_id = $this->doGetContact()->getContactId();
+		}
+		return $this->contact_id;
+	}
+
+	/**
+	 * Returns the Contact Object
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	public function GetContact()
+	{
+		return $this->doGetContact();		
+	}
+	
+	/**
+	 * Returns the Contact Object from the Mapper (Protected Method)
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	protected function doGetContact()
+	{
+		if (is_null($this->contact)) {
+			if (is_null($this->contact_id)) {
+				throw new Hb_App_Account_Exception_ContactNotFoundException();
+			}
+			
+			$this->contact = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Contact')->Find($this->contact_id);
+		}
+		
+		return $this->contact;
+	}
+	
+	/**
+	 * Set the Address city for the  Address
+	 * 
+	 * @param string $address_city Address city
+	 */
+	public function SetAddressCity($address_city)
+	{
+		$this->address_city = $address_city;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address country code for the  Address
+	 * 
+	 * @param string $address_country_code Address country code
+	 */
+	public function SetAddressCountryCode($address_country_code)
+	{
+		$this->address_country_code = $address_country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address id for the  Address
+	 * 
+	 * @param int $address_id Address id
+	 */
+	public function SetAddressId($address_id)
+	{
+		$this->address_id = $address_id;
+		$this->__id 		= $address_id;
+		$this->MarkDirty();		
+	}
+
+	/**
+	 * Set the Address province for the  Address
+	 * 
+	 * @param string $address_province Address province
+	 */
+	public function SetAddressProvince($address_province)
+	{
+		$this->address_province = $address_province;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address state for the  Address
+	 * 
+	 * @param string $address_state Address state
+	 */
+	public function SetAddressState($address_state)
+	{
+		$this->address_state = $address_state;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address street 1 for the  Address
+	 * 
+	 * @param string $address_street_1 Address street 1
+	 */
+	public function SetAddressStreet1($address_street_1)
+	{
+		$this->address_street_1 = $address_street_1;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address Street 2 for the  Address
+	 * 
+	 * @param string $address_street_2 Address Street 2
+	 */
+	public function SetAddressStreet2($address_street_2)
+	{
+		$this->address_street_2 = $address_street_2;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address type id for the  Address
+	 * 
+	 * @param int $address_type_id Address type id
+	 */
+	public function SetAddressTypeId($address_type_id)
+	{
+		$this->address_type_id = $address_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Address zip for the  Address
+	 * 
+	 * @param string $address_zip Address zip
+	 */
+	public function SetAddressZip($address_zip)
+	{
+		$this->address_zip = $address_zip;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact id for the  Address
+	 * 
+	 * @param int $contact_id Contact id
+	 */
+	public function SetContactId($contact_id)	{
+		$this->contact_id = $contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Contact Object
+	 *
+	 * @param Hb_App_Common_Contact $contact
+	 */
+	public function SetContact(Hb_App_Common_Contact $contact)
+	{
+		$this->contact_id = $contact->GetContactId();
+		$this->contact = $contact;
+		
+		$this->MarkDirty();
+	}
+		
+	/**
+	 * Return the Country for the Common Address
+	 *
+	 * @return Hb_App_Common_Country Contact type
+	 */
+	public function GetCountry()
+	{
+		if(is_null($this->country)){
+			$this->country = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Country')->Find($this->address_country_code);
+		}
+		return $this->country;
+	}	
+}
+?>

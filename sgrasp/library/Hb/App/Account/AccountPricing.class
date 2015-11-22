@@ -1,0 +1,210 @@
+<?php
+/**
+ * Domain Object for Account Pricing
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountPricing extends Hb_App_Object 
+{
+	/**
+	 * Amount
+	 *
+	 * @var float 
+	 */
+	protected $amount = null;
+	
+	/**
+	 * Is precent
+	 *
+	 * @var int 
+	 */
+	protected $is_percent = null;
+	
+	/**
+	 * Is value
+	 *
+	 * @var int 
+	 */
+	protected $is_value = null;
+	
+	/**
+	 * Account id
+	 *
+	 * @var int 
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account pricing id
+	 *
+	 * @var int 
+	 */
+	protected $account_pricing_id = null;
+	
+	/**
+	 * Pricing item id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_item_id = null;
+
+	/**
+	 * Create Account Pricing Object
+	 *
+	 * @param int $id Account pricing id
+	 * @param float $amount Amount
+	 * @param int $is_percent Is percent
+	 * @param int $is_value Is value
+	 * @param int $account_id Account id
+	 * @param int $pricing_item_id Pricing item id
+	 */
+	function __construct($id 					= null,
+								$amount 				= null,
+								$is_percent 		= null,
+								$is_value 			= null,
+								$account_id 		= null,
+								$pricing_item_id 	= null)
+	{
+		$this->account_pricing_id	= $id;
+		$this->amount					= $amount;
+		$this->is_percent				= $is_percent;
+		$this->is_value				= $is_value;
+		$this->pricing_item_id		= $pricing_item_id;
+		$this->account_id				= $account_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Amount for the Accouning Pricing
+	 *
+	 * @return float Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Return the Is percent for the Accouning Pricing
+	 *
+	 * @return int Is percent
+	 */
+	public function GetIsPercent()
+	{
+		return $this->is_percent;
+	}
+
+	/**
+	 * Return the Is value for the Accouning Pricing
+	 *
+	 * @return int Is value
+	 */
+	public function GetIsValue()
+	{
+		return $this->is_value;
+	}
+
+	/**
+	 * Return the Account Id for the Accouning Pricing
+	 *
+	 * @return int Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Return the Account Pricing Id for the Accouning Pricing
+	 *
+	 * @return int Account Pricing Id
+	 */
+	public function GetAccountPricingId()
+	{
+		return $this->account_pricing_id;
+	}
+
+	/**
+	 * Return the Pricing item id for the Accouning Pricing
+	 *
+	 * @return int Pricing item id
+	 */
+	public function GetPricingItemId()
+	{
+		return $this->pricing_item_id;
+	}
+
+	/**
+	 * Set the Is percent for the  Accouning Pricing
+	 * 
+	 * @param int $is_precent Is percent
+	 */
+	public function SetIsPercent($is_precent)
+	{
+		$this->is_percent = (int) $is_precent;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Amount for the  Accouning Pricing
+	 * 
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = (float) $amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Is value for the  Accouning Pricing
+	 * 
+	 * @param int $is_value Is value
+	 */
+	public function SetIsValue($is_value)
+	{
+		$this->is_value = (int) $is_value;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account id for the  Accouning Pricing
+	 * 
+	 * @param int $account_id Account id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int) $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account pricing id for the  Accouning Pricing
+	 * 
+	 * @param int $account_pricing_id Account pricing id
+	 */
+	public function SetAccountPricingId($account_pricing_id)
+	{
+		$this->account_pricing_id 	= (int) $account_pricing_id;
+		$this->__id 					= (int) $account_pricing_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing item id for the  Accouning Pricing
+	 * 
+	 * @param int $pricing_item_id Pricing item id
+	 */
+	public function SetPricingItemId($pricing_item_id)
+	{
+		$this->pricing_item_id = (int) $pricing_item_id;
+		$this->MarkDirty();
+	}
+}
+?>

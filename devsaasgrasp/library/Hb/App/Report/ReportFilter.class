@@ -1,0 +1,28 @@
+<?php
+
+class Hb_App_Report_ReportFilter 
+{
+	public $conditions = array();
+	
+	public function AddCondition(Hb_App_Report_ReportCondition $condition)
+	{
+		$this->conditions[] = $condition;
+	}
+	
+	public function __toString()
+	{
+		if (empty($this->conditions)) {
+			return false; 
+		}
+		
+		$str = '';
+		
+		foreach ($this->conditions as $condition) {
+			$str .= " AND " . $condition->__toString();
+		}
+		
+		return $str;
+		
+	}
+}
+?>

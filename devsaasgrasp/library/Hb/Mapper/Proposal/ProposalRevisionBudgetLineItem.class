@@ -1,0 +1,106 @@
+<?php
+/**
+ * Mapper Class for Proposal Revision Budget Line Item
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_ProposalRevisionBudgetLineItem extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Proposal revision budget line item Id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'proposal_revision_budget_line_item_id';
+
+	/**
+	 * Proposal revision budget line item table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_revision_budget_line_item';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalRevisionBudgetLineItem';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionBudgetLineItem';
+	
+	/**
+	 * Build the ProposalRevisionBudgetLineItem Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalRevisionBudgetLineItem
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Proposal_ProposalRevisionBudgetLineItem($row->proposal_revision_budget_line_item_id,
+																															$row->proposal_budget_line_item_id,
+																															$row->proposal_revision_option_id,
+																															$row->amount);
+	}
+	
+	/**
+	 * Get the base data set for ProposalRevisionBudgetLineItem
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'proposal_revision_budget_line_item'), array('proposal_revision_budget_line_item_id', 
+																																						'proposal_budget_line_item_id',
+																																						'proposal_revision_option_id', 
+																																						'amount'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Proposal revision budget  Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('proposal_revision_budget_line_item_id = ?', $id);
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Proposal Revision Budget Line Item Object
+	 *
+	 * @param object $obj Proposal Revision Budget Line Item object
+	 * @return object Proposal Revision Budget Line Item
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->proposal_budget_line_item_id 	= $obj->GetProposalBudgetLineItemId();
+		$row->proposal_revision_option_id 	= $obj->GetProposalRevisionOptionId();
+		$row->amount 												= $obj->GetAmount();
+
+		$row->Save();
+	
+	  $obj->SetProposalRevisionBudgetLineItemId($row->proposal_revision_budget_line_item_id);
+	  
+	}
+
+} 

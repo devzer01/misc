@@ -1,0 +1,96 @@
+<?php 
+/**
+ * Mapper Object for Project Contact Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Project
+ *
+ */ 
+class Hb_Mapper_Project_ProjectContactType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'pjm_contact_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'pjm_contact_type';
+	
+	/**
+	 * Builds and returns the Project Contact Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the pjm_contact_type table
+	 * @return object An instance of the Project Contact Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Project_ProjectContactType($row->pjm_contact_type_id,
+																	$row->pjm_contact_type_description
+																	);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('pct' => 'pjm_contact_type'), array('pjm_contact_type_id',
+																				  'pjm_contact_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Project Contact Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the pjm_contact_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('pct.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the pjm_contact_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Project_ProjectContactType   */
+		 	
+	 	$data  = array(
+			'pjm_contact_type_description' => $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

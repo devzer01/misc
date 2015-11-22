@@ -1,0 +1,94 @@
+<?php
+class db_adm_usm extends db_common {
+
+	/**
+	* GetUserList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 08:19:40
+	*/
+	function GetUserList($params = array(), $attr = array())
+	{
+		return $this->__SelectUser(
+			$params, 
+			$attr
+		);
+	}
+	
+	/**
+	* __SelectUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 10:39:11
+	*/
+	protected function __SelectUser($params = array(), $attr = array())
+	{
+		
+		$this->SetSelect();
+	  
+	  	$this->select->from('user', array('login', 'first_name', 'last_name', 'email_address', 'department_id', 'last_login'));
+	  
+		if (isset($params['status']) && $params['status'] != '') {
+	  		$this->select->where('status = ?', $params['status']);	
+	  	}
+	  
+	  	if (isset($params['department_id']) && $params['department_id'] != ''){	  		
+	  		$this->select->where('department_id = ?', $params['department_id']);
+	  	}	  	
+	  
+	  	if (isset($params['login']) && $params['login'] != '') {
+	  		$this->select->where('login LIKE ?', "%". $params['login'] . "%");	
+	  	}
+	  	
+	  	if (isset($params['email_address']) && $params['email_address'] != '') {
+	  		$this->select->where('email_address LIKE ?', "%". $params['email_address'] . "%");	
+	  	}
+	  	
+	  	if (isset($params['first_name']) && $params['first_name'] != '') {
+	  		$this->select->where('first_name LIKE ?', "%". $params['first_name'] . "%");	
+	  	}
+	  	
+	  	if (isset($params['last_name']) && $params['last_name'] != '') {
+	  		$this->select->where('last_name LIKE ?', "%". $params['last_name'] . "%");	
+	  	}  	
+	  	
+	  	if (isset($params['user_type_id']) && $params['user_type_id'] != '') {
+	  		$this->select->where('user_type_id LIKE ?', "%". $params['user_type_id'] . "%");	
+	  	}  	
+	  	
+	  	if (isset($attr['sort_by'])) {
+			$this->select->order($attr['sort_by']);
+		}
+		
+	 	if (isset($attr['page_size']) && $attr['page_size'] != 0) {
+			$this->select->limit($attr['page_size'], $attr['start']);
+	  	}
+		
+     	return $this->FetchAssoc($this->select);
+	}
+	
+	
+	/**
+	 * GetDepartmentList()
+	 * 
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 
+	 */
+	function GetDepartmentList()
+	{
+	  $this->SetSelect();
+		
+	  $this->select->from('department', array('department_id', 'department'));
+	  $this->select->order('department_id');
+		
+	  return $this->FetchAssoc($this->select);
+	}
+	
+}	
+?>

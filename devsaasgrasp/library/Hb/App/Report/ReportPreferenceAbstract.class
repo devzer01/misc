@@ -1,0 +1,111 @@
+<?php
+require_once ('ReportField.class');
+require_once ('DefaultReport.class');
+
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 07-Sep-2007 10:51:05 AM
+ */
+abstract class Hb_App_Report_ReportPreferenceAbstract extends Hb_App_Object
+{
+
+	protected $columns = array();
+	
+	/**
+	 * @param Hb_App_Common_ReportFilter
+	 */
+	protected $filter  = null;
+	
+	protected $sort_order = array();
+	
+	protected $page_size = 10;
+	
+	protected $page_start = 0;
+
+	function __construct()
+	{
+		
+	}
+
+	function __destruct()
+	{
+		
+	}
+
+	/**
+	 * 
+	 * @param field
+	 */
+	public function AddColumn(Hb_App_Report_ReportField $field)
+	{
+		$this->columns[$field->GetName()] = $field;
+	}
+
+	public function GetColumns()
+	{
+		return array_values($this->columns);
+	}
+	
+	public function SetColumns($columns)
+	{
+		$this->columns = $columns;
+	}
+
+	/**
+	 * 
+	 * @param filter
+	 */
+	public function SetFilter(Hb_App_Report_ReportFilter $filter)
+	{
+		$this->filter = $filter;
+	}
+
+	/**
+	 * 
+	 * @param field
+	 * @param position
+	 * @param direction
+	 */
+	public function SetSortOrder(Hb_App_Report_ReportField $field, $position, $direction = 'ASC')
+	{
+		$this->sort_order[$position] = array('field' => $field, 'direction' => $direction);
+	}
+	
+	public function SetPageSize($page_size)
+	{
+		$this->page_size = $page_size;
+	}
+	
+	public function GetPageSize()
+	{
+		return $this->page_size;
+	}
+	
+	public function GetFilter()
+	{
+		return $this->filter;
+	}
+	
+	public function GetClause()
+	{
+		if (is_null($this->filter)) {
+			$this->filter = new Hb_App_Common_ReportFilter();
+		}
+		
+		return $this->filter->__toString() . " LIMIT " . $this->page_start . "," . $this->page_size;
+	}
+	
+	public function SetPageStart($start)
+	{
+		$this->page_start = $start;
+	}
+	
+	public function GetPageStart()
+	{
+		return $this->page_start;
+	}
+
+}
+?>

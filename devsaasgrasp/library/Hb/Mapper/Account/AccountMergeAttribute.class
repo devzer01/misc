@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * Mapper for Hb_Mapper_Account_AccountMergeAttribute object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountMergeAttribute extends Hb_Mapper_Mapper 
+{
+
+	/**
+	 * Primary key for account_merge_attr table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'account_merge_attr_id';
+	
+	/**
+	 * Table name account_merge_attr
+	 *
+	 * @var string
+	 */
+	protected $table = 'account_merge_attr';
+	
+	/**
+	 * Builds the AccountMergeAttribute Object
+	 *
+	 * @param Zend/Db select Object $row
+	 * @return object Hb_App_Account_AccountMergeAttribute
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountMergeAttribute(
+														$row->account_merge_attr_id,
+														$row->account_merge_id,
+														$row->account_merge_attr_name,
+														$row->account_merge_attr_value
+														);
+	}
+	
+	/**
+	 * Returns the base select for Hb_App_Account_AccountMergeAttribute
+	 *
+	 * @return Zend/DB select Object
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(
+						array('ama' => 'account_merge_attr'),
+						array(
+								'account_merge_attr_id' , 
+								'account_merge_id' , 
+								'account_merge_attr_name' , 
+								'account_merge_attr_value'
+							)
+						);
+						
+		return $select;
+	}
+
+	/**
+	 * Find the Account Merge Attribute by Id
+	 *
+	 * @param int $id
+	 * @return Zend/DB row Object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('ama.account_merge_attr_id = ?', $id);
+		
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Save Hb_App_Account_AccountMergeAttribute Object
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO account_merge_attr (account_merge_id, account_merge_attr_name, account_merge_attr_value ) "
+               			. "VALUES (" . $obj->GetAccountMergeId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			$obj->SetAccountMergeAttrId($db->getLastInsertId());
+		} 
+		else
+		{
+			$query = "UPDATE account_merge_attr "
+						. "SET account_merge_id = " . $obj->GetAccountMergeId() . ", "
+							. " account_merge_attr_name = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+							. " account_merge_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+						. "WHERE account_merge_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+	}
+
+}
+?>

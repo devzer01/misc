@@ -1,0 +1,127 @@
+<?php
+/**
+ * ProjectFIle Mapper class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Project
+ */
+class Hb_Mapper_Project_ProjectFile extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary Key field for the Project file
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'pjm_file_id';
+
+	/**
+	 * Project File table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'pjm_file';
+	
+	/**
+	 * getway class description
+	 *
+	 * @var string 
+	 */
+	protected $__getway = 'Hb_Db_Project_ProjectFile';
+	
+	/**
+	 * domain class description
+	 *
+	 * @var string 
+	 */
+	protected static  $__domain = 'Hb_App_Project_ProjectFile';
+	
+	/**
+	 * Build the Project File Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Project_ProjectFile
+	 */
+	protected function doBuildObject($row)
+	{		
+		$file_object = new Hb_App_Common_File($row->pjm_file_id,
+														  $row->file_type_id,
+														  $row->pjm_file_name,
+														  $row->pjm_file_title,
+														  $row->pjm_file_size
+														  );
+		
+		return new Hb_App_Project_ProjectFile($row->pjm_file_id, 
+   													  $row->pjm_file_type_id,
+   													  $row->pjm_id,
+   													  $file_object
+   													  );
+	}
+	
+	/**
+	 * Get the base data set for ProjectFile
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'pjm_file'), array('pjm_file_id', 
+																	 'pjm_file_type_id', 
+																	 'pjm_id', 
+																	 'file_type_id', 
+																	 'pjm_file_name', 
+																	 'pjm_file_title', 																									
+																	 'pjm_file_size'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Project file Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('m.pjm_file_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Project File Object
+	 *
+	 * @param int $id Project file Id
+	 * @return object Project File
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(			
+			'pjm_file_type_id'			=> $obj->GetProjectFileTypeId(), 
+			'pjm_id'							=> $obj->GetProjectId(),		 
+			'file_type_id'					=> $obj->GetFile()->GetFileTypeId(), 
+			'pjm_file_name'				=> $obj->GetFile()->GetFileName(), 
+			'pjm_file_title'				=> $obj->GetFile()->GetFileTitle(), 																									
+			'pjm_file_size'				=> $obj->GetFile()->GetFileSize(),
+			'pjm_file_data'				=> $obj->GetFile()->GetFileData()
+			);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetProjectFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key. '=' . $obj->GetId());	
+		}	  
+	}
+}
+?>

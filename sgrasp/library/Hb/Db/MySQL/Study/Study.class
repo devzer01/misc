@@ -1,0 +1,21 @@
+<?php
+
+class Hb_Db_MySQL_Study_Study
+{
+	static function Get($id)
+	{
+		$db = new Hb_Util_Connector_Db();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from('study', array('study_id', 'study_name'));
+		
+		$select->where('status = ?', 'A');
+		$select->where('study_id = ?', $id);
+		
+		return $db->FetchAssoc($select);
+	}	
+}
+?>

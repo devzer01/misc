@@ -1,0 +1,343 @@
+<?php 
+class db_security extends db 
+{	
+	/**
+	* SetIndividualSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	function SetIndividualSecurity($security_id, $invert, $login)
+	{
+		$fields = array(
+			'security_id' => $security_id,
+			'login' => $login,
+			'invert' => $invert
+		);
+		
+		$this->__InsertUserSecurity($fields);
+	}
+		
+	/**
+	* UnSetIndividualSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 15:41:06 IST 2006
+	*/
+	function UnSetIndividualSecurity($security_id, $invert, $login)
+	{
+		$feilds = array(
+						'status' => 'D',
+						'invert'	=> $invert);
+					 
+		return $this->__UpdateIndividualSecurity($security_id, $login, $feilds);
+	}
+	
+	/**
+	* __UpdateIndividualSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 15:44:10 IST 2006
+	*/
+	protected function __UpdateIndividualSecurity($security_id, $login, $feilds)
+	{
+		$table = 'user_security';
+		
+		$where = $this->db->quoteInto('security_id = ?' , $security_id)		
+				 . $this->db->quoteInto(' AND login = ?', $login);
+		
+		return $this->__Update($table, $feilds, $where);
+	}
+	
+	/**
+	* __InsertUserSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	protected  function __InsertUserSecurity($fields)
+	{
+		$table = 'user_security';		
+		$this->__Insert($table, $fields);		
+	}
+	
+	/**
+	* __SelectSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Mon Dec 18 12:18:44 IST 2006
+	*/
+	protected function __SelectSecurity($params = array(), $attr = array())
+	{
+		$this->SetSelect();	
+		
+		$this->select->from(array('s' => 'security'), array('security_id', 'security_type'));
+		
+		if (isset($attr['group_security'])) {				
+			$this->select->joinLeft(array('sgs' => 'security_group_security'), 'sgs.security_id = s.security_id', array());		
+			$this->select->joinLeft(array('usg' => 'user_security_group'), 'usg.security_group_id = sgs.security_group_id', array());			
+		}
+
+		if (isset($attr['individual_security'])) {			
+			$this->select->joinLeft(array('us' => 'user_security'), 'us.security_id = s.security_id', array('invert', 'status'));				
+		}	
+				
+		if(isset($params['usg_login'])) {
+			$this->select->where('usg.login = ?', $params['usg_login']);
+		}
+		
+		if(isset($params['us_login'])) {
+			$this->select->where('us.login = ?', $params['us_login']);		
+		}
+		
+		if(isset($params['security_type'])) {
+			$this->select->where('s.security_type = ?', $params['security_type']);
+		}		
+			
+		if (isset($params['invert'])) {
+			$this->select->where('us.invert = ?', $params['invert']);				
+		}
+		
+		if (isset($params['status'])) {		
+			$this->select->where('us.status = ?', $params['status']);		
+		}
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) {
+			return $this->db->fetchRow($this->select);		
+		}	
+			
+		//print $this->select;
+		return $this->db->fetchAssoc($this->select);			
+	}
+	
+	/**
+	* SecurityTypes()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue Jan 09 08:36:22 IST 2007
+	*/
+	function SecurityTypes()
+	{
+		return $this->__SelectSecurity();
+	}
+	
+	/**
+	* IsSecurityTypeInIndividual()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	function IsSecurityTypeInIndividual($login, $security_type, $invert)
+	{
+		$params['security_type']	= $security_type;
+		$params['us_login'] 			= $login;
+		$params['status'] 			= 'A';
+		$params['invert'] 			= $invert;
+		
+		$attr['fetch_row']				= 1;
+		$attr['individual_security'] 	= 1;
+		
+		return $this->__SelectSecurity($params, $attr);
+		
+	}	
+	
+	
+	/**
+	* IsSecurityTypeInGroup()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	function IsSecurityTypeInGroup($login, $security_type)
+	{		
+		$params['security_type']	= $security_type;
+		$params['usg_login'] 		= $login;
+		
+		$attr['fetch_row']			= 1;
+		$attr['group_security'] 	= 1;
+		
+		return $this->__SelectSecurity($params, $attr);
+	}		
+	
+	/**
+	* GetDisableIndividualSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Mon Dec 18 15:01:20 IST 2006
+	*/
+//	function GetDisableIndividualSecurity($login)
+//	{
+//		$params['login'] 	= $login;
+//		$params['status']	= 'D';
+//		$params['invert'] = 0;
+//		
+//		return $this->__SelectUserSecurity($params);
+//	}
+	
+	/**
+	* __SelectUserSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue Dec 19 14:41:56 IST 2006
+	*/
+//	function __SelectUserSecurity($params = array(), $attr = array())
+//	{
+//		$this->SetSelect();
+//		
+//		$this->select->from('user_security as us_d', 'distinct s.security_type');
+//		
+//		$this->select->joinLeft('user_security as us_a', 'us_d.security_id = us_a.security_id and us_a.status = \'A\' ');
+//		
+//		$this->select->joinLeft('security as s', 'us_d.security_id = s.security_id');
+//		
+//		$this->select->where('us_d.login = ?', $params['login']);
+//		
+//		$this->select->where('us_d.status = ?', $params['status']);
+//		
+//		$this->select->where('us_d.invert = ?', $params['invert']);
+//		
+//		$this->select->where('us_a.security_id is null');		
+//		
+//		return $this->db->fetchAssoc($this->select);
+//	}
+//	
+	/**
+	* GetInididualSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 12:28:48 IST 2006
+	*/
+	function GetInididualSecurity($login)
+	{
+		$params['us_login'] 				= $login;
+		$params['status'] 				= 'A';		
+		$attr['individual_security'] 	= 1;
+		
+		return $this->__SelectSecurity($params, $attr);			
+	}
+	
+	/**
+	* GetSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	function GetSecurity($login)
+	{
+		$result  = $this->db->query("SELECT s.security_type,s.security_id 
+							FROM security s
+							LEFT OUTER JOIN security_group_security sgs ON ( sgs.security_id = s.security_id ) 
+							LEFT OUTER JOIN user_security_group usg ON ( usg.security_group_id = sgs.security_group_id ) 
+							WHERE usg.login = ". $login ."
+							UNION ALL 
+							SELECT s.security_type,s.security_id
+							FROM security s
+							LEFT OUTER JOIN user_security AS us ON ( s.security_id = us.security_id ) 
+							WHERE us.login = ". $login ." and us.invert = 0 and us.status= 'A'");
+		
+		return $result->fetchAll();
+	}	
+		
+
+	
+	/**
+	* GetGroupSecurity()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 12:31:29 IST 2006
+	*/
+	function GetGroupSecurity($login)
+	{
+		$params['usg_login'] 	= $login;
+		$attr['group_security'] = 1;
+		
+		return $this->__SelectSecurity($params, $attr);
+	}	
+	
+	/**
+	* UserDetails()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Wed Dec 13 09:13:23 IST 2006
+	*/
+	function UserDetail($login)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('user');
+		
+		$this->select->where('login = ?', $login);
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+	
+	/**
+	* __SelectUser()
+	*
+	* @param -
+	* @param - 
+	* @author - harsha
+	* @since  - Tue Dec 19 10:23:12 IST 2006
+	*/
+	function __SelectUser($login)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('user');
+		
+		$this->select->where('login = ?', $login);
+		
+		return $this->db->fetchAssoc($this->select);
+	}	
+		
+	function UpdateUserAttr($login, $user_attr, $user_value)
+	{
+		$table_name = 'user_attr';
+		
+		$fields = array('user_value' => $user_value);
+		
+		$where = $this->db->quoteInto('login = ?', $login);
+		$where .= $this->db->quoteInto(' AND user_attr = ?', $user_attr);
+		
+		$this->__Update($table_name, $fields, $where);
+	}
+	
+	function GetUserAttr($login, $user_attr)
+	{
+		$this->SetSelect();
+		$this->select->from(array('ua' => 'user_attr'), array('login', 'user_value'));
+		$this->select->where('login = ?', $login);
+		$this->select->where('user_attr = ?', $user_attr);
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+}
+?>

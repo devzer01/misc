@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * User Security Groups Collection Mapper
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */
+
+class Hb_Mapper_User_UserSecurityGroups extends Hb_Mapper_User_UserSecurityGroup  
+{
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('login = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_User_UserSecurityGroups');
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

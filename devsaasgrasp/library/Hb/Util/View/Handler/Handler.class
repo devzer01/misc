@@ -1,0 +1,13 @@
+<?php
+
+require_once('SmartyHandler.class');
+
+class Hb_Util_View_Handler_Handler
+{
+	public static function factory($handler)
+	{
+		$class = "Hb_Util_View_Handler_" . $handler . "Handler";
+		return call_user_func(array($class, 'getInstance'));
+	}
+}
+?>

@@ -1,0 +1,392 @@
+<?php
+
+/**
+ * Domain Object for ProposalContact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+
+class Hb_App_Proposal_ProposalContact extends Hb_App_Object
+{
+
+	/**
+	 * Proposal contact id
+	 * 
+	 * @var int
+	 */	
+	protected $proposal_contact_id = null;
+	
+	/**
+	 * Proposal id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_id = null;
+	
+	protected $proposal = null;
+	
+	/**
+	 * Contact id
+	 * 
+	 * @var int
+	 */	
+	protected $contact_id  = null;
+	
+	/**
+	 * Salutation
+	 * 
+	 * @var string
+	 */
+	protected $salutation  = null;
+
+	/**
+	 * First name
+	 * 
+	 * @var string
+	 */
+	protected $first_name  = null;
+	
+	/**
+	 * Middle name
+	 * 
+	 * @var string
+	 */
+	protected $middle_initial  = null;
+	
+	/**
+	 * Last name
+	 * 
+	 * @var string
+	 */	
+	protected $last_name = null;
+	
+	/**
+	 * Phone
+	 * 
+	 * @var string
+	 */
+	protected $phone = null;
+	
+	/**
+	 * Fax
+	 * 
+	 * @var string
+	 */
+	protected $fax = null;
+	
+	/**
+	 * Email address
+	 * 
+	 * @var string
+	 */	
+	protected $email = null;
+
+	/**
+	 * Contructor of the ProposalContact domain
+	 * 
+	 * @param int $id Proposal contact id
+	 * @param int $proposal_id Proposal id
+	 * @param int $contact_id Contact id
+	 * @param string $salutation Salutation
+	 * @param string $first_name First name
+	 * @param string $middle_initial Middle initial
+	 * @param string $last_name Last name
+	 * @param string $phone Phone number
+	 * @param string $fax Fax number
+	 * @param string $email Email address 
+	 */		
+	function __construct	( 
+									$id = null,
+									$proposal_id = null,
+									$contact_id = null,
+									$salutation = null,
+									$first_name = null,
+									$middle_initial = null,
+									$last_name = null,
+									$phone = null,
+									$fax = null,
+									$email = null
+								)													
+	{
+		
+		$this->proposal_contact_id = $id;
+		$this->proposal_id = $proposal_id;
+		$this->contact_id  = $contact_id;
+		$this->salutation  = $salutation;
+		$this->first_name  = $first_name;
+		$this->middle_initial  = $middle_initial;
+		$this->last_name = $last_name;
+		$this->phone = $phone;
+		$this->fax = $fax;
+		$this->email = $email;
+	
+		parent::__construct($id);
+	}
+
+
+	/**
+	 * Return proposal contact id
+	 *
+	 * @return int Proposal contact id
+	 */
+	public function GetProposalContactId()
+	{
+		return $this->proposal_contact_id;
+	}
+
+	/**
+	 * Return proposal id
+	 *
+	 * @return int Proposal id
+	 */
+	public function GetProposalId()
+	{
+		if (is_null(($this->proposal_id))) {
+			$this->proposal_id = $this->doGetProposal()->GetProposalId(); 
+		}
+		
+		return $this->proposal_id;
+	}
+	
+	/**
+	 * Returns the proposal that the contact belongs to.
+	 * 
+	 * @return Hb_App_Proposal_Proposal
+	 */
+	public function GetProposal()
+	{
+		return $this->doGetProposal();
+	}
+	
+	
+	/**
+	 * Return the proposal that the contact belongs to.
+	 * 
+	 * @return Hb_App_Proposal_Proposal
+	 */
+	protected function doGetProposal()
+	{
+		if (is_null($this->proposal)) {
+			if (is_null($this->proposal_id)) {
+				throw new Hb_App_Proposal_Exception_ProposalNotFoundException();
+			}
+			
+			$this->proposal = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_Proposal')->Find($this->proposal_id);
+		}
+		
+		return $this->proposal;
+	}
+
+	/**
+	 * Return contact id
+	 *
+	 * @return int Contact id
+	 */
+	public function GetContactId()
+	{
+		return $this->contact_id;
+	}
+
+	/**
+	 * Return salutation
+	 *
+	 * @return string The salutation
+	 */
+	public function GetSalutation()
+	{
+		return $this->salutation;
+	}
+
+	/**
+	 * Return first name of the proposal contact
+	 *
+	 * @return string First name
+	 */
+	public function GetFirstName()
+	{
+		return $this->first_name;
+	}
+
+	/**
+	 * Return middle name of the proposal contact
+	 *
+	 * @return string Middle name
+	 */
+	public function GetMiddleInitial()
+	{
+		return $this->middle_initial;
+	}
+
+	/**
+	 * Return last name of the proposal contact
+	 *
+	 * @return string Last name
+	 */
+	public function GetLastName()
+	{
+		return $this->last_name;
+	}
+
+
+	/**
+	 * Return phone number of the proposal contact
+	 *
+	 * @return string Phone number
+	 */	
+	public function GetPhone()
+	{
+		return $this->phone;
+	}
+
+	/**
+	 * Return fax number of the proposal contact
+	 *
+	 * @return string Fax number
+	 */	
+	public function GetFax()
+	{
+		return $this->fax;
+	}
+
+	/**
+	 * Return email address of the proposal contact
+	 *
+	 * @return string Email address
+	 */	
+	public function GetEmail()
+	{
+		return $this->email;
+	}
+
+
+	/**
+	 * Sets proposal contact id
+	 * 
+	 * @param int $proposal_contact_id Proposal contact id
+	 */
+	public function SetProposalContactId($proposal_contact_id)
+	{
+		$this->proposal_contact_id = (int) $proposal_contact_id;
+		$this->__id = (int) $proposal_contact_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets proposal id
+	 * 
+	 * @param int $proposal_id Proposal id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = $proposal_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the proposal that the contact belongs to.
+	 * 
+	 * @param Hb_App_Proposal_Proposal $proposal The proposal of the contact
+	 */
+	public function SetProposal(Hb_App_Proposal_Proposal $proposal)
+	{
+		$this->proposal_id = $proposal->GetProposalId();
+		$this->proposal = $proposal;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets contact id
+	 * 
+	 * @param int $contact_id Contact id
+	 */
+	public function SetContactId($contact_id)
+	{
+		$this->contact_id = (int) $contact_id;		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets salutation
+	 * 
+	 * @param int $salutation Salutation 
+	 */
+	public function SetSalutation($salutation)
+	{
+		$this->salutation = $salutation;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets salutation
+	 * 
+	 * @param int $salutation Salutation 
+	 */
+	public function SetFirstName($first_name)
+	{
+		$this->first_name = $first_name;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets middle intial
+	 * 
+	 * @param int $middle_initial Middle intial
+	 */
+	public function SetMiddleInitial($middle_initial)
+	{
+		$this->middle_initial = $middle_initial;
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets last name
+	 * 
+	 * @param int $last_name Last name
+	 */
+	public function SetLastName($last_name)
+	{
+		$this->last_name = $last_name;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets phone number
+	 * 
+	 * @param int $phone Phone number
+	 */
+	public function SetPhone($phone)
+	{
+		$this->phone = $phone;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets fax number
+	 * 
+	 * @param int $fax Fax number
+	 */
+	public function SetFax($fax)
+	{
+		$this->fax = $fax;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets email
+	 * 
+	 * @param int $email Email address
+	 */
+	public function SetEmail($email)
+	{
+		$this->email = $email;
+		$this->MarkDirty();
+	}
+	
+}
+?>

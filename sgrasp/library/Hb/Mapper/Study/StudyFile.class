@@ -1,0 +1,120 @@
+<?php
+/**
+ * Mapper class for Hb_App_Study_StudyFile object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva/ krathnayake
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyFile extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for this table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'study_file_id';
+	
+	/**
+	 * Table name for this table
+	 *
+	 * @var string
+	 */
+	protected $table = 'study_file';
+	
+	/**
+	 * Build the Hb_App_Study_StudyFile object
+	 *
+	 * @param Zend Db Table Row $row
+	 * @return Hb_App_Study_StudyFile object
+	 */
+	protected function doBuildObject($row)
+	{
+		$study_file = new Hb_App_Common_File($row->study_file_id, 
+														$row->study_file_type_id,
+														$row->study_file_name,
+														$row->study_file_title,
+														$row->study_file_size
+														);
+			return new Hb_App_Study_StudyFile(
+											$row->study_file_id,
+											$row->study_id,
+											$row->file_type_id,
+											$study_file
+											);
+		
+	}
+
+	/**
+	 * Get the base select object for Hb_App_Study_StudyFile
+	 *
+	 * @return Zend Db Table Row
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(
+						array('sf' => 'study_file'),
+						array(
+								'study_file_id', 
+								'study_file_type_id', 
+								'study_id',
+								'file_type_id', 
+								'study_file_name', 
+								'study_file_title', 
+								'study_file_size'
+							)
+					);
+					
+		return $select;
+	}
+	
+	/**
+	 * Find the Hb_App_Study_StudyFile by Id
+	 *
+	 * @param int $id
+	 * @return Zend Db Table row 
+	 */
+	protected function doFindbyId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sf.study_file_id = ?', $id);
+		
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Save the Hb_App_Study_StudyFile object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+		'study_file_type_id'			=> $obj->GetFile()->GetFileTypeId(),
+		'study_id'						=> $obj->GetStudyId(),
+		'file_type_id'					=> $obj->GetFileTypeId(),
+		'study_file_name'				=> $obj->GetFile()->GetFileName(),
+		'study_file_title'			=> $obj->GetFile()->GetFileTitle(),
+		'study_file_data'				=> $obj->GetFile()->GetFileData(),
+		'study_file_size'				=> $obj->GetFile()->GetFileSize()
+		);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_file', $data);
+			$obj->SetStudyFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_file', $data, 'study_file_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

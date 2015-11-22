@@ -1,0 +1,71 @@
+<?php 
+/**
+ * Domain Object for Campaign Infomation
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_CampaignInfo
+{
+	/**
+	 * Campaign Code
+	 *
+	 * @var string 
+	 */
+	private $campaign_code = null;
+	
+	/**
+	 * Quality Rating
+	 *
+	 * @var string 
+	 */
+	private $quality_rating = null;
+	
+	
+	/**
+	 * Conversion Rating
+	 *
+	 * @var ing 
+	 */
+	private $conversion_rate = null;
+	
+	/**
+	 * Construct of the Campaign Info domain
+	 *
+	 * @param string $quality_rating Quality Rating
+	 * @param ing $conversion_rate Conversion Rate
+	 */
+	function __construct($quality_rating	= null,
+								$conversion_rate	= null )
+	{
+		$this->conversion_rate	= $conversion_rate;
+		$this->quality_rating	= $quality_rating;
+	}
+	
+	/**
+	 * Return the Quality Rating for the Campaign Infomation doamin
+	 *
+	 * @return string Quality Rating
+	 */
+	public function GetQualityRating()
+	{
+		return $this->quality_rating;
+	}
+	
+	/**
+	 * Return the Conversion Rate for the Campaign Information domain
+	 *
+	 * @return ing Conversion Rate
+	 */
+	public function GetConversionRate()
+	{
+		return $this->conversion_rate;
+	}
+	
+}
+
+?>

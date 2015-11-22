@@ -1,0 +1,203 @@
+<?php
+/**
+ * Domain Object for Proposal User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalUser extends Hb_App_Object 
+{	
+	/**
+	 * user login id
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Proposal id
+	 *
+	 * @var int  
+	 */
+	protected $proposal_id = null;
+	
+	/**
+	 * Proposal user id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_user_id = null;
+	
+	/**
+	 * User role id
+	 *
+	 * @var int 
+	 */
+	protected $role_id = null;
+	
+	/**
+	 * User id
+	 *
+	 * @var int 
+	 */
+	protected $user_id = null;
+	
+	/**
+	 * @var Hb_App_Proposal_Proposal
+	 */
+	protected $proposal = null;
+
+	
+	/**
+	 * Create ProposalUser Object
+	 *
+	 * @param int $id Proposal user id
+	 * @param int $login User login
+	 * @param int $proposal_id Proposal id
+	 * @param int $role_id User Role id
+	 * @param int $user_id User id
+	 */
+	function __construct($id 				= null,
+								$login 			= null,
+								$proposal_id 	= null,
+								$role_id 		= null,
+								$user_id 		= null
+								)
+	{
+		$this->proposal_user_id = $id;
+		$this->login				= $login;		
+		$this->role_id				= $role_id;
+		$this->user_id				= $user_id;
+		$this->proposal_id 		= $proposal_id;
+		
+		parent::__construct($id);
+		
+	}
+
+   /**
+    * Return the user login for Proposal User
+    *
+    * @return int user login
+    */
+	public function GetLogin()
+	{
+		return  $this->login;
+	}
+
+	/**
+	 * Return the Proposal Id for Proposal User
+	 *
+	 * @return int Proposal Id
+	 */
+	public function GetProposalId()
+	{
+		if (is_null($this->proposal_id)) {
+			if (is_null($this->proposal)) {
+				throw new Exception("Proposal Not Found");
+			}
+			
+			$this->proposal_id = $this->proposal->GetId();
+		}
+		
+		return $this->proposal_id;
+	}
+
+	/**
+	 * Return the Proposal User Id for Proposal User
+	 *
+	 * @return int Proposal User Id
+	 */
+	public function GetProposalUserId()
+	{
+		return $this->proposal_user_id;
+	}
+
+	/**
+	 * Return the User Role Id for Proposal User
+	 *
+	 * @return int User Role Id
+	 */
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * Return the User Id for Proposal User
+	 *
+	 * @return int User Id
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Set the User loing for Proposal User
+	 * 
+	 * @param int $login User loing
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = (int) $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal Id for Proposal User
+	 * 
+	 * @param int $proposal_id Proposal Id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = (int) $proposal_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal User Id for Proposal User
+	 * 
+	 * @param int $proposal_user_id Proposal User Id
+	 */
+	public function SetProposalUserId($proposal_user_id)
+	{
+		$this->proposal_user_id = (int) $proposal_user_id;
+		$this->__id					= (int) $proposal_user_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User Role Id for Proposal User
+	 * 
+	 * @param int $role_id User Role Id
+	 */
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = (int) $role_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the User Id for Proposal User
+	 * 
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = (int) $user_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * 
+	 */
+	public function SetProposal(Hb_App_Proposal_Proposal $proposal)
+	{
+		$this->proposal = $proposal;
+	}
+}
+?>

@@ -1,0 +1,59 @@
+<?php
+/**
+ * Domain object for Proposal Category  Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */
+class Hb_App_Proposal_ProposalCategoryType extends Hb_App_Common_Type
+{
+	/**
+	 * Proposal Category Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_category_id = null;
+	
+	/**
+	 * Constructor Hb_App_Proposal_ProposalCategoryType
+	 *
+	 * @param int $id
+	 * @param string $description
+	 * @param int $proposal_category_id
+	 */
+	function __construct($id = null, 
+								$description = null, 
+								$proposal_category_id = null)
+	{		
+		$this->proposal_category_id = $proposal_category_id;
+		
+		parent::__construct($id, $description);
+	}
+	
+	/**
+	 * Returns proposal category id
+	 *
+	 * @return int
+	 */
+	public function GetProposalCategoryId()
+	{
+		return $this->proposal_category_id;
+	}
+	
+	/**
+	 * Sets proposal category
+	 *
+	 * @param int $proposal_category_id
+	 */
+	public function SetProposalCategoryId($proposal_category_id)
+	{
+		$this->proposal_category_id = $proposal_category_id;
+		
+		$this->MarkDirty();
+	}
+}
+?>

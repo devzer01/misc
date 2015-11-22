@@ -1,0 +1,265 @@
+<?php 
+/**
+ * Domain Object for City
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */  
+class Hb_App_Common_City extends Hb_App_Object 
+{
+	/**
+	 * City Id
+	 * 
+	 * @var int
+	 */
+	protected $city_id = null;
+
+	/**
+	 * City Description
+	 * 
+	 * @var string
+	 */
+	protected $city_description = null;
+	
+	/**
+	 * State that City belongs to
+	 * 
+	 * @var string
+	 */
+	protected $state = null;
+
+	/**
+	 * Province that City belongs to
+	 * 
+	 * @var string
+	 */
+	protected $province = null;
+	
+	/**
+	 * Country that City belongs to
+	 * 
+	 * @var string
+	 */
+	protected $country = null;
+	
+	/**
+	 * Postal Code
+	 * 
+	 * @var string
+	 */
+	protected $postal_code = null;
+	
+	/**
+	 * Country Code
+	 * 
+	 * @var string
+	 */
+	protected $country_code = null;
+	
+	
+	/**
+	* Contructor of the City Domain
+	* 
+	* @param int $id City Id
+	* @param string $city_description City Description
+	* @param string $state State City belongs to
+	* @param string $province Province City belongs to
+	* @param string $country Country
+	* @param string $postal_code Postal Code
+	* @param string $country_code country_code
+	*/		
+	function __construct($id 			 = null,	
+							   $city_description   = null,
+							   $state  	 = null,
+							   $province  = null,	
+							   $country = null,
+							   $postal_code  	 = null,
+							   $country_code 		 = null
+							  )
+	{		 					
+		
+		$this->city_id 			= $id;
+		$this->city_description = $city_description;
+		$this->state        		= $state ;
+		$this->province 	 		= $province;
+		$this->country    		= $country;
+		$this->postal_code      = $postal_code ;
+		$this->country_code 	   = $country_code;
+				
+		parent::__construct($id);
+	}	
+	
+	
+	/**
+	 * Get City Id
+	 *	
+	 * @return int $city_id City Id
+	 */
+	public function GetCityId()
+	{
+		return $this->city_id;
+	}
+	
+	
+	/**
+	 * Get City Description
+	 *	
+	 * @return string $city_description City Description
+	 */
+	public function GetCityDescription()	
+	{
+		return $this->city_description;
+	}	
+	
+	
+	/**	
+	 * Get State City belongs to
+	 *
+	 * @return string $state State City belongs to	
+	 */
+	public function GetState()
+	{
+		return $this->state;
+	}	
+	
+	
+	/**	
+	 * Get Province City belongs to
+	 *
+	 * @return string $province Province City belongs to
+	 */
+	public function GetProvince()
+	{
+		return $this->province;
+	}	
+	
+	
+	/**	
+	 * Get Country
+	 *
+	 * @return string $country Country
+	 */
+	public function GetCountry()
+	{
+		return $this->country;
+	}	
+	
+	
+	/**	
+	 * Get Postal Code
+	 *
+	 * @return string $postal_code Postal Code
+	 */
+	public function GetPostalCode()
+	{
+		return $this->postal_code;
+	}	
+	
+	
+	/**	
+	 * Get Country Code
+	 *
+	 * @return string $country_code Country Code
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+	
+	
+	/**
+	 * Sets the City Id
+	 *
+	 * @param int $city_id City Id
+	 */
+	public function SetCityId($city_id)
+	{
+		$this->city_id = $city_id;
+
+		$this->__id = $city_id ;	
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets City Description
+	 *
+	 * @param string $city_description City Description
+	 */
+	public function SetCityDescription($city_description)
+	{
+		$this->city_description = $city_description;
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets State City belongs to
+	 * 
+	 * @param string $state State City belongs to
+	 */
+	public function SetState($state)
+	{
+		$this->state = $state;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Province City belongs to
+	 * 
+	 * @param string $state Province City belongs to
+	 */
+	public function SetProvince($province)
+	{
+		$this->province = $province;
+		
+		$this->MarkDirty();
+	}
+		
+	
+	/**
+	 * Sets Country
+	 * 
+	 * @param string $country Country
+	 */
+	public function SetCountry($country)
+	{
+		$this->country = $country;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Postal Code
+	 * 
+	 * @param string $postal_code Postal Code
+	 */
+	public function SetPostalCode($postal_code)
+	{
+		$this->postal_code = $postal_code;
+		
+		$this->MarkDirty();
+	}	
+
+	
+	/**
+	 * Sets country_code
+	 * 
+	 * @param string $country_code country_code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

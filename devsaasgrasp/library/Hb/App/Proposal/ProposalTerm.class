@@ -1,0 +1,83 @@
+<?php 
+/**
+ * Domain Object for Proposal Term
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */
+class Hb_App_Proposal_ProposalTerm
+{
+	/**
+	 * Proposal Id
+	 *
+	 * @var int 
+	 */
+	private $proposal_id	= null;
+		
+	/**
+	 * Proposal Categories
+	 *
+	 * @var Hb_App_Proposal_ProposalCategories 
+	 */
+	private $proposal_categories	= null;
+	
+	/**
+	 * Proposal revision id
+	 *
+	 * @var int 
+	 */
+	private $revision_id = null;
+	
+	
+	function __construct($revision_id = null)
+	{
+		$this->revision_id	= $revision_id;
+	}
+	
+	/**
+	 * Set the Proposal Id for the  Proposal Term
+	 * 
+	 * @param int $proposal_id Proposal Id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id	= $proposal_id;
+	}
+	
+	/**
+	 * Return the Proposal Categories  for the Propsal sample type
+	 *
+	 * $param $sample_id Sample id
+	 * @return Hb_App_Proposal_ProposalCategories Proposal Categories 
+	 */
+	public function GetProposalCategories($sample_id)
+	{		
+		$this->proposal_categories	= Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalCategories')->Find($sample_id);		
+		return $this->proposal_categories;
+		
+	}
+	
+	/**
+	 * Check whether Category type is set to this proposal Revision
+	 * 
+	 */
+	public function IsCategoryTypeSet($category_type_id)
+	{
+		$proposal_revision_categories = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalRevisionCategories')->Find($this->revision_id);
+		
+		foreach ($proposal_revision_categories as $proposal_revision_category) {
+			if($category_type_id == $proposal_revision_category->GetProposalCategoryTypeId()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+}
+
+?>

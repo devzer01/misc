@@ -1,0 +1,22 @@
+<?php
+
+class Hb_Db_MySQL_Study_StudyStudyDataSource
+{
+	static function Get($id)
+	{
+		$db = new Hb_Util_Connector_Db();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from(array('ssd' => 'study_study_datasource'), array('study_study_datasource_id', 'study_datasource_id'));
+		$select->joinLeft(array('sd' => 'study_datasource'), 'sd.study_datasource_id = ssd.study_datasource_id', array('study_datasource_description'));
+		
+		$select->where('ssd.status = ?', 'A');
+		$select->where('ssd.study_id = ?', $id);
+		
+		return $db->FetchAssoc($select);
+	}		
+}
+?>

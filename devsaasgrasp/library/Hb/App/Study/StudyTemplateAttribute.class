@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * Study Template Attribute Domain Object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+
+class Hb_App_Study_StudyTemplateAttribute extends Hb_App_Attribute
+{
+	/**
+	 * Study template
+	 *
+	 * @var object Hb_App_Study_StudyTemplate
+	 */
+	protected $study_template = null;
+	
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 */
+	protected $study_template_id = null;
+
+	/**
+	 * Creates Study template attribute object
+	 *
+	 * @param int $id
+	 * @param int $study_template_id
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __construct($id 					 	= null, 
+										 $study_template_id 	= null, 
+										 $name 					= null, 
+										 $value 					= null
+										 )
+	{
+		$this->study_template_id = $study_template_id;
+		
+		parent::__construct($id, $name, $value);
+	}
+
+	/**
+	 * Sets Study template attribute id
+	 *
+	 * @param int $id
+	 */
+	public function SetStudyTemplateAttrId($study_template_attribute_id)
+	{		
+		$this->__id = $study_template_attribute_id;
+	}		
+	
+	/**
+	 * Sets account contact comment object
+	 *
+	 * @param Hb_App_Study_StudyTemplate $study_template
+	 */
+	public function SetStudyTemplate(Hb_App_Study_StudyTemplate $study_template)
+	{
+		$this->study_template_id = $study_template->GetStudyTemplateId();
+		$this->study_template    = $study_template;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Study Temaplate instance for the STudy Template Attribute
+	 *
+	 * @return Hb_App_Study_StudyTemplate Study Temaplate instance
+	 */
+	protected function doGetStudyTemplate()
+	{
+		if(is_null($this->study_template)) {
+			if(is_null($this->study_template_id))
+				throw new Hb_App_Study_Exception_StudyTemplateNotFoundException();
+			$this->study_template = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyTemplate')->Find($this->study_template_id);
+		}
+		
+		return $this->study_template;
+	}
+	
+	
+	/**
+	 * Returns Study template object
+	 * 
+	 * @return object Hb_App_Study_StudyTemplate
+	 */
+	public function GetStudyTemplate()
+	{
+		return $this->doGetStudyTemplate();
+	}
+	
+	
+	/**
+	 * Returns Study template id
+	 * 
+	 * @return int Study template id
+	 * @todo is this needed ?, this already exists in Hb_App_Study_StudyTemplate
+	 */
+	public function GetStudyTemplateId()
+	{
+		if(is_null($this->study_template_id)) {
+			$this->study_template_id = $this->doGetStudyTemplate()->GetStudyTemplateId();
+		}
+		
+		return $this->study_template_id;
+	}
+	
+	/**
+	 * Sets Study template id
+	 *
+	 * @param int $study_template_id
+	 * @todo is this needed ?, this already exists in Hb_App_Study_StudyTemplate
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+	}
+
+}
+?>

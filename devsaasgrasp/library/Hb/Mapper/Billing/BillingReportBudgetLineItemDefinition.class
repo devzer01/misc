@@ -1,0 +1,109 @@
+<?php 
+/**
+ * Mapper Object for Billing Report Budget Line Item Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Billing
+ *
+ */ 
+class Hb_Mapper_Billing_BillingReportBudgetLineItemDefinition extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var sring 
+	 */
+	protected $primary_key = 'armc_budget_line_item_def_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_budget_line_item_def';
+	
+	/**
+	 * Builds and returns the Billing Report Budget Line Item Definition domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the armc_budget_line_item_def table
+	 * @return object An instance of the Billing Report Budget Line Item Definition domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportBudgetLineItemDefinition($row->armc_budget_line_item_def_id,
+																							$row->atm_gl_account_id,
+																							$row->armc_budget_line_item_description,
+																							$row->item_number,
+																							$row->default_rate,
+																							$row->default_quantity
+																							);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('ablid' => 'armc_budget_line_item_def'), array('armc_budget_line_item_def_id',
+																				  				 'atm_gl_account_id',
+																				  				 'armc_budget_line_item_description',
+																				  				 'item_number',
+																				  				 'default_rate',
+																				  				 'default_quantity'
+																				  				 )
+							);
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Billing Report Budget Line Item Definition by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the armc_budget_line_item_def table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('ablid.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Billing Report Budget Line Item Definition domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Billing_BillingReportBudgetLineItemDefinition   */
+		 	
+	 	$data  = array(
+			'atm_gl_account_id'							=> $obj->GetAccountingGLAccountId(),
+			'armc_budget_line_item_description'		=> $obj->GetAttributeDescription(),
+			'item_number'									=> $obj->GetItemNumber(),
+			'default_rate'									=> $obj->GetDefaultRate(),
+			'default_quantity'							=> $obj->GetDefaultQuantity()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetAttributeDefinitionId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

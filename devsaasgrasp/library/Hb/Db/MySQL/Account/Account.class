@@ -1,0 +1,21 @@
+<?php
+
+class Hb_Db_MySQL_Account_Account extends Hb_Db_MySQL_MySQL 
+{
+	static function Get($id)
+	{
+		$db = parent::GetConnection();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from('account', array('account_id', 'account_name'));
+		
+		$select->where('status = ?', 'A');
+		$select->where('account_id = ?', $id);
+		
+		return $db->FetchAssoc($select);
+	}	
+}
+?>

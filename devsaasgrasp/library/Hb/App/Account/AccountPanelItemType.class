@@ -1,0 +1,60 @@
+<?php
+/**
+ * Domain object for Account Panel Item Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountPanelItemType extends Hb_App_Common_Type
+{
+	/**
+	 * Sample Type Id
+	 *
+	 * @var int
+	 */
+	protected $sample_type_id = null;
+	
+	/**
+	 * Constructor Hb_App_Account_AccountPanelItemType
+	 *
+	 * @param int $id
+	 * @param string $description
+	 * @param int $sample_type_id
+	 */
+	function __construct($id = null, 
+								$description = null, 
+								$sample_type_id = null)
+	{		
+		$this->sample_type_id = $sample_type_id;
+		
+		parent::__construct($id, $description);
+	}
+	
+	/**
+	 * Returns sample type id
+	 *
+	 * @return int
+	 */
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+	
+	/**
+	 * Sets sample type
+	 *
+	 * @param int $sample_type_id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = $sample_type_id;
+		
+		$this->MarkDirty();
+	}
+}
+?>

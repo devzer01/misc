@@ -1,0 +1,118 @@
+<?php
+/**
+ * Mapper Class for AccountPanelCountryCost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountPanelCountryCost extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Account panel country cost
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'account_panel_country_cost_id';
+
+	/**
+	 * Account panel country cost table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'account_panel_country_cost';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Account_AccountPanelCountryCost';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Account_AccountPanelCountryCost';
+	
+	/**
+	 * Build the AccountPanelCountryCost Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Account_AccountPanelCountryCost
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Account_AccountPanelCountryCost($row->account_panel_country_cost_id,
+																		  $row->account_panel_country_attr_id,
+																	 	  $row->survey_length,
+																	     $row->incidence_rate,
+																	 	  $row->cost_per_complete);
+	}
+	
+	/**
+	 * Get the base data set for AccountPanelCountryCost
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('apcc' => $this->table), array('account_panel_country_cost_id',
+																		   'account_panel_country_attr_id',
+																    	   'survey_length',  
+																 	 	   'incidence_rate',
+																    	   'cost_per_complete'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Account panel country cost
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('apcc.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Account panel country cost
+	 *
+	 * @param Hb_App_Object AccountPanelCountryCost
+	 * @return object Account panel country cost
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'account_panel_country_attr_id'	=> $obj->GetAccountPanelCountryAttrId(),
+							'survey_length'					  	=> $obj->GetSurveyLength(),
+							'incidence_rate' 						=> $obj->GetIncidenceRate(),
+							'cost_per_complete' 					=> $obj->GetCostPerComplete()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetAccountPanelCountryCostId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

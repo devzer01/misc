@@ -1,0 +1,150 @@
+<?php
+/**
+ * Domain Object for Proposal Revision File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalRevisionFile extends Hb_App_Object 
+{
+
+	protected $proposal_file_type_id = null;
+	
+	/**
+	 * proposal revision file id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_revision_file_id = null;
+	
+	/**
+	 * proposal revision id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_revision_id = null;
+
+	/**
+	 * Proposal Revision File Object
+	 *
+	 * @var Hb_App_Common_File 
+	 */ 
+	protected $proposal_revision_file = null;
+	
+	
+	/**
+	 * Create ProposalRevisionFile Object
+	 *
+	 * @param int $id Proposal revision file id
+	 * @param int $proposal_file_type_id Proposal revision file id
+	 * @param int $proposal_revision_id Proposal revision id
+	 * @param Hb_App_Common_File $proposal_revision_file Instance of Hb_App_Common_File
+	 */
+	function __construct($id = null,
+								$proposal_file_type_id 	= null,
+								$proposal_revision_id 	= null,
+								Hb_App_Common_File $proposal_revision_file = null)
+	{
+		$this->proposal_file_type_id 		= $proposal_file_type_id;
+		$this->proposal_revision_id  		= $proposal_revision_id;
+		$this->proposal_revision_file_id = $id;
+		$this->proposal_revision_file		= $proposal_revision_file;
+		
+		if(!is_null($proposal_revision_file) ) {
+				$this->proposal_revision_file->RegisterFileOwner("Hb_App_Proposal_ProposalRevisionFile");
+		}
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Proposal File Type Id for Proposal Revision FIle
+	 *
+	 * @return int Proposal File Type Id
+	 */
+	public function GetProposalFileTypeId()
+	{
+		return $this->proposal_file_type_id;
+	}
+
+	/**
+	 * Return the Proposal Revision File Id for Proposal Revision FIle
+	 *
+	 * @return int Proposal Revision File Id
+	 */
+	public function GetProposalRevisionFileId()
+	{
+		return $this->proposal_revision_file_id;
+	}
+
+	/**
+	 * Return the Proposal Revision Id for Proposal Revision FIle
+	 *
+	 * @return int Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+	
+	/**
+	 * Returns Hb_App_Common_File object
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */ 
+	function GetFile() 
+	{ 
+		return $this->proposal_revision_file;
+	}
+
+	/**
+	 * Set the Proposal File Type Id for Proposal Revision FIle
+	 * 
+	 * @param int $proposal_file_type_id Proposal File Type Id
+	 */
+	public function SetProposalFileTypeId($proposal_file_type_id)
+	{
+		$this->proposal_file_type_id = $proposal_file_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal Revision File Id for Proposal Revision FIle
+	 * 
+	 * @param int $proposal_revision_file_id Proposal Revision File Id
+	 */
+	public function SetProposalRevisionFileId($proposal_revision_file_id)
+	{
+		$this->proposal_revision_file_id = $proposal_revision_file_id;
+		$this->__id								= $proposal_revision_file_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Proposal revision Id for Proposal Revision FIle
+	 * 
+	 * @param int $proposal_revision_id Proposal revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Hb_App_Common_File object
+	 *
+	 * @param Hb_App_Common_File $file Instance of Hb_App_Common_File
+	 */ 
+	function SetFile(Hb_App_Common_File $file) 
+	{ 
+		$this->proposal_revision_file = $file;
+		$this->proposal_revision_file_id = $file->GetFileId();
+		$this->__id = $file->GetFileId(); 
+		$this->MarkDirty();
+	}
+}
+?>

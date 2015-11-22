@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @package  Util
+ * @subpackage  Log
+ *
+ */
+class Hb_Util_Log_Handler_Exception extends Hb_Util_Log_Exception 
+{
+	
+}
+?>

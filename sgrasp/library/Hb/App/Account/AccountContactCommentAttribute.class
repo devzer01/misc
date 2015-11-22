@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * Account Contact Comment Attribute Domain Object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountContactCommentAttribute extends Hb_App_Attribute
+{
+	/**
+	 * Account contact comment
+	 *
+	 * @var object Hb_App_Account_AccountContactComment
+	 */
+	protected $account_contact_comment = null;
+	
+	/**
+	 * Account contact comment id
+	 *
+	 * @var int
+	 */
+	protected $account_contact_comment_id = null;
+
+	/**
+	 * Creates account contact comment attribute object
+	 *
+	 * @param int $id
+	 * @param int $account_contact_comment_id
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __construct($id = null, $account_contact_comment_id = null, $name = null, $value = null)
+	{
+		$this->account_contact_comment_id = $account_contact_comment_id;
+		parent::__construct($id, $name, $value);
+	}
+
+	/**
+	 * Sets account contact comment attribute id
+	 *
+	 * @param int $id
+	 */
+	public function SetAccountContactCommentAttrId($id)
+	{		
+		$this->__id = $id;
+	}
+	
+//	/**
+//	 * protect function returns Account Contact Comment object
+//	 * 
+//	 * @return object Hb_App_Account_AccountContactComment
+//	 * @throws Hb_App_Account_Exception_AccountContactCommentNotFoundException
+//	 */
+//	protected function doGetAccountContactComment()
+//	{
+//		if (is_null($this->account_contact_comment)) 
+//		{
+//			if (is_null($this->account_contact_comment_id)) 
+//			{
+//				throw new Hb_App_Account_Exception_AccountContactCommentNotFoundException(); 
+//			}
+//
+//			$this->account_contact_comment = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountContactComment')->Find($this->account_contact_comment_id);
+//		}
+//		
+//		return $this->account_contact_comment;
+//	}
+	
+	/**
+	 * Returns account contact comment object
+	 * 
+	 * @return object Hb_App_Account_AccountContactComment
+	 */
+	public function GetAccountContactComment()
+	{
+//		return $this->doGetAccountContactComment();		
+		return $this->account_contact_comment;
+	}
+	
+	/**
+	 * Sets account contact comment object
+	 *
+	 * @param Hb_App_Account_AccountContactComment $account_contact_comment
+	 */
+	public function SetAccountContactComment(Hb_App_Account_AccountContactComment $account_contact_comment)
+	{
+		$this->account_contact_comment_id = $account_contact_comment->GetAccountContactCommentId();
+		$this->account_contact_comment    = $account_contact_comment;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns account contact comment id
+	 * 
+	 * @return int account contact comment id
+	 * @todo is this needed ?, this already exists in Hb_App_Account_AccountContactComment
+	 */
+	public function GetAccountContactCommentId()
+	{
+//		if (is_null($this->account_contact_comment_id)) 
+//		{
+//			$this->account_contact_comment_id = $this->doGetAccountContactComment()->GetAccountContactCommentId();
+//		}
+		return $this->account_contact_comment_id;
+	}
+	
+	/**
+	 * Sets account contact comment id
+	 *
+	 * @param int $account_contact_comment_id
+	 * @todo is this needed ?, this already exists in Hb_App_Account_AccountContactComment
+	 */
+	public function SetAccountContactCommentId($account_contact_comment_id)
+	{
+		$this->account_contact_comment_id = $account_contact_comment_id;
+	}
+
+}
+?>

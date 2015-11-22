@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * Domain object for the Merged Billing Report
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */
+class Hb_App_Billing_MergedBillingReport extends Hb_App_Object
+{
+
+	/**
+	 * Merged Billing Report Date
+	 *
+	 * @var string 
+	 */
+	protected $armc_group_date = null;
+	
+	/**
+	 * Mered Billing Report Description
+	 *
+	 * @var string 
+	 */
+	protected $armc_group_description = null;
+	
+	/**
+	 * Merged Billing Report Number
+	 *
+	 * @var int 
+	 */
+	protected $armc_group_id = null;
+
+	/**
+	 * Constructor for the MergedBillingReport
+	 *
+	 * @param int $id merged billing report number 
+	 * @param string $armc_group_date merged billing report date
+	 * @param string $armc_group_description merged billing report description
+	 */
+	function __construct($id = null,
+								$armc_group_date = null,
+								$armc_group_description = null
+								)
+	{
+		$this->armc_group_id 			= $id;
+		$this->armc_group_description	= $armc_group_description;
+		$this->armc_group_date			= $armc_group_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Merged Billing Report Date for Merged Billing Report
+	 *
+	 * @return string merged billing report date
+	 */
+	public function GetMergedBillingReportDate()
+	{
+		return $this->armc_group_date;
+	}
+
+	/**
+	 * Return the Mered Billing Report Description for Merged Billing Report
+	 *
+	 * @return string mereged billing report description
+	 */
+	public function GetMergedBillingReportDescription()
+	{
+		return $this->armc_group_description;
+	}
+
+	/**
+	 * Return the Merged Billing Report Number for Merged Billing Report
+	 *
+	 * @return int merged billing report number
+	 */	
+	public function GetMergedBillingReportID()
+	{
+		return $this->armc_group_id;
+	}
+
+	/**
+	 * Set the Merged Billing Report Date for Merged Billing Report
+	 * 
+	 * @param string $armc_group_date merged billing report date
+	 */
+	public function SetMergedBillingReportDate($armc_group_date)
+	{
+		$this->armc_group_date = $armc_group_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Mered Billing Report Description for Merged Billing Report
+	 * 
+	 * @param string $armc_group_description merged billing report description
+	 */
+	public function SetMergedBillingReportDescription($armc_group_description)
+	{
+		$this->armc_group_description = $armc_group_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Merged Billing Report Number for Merged Billing Report
+	 * 
+	 * @param int $armc_group_id merged billing report number
+	 */
+	public function SetMergedBillingReportID($armc_group_id)
+	{
+		$this->armc_group_id = (int) $armc_group_id;
+		$this->__id = (int) $armc_group_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

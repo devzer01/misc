@@ -1,0 +1,72 @@
+<?php
+
+class Hb_Mapper_Common_Region extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'region_id';
+	
+	protected $table       = 'region';
+	
+	/**
+	 * retrives a Region object based on its id
+	 * 
+	 * 
+	 * @return Hb_App_Common_Region
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('region_id = ?', $id);
+
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * 
+	 *
+	 * @todo Add mappings for all fields 
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		$data = array('region_description' => $obj->GetDescription(),
+					     'region_code'  		  => $obj->GetCode()				     
+					    );
+	
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{ 
+			$db->insert($this->table, $data);
+			$obj->SetRegionId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+			
+	}
+	
+	/**
+	 * @todo Add all the fields for the select 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('region', array('region_id', 'region_description', 'region_code'));
+		
+		return $select;
+	}
+	
+	/**
+	 * @todo add all fields to the build object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Region($row->region_id, $row->region_description, '', $row->region_code);	
+		
+	}
+}
+?>

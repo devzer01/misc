@@ -1,0 +1,70 @@
+<?php
+
+class Hb_Mapper_Account_AccountContact extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'account_contact_id';
+	
+	protected $table       = 'account_contact';
+
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_contact_id = ?', $id);
+		return $this->getRow($select);
+	}
+	
+	public function FindByAccountId($account_id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $account_id);
+		
+		return $this->BuildCollection($this->getRows($select), 'Hb_App_Account_AccountContacts');
+	}
+	
+	public function FindByAccountIdAndContactId($account_id, $contact_id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_id = ?', $account_id);
+		$select->where('contact_id = ?', $contact_id);
+		
+		return $this->BuildObject($this->getRow($select));
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountContact($row->account_contact_id, $row->account_id, $row->contact_id);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('account_contact', array('account_contact_id', 'account_id', 'contact_id'));
+
+		return $select;
+	}
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		/* @var $obj Hb_App_Account_AccountContact */
+		
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->account_id = $obj->GetAccountId();
+		$row->contact_id = $obj->GetContactId();
+		
+		$row->Save();
+		
+		$obj->SetAccountContactId($row->account_contact_id);		
+	}
+}
+?>

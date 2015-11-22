@@ -1,0 +1,132 @@
+<?php 
+/**
+ * Mapper class of Hb_App_User_User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage User
+ */  
+class Hb_Mapper_User_User extends Hb_Mapper_Mapper   
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_User_User'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'user_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'user'; 
+   
+   /**
+    * Find by id
+    *
+    * @param int id User Id
+    * @return Hb_App_User_User Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where($this->primary_key. ' = ?', $id);
+	  
+	  	return $this->getRow($select);
+   }
+   
+   public function FindByLogin($login)
+   {
+   	$result = $this->doFindByLogin($login);
+   	return $this->BuildObject($result);
+   }
+   
+   /**
+    * Find by login
+    * 
+    * @param int $login User login
+    * @return Hb_App_User_User Returns domain object
+    */
+   protected function doFindByLogin($login)
+   {  	
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('login = ?', $login);	 
+	  	
+	  	return $this->getRow($select);
+   }
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+
+	  	$select = $db->select();
+	  	$select->from('user', array('user_id', 'login', 'user_type_id', 'first_name', 'last_name', 
+	  	'department_id', 'division_id', 'function_id', 'location_id', 'vendor_id', 'last_login', 'email_address', 
+	  	'sms_address', 'list_id', 'password', 'time_zone_id'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_User_User Returns domain object
+    */ 
+   function doBuildObject($row)
+   {    	
+		return new Hb_App_User_User($row->login, $row->user_id, $row->user_type_id, null,$row->first_name, $row->last_name, $row->department_id, null,
+			$row->division_id, null, $row->function_id, null,$row->location_id, null, $row->vendor_id, null, $row->last_login, $row->email_address, 
+			$row->sms_address, $row->list_id, null, $row->password, $row->time_zone_id);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_User_User
+    */ 
+   function doSave(Hb_App_Object $obj)
+   {
+		$data = array(
+      'login'				=> $obj->GetLogin(),
+      'user_type_id'		=> $obj->GetUserTypeId(),
+      'first_name'		=> $obj->GetFirstName(),
+      'last_name'			=> $obj->GetLastName(),
+      'department_id'	=> $obj->GetDepartmentId(),
+      'division_id'		=> $obj->GetDivisionId(),
+      'function_id'		=> $obj->GetFunctionId(),
+      'location_id'		=> $obj->GetLocationId(),
+      'vendor_id'			=> $obj->GetVendorId(),
+      'last_login'		=> $obj->GetLastLogin(),
+      'email_address'	=> $obj->GetEmailAddress(),
+      'sms_address'		=> $obj->GetSMSAddress(),
+      'list_id'			=> $obj->GetListId(),
+      'password'			=> $obj->GetPassword(),
+      'time_zone_id'		=> $obj->GetTimeZoneId());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('user', $data);
+			$obj->SetUserId($db->lastInsertId());
+	  	} else {
+			$db->update('user', $data, 'login = ' . $obj->GetId());
+	  	}
+   }
+}
+?>

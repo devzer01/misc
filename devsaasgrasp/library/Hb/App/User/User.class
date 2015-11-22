@@ -1,0 +1,834 @@
+<?php 
+/**
+ * User Domain class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author sujith
+ * @version 1.0
+ * @package App 
+ * @subpackage User
+ */  
+class Hb_App_User_User extends Hb_App_Object
+{
+	/**
+	 * Department Id
+	 *
+	 * @var int 
+	 */ 
+	protected $department_id = null;
+
+	/**
+	 * Department Domain Object
+	 *
+	 * @var Object 
+	 */ 
+	protected $department = null;
+	
+	/**
+	 * Division Id
+	 *
+	 * @var int 
+	 */ 
+	protected $division_id = null;
+	
+	/**
+	 * Division Domain Object
+	 *
+	 * @var Object
+	 */ 
+	protected $division = null;
+	
+	/**
+	 * Email Address
+	 *
+	 * @var string 
+	 */ 
+	protected $email_address = null;
+	
+	/**
+	 * First Name
+	 *
+	 * @var string 
+	 */ 
+	protected $first_name = null;
+	
+	/**
+	 * Function Id
+	 *
+	 * @var int 
+	 */ 
+	protected $function_id = null;
+
+	/**
+	 * Function Domain Object
+	 *
+	 * @var Object
+	 */ 
+	protected $function = null;
+	
+	/**
+	 * Last Login Date
+	 *
+	 * @var string
+	 */ 
+	protected $last_login = null;
+	
+	/**
+	 * Last Name
+	 *
+	 * @var string 
+	 */ 
+	protected $last_name = null;
+	
+	/**
+	 * List Id
+	 *
+	 * @var int 
+	 */ 
+	protected $list_id = null;
+	
+	/**
+	 * Full name
+	 *
+	 * @var string 
+	 */
+	protected $full_name = null;
+	
+	/**
+	 * List Domain Object
+	 *
+	 * @var int 
+	 */ 
+	protected $list = null;
+
+	/**
+	 * Location Id
+	 *
+	 * @var int 
+	 */ 
+	protected $location_id = null;
+	
+	/**
+	 * Location Domain Object
+	 *
+	 * @var Object 
+	 */ 
+	protected $location = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int 
+	 */ 
+	protected $login = null;
+	
+	/**
+	 * Password
+	 *
+	 * @var string 
+	 */ 
+	protected $password = null;
+	
+	/**
+	 * SMS Address
+	 *
+	 * @var string 
+	 */ 
+	protected $sms_address = null;
+	
+	/**
+	 * Time Zone Id
+	 *
+	 * @var int 
+	 */ 
+	protected $time_zone_id = null;
+	
+	/**
+	 * Time Zone Domain Object
+	 *
+	 * @var Object
+	 */ 
+	protected $time_zone = null;
+	
+	/**
+	 * User ID
+	 *
+	 * @var Object 
+	 */ 
+	protected $user_id = null;
+	
+	/**
+	 * User Type Id
+	 *
+	 * @var int 
+	 */ 
+	protected $user_type_id = null;
+	
+	/**
+	 * User Type Domain Object
+	 *
+	 * @var Object
+	 */ 
+	protected $user_type = null;
+	
+	/**
+	 * Vendor Id
+	 *
+	 * @var int 
+	 */ 
+	protected $vendor_id = null;
+	
+	/**
+	 * Vendor Domain Object
+	 *
+	 * @var int 
+	 */ 
+	protected $vendor = null;
+	
+	/**
+	 * Instance of Hb_App_User_UserAttributes
+	 *
+	 * @var Hb_App_User_UserAttributes 
+	 */
+	protected $attributes = null;
+	
+	/**
+	 * Instance of Hb_App_User_UserRoles
+	 *
+	 * @var Hb_App_User_UserRoles 
+	 */
+	protected $roles = null;
+
+	/**
+	 * 
+	 * Given that login and user_id are both unique, 
+	 * and we only activly uses login for business logic needs we will flip the login and user_id
+	 * so that login will be used for key
+	 * 
+	 * Class Constructor
+	 *
+	 * @param int $id var User Id
+	 * @param int $login Login 
+	 * @param int $user_type_id User Type Id
+	 * @param Object $user_type User Type Domain Object
+	 * @param string $first_name First Name
+	 * @param string $last_name Last Name
+	 * @param int $department_id Department Id
+	 * @param Object $department Department Domain Object
+	 * @param int $function_id Function Id
+	 * @param Object $function Function Domain Object
+	 * @param int $location_id Location Id
+	 * @param Object $location Location Domain Object
+	 * @param int $vendor_id Vendor Id
+	 * @param Object $vendor Vendor Domain Object
+	 * @param string $last_login Last Login Date
+	 * @param string $email_address Email Address
+	 * @param string $sms_address SMS Address
+	 * @param int $list_id List Id
+	 * @param Object $list List Domain Object
+	 * @param string $password Password
+	 * @param int $time_zone_id Time Zone Id
+	 * @param Object $time_zone Time Zone Domain Object
+	 */ 
+	function __construct($id = null, $user_id = null, $user_type_id = null, $user_type = null,
+	      $first_name = null, $last_name = null, $department_id = null, $department = null,
+	      $division_id = null, $division = null, $function_id = null, $function = null,
+			$location_id = null, $location = null, $vendor_id = null, $vendor = null, 
+			$last_login = null, $email_address = null, $sms_address = null, $list_id = null, 
+			$list = null, $password = null, $time_zone_id = null, $time_zone = null) 
+	{
+		$this->login			= $id;
+		$this->user_id			= $user_id;
+		$this->user_type_id	= $user_type_id;
+		$this->user_type		= $user_type;
+		$this->first_name		= $first_name;
+		$this->last_name		= $last_name;
+		$this->department_id	= $department_id;
+		$this->department		= $department;
+		$this->division_id	= $division_id;
+		$this->division		= $division;
+		$this->function_id	= $function_id;
+		$this->function		= $function;
+		$this->location_id	= $location_id;
+		$this->location		= $location;
+		$this->vendor_id		= $vendor_id;
+		$this->vendor			= $vendor;
+		$this->last_login		= $last_login;
+		$this->email_address	= $email_address;
+		$this->sms_address	= $sms_address;
+		$this->list_id			= $list_id;
+		$this->list				= $list;
+		$this->password		= $password;
+		$this->time_zone_id	= $time_zone_id;
+		$this->time_zone		= $time_zone;
+		
+		parent::__construct($id);
+	}
+	
+	
+	
+	/**
+	 * Return the Full name for the User
+	 *
+	 * @return string Full name
+	 */
+	public function GetFullName()
+	{
+		return $this->first_name. ' '. $this->last_name;
+	}
+	
+	/**
+	 * Return the User Roles collection object for the User
+	 *
+	 * @return Hb_App_User_UserRoles User Roles collection object
+	 */
+	public function GetUserRoles()
+	{
+		if(is_null($this->roles)) {
+			$this->roles	= Hb_App_ObjectHelper::GetMapper('Hb_App_User_UserRoles')->Find($this->login);
+		}
+		
+		return $this->roles;
+	}	
+	
+	/**
+	 * Return the User Attributes Collection object  for the User
+	 *
+	 * @return Hb_App_User_UserAttributes User Attributes Collection object 
+	 */
+	public function GetUserAttributes()
+	{
+		if(is_null($this->attributes)) {
+			$this->attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_User_UserAttributes')->Find($this->login);
+		}
+		
+		return $this->attributes;
+	}	
+	
+	/**
+	 * Returns Department Id
+	 *
+	 * @return int Department Id
+	 */ 
+	public function GetDepartmentId()
+	{
+		return $this->department_id;
+	}
+	
+	/**
+	 * Returns Department Domain Object
+	 *
+	 * @return Object Department Domain Object
+	 */ 
+	public function GetDepartment()
+	{
+		return $this->department;
+	}
+
+	/**
+	 * Returns Division Id
+	 *
+	 * @return int Division Id
+	 */ 
+	public function GetDivisionId()
+	{
+		return $this->division_id;
+	}
+	
+	/**
+	 * Returns Division Domain Object
+	 *
+	 * @return Object Division Domain Object
+	 */ 
+	public function GetDivision()
+	{
+		return $this->division;
+	}
+
+	/**
+	 * Returns Email Address
+	 *
+	 * @return string Email Address
+	 */ 
+	public function GetEmailAddress()
+	{
+		return $this->email_address;
+	}
+
+	/**
+	 * Returns First Name
+	 *
+	 * @return string First Name
+	 */ 	
+	public function GetFirstName()
+	{
+		return $this->first_name;
+	}
+
+	/**
+	 * Returns Function Id
+	 *
+	 * @return int Function Id
+	 */ 
+	public function GetFunctionId()
+	{
+		return $this->function_id;
+	}
+
+	/**
+	 * Returns Function Domain Object
+	 *
+	 * @return Object Function Domain Object
+	 */ 
+	public function GetFunction()
+	{
+		return $this->function;
+	}
+	
+	/**
+	 * Returns Last Login Date
+	 *
+	 * @return string Last Login Date
+	 */ 
+	public function GetLastLogin()
+	{
+		return $this->last_login;
+	}
+
+	/**
+	 * Returns Last Name
+	 *
+	 * @return string Last Name
+	 */ 	
+	public function GetLastName()
+	{
+		return $this->last_name;
+	}
+
+	/**
+	 * Returns List Id
+	 *
+	 * @return int List Id
+	 */ 
+	public function GetListId()
+	{
+		return $this->list_id;
+	}
+	
+	/**
+	 * Returns List Domain Object
+	 *
+	 * @return Object List Domain Object
+	 */ 
+	public function GetList()
+	{
+		return $this->list;
+	}
+
+	/**
+	 * Returns Location Id
+	 *
+	 * @return int Location Id
+	 */ 
+	public function GetLocationId()
+	{
+		return $this->location_id;
+	}
+	
+	/**
+	 * Returns Location Domain Object
+	 *
+	 * @return Object Domain Object
+	 */ 
+	public function GetLocation()
+	{
+		return $this->location;
+	}
+
+	/**
+	 * Returns Login Id
+	 *
+	 * @return int Login Id
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Returns Password
+	 *
+	 * @return string Password
+	 */
+	public function GetPassword()
+	{
+		return $this->password;
+	}
+
+	/**
+	 * Returns SMS Address
+	 *
+	 * @return string SMS Address
+	 */
+	public function GetSMSAddress()
+	{
+		return $this->sms_address;
+	}
+
+	/**
+	 * Returns Time Zone Id
+	 *
+	 * @return int Time Zone Id
+	 */ 
+	public function GetTimeZoneId()
+	{
+		return $this->time_zone_id;
+	}
+
+	/**
+	 * Returns Time Zone Domain Object
+	 *
+	 * @return Object Time Zone Domain Object
+	 */ 
+	public function GetTimeZone()
+	{
+		return $this->time_zone;
+	}
+
+	/**
+	 * Returns User Id
+	 *
+	 * @return int User Id
+	 */ 
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+	
+	/**
+	 * Returns User Type Id
+	 *
+	 * @return int User Type Id
+	 */	
+	public function GetUserTypeId()
+	{
+		return $this->user_type_id;
+	}
+	
+	/**
+	 * Returns User Type Domain Object
+	 *
+	 * @return Object User Type Domain Object
+	 */	
+	public function GetUserType()
+	{
+		return $this->user_type;
+	}
+
+	/**
+	 * Returns Vendor Id
+	 *
+	 * @return int Vendor Id
+	 */	
+	public function GetVendorId()
+	{
+		return $this->vendor_id;
+	}
+	
+	/**
+	 * Returns Vendor Domain Object
+	 *
+	 * @return Object Vendor Domain Object
+	 */	
+	public function GetVendor()
+	{
+		return $this->vendor;
+	}
+
+
+	/**
+	 * Sets Department Id
+	 *
+	 * @param int $department_id Department Id
+	 */ 
+	public function SetDepartmentId($department_id)
+	{
+		$this->department_id = $department_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Department Domain Object
+	 *
+	 * @param Object $department Department Domain Object
+	 */ 
+	public function SetDepartment($department)
+	{
+		$this->department = $department;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Division Id
+	 *
+	 * @param int $division_id Division Id
+	 */ 
+	public function SetDivisionId($division_id)
+	{
+		$this->division_id = $division_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Division Domain Object
+	 *
+	 * @param Object $division Division Domain Object
+	 */ 
+	public function SetDivision($division)
+	{
+		$this->division_id = $division;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Email Address
+	 *
+	 * @param string $email Email Address
+	 */ 
+	public function SetEmailAddress($email)
+	{
+		$this->email_address = $email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets First Name
+	 *
+	 * @param string $first_name First Name
+	 */ 
+	public function SetFirstName($first_name)
+	{
+		$this->first_name = $first_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Function Id
+	 *
+	 * @param int $function_id Function Id
+	 */ 
+	public function SetFunctionId($function_id)
+	{
+		$this->function_id = $function_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Function Domain Object
+	 *
+	 * @param Object $function Function Domain Object
+	 */ 
+	public function SetFunction($function)
+	{
+		$this->function = $function;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Last Login Date
+	 *
+	 * @param string $login_date Last Login Date
+	 */ 
+	public function SetLastLogin($login_date)
+	{
+		$this->last_login = $login_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Last Name
+	 *
+	 * @param string $last_name Last Name
+	 */ 
+	public function SetLastName($last_name)
+	{
+		$this->last_name = $last_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets List Id
+	 *
+	 * @param int $list_id List Id
+	 */ 
+	public function SetListId($list_id)
+	{
+		$this->list_id = $list_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets List Domain Object
+	 *
+	 * @param Object $list List Domain Object
+	 */ 
+	public function SetList($list)
+	{
+		$this->list = $list;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Location Id
+	 *
+	 * @param int $location_id Location Id
+	 */ 
+	public function SetLocationId($location_id)
+	{
+		$this->location_id = $location_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Location Domain Object
+	 *
+	 * @param Object $location Location Domain Object
+	 */ 
+	public function SetLocation($location)
+	{
+		$this->location = $location;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Login
+	 *
+	 * @param int $login Login Id
+	 */ 
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->__id  = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Password
+	 *
+	 * @param string $password Password
+	 */ 
+	public function SetPassword($password)
+	{
+		$this->password = $password;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets SMS Address
+	 *
+	 * @param string $sms_address SMS Address
+	 */
+	public function SetSMSAddress($sms_address)
+	{
+		$this->sms_address = $sms_address;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Time Zone Id
+	 *
+	 * @param int $zone_id Time Zone Id
+	 */
+	public function SetTimeZoneId($zone_id)
+	{
+		$this->time_zone_id = $zone_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Time Zone Domain Object
+	 *
+	 * @param Object $time_zone Time Zone Domain Object
+	 */
+	public function SetTimeZone($time_zone)
+	{
+		$this->time_zone = $time_zone;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets User Id
+	 *
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets User Type Id
+	 *
+	 * @param int $user_type_id User Type Id
+	 */
+	public function SetUserTypeId($user_type_id)
+	{
+		$this->user_type_id = $user_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets User Type Domain Object
+	 *
+	 * @param Object $user_type User Type
+	 */
+	public function SetUserType($user_type)
+	{
+		$this->user_type = $user_type;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Vendor Id
+	 *
+	 * @param int $vendor_id Vendor Id
+	 */
+	public function SetVendorId($vendor_id)
+	{
+		$this->vendor_id = $vendor_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Vendor Domain Object
+	 *
+	 * @param Object $vendor Vendor Domain Object
+	 */
+	public function SetVendor($vendor)
+	{
+		$this->vendor = $vendor;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Status of the User in security groups for the User
+	 *
+	 * @return boolean Status of the User in security groups
+	 */
+	public function IsUserMemberOfSecurityGroup($groups)
+	{
+		$user_security_groups = Hb_App_ObjectHelper::GetMapper('Hb_App_User_UserSecurityGroups')->Find($this->login);
+				
+		foreach ($user_security_groups as $group) { 
+			if (in_array($group->GetSecurityGroupId(),$groups)) { 
+				return true;
+			}
+		}				
+		return false;		 
+	}
+
+}
+
+?>

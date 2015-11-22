@@ -1,0 +1,56 @@
+<?php
+class Hb_View_Proposal_ProposalVendorAdd extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_vendor.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	private $value = null;
+	private $vendor_info;
+	
+	private $template_id = null;
+	private $sample_tab  = null;
+	private $focus_tab   = null;
+	private $mode 		= null;
+	
+	private $rowid;
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('value', $this->value);
+		$this->SetData('rowid', $this->rowid);
+		$this->SetData('template_id', $this->template_id);
+		$this->SetData('sample_tab', $this->sample_tab);
+		$this->SetData('focus_tab', $this->focus_tab);
+		$this->SetData('mode', $this->mode);
+	}
+	
+	public function setValue($value,$focus_tab)
+	{
+		$value = explode(",",$value);		
+		
+		if($value[4]=='B2B') {
+			$this->template_id = 'vendors_b2b';
+		} else {
+			$this->template_id = 'vendors_cons';
+		}
+		$this->sample_tab = $value[4];
+		$this->value = $value;
+		$this->focus_tab = $focus_tab;
+		
+	}
+	
+	public function SetRowId($id)
+	{
+		$this->rowid = $id;
+	}
+	
+	public function SetMode($mode)
+	{ 
+		$this->mode = $mode;
+	}
+	
+	
+}
+
+?>

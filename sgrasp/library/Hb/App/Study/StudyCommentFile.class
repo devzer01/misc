@@ -1,0 +1,124 @@
+<?php
+/**
+ * Domain Object for Study Comment File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCommentFile extends Hb_App_Object
+{	
+	/**
+	 * Study Comment File Id
+	 *
+	 * @var int
+	 */
+	protected $study_comment_file_id = null;	
+	
+	/**
+	 * Study Comment Id
+	 *
+	 * @var int
+	 */
+	protected $study_comment_id = null;
+	
+	/**
+	 * Study Comment File
+	 *
+	 * @var Hb_App_Common_File instanceof Hb_App_Common_File 
+	 */
+	protected $study_comment_file = null;
+
+	/**
+	 * Create Study Comment File object
+	 *
+	 * @param int $id Study Comment File Id
+	 * @param int $study_comment_id Study Comment Id	
+	 * @param Hb_App_Common_File $study_comment_file instanceof Hb_App_Common_File 
+	 */
+	function __construct($id = null,
+								$study_comment_id = null,
+								Hb_App_Common_File $study_comment_file = null
+								)
+	{
+		$this->study_comment_file_id	= $id;
+		$this->study_comment_id 		= $study_comment_id;
+		$this->study_comment_file		= $study_comment_file;
+		
+		if(!is_null($study_comment_file))
+			$this->study_comment_file->RegisterFileOwner('Hb_App_Study_StudyCommentFile');		
+		
+		parent::__construct($id);		
+	}	
+
+	/**
+	 * Returns The Study Comment File Id
+	 *
+	 * @return int The Study Comment File Id
+	 */
+	public function GetStudyCommentFileId()
+	{
+		return $this->study_comment_file_id;
+	}	
+
+	/**
+	 * Returns The Study Comment Id
+	 *
+	 * @return int The Study Comment Id
+	 */
+	public function GetStudyCommentId()
+	{
+		return $this->study_comment_id;
+	}
+	
+	/**
+	 * Return the Study Comment File for the Study Comment file
+	 *
+	 * @return Hb_App_Common_File instance of Study Comment File
+	 */
+	public function GetFile()
+	{
+		return $this->study_comment_file;
+	}
+
+	/**
+	 * Sets The Study Comment File Id
+	 * 
+	 * @param int $study_comment_file_id The Study Comment File Id
+	 */
+	public function SetStudyCommentFileId($study_comment_file_id)
+	{
+		$this->study_comment_file_id = $study_comment_file_id;
+		$this->__id = $study_comment_file_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Study Comment Id
+	 * 
+	 * @param int $study_comment_id The Study Comment Id
+	 */
+	public function SetStudyCommentId($study_comment_id)
+	{
+		$this->study_comment_id = $study_comment_id;		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study Comment File for the  Study Comment File
+	 * 
+	 * @param Hb_App_Common_file $study_comment_file Study Comment File
+	 */
+	public function SetFile(Hb_App_Common_File $study_comment_file){
+		$this->study_comment_file		= $study_comment_file;
+		$this->study_comment_file_id	= $study_comment_file->GetFileId();
+		$this->__id							= $study_comment_file->GetFileId();
+		$this->MarkDirty();
+	}
+
+}
+?>

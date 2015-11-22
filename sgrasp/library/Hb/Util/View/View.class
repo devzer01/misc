@@ -1,0 +1,190 @@
+<?php
+include_once 'class/Hb/Util/View/Handler/Handler.class';
+include_once 'class/Hb/Util/Translator/LanguageTranslator.class';
+
+abstract class Hb_Util_View_View 
+{
+	/**
+	 * Array to hold Object Data
+	 *
+	 * @var array
+	 */
+	protected $__data = array();
+	
+	/**
+	 * Name of the template
+	 *
+	 * @var string
+	 */
+	protected $__template_name;
+	
+	/**
+	 * Name of the template handler
+	 *
+	 * @var string
+	 */
+	protected  $__handler;
+	
+	/**
+	 * Name of the error handler
+	 * 
+	 * currently used to read error messagees from $_SESSION[$error_handler . '_errors']
+	 *
+	 * @var string
+	 */
+	protected $__error_handler = '';
+	
+	/**
+	 * Name of the message handler
+	 * 
+	 * currently used to read messages from $_SESSION[$message_handler . '_message']
+	 *
+	 * @var string
+	 */
+	protected $__message_handler = '';
+	
+	/**
+	 * Constructor, not used
+	 *
+	 */
+	public function __construct()
+	{
+		$this->__data['lang'] = Hb_Util_Translator_LanguageTranslator::GetLanguageArray();
+	}
+	
+	/**
+	 * Sets assoc array type data directly, 
+	 * used to assinged data when Data Objects are absent
+	 *
+	 * @param string $key
+	 * @param mixed $data
+	 */
+	protected function SetData($key, $data)
+	{
+		$this->__data[$key] = $data;
+	}
+	
+	/**
+	 * Provides the name of the handler configured
+	 *
+	 * @return string
+	 */
+	public function GetHandler()
+	{
+		return $this->__handler;
+	}
+	
+	/**
+	 * Provides the name of the template
+	 *
+	 * @return string
+	 */
+	public function GetTemplateName()
+	{
+		return $this->__template_name;
+	}
+	
+	/**
+	 * provides Static mapping between data object and template level assoc variable assingments
+	 *
+	 * @todo investigate improvements
+	 * @return array
+	 */
+	public function GetBindMap()
+	{
+		$this->LoadData();
+		
+		$this->__data['lang'] = Hb_Util_Translator_LanguageTranslator::GetLanguageArray();
+		
+		/* refactoring needed */
+		$this->__data['meta']['message'] = $this->GetTemplateMessages();
+		
+		$this->__data['errors'] = $this->GetTemplateErrors();
+		/* end */
+		
+		return $this->__data;
+	}
+	
+	/**
+	 * Provides list of messages sent via session
+	 *
+	 * @return string
+	 */
+	protected function GetTemplateMessages()
+	{
+		return $this->__ReturnAndUnSetSessionKey($this->__message_handler . '_message');
+	}
+	
+	/**
+	 * Provides list of error messages sent via session
+	 *
+	 * @return mixed
+	 */
+	protected function GetTemplateErrors()
+	{
+		return $this->__ReturnAndUnSetSessionKey($this->__error_handler . '_errors');
+	}
+	
+	/**
+	 * Sets the message handler
+	 *
+	 * @param string $handler
+	 */
+	protected  function SetMessageHandler($handler)
+	{
+		$this->__message_handler = $handler;
+	}
+	
+	/**
+	 * Sets the error handler
+	 *
+	 * @param string $handler
+	 */
+	protected  function SetErrorHandler($handler)
+	{
+		$this->__error_handler = $handler;
+	}
+	
+	public function AddMapper(Hb_Util_Mapper_Mapper $mapper)
+	{
+		$this->__mapper = $mapper;
+	}
+	
+	/**
+	 * Used to return and unset a session key
+	 *
+	 * @param string $key
+	 * @return mixed
+	 * @todo  This method should really be in a utlity method
+	 */
+	private function  __ReturnAndUnSetSessionKey($key)
+	{
+		if (isset($_SESSION[$key])) 
+		{
+			$message = $_SESSION[$key];
+			unset($_SESSION[$key]);
+			return $message;
+		}
+	}	
+	
+	public function Render()
+	{
+				
+		$handler = Hb_Util_View_Handler_Handler::factory($this->GetHandler());
+		
+		return $handler->Render($this);
+	}
+	
+	public function Display()
+	{
+		echo self::Render();
+	}	
+	
+	public function Fetch()
+	{
+		return self::Render();
+	}
+	
+	abstract protected function LoadData();
+}
+?>

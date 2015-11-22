@@ -1,0 +1,129 @@
+<?php
+/**
+ * Mapper Class for StudyTemplateFile
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyTemplateFile extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study template file
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_template_file_id';
+
+	/**
+	 * Study template file table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_template_file';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyTemplateFile';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyTemplateFile';
+	
+	/**
+	 * Build the StudyTemplateFile Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyTemplateFile
+	 */
+	protected function doBuildObject($row)
+	{
+		$study_template_file = new Hb_App_Common_File($row->study_template_file_id,
+																	 $row->file_type_id,
+																	 $row->study_template_file_name,
+																	 $row->study_template_file_title,
+																	 $row->study_template_file_size
+																	);
+		
+		return new Hb_App_Study_StudyTemplateFile($row->study_template_file_id,
+																$row->study_file_type_id,
+														 		$row->study_template_file_id,
+																$study_template_file);
+	}
+	
+	/**
+	 * Get the base data set for StudyTemplateFile
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('stf' => $this->table), array('study_template_file_id',
+																		  'study_file_type_id',
+																    	  'study_template_id',  
+																 	 	  'file_type_id',
+																    	  'study_template_file_name',
+																    	  'study_template_file_title',  
+																    	  'study_template_file_size'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study template file
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('stf.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study template File
+	 *
+	 * @param Hb_App_Object StudyTemplateFile
+	 * @return object Study template file
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_file_type_id'				=> $obj->GetStudyFileTypeId(),
+							'study_template_id' 				=> $obj->GetStudyTemplateId(),
+							'file_type_id' 					=> $obj->GetFile()->GetFileTypeId(),
+							'study_template_file_name' 	=> $obj->GetFile()->GetFileName(),
+							'study_template_file_title' 	=> $obj->GetFile()->GetFileTitle(),
+							'study_template_file_data' 	=> $obj->GetFile()->GetFileData(),
+							'study_template_file_size' 	=> $obj->GetFile()->GetFileSize()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyTemplateFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

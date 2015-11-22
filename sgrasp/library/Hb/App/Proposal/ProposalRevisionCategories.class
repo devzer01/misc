@@ -1,0 +1,32 @@
+<?php
+/**
+ * An Proposal Revision Category Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */
+
+class Hb_App_Proposal_ProposalRevisionCategories extends Hb_App_Collection 
+{
+	/**
+	 * Propsal revision id
+	 *
+	 * @var int 
+	 */ 
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Add Proposal Revision Categories
+	 *
+	 * @param Hb_App_Proposal_ProposalRevisionCategory $proposal_revision_category Proposal Revision Category
+	 */ 
+	public function AddItem(Hb_App_Proposal_ProposalRevisionCategory $proposal_revision_category)
+	{
+		$this->proposal_revision_id = $proposal_revision_category->GetProposalRevisionId();
+		parent::AddItem($proposal_revision_category);
+	}
+}
+?>

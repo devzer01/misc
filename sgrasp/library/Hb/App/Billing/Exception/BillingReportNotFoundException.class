@@ -1,0 +1,10 @@
+<?php
+require_once('class/Hb/Exception.class');
+
+class Hb_App_Billing_Exception_BillingReportNotFoundException extends Hb_Exception 
+{
+	
+}
+
+
+?>

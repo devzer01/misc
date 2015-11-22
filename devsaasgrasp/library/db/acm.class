@@ -1,0 +1,95 @@
+<?php
+
+class db_acm extends db {
+	
+	/**
+	* GetContactIdByEmail()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:29:18
+	*/
+	function GetContactIdByEmail($email_address)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('contact', array('contact_id'));
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('contact_email = ?', $email_address);
+		
+		return $this->db->fetchOne($this->select);
+	}
+	
+	/**
+	* GetContactAccountByDomain()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:40:44
+	*/
+	function GetContactAccountByDomain($domain)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('ac' => 'account_contact'), array('account_id'));
+		
+		$this->select->joinLeft(array('c' => 'contact'), 'c.contact_id = ac.contact_id', array('contact_id'));
+		
+		$this->select->where('ac.status = ?', 'A');
+		$this->select->where('c.contact_email LIKE ?', '%'. $domain .'%');
+		
+		return $this->db->fetchOne($this->select);
+	}
+	
+	/**
+	* InsertContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:45:58
+	*/
+	function InsertContact($fields)
+	{
+		$this->__Insert('contact', $fields);
+		return $this->last_insert_id;
+	}
+	
+	/**
+	* InsertAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 20:49:58
+	*/
+	function InsertAccountContact($fields)
+	{
+		$this->__Insert('account_contact', $fields);
+	}
+	
+	/**
+	* SelectAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 13:38:31
+	*/
+	function SelectAccountContact($contact_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('c' => 'contact'));
+		
+		$this->select->joinLeft(array('ac' => 'account_contact'), 'ac.contact_id = c.contact_id', array('account_id'));
+		
+		$this->select->where('c.contact_id = ?', $contact_id);
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+}
+?>

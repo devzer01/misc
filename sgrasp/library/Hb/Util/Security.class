@@ -1,0 +1,24 @@
+<?php
+
+require_once("Zend/Acl.php");
+
+class Hb_Util_Security extends Zend_Acl
+{
+	public static function isUserAuthenticated()
+	{
+		$session = new Hb_Util_Session_Session();
+		
+		if (is_numeric($session->admin_id)) {
+			return true;	
+		}
+		
+		return true;
+		
+	}
+	
+	public static function HasSecurity($key)
+	{
+		return (isset($_SESSION[$key]) && 1 == $_SESSION[$key]);
+	}
+}
+?>

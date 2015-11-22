@@ -1,0 +1,118 @@
+<?php
+/**
+ * Domain Object for Proposal Auction Bid Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAuctionBidComment extends Hb_App_Object
+{
+	/**
+	 * Proposal comment
+	 *
+	 * @var string
+	 **/
+	protected $comment = null;
+	
+	/**
+	 * Proposal auction bid comment id
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_auction_bid_comment_id = null;
+	
+	/**
+	 * Proposal auction bid id
+	 *
+	 * @var int
+	 **/	
+	protected $proposal_auction_bid_id = null;
+
+	/**
+	 * Create ProposalAuctionBidComment Object
+	 *
+	 * @param int $id Proposal auction bidc comment id
+	 * @param int $proposal_auction_bid_id Proposal auction bid id
+	 * @param int $comment Comment
+	 */
+	function __construct($id = null,
+			  					$proposal_auction_bid_id = null, 
+			  					$comment = null
+							   )
+	{
+		$this->proposal_auction_bid_comment_id = $id;
+		$this->proposal_auction_bid_id = $proposal_auction_bid_id;
+		$this->comment = $comment;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Comment
+ 	* 
+	* @return String The Comment
+	**/
+	public function GetComment()
+	{
+		return $this->comment;
+	}
+
+	/**
+	* Returns the Proposal Auction Bid Comment Id
+ 	* 
+	* @return int The Proposal aution bid comment id
+	**/
+	public function GetProposalAuctionBidCommentId()
+	{
+		return $this->proposal_auction_bid_comment_id;
+	}
+
+	/**
+	* Returns the Proposal aution bid id
+ 	* 
+	* @return int The Proposal aution bid id
+	**/
+	public function GetProposalAuctionBidId()
+	{
+		return $this->proposal_auction_bid_id;
+	}
+
+	/**
+	 * Sets the Proposal auction bid comment
+ 	 * 
+	 * @param string $comment The Proposal auction bid comment
+	 */
+	public function SetComment($comment)
+	{
+		$this->comment = $comment;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal auction bid comment Id
+ 	 * 
+	 * @param int $comment The Proposal auction bid comment Id
+	 */
+	public function SetProposalAuctionBidCommentId($proposal_auction_bid_comment_id)
+	{
+		$this->proposal_auction_bid_comment_id = (int) $proposal_auction_bid_comment_id;
+		$this->__id = (int) $proposal_auction_bid_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal auction bid comment Id
+ 	 * 
+	 * @param int $comment The Proposal auction bid comment Id
+	 */
+	public function SetProposalAuctionBidId($proposal_auction_bid_id)
+	{
+		$this->proposal_auction_bid_id = (int) $proposal_auction_bid_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

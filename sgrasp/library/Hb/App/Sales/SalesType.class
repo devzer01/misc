@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Sales Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Sales
+ *
+ */ 
+class Hb_App_Sales_SalesType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Sales Type Object
+	 *
+	 * @param int $id Sales type id
+	 * @param string $description Sales type description
+	 */
+	public function __construct($id = null,
+									     $description 	= null
+									    )
+  {  	
+   	parent::__construct($id, $description);	
+  }
+}
+
+?>

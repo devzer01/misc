@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 19-Jul-2007 1:39:00 PM
+ */
+class Hb_Mapper_Common_Currency extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'currency_id';
+	
+	protected $table       = 'currency';
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('currency_id = ?', $id);
+		return $this->getRow($select);
+	}
+	
+	protected function doFindByCode($code)
+	{	
+		$select = $this->GetBaseSelect();
+		$select->where('currency_code = ?', $code); 
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Currency($row->currency_id, $row->currency_code, $row->country_code, $row->currency_description);
+	}
+
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('currency', array('currency_id', 'currency_code', 'country_code', 'currency_description'));
+
+		return $select;
+	}
+	
+	public function FindByCode($code){
+		$result = $this->doFindByCode($code);
+		
+		return $this->doBuildObject($result);
+	}
+	
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+}
+?>

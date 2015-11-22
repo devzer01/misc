@@ -1,0 +1,88 @@
+<?php 
+/**
+ * Mapper Object for User Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage User
+ *
+ */ 
+class Hb_Mapper_User_UserAttributes extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'login';
+	
+	/**
+	 * table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'user_attr';
+	
+	/**
+	 * Builds and returns the User Attributes domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the user_attr table
+	 * @return object An instance of the User Attributes domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserAttribute($row->user_attr_id,
+															$row->login,
+															$row->user_attr,
+															$row->user_value
+															);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('ua' => 'user_attr'), array('user_attr_id',
+	 																	'login',
+	 																	'user_attr',
+	 																	'user_value')
+	 					);
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a User Attributs by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the user_attr table
+	 */	
+	protected function doFindById($id)
+	{		
+	 	$select = $this->GetBaseSelect();
+		$select->where('ua.login = ?', $id);
+		 	
+		
+		return $this->getRows($select);
+		
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the User Attributes domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	
+	}
+}
+
+?>

@@ -1,0 +1,6 @@
+<?php
+	class atm_Armc extends Common 
+	{
+			
+	}
+?>

@@ -1,0 +1,108 @@
+<?php 
+/**
+ * Mapper Object for Study Cost comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyCostComment extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_comment_id';
+	
+	/**
+	 * table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_cost_comment';
+	
+	/**
+	 * Builds and returns the Study Cost Comment domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_cost_comment table
+	 * @return object An instance of the Study Cost Comment domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCostComment($row->study_cost_comment_id,									
+									$row->study_comment_type_id,
+									$row->study_cost_comment_date,
+									$row->study_cost_comment_text,
+									$row->study_cost_id,
+									$row->status,
+									$row->created_by
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('scc' =>'study_cost_comment'), array('study_cost_comment_id','study_cost_id','study_comment_type_id',
+										'study_cost_comment_date','study_cost_comment_text', 'status', 'created_by'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Cost Comment by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_cost_comment table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('scc.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Cost Comment domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyCostComment   */
+		 	
+	 	$data  = array(
+			'study_cost_id'				=> $obj->GetStudyCostId(),
+			'study_comment_type_id'		=> $obj->GetStudyCommentTypeId(),
+			'study_cost_comment_date'	=> $obj->GetStudyCostCommentDate(),
+			'study_cost_comment_text'	=> $obj->GetStudyCostCommentText(),
+	 	   'status'                   => $obj->GetStatus()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+         $data['created_by'] = $_SESSION["admin_id"];
+         $data['created_date'] = date("Y-m-d h:i:s");
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyCostCommentId($db->lastInsertId());
+	 	}else {
+         $data['modified_by'] = $_SESSION["admin_id"];
+         $data['modified_date'] = date("Y-m-d h:i:s");
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+
+?>

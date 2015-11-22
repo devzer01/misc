@@ -1,0 +1,36 @@
+<?php
+
+class Hb_View_Common_DisplayFrontPageColumn extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'common/vw_add_customer_column.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $columns 	= null;
+	protected $module 	= null;
+	protected $frontpage_manager = null;	
+	
+	protected function LoadData()
+	{
+		$this->SetData('module_columns', $this->columns);
+		$this->SetData('module', $this->module);
+		$this->SetData('frontpage_manager', $this->frontpage_manager);
+	}	
+	
+	public function SetModuleColumns($columns)
+	{
+		$this->columns = $columns;
+	}
+	
+	public function SetModule($module)
+	{
+		$this->module = $module;
+	}
+	
+	public function SetFrontPageManager($frontpage_manager)
+	{
+		$this->frontpage_manager	= $frontpage_manager;
+	}
+	
+}
+?>

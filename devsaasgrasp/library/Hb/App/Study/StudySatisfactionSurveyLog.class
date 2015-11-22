@@ -1,0 +1,1049 @@
+<?php
+/**
+ * Domain Object for Study Satisfaction Survey Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudySatisfactionSurveyLog extends Hb_App_Object 
+{
+	/**
+	 * Account id
+	 *
+	 * @var int 
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account name
+	 *
+	 * @var string 
+	 */
+	protected $account_name = null;
+	
+	/**
+	 * Account tier
+	 *
+	 * @var string 
+	 */
+	protected $account_tier = null;
+	
+	/**
+	 * AE email
+	 *
+	 * @var string 
+	 */
+	protected $ae_email = null;
+	
+	/**
+	 * AE login
+	 *
+	 * @var int 
+	 */
+	protected $ae_login = null;
+	
+	/**
+	 * AE name
+	 *
+	 * @var string 
+	 */
+	protected $ae_name = null;
+	
+	/**
+	 * AM email
+	 *
+	 * @var string 
+	 */
+	protected $am_email = null;
+	
+	/**
+	 * AM login
+	 *
+	 * @var int 
+	 */
+	protected $am_login = null;
+	
+	/**
+	 * AM Name
+	 *
+	 * @var string 
+	 */
+	protected $am_name = null;
+	
+	/**
+	 * Contact address 
+	 *
+	 * @var string 
+	 */
+	protected $contact_address = null;
+	
+	/**
+	 * Contact email
+	 *
+	 * @var string 
+	 */
+	protected $contact_email = null;
+	
+	/**
+	 * Contact name
+	 *
+	 * @var string 
+	 */
+	protected $contact_name = null;
+	
+	/**
+	 * Contact phone
+	 *
+	 * @var string 
+	 */
+	protected $contact_phone = null;
+	
+	/**
+	 * Country code
+	 *
+	 * @var string 
+	 */
+	protected $country_code = null;
+	
+	/**
+	 * CS email
+	 *
+	 * @var string 
+	 */
+	protected $cs_email = null;
+	
+	/**
+	 * CS login
+	 *
+	 * @var ing 
+	 */
+	protected $cs_login = null;
+	
+	/**
+	 * CS name
+	 *
+	 * @var string 
+	 */
+	protected $cs_name = null;
+	
+	/**
+	 * CS Title
+	 *
+	 * @var string 
+	 */
+	protected $cs_title = null;
+	
+	/**
+	 * Delevery date
+	 *
+	 * @var string 
+	 */
+	protected $delivery_date = null;
+	
+	/**
+	 * Delivery status
+	 *
+	 * @var string 
+	 */
+	protected $delivery_status = null;
+	
+	/**
+	 * FM email
+	 *
+	 * @var string 
+	 */
+	protected $fm_email = null;
+	
+	/**
+	 * FM login
+	 *
+	 * @var int 
+	 */
+	protected $fm_login = null;
+	
+	/**
+	 * FM name
+	 *
+	 * @var string 
+	 */
+	protected $fm_name = null;
+	
+	/**
+	 * Project description
+	 *
+	 * @var string 
+	 */
+	protected $pjm_description = null;
+	
+	/**
+	 * Project id
+	 *
+	 * @var int 
+	 */
+	protected $pjm_id = null;
+	
+	/**
+	 * Product
+	 *
+	 * @var string 
+	 */
+	protected $product = null;
+	
+	/**
+	 * Region
+	 *
+	 * @var string 
+	 */
+	protected $region = null;
+	
+	/**
+	 * Study datasource
+	 *
+	 * @var string 
+	 */
+	protected $study_datasource = null;
+	
+	/**
+	 * Study id
+	 *
+	 * @var int 
+	 */
+	protected $study_id = null;
+	
+	/**
+	 * Study name
+	 *
+	 * @var string 
+	 */
+	protected $study_name = null;
+	
+	/**
+	 * Study satisfaction survey log id
+	 *
+	 * @var int 
+	 */
+	protected $study_satisfaction_survey_log_id = null;
+	
+	/**
+	 * Study type
+	 *
+	 * @var string 
+	 */
+	protected $study_type = null;
+	
+	/**
+	 * Teritory
+	 *
+	 * @var string 
+	 */
+	protected $teritory = null;
+
+	/**
+	 * Create Study Satisfaction Survey Log Object
+	 *
+	 * @param int $id Study satisfaction survey log id
+	 * @param int $account_id Account id
+	 * @param string $account_name Account name
+	 * @param int $study_id Study id
+	 * @param string $study_name Study name
+	 * @param int $pjm_id Project id
+	 * @param string $pjm_description Project description
+	 * @param string $contact_name Contact name
+	 * @param string $contact_phone Contact phone
+	 * @param string $contact_email Contact email
+	 * @param string $contact_address Contact address
+	 * @param int $ae_login AE login
+	 * @param string $ae_email AE email
+	 * @param string $ae_name AE name
+	 * @param int $am_login AM login
+	 * @param string $am_email AM email
+	 * @param string $am_name AM name
+	 * @param int $fm_login FM login
+	 * @param string $fm_email FM email
+	 * @param string $fm_name FM name
+	 * @param int $cs_login CS login
+	 * @param string $cs_name CS name
+	 * @param string $cs_email CS email
+	 * @param string $cs_title CS title
+	 * @param string $country_code Country code
+	 * @param string $region Region
+	 * @param string $teritory Teritory
+	 * @param string $study_type Study type
+	 * @param string $study_datasource Study datasource
+	 * @param string $account_tier Account tier
+	 * @param string $product Product 
+	 * @param string $delivery_status Delivery status
+	 * @param string $delivery_date Delivery date
+	 */
+	function __construct($id 					= null,
+								$account_id 		= null,
+								$account_name 		= null,
+								$study_id 			= null,
+								$study_name 		= null,
+								$pjm_id 				= null,
+								$pjm_description 	= null,
+								$contact_name 		= null,
+								$contact_phone 	= null,
+								$contact_email 	= null,
+								$contact_address 	= null,
+								$ae_login 			= null,
+								$ae_name 			= null,
+								$ae_email 			= null,
+								$am_login 			= null,
+								$am_name 			= null,
+								$am_email 			= null,
+								$fm_login 			= null,
+								$fm_email 			= null,
+								$fm_name 			= null,
+								$cs_login 			= null,
+								$cs_name 			= null,
+								$cs_email 			= null,
+								$cs_title 			= null,
+								$country_code 		= null,
+								$region 				= null,
+								$teritory 			= null,
+								$study_type 		= null,
+								$study_datasource = null,
+								$account_tier 		= null,
+								$product 			= null,
+								$delivery_status 	= null,
+								$delivery_date 	= null)
+	{
+		
+		$this->account_id			= $account_id;
+		$this->account_name		= $account_name;
+		$this->account_tier		= $account_tier;
+		$this->study_id			= $study_id;
+		$this->study_datasource	= $study_datasource;
+		$this->study_name			= $study_name;
+		$this->study_type			= $study_type;
+		$this->contact_address	= $contact_address;
+		$this->contact_email		= $contact_email;
+		$this->contact_name		= $contact_name;
+		$this->contact_phone		= $contact_phone;
+		$this->ae_email			= $ae_email;
+		$this->ae_login			= $ae_login;
+		$this->ae_name				= $ae_name;
+		$this->am_email			= $am_email;
+		$this->am_login			= $am_login;
+		$this->am_name				= $am_name;
+		$this->fm_email			= $fm_email;
+		$this->fm_login			= $fm_login;
+		$this->fm_name				= $fm_name;
+		$this->cs_email			= $cs_email;
+		$this->cs_login			= $cs_login;
+		$this->cs_name				= $cs_name;
+		$this->cs_title			= $cs_title;
+		$this->country_code		= $country_code;
+		$this->region				= $region;
+		$this->teritory			= $teritory;
+		$this->product				= $product;
+		$this->delivery_date		= $delivery_date;
+		$this->delivery_status	= $delivery_status;
+		$this->pjm_description	= $pjm_description;
+		$this->pjm_id				= $pjm_id;		
+		$this->study_satisfaction_survey_log_id	= $id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Account id for the Study Satisfaction Survey Log
+	 *
+	 * @return int Account id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Return the Account name for the Study Satisfaction Survey Log
+	 *
+	 * @return string Account name
+	 */
+	public function GetAccountName()
+	{
+		return $this->account_name;
+	}
+
+	/**
+	 * Return the Account tier for the Study Satisfaction Survey Log
+	 *
+	 * @return string Account tier
+	 */
+	public function GetAccountTier()
+	{
+		return $this->account_tier;
+	}
+
+	/**
+	 * Return the AE email for the Study Satisfaction Survey Log
+	 *
+	 * @return string AE email
+	 */
+	public function GetAEEmail()
+	{
+		return $this->ae_email;
+	}
+
+	/**
+	 * Return the AE login for the Study Satisfaction Survey Log
+	 *
+	 * @return int AE login
+	 */
+	public function GetAELogin()
+	{
+		return $this->ae_login;
+	}
+
+	/**
+	 * Return the AE name for the Study Satisfaction Survey Log
+	 *
+	 * @return string AE name
+	 */
+	public function GetAEName()
+	{
+		return $this->ae_name;
+	}
+
+	/**
+	 * Return the AM email for the Study Satisfaction Survey Log
+	 *
+	 * @return string AM email
+	 */
+	public function GetAMEmail()
+	{
+		return $this->am_email;
+	}
+
+	/**
+	 * Return the AM login for the Study Satisfaction Survey Log
+	 *
+	 * @return int AM login
+	 */
+	public function GetAMLogin()
+	{
+		return $this->am_login;
+	}
+
+	/**
+	 * Return the AM name for the Study Satisfaction Survey Log
+	 *
+	 * @return string AM name
+	 */
+	public function GetAMName()
+	{
+		return $this->am_name;
+	}
+
+	/**
+	 * Return the Contact address for the Study Satisfaction Survey Log
+	 *
+	 * @return string Contact address
+	 */
+	public function GetContactAddress()
+	{
+		return $this->contact_address;
+	}
+
+	/**
+	 * Return the Contact email for the Study Satisfaction Survey Log
+	 *
+	 * @return string Contact email
+	 */
+	public function GetContactEmail()
+	{
+		return $this->contact_email;
+	}
+
+	/**
+	 * Return the Contact name for the Study Satisfaction Survey Log
+	 *
+	 * @return string Contact name
+	 */
+	public function GetContactName()
+	{
+		return $this->contact_name;
+	}
+
+	/**
+	 * Return the Contact phone  for the Study Satisfaction Survey Log
+	 *
+	 * @return string Contact phone 
+	 */
+	public function GetContactPhone()
+	{
+		return $this->contact_phone;
+	}
+
+	/**
+	 * Return the Country code for the Study Satisfaction Survey Log
+	 *
+	 * @return string Country code
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	 * Return the CS email for the Study Satisfaction Survey Log
+	 *
+	 * @return string CS email
+	 */
+	public function GetCSEmail()
+	{
+		return $this->cs_email;
+	}
+
+	/**
+	 * Return the CS login for the Study Satisfaction Survey Log
+	 *
+	 * @return int CS login
+	 */
+	public function GetCSLogin()
+	{
+		return $this->cs_login;
+	}
+
+	/**
+	 * Return the CS name for the Study Satisfaction Survey Log
+	 *
+	 * @return string CS name
+	 */
+	public function GetCSName()
+	{
+		return $this->cs_name;
+	}
+
+	/**
+	 * Return the CS title for the Study Satisfaction Survey Log
+	 *
+	 * @return string CS title
+	 */
+	public function GetCSTitle()
+	{
+		return $this->cs_title;
+	}
+
+	/**
+	 * Return the Delivery date for the Study Satisfaction Survey Log
+	 *
+	 * @return string Delivery date
+	 */
+	public function GetDeliveryDate()
+	{
+		return $this->delivery_date;
+	}
+
+	/**
+	 * Return the Delivery status for the Study Satisfaction Survey Log
+	 *
+	 * @return string Delivery status
+	 */
+	public function GetDeliveryStatus()
+	{
+		return $this->delivery_status;
+	}
+
+	/**
+	 * Return the FM email for the Study Satisfaction Survey Log
+	 *
+	 * @return string FM email
+	 */
+	public function GetFMEmail()
+	{
+		return $this->fm_email;
+	}
+
+	/**
+	 * Return the FM login for the Study Satisfaction Survey Log
+	 *
+	 * @return int FM login
+	 */
+	public function GetFMLogin()
+	{
+		return $this->fm_login;
+	}
+
+	/**
+	 * Return the FM name for the Study Satisfaction Survey Log
+	 *
+	 * @return string FM name
+	 */
+	public function GetFMName()
+	{
+		return $this->fm_name;
+	}
+
+	/**
+	 * Return the Project description for the Study Satisfaction Survey Log
+	 *
+	 * @return string Project description
+	 */
+	public function GetPjmDescription()
+	{
+		return $this->pjm_description;
+	}
+
+	/**
+	 * Return the Project id for the Study Satisfaction Survey Log
+	 *
+	 * @return int Project id
+	 */
+	public function GetPjmId()
+	{
+		return $this->pjm_id;
+	}
+
+	/**
+	 * Return the Product for the Study Satisfaction Survey Log
+	 *
+	 * @return string Product
+	 */
+	public function GetProduct()
+	{
+		return $this->product;
+	}
+
+	/**
+	 * Return the Region for the Study Satisfaction Survey Log
+	 *
+	 * @return string Region
+	 */
+	public function GetRegion()
+	{
+		return $this->region;
+	}
+
+	/**
+	 * Return the Study datasource for the Study Satisfaction Survey Log
+	 *
+	 * @return string Study datasource
+	 */
+	public function GetStudyDatasource()
+	{
+		return $this->study_datasource;
+	}
+
+	/**
+	 * Return the Study id for the Study Satisfaction Survey Log
+	 *
+	 * @return int Study id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Return the Study name for the Study Satisfaction Survey Log
+	 *
+	 * @return string Study name
+	 */
+	public function GetStudyName()
+	{
+		return $this->study_name;
+	}
+
+	/**
+	 * Return the Study satisfaction survey log id for the Study Satisfaction Survey Log
+	 *
+	 * @return int Study satisfaction survey log id
+	 */
+	public function GetStudySatisfactionSurveyLogId()
+	{
+		return $this->study_satisfaction_survey_log_id;
+	}
+
+	/**
+	 * Return the Study type for the Study Satisfaction Survey Log
+	 *
+	 * @return string Study type
+	 */
+	public function GetStudyType()
+	{
+		return $this->study_type;
+	}
+
+	/**
+	 * Return the Teritory  for the Study Satisfaction Survey Log
+	 *
+	 * @return string Teritory 
+	 */
+	public function GetTeritory()
+	{
+		return $this->teritory;
+	}
+
+	/**
+	 * Set the Account id for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $account_id Account id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $account_name Account name
+	 */
+	public function SetAccountName($account_name)
+	{
+		$this->account_name = $account_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Account tier for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $account_tier Account tier
+	 */
+	public function SetAccountTier($account_tier)
+	{
+		$this->account_tier = $account_tier;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AE email for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $ae_email AE email
+	 */
+	public function SetAEEmail($ae_email)
+	{
+		$this->ae_email = $ae_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AE login  for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $ae_login AE login 
+	 */
+	public function SetAELogin($ae_login)
+	{
+		$this->ae_login = $ae_login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AE name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $ae_name AE name
+	 */
+	public function SetAEName($ae_name)
+	{
+		$this->ae_name = $ae_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AM email  for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $am_email AM email 
+	 */
+	public function SetAMEmail($am_email)
+	{
+		$this->am_email = $am_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AM login  for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $am_login AM login 
+	 */
+	public function SetAMLogin($am_login)
+	{
+		$this->am_login = $am_login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the AM name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $am_name AM name
+	 */
+	public function SetAMName($am_name)
+	{
+		$this->am_name = $am_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact address for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $contact_address Contact address
+	 */
+	public function SetContactAddress($contact_address)
+	{
+		$this->contact_address = $contact_address;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact email for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $contact_email Contact email
+	 */
+	public function SetContactEmail($contact_email)
+	{
+		$this->contact_email = $contact_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $contact_name Contact name
+	 */
+	public function SetContactName($contact_name)
+	{
+		$this->contact_name = $contact_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Contact phone for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $contact_phone Contact phone
+	 */
+	public function SetContactPhone($contact_phone)
+	{
+		$this->contact_phone = $contact_phone;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Country code for the  Study Satisfaction Survey Log
+	 * 
+	 * @param sring $country_code Country code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the CS email for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $cs_email CS email
+	 */
+	public function SetCSEmail($cs_email)
+	{
+		$this->cs_email = $cs_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the CS login for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $cs_login CS login
+	 */
+	public function SetCSLogin($cs_login)
+	{
+		$this->cs_login = $cs_login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the CS name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $cs_name CS name
+	 */
+	public function SetCSName($cs_name)
+	{
+		$this->cs_name = $cs_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Cs title for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $cs_title Cs title
+	 */
+	public function SetCSTitle($cs_title)
+	{
+		$this->cs_title = $cs_title;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Delivery date for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $delivery_date Delivery date
+	 */
+	public function SetDeliveryDate($delivery_date)
+	{
+		$this->delivery_date = $delivery_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Delivery status for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $delivery_status Delivery status
+	 */
+	public function SetDeliveryStatus($delivery_status)
+	{
+		$this->delivery_status = $delivery_status;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the FM email for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $fm_email FM email
+	 */
+	public function SetFMEmail($fm_email)
+	{
+		$this->fm_email = $fm_email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the FM login for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $fm_login FM login
+	 */
+	public function SetFMLogin($fm_login)
+	{
+		$this->fm_login = $fm_login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the FM name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $fm_name FM name
+	 */
+	public function SetFMName($fm_name)
+	{
+		$this->fm_name = $fm_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Return the Product description for the Study Satisfaction Survey Log
+	 *
+	 * @return string $pjm_description Product description
+	 */
+	public function SetPjmDescription($pjm_description)
+	{
+		$this->pjm_description = $pjm_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Project id for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $pjm_id Project id
+	 */
+	public function SetPjmId($pjm_id)
+	{
+		$this->pjm_id = $pjm_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Product for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $product Product
+	 */
+	public function SetProduct($product)
+	{
+		$this->product = $product;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Region for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $region Region
+	 */
+	public function SetRegion($region)
+	{
+		$this->region = $region;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study detasource for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $study_datasource Study detasource
+	 */
+	public function SetStudyDatasource($study_datasource)
+	{
+		$this->study_datasource = $study_datasource;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study id for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $study_id Study id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study name for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $study_name Study name
+	 */
+	public function SetStudyName($study_name)
+	{
+		$this->study_name = $study_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study satisfaction survery log id for the  Study Satisfaction Survey Log
+	 * 
+	 * @param int $study_statisfaction_survey_log_id Study satisfaction survery log id
+	 */
+	public function SetStudySatisfactionSurveyLogId($study_statisfaction_survey_log_id)
+	{
+		$this->study_satisfaction_survey_log_id = $study_statisfaction_survey_log_id;
+		$this->__id										 = $study_statisfaction_survey_log_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study type for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $study_type Study type
+	 */
+	public function SetStudyType($study_type)
+	{
+		$this->study_type = $study_type;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Teritory for the  Study Satisfaction Survey Log
+	 * 
+	 * @param string $teritory Teritory
+	 */
+	public function SetTeritory($teritory)
+	{
+		$this->teritory = $teritory;
+		$this->MarkDirty();
+	}
+
+}
+?>

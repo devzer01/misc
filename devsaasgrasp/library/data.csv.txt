@@ -1,0 +1,1340 @@
+starttime,Survey start time,,,,
+20,39,DATETIME20,,,
+,,,,,
+endtime,Survey end time,,,,
+40,59,DATETIME20,,,
+,,,,,
+QCountry,Country,,,,
+129,131,F3.0,Selected: 1,United States of America,
+129,131,F3.0,Selected: 2,Canada,
+129,131,F3.0,Selected: 3,Afghanistan,
+129,131,F3.0,Selected: 4,Albania,
+129,131,F3.0,Selected: 5,Algeria,
+129,131,F3.0,Selected: 6,Andorra,
+129,131,F3.0,Selected: 7,Angola,
+129,131,F3.0,Selected: 8,Antigua and Barbuda,
+129,131,F3.0,Selected: 9,Argentina,
+129,131,F3.0,Selected: 10,Armenia,
+129,131,F3.0,Selected: 11,Australia,
+129,131,F3.0,Selected: 12,Austria,
+129,131,F3.0,Selected: 13,Azerbaijan,
+129,131,F3.0,Selected: 14,Bahamas,
+129,131,F3.0,Selected: 15,Bahrain,
+129,131,F3.0,Selected: 16,Bangladesh,
+129,131,F3.0,Selected: 17,Barbados,
+129,131,F3.0,Selected: 18,Belarus,
+129,131,F3.0,Selected: 19,Belgium,
+129,131,F3.0,Selected: 20,Belize,
+129,131,F3.0,Selected: 21,Benin,
+129,131,F3.0,Selected: 22,Bhutan,
+129,131,F3.0,Selected: 23,Bolivia,
+129,131,F3.0,Selected: 24,Bosnia and Herzegovina,
+129,131,F3.0,Selected: 25,Botswana,
+129,131,F3.0,Selected: 26,Brazil,
+129,131,F3.0,Selected: 27,Brunei Darussalam,
+129,131,F3.0,Selected: 28,Bulgaria,
+129,131,F3.0,Selected: 29,Burkina Faso,
+129,131,F3.0,Selected: 30,Burundi,
+129,131,F3.0,Selected: 31,Cambodia,
+129,131,F3.0,Selected: 32,Cameroon,
+129,131,F3.0,Selected: 33,Cape Verde,
+129,131,F3.0,Selected: 34,Central African Republic,
+129,131,F3.0,Selected: 35,Chad,
+129,131,F3.0,Selected: 36,Chile,
+129,131,F3.0,Selected: 37,China,
+129,131,F3.0,Selected: 38,Colombia,
+129,131,F3.0,Selected: 39,Comoros,
+129,131,F3.0,Selected: 40,Congo,
+129,131,F3.0,Selected: 41,Costa Rica,
+129,131,F3.0,Selected: 42,Croatia,
+129,131,F3.0,Selected: 43,Cuba,
+129,131,F3.0,Selected: 44,Cyprus,
+129,131,F3.0,Selected: 45,Czech Republic,
+129,131,F3.0,Selected: 46,Democratic People's Republic of Korea,
+129,131,F3.0,Selected: 47,Democratic Republic of the Congo,
+129,131,F3.0,Selected: 48,Denmark,
+129,131,F3.0,Selected: 49,Djibouti,
+129,131,F3.0,Selected: 50,Dominica,
+129,131,F3.0,Selected: 51,Dominican Republic,
+129,131,F3.0,Selected: 52,Ecuador,
+129,131,F3.0,Selected: 53,Egypt,
+129,131,F3.0,Selected: 54,El Salvador,
+129,131,F3.0,Selected: 55,Equatorial Guinea,
+129,131,F3.0,Selected: 56,Eritrea,
+129,131,F3.0,Selected: 57,Estonia,
+129,131,F3.0,Selected: 58,Ethiopia,
+129,131,F3.0,Selected: 59,Fiji,
+129,131,F3.0,Selected: 60,Finland,
+129,131,F3.0,Selected: 61,France,
+129,131,F3.0,Selected: 62,Gabon,
+129,131,F3.0,Selected: 63,Gambia,
+129,131,F3.0,Selected: 64,Georgia,
+129,131,F3.0,Selected: 65,Germany,
+129,131,F3.0,Selected: 66,Ghana,
+129,131,F3.0,Selected: 67,Greece,
+129,131,F3.0,Selected: 68,Grenada,
+129,131,F3.0,Selected: 69,Guatemala,
+129,131,F3.0,Selected: 70,Guinea,
+129,131,F3.0,Selected: 71,Guinea-Bissau,
+129,131,F3.0,Selected: 72,Guyana,
+129,131,F3.0,Selected: 73,Haiti,
+129,131,F3.0,Selected: 74,Honduras,
+129,131,F3.0,Selected: 75,Hungary,
+129,131,F3.0,Selected: 76,Iceland,
+129,131,F3.0,Selected: 77,India,
+129,131,F3.0,Selected: 78,Indonesia,
+129,131,F3.0,Selected: 79,Iran (Islamic Republic of),
+129,131,F3.0,Selected: 80,Iraq,
+129,131,F3.0,Selected: 81,Ireland,
+129,131,F3.0,Selected: 82,Israel,
+129,131,F3.0,Selected: 83,Italy,
+129,131,F3.0,Selected: 84,Jamaica,
+129,131,F3.0,Selected: 85,Japan,
+129,131,F3.0,Selected: 86,Jordan,
+129,131,F3.0,Selected: 87,Kazakhstan,
+129,131,F3.0,Selected: 88,Kenya,
+129,131,F3.0,Selected: 89,Kuwait,
+129,131,F3.0,Selected: 90,Kyrgyzstan,
+129,131,F3.0,Selected: 91,Lao People's Democratic Republic,
+129,131,F3.0,Selected: 92,Latvia,
+129,131,F3.0,Selected: 93,Lebanon,
+129,131,F3.0,Selected: 94,Lesotho,
+129,131,F3.0,Selected: 95,Liberia,
+129,131,F3.0,Selected: 96,Libyan Arab Jamahiriya,
+129,131,F3.0,Selected: 97,Liechtenstein,
+129,131,F3.0,Selected: 98,Lithuania,
+129,131,F3.0,Selected: 99,Luxembourg,
+129,131,F3.0,Selected: 100,Madagascar,
+129,131,F3.0,Selected: 101,Malawi,
+129,131,F3.0,Selected: 102,Malaysia,
+129,131,F3.0,Selected: 103,Maldives,
+129,131,F3.0,Selected: 104,Mali,
+129,131,F3.0,Selected: 105,Malta,
+129,131,F3.0,Selected: 106,Marshall Islands,
+129,131,F3.0,Selected: 107,Mauritania,
+129,131,F3.0,Selected: 108,Mauritius,
+129,131,F3.0,Selected: 109,Mexico,
+129,131,F3.0,Selected: 110,Micronesia (Federated States of),
+129,131,F3.0,Selected: 111,Monaco,
+129,131,F3.0,Selected: 112,Mongolia,
+129,131,F3.0,Selected: 113,Morocco,
+129,131,F3.0,Selected: 114,Mozambique,
+129,131,F3.0,Selected: 115,Myanmar,
+129,131,F3.0,Selected: 116,Namibia,
+129,131,F3.0,Selected: 117,Nepal,
+129,131,F3.0,Selected: 118,Netherlands,
+129,131,F3.0,Selected: 119,New Zealand,
+129,131,F3.0,Selected: 120,Nicaragua,
+129,131,F3.0,Selected: 121,Niger,
+129,131,F3.0,Selected: 122,Nigeria,
+129,131,F3.0,Selected: 123,Norway,
+129,131,F3.0,Selected: 124,Oman,
+129,131,F3.0,Selected: 125,Pakistan,
+129,131,F3.0,Selected: 126,Palau,
+129,131,F3.0,Selected: 127,Panama,
+129,131,F3.0,Selected: 128,Papua New Guinea,
+129,131,F3.0,Selected: 129,Paraguay,
+129,131,F3.0,Selected: 130,Peru,
+129,131,F3.0,Selected: 131,Philippines,
+129,131,F3.0,Selected: 132,Poland,
+129,131,F3.0,Selected: 133,Portugal,
+129,131,F3.0,Selected: 134,Qatar,
+129,131,F3.0,Selected: 135,Republic of Korea,
+129,131,F3.0,Selected: 136,Republic of Moldova,
+129,131,F3.0,Selected: 137,Romania,
+129,131,F3.0,Selected: 138,Russian Federation,
+129,131,F3.0,Selected: 139,Rwanda,
+129,131,F3.0,Selected: 140,Saint Kitts and Nevis,
+129,131,F3.0,Selected: 141,Saint Lucia,
+129,131,F3.0,Selected: 142,Saint Vincent and the Grenadines,
+129,131,F3.0,Selected: 143,Samoa,
+129,131,F3.0,Selected: 144,San Marino,
+129,131,F3.0,Selected: 145,Sao Tome and Principe,
+129,131,F3.0,Selected: 146,Saudi Arabia,
+129,131,F3.0,Selected: 147,Senegal,
+129,131,F3.0,Selected: 148,Seychelles,
+129,131,F3.0,Selected: 149,Sierra Leone,
+129,131,F3.0,Selected: 150,Singapore,
+129,131,F3.0,Selected: 151,Slovakia,
+129,131,F3.0,Selected: 152,Slovenia,
+129,131,F3.0,Selected: 153,Solomon Islands,
+129,131,F3.0,Selected: 154,Somalia,
+129,131,F3.0,Selected: 155,South Africa,
+129,131,F3.0,Selected: 156,Spain,
+129,131,F3.0,Selected: 157,Sri Lanka,
+129,131,F3.0,Selected: 158,Sudan,
+129,131,F3.0,Selected: 159,Suriname,
+129,131,F3.0,Selected: 160,Swaziland,
+129,131,F3.0,Selected: 161,Sweden,
+129,131,F3.0,Selected: 162,Switzerland,
+129,131,F3.0,Selected: 163,Syrian Arab Republic,
+129,131,F3.0,Selected: 164,Taiwan,
+129,131,F3.0,Selected: 165,Tajikistan,
+129,131,F3.0,Selected: 166,Thailand,
+129,131,F3.0,Selected: 167,Togo,
+129,131,F3.0,Selected: 168,Trinidad and Tobago,
+129,131,F3.0,Selected: 169,Tunisia,
+129,131,F3.0,Selected: 170,Turkey,
+129,131,F3.0,Selected: 171,Turkmenistan,
+129,131,F3.0,Selected: 172,Uganda,
+129,131,F3.0,Selected: 173,Ukraine,
+129,131,F3.0,Selected: 174,United Arab Emirates,
+129,131,F3.0,Selected: 175,United Kingdom of Great Britain and Northern Ireland,
+129,131,F3.0,Selected: 176,United Republic of Tanzania,
+129,131,F3.0,Selected: 177,Uruguay,
+129,131,F3.0,Selected: 178,Uzbekistan,
+129,131,F3.0,Selected: 179,Vanuatu,
+129,131,F3.0,Selected: 180,Venezuela,
+129,131,F3.0,Selected: 181,Viet Nam,
+129,131,F3.0,Selected: 182,Yemen,
+129,131,F3.0,Selected: 183,Yugoslavia,
+129,131,F3.0,Selected: 184,Zambia,
+129,131,F3.0,Selected: 185,Zimbabwe,
+,,,,,
+Qbirthday,birthday,,,,
+132,141,DATE10,,,
+,,,,,
+QAge,Age,,,,
+142,144,F3.0,,,
+,,,,,
+QGender,Gender,,,,
+145,145,F1.0,Selected: 1,Male,
+145,145,F1.0,Selected: 2,Female,
+,,,,,
+Qlang,What language do you primarily speak at home?,,,,
+146,146,F1.0,Selected: 1,English,
+146,146,F1.0,Selected: 2,French,
+146,146,F1.0,Selected: 3,Spanish,
+146,146,F1.0,Selected: 4,Other ,
+,,,,,
+Qlangother,OTHER - Other ,,,,
+147,401,A255,,,
+,,,,,
+Qemployment,What is your current student and/or employment status?,,,,
+402,402,F1.0,Checked: 1,Unchecked: 0,Student
+403,403,F1.0,Checked: 2,Unchecked: 0,Employed Part-Time
+404,404,F1.0,Checked: 3,Unchecked: 0,Employed Full-Time
+405,405,F1.0,Checked: 4,Unchecked: 0,Not currently employed & not enrolled in school
+406,406,F1.0,Checked: 5,Unchecked: 0,Retired
+407,407,F1.0,Checked: 6,Unchecked: 0,Self-employed
+,,,,,
+Qschool,Are you attending a:,,,,
+408,408,F1.0,Selected: 1,Middle or High School,
+408,408,F1.0,Selected: 2,Community/Junior College or Trade school,
+408,408,F1.0,Selected: 3,4-year Public College,
+408,408,F1.0,Selected: 4,4-year Private College,
+408,408,F1.0,Selected: 5,Advanced Degree Program,
+408,408,F1.0,Selected: 6,Other,
+,,,,,
+Qschoolother,OTHER - Other,,,,
+409,663,A255,,,
+,,,,,
+Qindustry,Which of the following best describes the industry in which you work?,,,,
+664,665,F2.0,Selected: 1,Accounting,
+664,665,F2.0,Selected: 2,Advertising/PR,
+664,665,F2.0,Selected: 3,Agriculture,
+664,665,F2.0,Selected: 4,Aerospace/Defense,
+664,665,F2.0,Selected: 5,Arts/Entertainment,
+664,665,F2.0,Selected: 6,Athletics/Sports,
+664,665,F2.0,Selected: 7,Automotive,
+664,665,F2.0,Selected: 8,Banking/Financial,
+664,665,F2.0,Selected: 9,"Basic Materials - Metals, Minerals, Oil, Chemicals",
+664,665,F2.0,Selected: 10,Business Services,
+664,665,F2.0,Selected: 11,Communication,
+664,665,F2.0,Selected: 12,Computer Electronic Equipment,
+664,665,F2.0,Selected: 13,"Computer Software: Storage, Security, Internet",
+664,665,F2.0,Selected: 14,Construction,
+664,665,F2.0,Selected: 15,Consumer Products,
+664,665,F2.0,Selected: 16,Dentistry,
+664,665,F2.0,Selected: 17,Education,
+664,665,F2.0,Selected: 18,Employment,
+664,665,F2.0,Selected: 19,Engineering,
+664,665,F2.0,Selected: 20,Equipment,
+664,665,F2.0,Selected: 21,Fitness,
+664,665,F2.0,Selected: 22,Food and Beverage,
+664,665,F2.0,Selected: 23,Government,
+664,665,F2.0,Selected: 24,Health care,
+664,665,F2.0,Selected: 25,Hospitality,
+664,665,F2.0,Selected: 26,Information Technology,
+664,665,F2.0,Selected: 27,Industrial Goods,
+664,665,F2.0,Selected: 28,Insurance,
+664,665,F2.0,Selected: 29,Legal,
+664,665,F2.0,Selected: 30,Manufacturing,
+664,665,F2.0,Selected: 31,Market Research,
+664,665,F2.0,Selected: 32,Marketing,
+664,665,F2.0,Selected: 33,Military,
+664,665,F2.0,Selected: 34,Non-profit/Charity,
+664,665,F2.0,Selected: 35,Publishing/Printing/Media,
+664,665,F2.0,Selected: 36,Real-Estate,
+664,665,F2.0,Selected: 37,Recreation,
+664,665,F2.0,Selected: 38,Retail,
+664,665,F2.0,Selected: 39,Consumer Internet,
+664,665,F2.0,Selected: 40,Training Consulting,
+664,665,F2.0,Selected: 41,Transportation,
+664,665,F2.0,Selected: 42,Utilities/Telecom,
+664,665,F2.0,Selected: 43,Waste Management,
+664,665,F2.0,Selected: 44,Wholesale,
+664,665,F2.0,Selected: 45,None of the above,
+664,665,F2.0,Selected: 46,Other ,
+,,,,,
+Qindustryother,OTHER - Other ,,,,
+666,920,A255,,,
+,,,,,
+Qtitle,Which of these best describes your job title?,,,,
+921,922,F2.0,Selected: 1,Business Owner,
+921,922,F2.0,Selected: 2,C-level Executive,
+921,922,F2.0,Selected: 3,V.P./Director,
+921,922,F2.0,Selected: 4,Mid-level Management,
+921,922,F2.0,Selected: 5,Entry-level,
+921,922,F2.0,Selected: 6,Technical,
+921,922,F2.0,Selected: 7,Sales,
+921,922,F2.0,Selected: 8,Purchasing,
+921,922,F2.0,Selected: 9,Human Resources,
+921,922,F2.0,Selected: 10,Engineer,
+921,922,F2.0,Selected: 11,Programmer,
+921,922,F2.0,Selected: 12,Clerical/Administrative/Support Staff,
+921,922,F2.0,Selected: 13,Military/Law Enforcement,
+921,922,F2.0,Selected: 14,Foreman/Contractor,
+921,922,F2.0,Selected: 15,Cook/Chef,
+921,922,F2.0,Selected: 16,Unskilled Labor,
+921,922,F2.0,Selected: 17,Teacher/Professor,
+921,922,F2.0,Selected: 18,Psychologist/Counselor,
+921,922,F2.0,Selected: 19,Medical Professional,
+921,922,F2.0,Selected: 20,Lawyer,
+921,922,F2.0,Selected: 21,CPA,
+921,922,F2.0,Selected: 22,None of the above,
+921,922,F2.0,Selected: 23,Other ,
+,,,,,
+Qtitleother,OTHER - Other ,,,,
+923,1177,A255,,,
+,,,,,
+Qhhi,What is your annual household income range?,,,,
+1178,1179,F2.0,Selected: 1,"Less than $15,000",
+1178,1179,F2.0,Selected: 2,"$15,000 to $24,999",
+1178,1179,F2.0,Selected: 3,"$25,000 to $49,999",
+1178,1179,F2.0,Selected: 4,"$50,000 to $74,999",
+1178,1179,F2.0,Selected: 5,"$75,000 to $99,999",
+1178,1179,F2.0,Selected: 6,"$100,000 to $149,999",
+1178,1179,F2.0,Selected: 7,"$150,000 to $199,999",
+1178,1179,F2.0,Selected: 8,"$200,000 to $249,999",
+1178,1179,F2.0,Selected: 9,"$250,000 to $499,999",
+1178,1179,F2.0,Selected: 10,"$500,000 to $999,999",
+1178,1179,F2.0,Selected: 11,$1 million +,
+1178,1179,F2.0,Selected: 12,Prefer not to answer,
+1178,1179,F2.0,Selected: 13,Not Sure,
+,,,,,
+Qethnicity,Which of the following best describes your ethnicity?,,,,
+1180,1180,F1.0,Selected: 1,Black or African American,
+1180,1180,F1.0,Selected: 2,"Asian, South East Asian",
+1180,1180,F1.0,Selected: 3,White or Caucasian,
+1180,1180,F1.0,Selected: 4,Eskimo or Pacific Islander,
+1180,1180,F1.0,Selected: 5,Hispanic or Latino,
+1180,1180,F1.0,Selected: 6,"Native American, Alaska Native, Aleutian",
+1180,1180,F1.0,Selected: 7,Prefer not to answer,
+1180,1180,F1.0,Selected: 8,Other ,
+,,,,,
+Qethnicityother,OTHER - Other ,,,,
+1181,1435,A255,,,
+,,,,,
+Qethnicitycanada,Which of the following best describes your ethnicity?,,,,
+1436,1437,F2.0,Selected: 1,Aboriginal,
+1436,1437,F2.0,Selected: 2,Arab,
+1436,1437,F2.0,Selected: 3,West Asian,
+1436,1437,F2.0,Selected: 4,Black,
+1436,1437,F2.0,Selected: 5,Caucasian,
+1436,1437,F2.0,Selected: 6,Chinese,
+1436,1437,F2.0,Selected: 7,Filipino,
+1436,1437,F2.0,Selected: 8,Japanese,
+1436,1437,F2.0,Selected: 9,Korean,
+1436,1437,F2.0,Selected: 10,Latin,
+1436,1437,F2.0,Selected: 11,Persian,
+1436,1437,F2.0,Selected: 12,South Asian,
+1436,1437,F2.0,Selected: 13,East Indian,
+1436,1437,F2.0,Selected: 14,South East Asian,
+1436,1437,F2.0,Selected: 15,Prefer not to answer,
+1436,1437,F2.0,Selected: 16,Other ,
+,,,,,
+Qethnicitycanadaother,OTHER - Other ,,,,
+1438,1692,A255,,,
+,,,,,
+Qmarital,What is your marital status?,,,,
+1693,1693,F1.0,Selected: 1,"Single, never married",
+1693,1693,F1.0,Selected: 2,Engaged,
+1693,1693,F1.0,Selected: 3,Married,
+1693,1693,F1.0,Selected: 4,Living with Partner,
+1693,1693,F1.0,Selected: 5,Separated,
+1693,1693,F1.0,Selected: 6,Divorced,
+1693,1693,F1.0,Selected: 7,Widowed,
+1693,1693,F1.0,Selected: 8,Civil Union / Civil Partnership,
+1693,1693,F1.0,Selected: 9,Prefer not to answer,
+,,,,,
+Qchildren,Do you have any children under the age of 18 who currently live in your home?,,,,
+1694,1694,F1.0,Selected: 1,Yes,
+1694,1694,F1.0,Selected: 2,No,
+,,,,,
+Qchildrennumber,How many children under the age of 18 living in your home do you have?,,,,
+1695,1695,F1.0,Selected: 1,1,
+1695,1695,F1.0,Selected: 2,2,
+1695,1695,F1.0,Selected: 3,3,
+1695,1695,F1.0,Selected: 4,4,
+1695,1695,F1.0,Selected: 5,5,
+1695,1695,F1.0,Selected: 6,More than 5,
+,,,,,
+Qchild1,Child 1,,,,
+1696,1696,F1.0,Selected: 1,Male,
+1696,1696,F1.0,Selected: 2,Female,
+,,,,,
+Qchild1b,Child 1 Birthdate,,,,
+1697,1706,DATE10,,,
+,,,,,
+Qchild2g,Child 2,,,,
+1707,1707,F1.0,Selected: 1,Male,
+1707,1707,F1.0,Selected: 2,Female,
+,,,,,
+Qchild2b,Child 2 Birthdate,,,,
+1708,1717,DATE10,,,
+,,,,,
+Qchild3g,Child 3,,,,
+1718,1718,F1.0,Selected: 1,Male,
+1718,1718,F1.0,Selected: 2,Female,
+,,,,,
+Qchild3b,Child 3 Birthdate,,,,
+1719,1728,DATE10,,,
+,,,,,
+Qchild4g,Child 4,,,,
+1729,1729,F1.0,Selected: 1,Male,
+1729,1729,F1.0,Selected: 2,Female,
+,,,,,
+Qchild4b,Child 4 Birthdate,,,,
+1730,1739,DATE10,,,
+,,,,,
+Qchild5g,Child 5,,,,
+1740,1740,F1.0,Selected: 1,Male,
+1740,1740,F1.0,Selected: 2,Female,
+,,,,,
+Qchild5b,Child 5 Birthdate,,,,
+1741,1750,DATE10,,,
+,,,,,
+Qpregnant,Are you currently pregnant?,,,,
+1751,1751,F1.0,Selected: 1,Yes,
+1751,1751,F1.0,Selected: 2,No but trying or planning to start trying in the next 12 months,
+1751,1751,F1.0,Selected: 3,No,
+,,,,,
+Qduedate,What is your anticipated due date?,,,,
+1752,1761,DATE10,,,
+,,,,,
+Qown,Which of the following do you own? (Please check all that apply),,,,
+1762,1763,F2.0,Checked: 1,Unchecked: 0,Desktop or Laptop Computer
+1764,1765,F2.0,Checked: 2,Unchecked: 0,Tablet PC/iPad
+1766,1767,F2.0,Checked: 3,Unchecked: 0,DVD Player
+1768,1769,F2.0,Checked: 4,Unchecked: 0,Blue-ray Player
+1770,1771,F2.0,Checked: 5,Unchecked: 0,Cell Phone/Smart-phone/iPhone
+1772,1773,F2.0,Checked: 6,Unchecked: 0,PDA
+1774,1775,F2.0,Checked: 7,Unchecked: 0,iPod/MP3 Player
+1776,1777,F2.0,Checked: 8,Unchecked: 0,Nintendo Gamecube
+1778,1779,F2.0,Checked: 9,Unchecked: 0,Nintendo Wii
+1780,1781,F2.0,Checked: 10,Unchecked: 0,Xbox or Xbox 360
+1782,1783,F2.0,Checked: 11,Unchecked: 0,Xbox 360 with Live Subscription
+1784,1785,F2.0,Checked: 12,Unchecked: 0,Xbox 360 with Kinect
+1786,1787,F2.0,Checked: 13,Unchecked: 0,"Sony Play Station (PS2, PS3 or PSP)"
+1788,1789,F2.0,Checked: 14,Unchecked: 0,"Electronic reading device (Kindle, Nook)"
+1790,1791,F2.0,Checked: 15,Unchecked: 0,None of the above
+,,,,,
+Qphone,Who is the manufacturer of your primary wireless phone? ,,,,
+1792,1793,F2.0,Selected: 1,Apple (iPhone),
+1792,1793,F2.0,Selected: 2,AT&T (Cingular),
+1792,1793,F2.0,Selected: 3,AudioVox,
+1792,1793,F2.0,Selected: 4,Blackberry (RIM),
+1792,1793,F2.0,Selected: 5,Casio,
+1792,1793,F2.0,Selected: 6,Cricket,
+1792,1793,F2.0,Selected: 7,Danger Hiptop,
+1792,1793,F2.0,Selected: 8,Disney,
+1792,1793,F2.0,Selected: 9,HTC,
+1792,1793,F2.0,Selected: 10,Kyocera,
+1792,1793,F2.0,Selected: 11,LG,
+1792,1793,F2.0,Selected: 12,Motorola,
+1792,1793,F2.0,Selected: 13,Nextel,
+1792,1793,F2.0,Selected: 14,Nokia,
+1792,1793,F2.0,Selected: 15,Palm,
+1792,1793,F2.0,Selected: 16,PalmOne/Handspring,
+1792,1793,F2.0,Selected: 17,Panasonic,
+1792,1793,F2.0,Selected: 18,Pantech,
+1792,1793,F2.0,Selected: 19,Qualcomm,
+1792,1793,F2.0,Selected: 20,Samsung,
+1792,1793,F2.0,Selected: 21,Sanyo,
+1792,1793,F2.0,Selected: 22,Siemens,
+1792,1793,F2.0,Selected: 23,Sony Ericsson,
+1792,1793,F2.0,Selected: 24,Sprint,
+1792,1793,F2.0,Selected: 25,TMobile,
+1792,1793,F2.0,Selected: 26,Verizon,
+1792,1793,F2.0,Selected: 27,Virgin,
+1792,1793,F2.0,Selected: 28,I do not own a mobile/cell phone,
+1792,1793,F2.0,Selected: 29,Other ,
+,,,,,
+Qphoneother,OTHER - Other ,,,,
+1794,2048,A255,,,
+,,,,,
+Qphoneinvite,"In the future, we may offer the ability to receive survey invitations via text message. Is this something you may be interested in?",,,,
+2049,2049,F1.0,Selected: 1,Yes,
+2049,2049,F1.0,Selected: 2,No,
+2049,2049,F1.0,Selected: 3,Maybe (Notify me when this becomes available and I'll decide then),
+,,,,,
+Qpurchase,Which of the following are you planning on purchasing in the next 12 months?,,,,
+2050,2051,F2.0,Checked: 1,Unchecked: 0,Basic mobile device/cell phone: Voice with SMS (i.e. text messaging) only
+2052,2053,F2.0,Checked: 2,Unchecked: 0,"Mobile device/cell phone with Advanced Features: basic Internet surfing, and texting."
+2054,2055,F2.0,Checked: 3,Unchecked: 0,"Smart mobile device/cell phone: can install applications, send and receive email, and advanced internet surfing (Android, iPhone, Windows Mobile, Blackberry, etc.)"
+2056,2057,F2.0,Checked: 4,Unchecked: 0,"Portable Gaming system (Game Boy, DS, PSP, etc.)"
+2058,2059,F2.0,Checked: 5,Unchecked: 0,Portable DVD Player
+2060,2061,F2.0,Checked: 6,Unchecked: 0,Portable Blu-ray Player
+2062,2063,F2.0,Checked: 7,Unchecked: 0,Portable Media Player
+2064,2065,F2.0,Checked: 8,Unchecked: 0,GPS/Navigation device
+2066,2067,F2.0,Checked: 9,Unchecked: 0,Digital Camera
+2068,2069,F2.0,Checked: 10,Unchecked: 0,"Digital video camera (MiniDV, DVD, HD, etc.)"
+2070,2071,F2.0,Checked: 11,Unchecked: 0,"Music Player (iPod, Zune, MP3 player, etc.)"
+2072,2073,F2.0,Checked: 12,Unchecked: 0,"Portable Radio (Boom Box, speakers for music player, etc.)"
+2074,2075,F2.0,Checked: 13,Unchecked: 0,Portable Satellite Radio
+2076,2077,F2.0,Checked: 14,Unchecked: 0,"Ebook-Reader (Kindle, Nook, etc.)"
+2078,2079,F2.0,Checked: 15,Unchecked: 0,"Pocket Sized Computers (iTouch, PDA, Sony Mylo etc.)"
+2080,2081,F2.0,Checked: 16,Unchecked: 0,Laptop Computer
+2082,2083,F2.0,Checked: 17,Unchecked: 0,Netbook Computer
+2084,2085,F2.0,Checked: 18,Unchecked: 0,"Tablet/Slate Computer (iPad, etc.)"
+2086,2087,F2.0,Checked: 19,Unchecked: 0,Voice Recorder
+2088,2089,F2.0,Checked: 20,Unchecked: 0,None of the above
+,,,,,
+Qonine,"Which of the following online activities, if any, do you regularly participate in? (Please select all that apply.)",,,,
+2090,2091,F2.0,Checked: 1,Unchecked: 0,Maintain a Twitter presence with frequent tweets
+2092,2093,F2.0,Checked: 2,Unchecked: 0,Maintain a Twitter presence but seldom tweet
+2094,2095,F2.0,Checked: 3,Unchecked: 0,Maintain a Facebook profile
+2096,2097,F2.0,Checked: 4,Unchecked: 0,Maintain a LinkedIn profile
+2098,2099,F2.0,Checked: 5,Unchecked: 0,Maintain a Myspace page
+2100,2101,F2.0,Checked: 6,Unchecked: 0,Maintain a personal blog
+2102,2103,F2.0,Checked: 7,Unchecked: 0,Participate in an online dating site
+2104,2105,F2.0,Checked: 8,Unchecked: 0,Maintain a family genealogy online
+2106,2107,F2.0,Checked: 9,Unchecked: 0,Read and/or subscribe to online blogs
+2108,2109,F2.0,Checked: 10,Unchecked: 0,Read and/or subscribe to Twitter feeds
+2110,2111,F2.0,Checked: 11,Unchecked: 0,"Play online social games (Farmville, Mafia Wars, etc.)"
+2112,2113,F2.0,Checked: 12,Unchecked: 0,Play multi-player online games or MMORPGS
+2114,2115,F2.0,Checked: 13,Unchecked: 0,"Check in via location-based social networks (i.e. Foursquare, etc)"
+2116,2117,F2.0,Checked: 14,Unchecked: 0,Instant Messaging
+2118,2119,F2.0,Checked: 15,Unchecked: 0,None of these
+,,,,,
+Qwebcam,Do you currently own or have access to a Webcam in your home?,,,,
+2120,2120,F1.0,Selected: 1,Yes,
+2120,2120,F1.0,Selected: 2,No,
+,,,,,
+Qtoolbar,Would you be willing to download and run a toolbar or program that would track your online habits for research purposes only? (No personally identifiable information would be tracked.),,,,
+2121,2121,F1.0,Selected: 1,Yes,
+2121,2121,F1.0,Selected: 2,No,
+2121,2121,F1.0,Selected: 3,Maybe,
+,,,,,
+Qmovies,"On average, how often do you watch movies at a theater/cinema?",,,,
+2122,2122,F1.0,Selected: 1,Never,
+2122,2122,F1.0,Selected: 2,1-4 times a year,
+2122,2122,F1.0,Selected: 3,5-11 times a year,
+2122,2122,F1.0,Selected: 4,Once a month,
+2122,2122,F1.0,Selected: 5,More than once a month,
+,,,,,
+Qbeverages,What types of beverages do you regularly consume? (Please check all that apply),,,,
+2123,2124,F2.0,Checked: 1,Unchecked: 0,Bottled Water
+2125,2126,F2.0,Checked: 2,Unchecked: 0,Soda/Pop
+2127,2128,F2.0,Checked: 3,Unchecked: 0,Coffee
+2129,2130,F2.0,Checked: 4,Unchecked: 0,Tea
+2131,2132,F2.0,Checked: 5,Unchecked: 0,Wine
+2133,2134,F2.0,Checked: 6,Unchecked: 0,Champagne/Sparking WIne
+2135,2136,F2.0,Checked: 7,Unchecked: 0,Beer
+2137,2138,F2.0,Checked: 8,Unchecked: 0,Hard Liquor
+2139,2140,F2.0,Checked: 9,Unchecked: 0,Cognac/Brandy
+2141,2142,F2.0,Checked: 10,Unchecked: 0,Liqueur
+2143,2144,F2.0,Checked: 11,Unchecked: 0,None of the above
+,,,,,
+Qbanking,Which of the following banking or financial products/services do you currently utilize? (Please select all that apply.),,,,
+2145,2146,F2.0,Checked: 1,Unchecked: 0,Auto Loan
+2147,2148,F2.0,Checked: 2,Unchecked: 0,Certificate of Deposit (CD)
+2149,2150,F2.0,Checked: 3,Unchecked: 0,Checking Account
+2151,2152,F2.0,Checked: 4,Unchecked: 0,"Credit Card (VISA, MasterCard, American Express, Discover, or store credit cardetc.)"
+2153,2154,F2.0,Checked: 5,Unchecked: 0,Debit Card
+2155,2156,F2.0,Checked: 6,Unchecked: 0,Home Equity Loan/Line of Credit
+2157,2158,F2.0,Checked: 7,Unchecked: 0,Individual Stock or Bond Account
+2159,2160,F2.0,Checked: 8,Unchecked: 0,Life Insurance (Term or Whole Life)
+2161,2162,F2.0,Checked: 9,Unchecked: 0,Money Market Account
+2163,2164,F2.0,Checked: 10,Unchecked: 0,Mortgage
+2165,2166,F2.0,Checked: 11,Unchecked: 0,Mutual Fund Account
+2167,2168,F2.0,Checked: 12,Unchecked: 0,Personal Loan/Line of Credit
+2169,2170,F2.0,Checked: 13,Unchecked: 0,Recreational Vehicle Loan
+2171,2172,F2.0,Checked: 14,Unchecked: 0,Savings Account
+2173,2174,F2.0,Checked: 15,Unchecked: 0,None of the above
+,,,,,
+Qpets,"Which, if any, of the following pets or animals do you own? (Please select all that apply.)",,,,
+2175,2176,F2.0,Checked: 1,Unchecked: 0,Bird
+2177,2178,F2.0,Checked: 2,Unchecked: 0,Cat
+2179,2180,F2.0,Checked: 3,Unchecked: 0,Dog
+2181,2182,F2.0,Checked: 4,Unchecked: 0,Fish
+2183,2184,F2.0,Checked: 5,Unchecked: 0,Reptiles/Amphibians
+2185,2186,F2.0,Checked: 6,Unchecked: 0,Insects/Arachnids
+2187,2188,F2.0,Checked: 7,Unchecked: 0,"Small Animals (Hamsters, Gerbils, Mice, etc)"
+2189,2190,F2.0,Checked: 8,Unchecked: 0,Horse
+2191,2192,F2.0,Checked: 9,Unchecked: 0,"Livestock (Goats, Pigs, Cattle, etc.)"
+2193,2194,F2.0,Checked: 10,Unchecked: 0,None of the above
+2195,2196,F2.0,Checked: 11,Unchecked: 0,Other 
+,,,,,
+Qpetsother,OTHER - Other ,,,,
+2197,2451,A255,,,
+,,,,,
+QpurchaseDM,"In your household, are you the person who makes most of the daily purchasing decisions?",,,,
+2452,2452,F1.0,Selected: 1,Yes,
+2452,2452,F1.0,Selected: 2,No,
+2452,2452,F1.0,Selected: 3,Decisions are shared equally,
+,,,,,
+QpurchaseDMitems,Please select the items below for which you are the primary decision maker for purchases of these products & services. Please check all that apply.,,,,
+2453,2454,F2.0,Checked: 1,Unchecked: 0,Groceries 
+2455,2456,F2.0,Checked: 2,Unchecked: 0,Wine and beer 
+2457,2458,F2.0,Checked: 3,Unchecked: 0,"Small household appliances (toaster, blender, etc.) "
+2459,2460,F2.0,Checked: 4,Unchecked: 0,"Large household appliances (refrigerator, dish washer, etc.) "
+2461,2462,F2.0,Checked: 5,Unchecked: 0,"Communication services (landline, wireless telephone, etc.) "
+2463,2464,F2.0,Checked: 6,Unchecked: 0,"Internet connection (dial-up, DSL, cable modem, etc.) "
+2465,2466,F2.0,Checked: 7,Unchecked: 0,Computer hardware and software 
+2467,2468,F2.0,Checked: 8,Unchecked: 0,New automobiles 
+2469,2470,F2.0,Checked: 9,Unchecked: 0,Used automobiles 
+2471,2472,F2.0,Checked: 10,Unchecked: 0,"Insurance (auto, life, etc.) "
+2473,2474,F2.0,Checked: 11,Unchecked: 0,Financial services and investment 
+2475,2476,F2.0,Checked: 12,Unchecked: 0,Real estate 
+2477,2478,F2.0,Checked: 13,Unchecked: 0,Home improvement 
+2479,2480,F2.0,Checked: 14,Unchecked: 0,None of the above
+,,,,,
+Qauto,Tell us about your automobile. Please check all that apply.,,,,
+2481,2481,F1.0,Checked: 1,Unchecked: 0,I have a valid drivers license
+2482,2482,F1.0,Checked: 2,Unchecked: 0,"I currently own or lease a car/truck/SUV/van, etc"
+2483,2483,F1.0,Checked: 3,Unchecked: 0,I am planning to purchase/lease a NEW car in the next 6 months
+2484,2484,F1.0,Checked: 4,Unchecked: 0,I am planning to purchase a USED car in the next 6 months
+2485,2485,F1.0,Checked: 5,Unchecked: 0,"I use a car sharing service (Zipcar, etc)"
+2486,2486,F1.0,Checked: 6,Unchecked: 0,None of these apply
+,,,,,
+Qvote,Are you registered to vote?,,,,
+2487,2487,F1.0,Selected: 1,"Yes, Republican",
+2487,2487,F1.0,Selected: 2,"Yes, Democrat",
+2487,2487,F1.0,Selected: 3,"Yes, Independent",
+2487,2487,F1.0,Selected: 4,"Yes, other",
+2487,2487,F1.0,Selected: 5,No,
+2487,2487,F1.0,Selected: 6,Prefer not to answer,
+,,,,,
+Qvotecanada,Are you registered to vote in Canada?,,,,
+2488,2488,F1.0,Selected: 1,Yes,
+2488,2488,F1.0,Selected: 2,No,
+,,,,,
+Qvolunteer,When was the last time you volunteered for a nonprofit organization?,,,,
+2489,2489,F1.0,Selected: 1,Within the last week,
+2489,2489,F1.0,Selected: 2,Within the last month,
+2489,2489,F1.0,Selected: 3,Within the last three months,
+2489,2489,F1.0,Selected: 4,Within the last six months,
+2489,2489,F1.0,Selected: 5,Within the last year,
+2489,2489,F1.0,Selected: 6,More than a year ago,
+2489,2489,F1.0,Selected: 7,Dont remember,
+2489,2489,F1.0,Selected: 8,I have never volunteered,
+,,,,,
+Qdonate,When was the last time you donated money to a nonprofit organization?,,,,
+2490,2490,F1.0,Selected: 1,Within the last week,
+2490,2490,F1.0,Selected: 2,Within the last month,
+2490,2490,F1.0,Selected: 3,Within the last three months,
+2490,2490,F1.0,Selected: 4,Within the last six months,
+2490,2490,F1.0,Selected: 5,Within the last year,
+2490,2490,F1.0,Selected: 6,More than a year ago,
+2490,2490,F1.0,Selected: 7,Dont remember,
+2490,2490,F1.0,Selected: 8,I have never donated,
+,,,,,
+Qailments,"Do you or does someone in your household suffer from any ailments or health conditions? If so, please select the relevant categories below:",,,,
+2491,2492,F2.0,Checked: 1,Unchecked: 0,"allergy, asthma or respiratory ailments"
+2493,2494,F2.0,Checked: 2,Unchecked: 0,blood disorders
+2495,2496,F2.0,Checked: 3,Unchecked: 0,bone or joint conditions
+2497,2498,F2.0,Checked: 4,Unchecked: 0,cancer or cancer-related conditions
+2499,2500,F2.0,Checked: 5,Unchecked: 0,chronic pain
+2501,2502,F2.0,Checked: 6,Unchecked: 0,diabetes or thyroid conditions
+2503,2504,F2.0,Checked: 7,Unchecked: 0,"eye, vision or hearing conditions"
+2505,2506,F2.0,Checked: 8,Unchecked: 0,heart or cardiovascular conditions
+2507,2508,F2.0,Checked: 9,Unchecked: 0,infectious diseases
+2509,2510,F2.0,Checked: 10,Unchecked: 0,kidney or bladder problems
+2511,2512,F2.0,Checked: 11,Unchecked: 0,men's health conditions
+2513,2514,F2.0,Checked: 12,Unchecked: 0,neurological or mental health conditions
+2515,2516,F2.0,Checked: 13,Unchecked: 0,skin conditions
+2517,2518,F2.0,Checked: 14,Unchecked: 0,sleep disorders
+2519,2520,F2.0,Checked: 15,Unchecked: 0,"stomach, bowel or digestion conditions"
+2521,2522,F2.0,Checked: 16,Unchecked: 0,women's health issues
+2523,2524,F2.0,Checked: 17,Unchecked: 0,other ailments/conditions
+2525,2526,F2.0,Checked: 18,Unchecked: 0,none
+,,,,,
+Qallergies,{Allergies} Respiratory,,,,
+2527,2527,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2528,2528,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2529,2529,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2530,2530,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qasthma,{Asthma} Respiratory,,,,
+2531,2531,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2532,2532,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2533,2533,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2534,2534,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcopd,{Chronic Obstructive Pulmonary Disease} Respiratory,,,,
+2535,2535,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2536,2536,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2537,2537,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2538,2538,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcf,{Cystic Fibrosis} Respiratory,,,,
+2539,2539,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2540,2540,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2541,2541,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2542,2542,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherrespiratory,"{Other Allergy, Asthma, or Respiratory Ailment} Respiratory",,,,
+2543,2543,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2544,2544,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2545,2545,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2546,2546,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qanemia,{Anemia} Blood Related Disorders,,,,
+2547,2547,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2548,2548,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2549,2549,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2550,2550,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdvt,{Deep Vein Thrombosis (DVT)} Blood Related Disorders,,,,
+2551,2551,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2552,2552,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2553,2553,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2554,2554,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhemophilia,{Hemophilia} Blood Related Disorders,,,,
+2555,2555,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2556,2556,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2557,2557,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2558,2558,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qbp,{High Blood pressure} Blood Related Disorders,,,,
+2559,2559,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2560,2560,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2561,2561,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2562,2562,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcholesterol,{High Cholesterol} Blood Related Disorders,,,,
+2563,2563,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2564,2564,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2565,2565,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2566,2566,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhypertension,{Hypertension} Blood Related Disorders,,,,
+2567,2567,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2568,2568,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2569,2569,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2570,2570,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherblood,{Other Blood Disorders} Blood Related Disorders,,,,
+2571,2571,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2572,2572,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2573,2573,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2574,2574,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qperipheral,{Peripheral Arterial Disease} Blood Related Disorders,,,,
+2575,2575,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2576,2576,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2577,2577,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2578,2578,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qthrombosis,{Thrombosis (other than DVT)} Blood Related Disorders,,,,
+2579,2579,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2580,2580,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2581,2581,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2582,2582,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qarthritis,{Arthritis} Arthritis,,,,
+2583,2583,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2584,2584,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2585,2585,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2586,2586,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qlargejoint,{Arthritis (Large Joint)} Arthritis,,,,
+2587,2587,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2588,2588,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2589,2589,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2590,2590,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qosteo,{Arthritis (Osteo)} Arthritis,,,,
+2591,2591,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2592,2592,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2593,2593,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2594,2594,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qpsoriatic,{Arthritis (Psoriatic)} Arthritis,,,,
+2595,2595,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2596,2596,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2597,2597,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2598,2598,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qrheumatoid,{Arthritis (Rheumatoid)} Arthritis,,,,
+2599,2599,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2600,2600,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2601,2601,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2602,2602,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qgout,{Gout} Arthritis,,,,
+2603,2603,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2604,2604,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2605,2605,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2606,2606,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qosteoporosis,{Osteoporosis} Arthritis,,,,
+2607,2607,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2608,2608,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2609,2609,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2610,2610,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherbonejoint,{Other bone or joint condition} Arthritis,,,,
+2611,2611,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2612,2612,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2613,2613,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2614,2614,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerbreast,{Cancer: Breast} Cancer: Breast,,,,
+2615,2615,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2616,2616,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2617,2617,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2618,2618,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancercolorectal,{Cancer: Colorectal} Cancer: Breast,,,,
+2619,2619,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2620,2620,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2621,2621,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2622,2622,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerkidney,{Cancer: Kidney} Cancer: Breast,,,,
+2623,2623,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2624,2624,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2625,2625,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2626,2626,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerlung,{Cancer: Lung} Cancer: Breast,,,,
+2627,2627,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2628,2628,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2629,2629,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2630,2630,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerother,{Cancer: Other} Cancer: Breast,,,,
+2631,2631,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2632,2632,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2633,2633,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2634,2634,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerovarian,{Cancer: Ovarian} Cancer: Breast,,,,
+2635,2635,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2636,2636,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2637,2637,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2638,2638,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerprostate,{Cancer: Prostate} Cancer: Breast,,,,
+2639,2639,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2640,2640,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2641,2641,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2642,2642,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcancerleukemia,{Leukemia} Cancer: Breast,,,,
+2643,2643,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2644,2644,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2645,2645,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2646,2646,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qfibromyalgia,{Fibromyalgia} Fibromyalgia,,,,
+2647,2647,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2648,2648,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2649,2649,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2650,2650,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qmigraine,{Migraine} Fibromyalgia,,,,
+2651,2651,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2652,2652,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2653,2653,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2654,2654,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherchronic,{Other Chronic Pain (Head/Joint/Muscular)} Fibromyalgia,,,,
+2655,2655,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2656,2656,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2657,2657,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2658,2658,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdiabetestype1,{Diabetes: Type 1} Diabetes: Type 1,,,,
+2659,2659,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2660,2660,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2661,2661,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2662,2662,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdiabetestype2,{Diabetes: Type 2} Diabetes: Type 1,,,,
+2663,2663,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2664,2664,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2665,2665,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2666,2666,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhyperthyroidism,{Hyperthyroidism} Diabetes: Type 1,,,,
+2667,2667,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2668,2668,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2669,2669,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2670,2670,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhypothyroidism,{Hypothyroidism} Diabetes: Type 1,,,,
+2671,2671,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2672,2672,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2673,2673,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2674,2674,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherdiabetes,{Other Diabetes or Thyroid Condition} Diabetes: Type 1,,,,
+2675,2675,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2676,2676,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2677,2677,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2678,2678,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdryeyes,{Dry Eyes} Dry Eyes,,,,
+2679,2679,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2680,2680,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2681,2681,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2682,2682,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qglaucoma,{Glaucoma} Dry Eyes,,,,
+2683,2683,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2684,2684,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2685,2685,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2686,2686,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhearing,{Hearing Loss} Dry Eyes,,,,
+2687,2687,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2688,2688,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2689,2689,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2690,2690,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qeyepressure,{High Eye Pressure} Dry Eyes,,,,
+2691,2691,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2692,2692,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2693,2693,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2694,2694,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qothervisionhearing,"{Other Eye, Vision or Hearing Impairments} Dry Eyes",,,,
+2695,2695,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2696,2696,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2697,2697,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2698,2698,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qangina,{Angina} Angina,,,,
+2699,2699,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2700,2700,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2701,2701,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2702,2702,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qarrhythmia,{Arrhythmia} Angina,,,,
+2703,2703,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2704,2704,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2705,2705,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2706,2706,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcongestive,{Congestive Heart Failure} Angina,,,,
+2707,2707,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2708,2708,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2709,2709,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2710,2710,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcoronary,{Coronary Artery Disease} Angina,,,,
+2711,2711,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2712,2712,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2713,2713,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2714,2714,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qheartattack,{Heart Attack} Angina,,,,
+2715,2715,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2716,2716,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2717,2717,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2718,2718,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qheartdisease,{Heart Disease} Angina,,,,
+2719,2719,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2720,2720,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2721,2721,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2722,2722,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qheartfailure,{Heart Failure} Angina,,,,
+2723,2723,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2724,2724,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2725,2725,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2726,2726,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qmyocardial,{Myocardial Infarction} Angina,,,,
+2727,2727,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2728,2728,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2729,2729,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2730,2730,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherheart,{Other Heart or Cardiovascular Condition} Angina,,,,
+2731,2731,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2732,2732,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2733,2733,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2734,2734,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Q91,{AIDS/HIV} Infectious diseases,,,,
+2735,2735,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2736,2736,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2737,2737,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2738,2738,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcoldsores,{Cold Sores} Infectious diseases,,,,
+2739,2739,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2740,2740,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2741,2741,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2742,2742,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qflu,{Flu} Infectious diseases,,,,
+2743,2743,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2744,2744,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2745,2745,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2746,2746,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qgenitalherpes,{Genital Herpes} Infectious diseases,,,,
+2747,2747,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2748,2748,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2749,2749,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2750,2750,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhepb,{Hepatitis B} Infectious diseases,,,,
+2751,2751,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2752,2752,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2753,2753,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2754,2754,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhepc,{Hepatitis C} Infectious diseases,,,,
+2755,2755,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2756,2756,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2757,2757,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2758,2758,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qherpes,{Herpes} Infectious diseases,,,,
+2759,2759,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2760,2760,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2761,2761,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2762,2762,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherinfectious,{Other Infectious Disease} Infectious diseases,,,,
+2763,2763,F1.0,Checked: 1,Unchecked: 0,I suffer from this ailment
+2764,2764,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2765,2765,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2766,2766,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qincont,{Incontinence} Kidney or Bladder Problems,,,,
+2767,2767,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2768,2768,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2769,2769,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2770,2770,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qrenal,{Kidney Disease/Renal Failure} Kidney or Bladder Problems,,,,
+2771,2771,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2772,2772,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2773,2773,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2774,2774,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qoveractive,{Overactive Bladder/Urge Incontinence} Kidney or Bladder Problems,,,,
+2775,2775,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2776,2776,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2777,2777,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2778,2778,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Quti,{Urinary Tract Infections} Kidney or Bladder Problems,,,,
+2779,2779,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2780,2780,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2781,2781,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2782,2782,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherkidney,{Other Kidney or Bladder Problem} Kidney or Bladder Problems,,,,
+2783,2783,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2784,2784,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2785,2785,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2786,2786,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qbph,{Benign Prostatic Hyperplasia (BPH)} Men's Health Conditions,,,,
+2787,2787,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2788,2788,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2789,2789,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2790,2790,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qed,{Erectile dysfunction} Men's Health Conditions,,,,
+2791,2791,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2792,2792,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2793,2793,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2794,2794,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qothermens,{Other Men's Health Condition} Men's Health Conditions,,,,
+2795,2795,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2796,2796,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2797,2797,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2798,2798,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qadd,{ADD/ADHD} Neurological or Mental Health Conditions,,,,
+2799,2799,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2800,2800,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2801,2801,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2802,2802,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qalzheimer,{Alzheimer/Dementia} Neurological or Mental Health Conditions,,,,
+2803,2803,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2804,2804,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2805,2805,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2806,2806,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qanxiety,{Anxiety} Neurological or Mental Health Conditions,,,,
+2807,2807,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2808,2808,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2809,2809,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2810,2810,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qbipolar,{Bipolar Disorder} Neurological or Mental Health Conditions,,,,
+2811,2811,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2812,2812,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2813,2813,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2814,2814,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Q111,{Depression} Neurological or Mental Health Conditions,,,,
+2815,2815,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2816,2816,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2817,2817,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2818,2818,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qepilepsy,{Epilepsy} Neurological or Mental Health Conditions,,,,
+2819,2819,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2820,2820,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2821,2821,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2822,2822,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qms,{Multiple Sclerosis} Neurological or Mental Health Conditions,,,,
+2823,2823,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2824,2824,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2825,2825,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2826,2826,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qparkinsons,{Parkinson's Disease} Neurological or Mental Health Conditions,,,,
+2827,2827,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2828,2828,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2829,2829,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2830,2830,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qschiz,{Schizophrenia} Neurological or Mental Health Conditions,,,,
+2831,2831,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2832,2832,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2833,2833,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2834,2834,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherneuro,{Other Neurological or Mental Health Condition} Neurological or Mental Health Conditions,,,,
+2835,2835,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2836,2836,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2837,2837,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2838,2838,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qacne,{Acne} Skin Conditions,,,,
+2839,2839,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2840,2840,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2841,2841,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2842,2842,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdry,{Dry Skin} Skin Conditions,,,,
+2843,2843,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2844,2844,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2845,2845,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2846,2846,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qexzema,{Eczema} Skin Conditions,,,,
+2847,2847,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2848,2848,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2849,2849,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2850,2850,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherskin,{Other Skin Condition} Skin Conditions,,,,
+2851,2851,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2852,2852,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2853,2853,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2854,2854,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qpsoriasis,{Psoriasis} Skin Conditions,,,,
+2855,2855,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2856,2856,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2857,2857,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2858,2858,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qrosacea,{Rosacea} Skin Conditions,,,,
+2859,2859,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2860,2860,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2861,2861,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2862,2862,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qshingles,{Shingles} Skin Conditions,,,,
+2863,2863,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2864,2864,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2865,2865,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2866,2866,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qinsomnia,{Insomnia} Sleep Disorders,,,,
+2867,2867,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2868,2868,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2869,2869,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2870,2870,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qnarcolepsy,{Narcolepsy} Sleep Disorders,,,,
+2871,2871,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2872,2872,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2873,2873,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2874,2874,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qapnea,{Sleep Apnea} Sleep Disorders,,,,
+2875,2875,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2876,2876,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2877,2877,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2878,2878,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qothersleep,{Other Sleep Disorder} Sleep Disorders,,,,
+2879,2879,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2880,2880,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2881,2881,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2882,2882,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qconstipation,"{Constipation} Stomach, Bowel, Digestion",,,,
+2883,2883,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2884,2884,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2885,2885,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2886,2886,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qcrohns,"{Crohn's Disease} Stomach, Bowel, Digestion",,,,
+2887,2887,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2888,2888,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2889,2889,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2890,2890,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdigestion,"{Digestion problems / stomach aches} Stomach, Bowel, Digestion",,,,
+2891,2891,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2892,2892,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2893,2893,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2894,2894,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qgerd,"{GERD/Acid Reflux} Stomach, Bowel, Digestion",,,,
+2895,2895,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2896,2896,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2897,2897,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2898,2898,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qheartburn,"{Heartburn} Stomach, Bowel, Digestion",,,,
+2899,2899,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2900,2900,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2901,2901,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2902,2902,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+QIBS,"{Irritable Bowel Syndrome (IBS)} Stomach, Bowel, Digestion",,,,
+2903,2903,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2904,2904,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2905,2905,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2906,2906,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qulcers,"{Ulcers} Stomach, Bowel, Digestion",,,,
+2907,2907,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2908,2908,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2909,2909,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2910,2910,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherbowel,"{Other Stomach, Bowel, or Digestion Problem} Stomach, Bowel, Digestion",,,,
+2911,2911,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2912,2912,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2913,2913,F1.0,Checked: 3,Unchecked: 0,I am a care-giver to someone with this ailment
+2914,2914,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qendometriosis,{Endometriosis} Women's Health,,,,
+2915,2915,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2916,2916,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2917,2917,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2918,2918,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qheavyperiod,{Heavy Periods} Women's Health,,,,
+2919,2919,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2920,2920,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2921,2921,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2922,2922,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qmenopause,{Menopause} Women's Health,,,,
+2923,2923,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2924,2924,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2925,2925,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2926,2926,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qotherwomens,{Other Women's Health Issue} Women's Health,,,,
+2927,2927,F1.0,Checked: 1,Unchecked: 0,I have been diagnosed with this ailment
+2928,2928,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this ailment
+2929,2929,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this ailment
+2930,2930,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qbald,{Baldness} Other Ailments/Conditions,,,,
+2931,2931,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2932,2932,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2933,2933,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2934,2934,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qoverweight,{Being overweight} Other Ailments/Conditions,,,,
+2935,2935,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2936,2936,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2937,2937,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2938,2938,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdental,{Dental problems} Other Ailments/Conditions,,,,
+2939,2939,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2940,2940,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2941,2941,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2942,2942,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qhsdd,{Hypoactive Sexual Desire Disorder (HSDD)} Other Ailments/Conditions,,,,
+2943,2943,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2944,2944,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2945,2945,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2946,2946,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qnail,{Nail Fungus} Other Ailments/Conditions,,,,
+2947,2947,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2948,2948,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2949,2949,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2950,2950,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qobesity,{Obesity} Other Ailments/Conditions,,,,
+2951,2951,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2952,2952,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2953,2953,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2954,2954,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qorgan,{Organ Transplant} Other Ailments/Conditions,,,,
+2955,2955,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2956,2956,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2957,2957,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2958,2958,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qrls,{Restless Leg Syndrome} Other Ailments/Conditions,,,,
+2959,2959,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2960,2960,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2961,2961,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2962,2962,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qseizure,{Seizures} Other Ailments/Conditions,,,,
+2963,2963,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2964,2964,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2965,2965,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2966,2966,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qdrymouth,{Sj&ouml;gren's Syndrome (Dry Mouth)} Other Ailments/Conditions,,,,
+2967,2967,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2968,2968,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2969,2969,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2970,2970,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qstroke,{Stroke} Other Ailments/Conditions,,,,
+2971,2971,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2972,2972,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2973,2973,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2974,2974,F1.0,Checked: 4,Unchecked: 0,N/A
+,,,,,
+Qyeast,{Yeast Infections} Other Ailments/Conditions,,,,
+2975,2975,F1.0,Checked: 1,Unchecked: 0,I suffer from this
+2976,2976,F1.0,Checked: 2,Unchecked: 0,Another member of my household suffers from this
+2977,2977,F1.0,Checked: 3,Unchecked: 0,I am a caregiver to someone with this
+2978,2978,F1.0,Checked: 4,Unchecked: 0,N/A

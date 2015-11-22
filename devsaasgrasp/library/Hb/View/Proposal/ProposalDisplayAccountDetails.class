@@ -1,0 +1,57 @@
+<?php
+class Hb_View_Proposal_ProposalDisplayAccountDetails extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/display_account_details.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	protected $account_details = array();
+	
+	private $currency = null;
+	
+	private $exchange_rate = null;
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('account_details', $this->account_details);
+		$this->SetData('currency', $this->currency);
+		$this->SetData('exchange_rate', $this->exchange_rate);
+	}
+	
+	public function SetAccountExecutive($account_ae)
+	{
+		$this->account_details['account_ae'] = $account_ae;		
+	}
+	
+	public function SetAccountManager($account_mgr) 
+	{
+		$this->account_details['account_mgr'] = $account_mgr;
+	}
+	
+	public function SetAccountId($account_id)
+	{
+		$this->account_details['account_id'] = $account_id;
+	}
+	
+	public function SetAccountName($account_name)
+	{
+		$this->account_details['account_name'] = $account_name;
+	}
+	
+	public function SetProposalWriter($writer)
+	{
+		$this->account_details['proposal_writer'] = $writer;
+	}
+	
+	public function SetAccountCurrency($currency)
+	{
+		$this->currency = $currency;
+	}
+		
+	public function SetExchangeRate($rate)
+	{
+		$this->exchange_rate = $rate;
+	}
+}
+
+?>

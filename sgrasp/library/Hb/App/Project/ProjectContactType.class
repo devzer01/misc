@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Project Contact Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ *
+ */ 
+class Hb_App_Project_ProjectContactType extends Hb_App_Common_Type  
+{	
+	/**
+	 * Create Project Contact Type Object
+	 *
+	 * @param int $id Project contact type id
+	 * @param string $description Project contact type description
+	 */
+	public function __construct($id = null,
+									    $description = null
+									   )
+   {  	
+   	parent::__construct($id, $description);	
+   }  
+   
+}
+?>

@@ -1,0 +1,156 @@
+<?php
+/**
+ * Domain Object for Proposal Auction User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+
+class Hb_App_Proposal_ProposalAuctionUser extends Hb_App_Object
+{
+	/**
+	 * Proposal auction user id
+	 *
+	 * @var int
+	 */   
+	protected $proposal_auction_user_id = null;
+	
+	/**
+	 * Proposal auction id
+	 *
+	 * @var int
+	 */   
+	protected $proposal_auction_id = null;
+	
+	/**
+	 * The role id
+	 *
+	 * @var int
+	 */   	
+	protected $role_id = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int
+	 */   	
+	protected $login = null;
+
+	
+	/**
+	 * Create an Proposal Object
+	 *
+	 * @param int $id The proposal user auction id
+	 * @param int $proposal_auction_id The propsoal auction id
+	 * @param int $role_id Role id
+	 * @param int $login User id
+	 */	
+	function __construct(
+									$id = null,
+									$proposal_auction_id = null,
+									$role_id = null,
+									$login = null																			
+								)
+	{
+		$this->proposal_auction_user_id = $id;
+		$this->proposal_auction_id = $proposal_auction_id;
+		$this->role_id = $role_id;
+		$this->login = $login;
+			
+		parent::__construct($id);		
+	}
+	
+	/**
+	 * Return proposal auction user id
+	 *
+	 * @return int Proposal auction user id
+	 */	
+	public function GetProposalAuctionUserId()
+	{
+		return $this->proposal_auction_user_id;		
+	}
+
+	/**
+	 * Return proposal auction id
+	 *
+	 * @return int Proposal auction  id
+	 */		
+	public function GetProposalAuctionId()
+	{
+		return $this->proposal_auction_id;
+	}
+	
+	/**
+	 * Return role id
+	 *
+	 * @return int Role id
+	 */			
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+	
+	/**
+	 * Return login id
+	 *
+	 * @return int Login id
+	 */				
+	public function GetLoginId()
+	{
+		return $this->login;
+	}
+	
+	
+	/**
+	 * Sets proposal auction user id
+	 *
+	 * @param int $proposal_auction_user_id The proposal user auction id
+	 */	
+	public function SetProposalAuctionUserId($proposal_auction_user_id)
+	{
+		$this->proposal_auction_user_id = (int) $proposal_auction_user_id;
+		$this->__id = (int) $proposal_auction_user_id;
+		
+		$this->MarkDirty();
+	}
+		
+	/**
+	 * Sets proposal auction id
+	 *
+	 * @param int $proposal_auction_id The proposal auction id
+	 */	
+	public function SetProposalAuctionId($proposal_auction_id)
+	{
+		$this->proposal_auction_id = (int) $proposal_auction_id;		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets role id
+	 *
+	 * @param int $role_id The role id
+	 */	
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = (int) $role_id;
+		$this->MarkDirty();
+	}
+
+
+	/**
+	 * Sets login id
+	 *
+	 * @param int $login The login id
+	 */	
+	public function SetLoginId($login)
+	{
+		$this->login = (int) $login;
+		$this->MarkDirty();
+	}
+
+}
+?>

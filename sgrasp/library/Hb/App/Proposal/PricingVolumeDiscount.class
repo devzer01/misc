@@ -1,0 +1,212 @@
+<?php
+/**
+ * Domain Object for Pricing Volume Discount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_PricingVolumeDiscount extends Hb_App_Object 
+{
+	/**
+	 * Discount amount
+	 *
+	 * @var flost 
+	 */
+	protected $discount_amount = null;
+	
+	/**
+	 * Effective Date
+	 *
+	 * @var string 
+	 */
+	protected $effective_date = null;
+	
+	/**
+	 * Expire date
+	 *
+	 * @var string 
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * License level id
+	 *
+	 * @var int 
+	 */
+	protected $license_level_id = null;
+	
+	/**
+	 * Pricing volume discount id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_volume_discount_id = null;
+	
+	/**
+	 * Volume amount
+	 *
+	 * @var int 
+	 */
+	protected $volume_amount = null;
+
+	/**
+	 * Create Pricing Volume Discount Object
+	 *
+	 * @param int $id pricing volume discount id
+	 * @param float $discount_amount Discount amount
+	 * @param string $effective_date Effective date
+	 * @param string $expire_date Expire date
+	 * @param int $license_level_id License level id
+	 * @param int $volume_amount Volume amount
+	 */
+	function __construct($id = null,
+								$expire_date = null,
+								$volume_amount = null,
+								$effective_date = null,
+								$discount_amount = null,							
+								$license_level_id = null
+								)
+	{
+		$this->pricing_volume_discount_id	= $id;
+		$this->discount_amount					= $discount_amount;
+		$this->expire_date						= $expire_date;
+		$this->effective_date					= $effective_date;
+		$this->volume_amount						= $volume_amount;
+		$this->license_level_id					= $license_level_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Discount Amount for the Pricing Volume Discount
+	 *
+	 * @return float Discount Amount
+	 */
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+	/**
+	 * Return the Effective Date for the Pricing Volume Discount
+	 *
+	 * @return string Effective Date
+	 */
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	 * Return the Expire date for the Pricing Volume Discount
+	 *
+	 * @return string Expire date
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Return the License level id for the Pricing Volume Discount
+	 *
+	 * @return int License level id
+	 */
+	public function GetLicenseLevelId()
+	{
+		return $this->license_level_id;
+	}
+
+	/**
+	 * Return the Pricing volume discount id for the Pricing Volume Discount
+	 *
+	 * @return int Pricing volume discount id
+	 */
+	public function GetPricingVolumeDiscountId()
+	{
+		return $this->pricing_volume_discount_id;
+	}
+
+	/**
+	 * Return the Volume amount for the Pricing Volume Discount
+	 *
+	 * @return int Volume amount
+	 */
+	public function GetVolumeAmount()
+	{
+		return $this->volume_amount;
+	}
+
+	/**
+	 * Set the Discount amount for the  Pricing Volume Discount
+	 * 
+	 * @param int $discount_amount Discount amount
+	 */
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = (float) $discount_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Effective date for the  Pricing Volume Discount
+	 * 
+	 * @param string $effective_date Effective date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Expire date for the  Pricing Volume Discount
+	 * 
+	 * @param string $expire_date Expire date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the License level id for the  Pricing Volume Discount
+	 * 
+	 * @param int $license_level_id License level id
+	 */
+	public function SetLicenseLevelId($license_level_id)
+	{
+		$this->license_level_id = (int) $license_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing volume discount id for the  Pricing Volume Discount
+	 * 
+	 * @param int $pricing_volume_discount_id Pricing volume discount id
+	 */
+	public function SetPricingVolumeDiscountId($pricing_volume_discount_id)
+	{
+		$this->pricing_volume_discount_id 	= (int) $pricing_volume_discount_id;
+		$this->__id									= (int) $pricing_volume_discount_id;
+		$this->MarkDirty();	 
+	}
+
+	/**
+	 * Set the Volume amount for the  Pricing Volume Discount
+	 * 
+	 * @param int $volume_amount Volume amount
+	 */
+	public function SetVolumeAmount($volume_amount)
+	{
+		$this->volume_amount = (int) $volume_amount;
+		$this->MarkDirty();
+	}
+
+}
+?>

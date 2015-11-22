@@ -1,0 +1,159 @@
+<?php
+
+include_once 'class/Hb/App/Account/Account.class';
+include_once 'class/Hb/App/Proposal/Proposal.class';
+
+/**
+ * Manager classes for handling proposal creation
+ * 
+ * @package App
+ * @subpackage Proposal.Manager
+ * @version 1.0
+ * @copyright Global Market Insite Inc 2007 (c)
+ * @author Nayana Hettiarachchi, Jon Vonica (XP)
+ * @name Repository
+ * @example Hb_App_Proposal_Manager_Repository::Create('200100', 'Test Proposal');
+ */
+
+
+class Hb_App_Proposal_Manager_Repository
+{
+	/**
+	 * Provides a static interface to create a brand new proposal
+	 * 
+	 * @param int $account_id Id of the account which the proposal should be created for
+	 * @param string $proposal_name Name of the created proposal
+	 * @param int $product_id Optional Product identifer  
+	 */
+	public static function Create($account_id, $proposal_name, $product_id = PRODUCT_NETMR)
+	{
+		$proposal = new Hb_App_Proposal_Proposal(null, $proposal_name);
+		
+		self::doInit($proposal, $account_id, $product_id);
+    		
+    	Hb_App_ObjectWatcher::commit();
+
+    	return $proposal;
+	}
+	
+	public static function AddContact(Hb_App_Proposal_Proposal $proposal, $contact_id)
+	{
+		if (is_null($proposal->GetAccountId())) {
+			throw new Hb_App_Proposal_Exception_AccountNotSetException();
+		}
+		
+		$account_contact = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountContact')->FindByAccountIdAndContactId($proposal->GetAccountId(), $contact_id);
+		
+		/* @var $account_contact Hb_App_Account_AccountContact */
+
+		$contact = $account_contact->GetContact();
+		
+		$proposal->AddContact(new Hb_App_Proposal_ProposalContact(null, $proposal->GetProposalId(), $contact->GetContactId(), null, $contact->GetFirstName() ));
+		
+		Hb_App_ObjectWatcher::commit();
+	}
+	
+	/**
+	 * 
+	 * Initialize a given proposal, with default settings
+	 * 
+	 * @param $proposal Hb_App_Proposal_Proposal
+	 * @param int $account_id Id of the account which the proposal should be created for
+	 * @param int $product_id Optional Product identifer
+	 */
+	protected static function doInit(Hb_App_Proposal_Proposal $proposal, $account_id, $product_id)
+	{
+    	//FIXME: fix the proposal contact when saving proposal
+		//$contact = new Hb_App_Proposal_Propo
+		
+		$account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($account_id);
+		/* @var $account Hb_App_Account_Account */
+		
+		/* @var $product Hb_App_Account_AccountProduct */
+    	$product = $account->GetProduct($product_id);
+    	
+    	$proposal->SetAccountId($account->GetAccountId());
+    	$proposal->SetAccountName($account->GetAccountName());
+    	$proposal->SetAccountTypeId($account->GetAccountType());
+    	
+    	$proposal->SetProductId($product->GetProductId());
+    	$proposal->SetLicenseLevelId($product->GetLicenseId());
+    	$proposal->SetPricingRegimeId($product->GetPricingRegime());
+    	
+    	$proposal->SetFunctionalGroupId(1);
+    	$proposal->SetProposalStatusId(PROPOSAL_STATUS_WORK_PROGRESS);
+    	$proposal->SetProposalSubStatusId(1);
+
+    	$proposal->SetRegionId($account->GetRegionId());
+
+    	$proposal->SetLogin(10312);   //FIXME: use the logged user's ID
+    	$proposal->SetUserId(10312);  //FIXME: use the logged user's ID
+
+    	$proposal->SetCountryCode($account->GetCountryCode());
+    	$proposal->SetProposalDate(date("Y-m-d"));
+    	$proposal->SetCurrentRevision(1);
+    	
+
+    	self::doCopyAccountAttributes($proposal, $account->GetAccountId());
+    	
+    	self::doCopyAccountUsers($proposal, $account->GetAccountId(), $product_id);
+	}
+	
+	
+	/**
+	 *  Copy attributes from the given account to the specified proposal 
+	 * 
+	 * @param Hb_App_Proposal_Proposal $proposal The proposal that we want to copy the account attributes to
+	 * @param int $account_id The ID of the account from which to copy the attributes from
+	 * @param array [$copy_only] An array of attribute names that should be copied. If missing or empty, method will copy all account attributes.
+	 * 
+	 */
+	protected static function doCopyAccountAttributes(Hb_App_Proposal_Proposal $proposal, $account_id, array $copy_only = array())
+	{
+		$account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($account_id);
+		
+		$attributes = $account->GetAttributes();
+		
+		foreach ($attributes as $attribute) {
+			
+			if (!empty($copy_only) && !in_array($attribute->GetName(), $copy_only)) {
+				continue;
+			} 
+			
+			$proposal->AddAttribute(
+				new Hb_App_Proposal_ProposalAttribute(null, null, $attribute->GetAttributeName(), $attribute->GetAttributeValue())
+			);	
+			
+		}		
+	}
+	
+	/**
+	 *  Copy users from the given account to the specified proposal 
+	 * 
+	 * @param Hb_App_Proposal_Proposal $proposal The proposal that we want to copy the account attributes to
+	 * @param int $account_id The ID of the account from which to copy the attributes from
+	 * @param int $product_id If provided only copies the users for the specified product_id 
+	 * 
+	 */
+	protected static function doCopyAccountUsers(Hb_App_Proposal_Proposal $proposal, $account_id, $product_id = null)
+	{
+		//FIXME: test to see if account_id is int and throw exception if not
+		
+		$account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($account_id);
+		
+		/* @var $account Hb_App_Account_Account */
+		$users = $account->GetUsers();
+		/* @var $user Hb_App_Account_AccountUser */
+		foreach ($users AS $user) {
+			if (!is_null($product_id) && !($user->GetProduct()->GetProductId() == $product_id))
+			{
+				continue; 
+			}
+			
+			$pu = new Hb_App_Proposal_ProposalUser(null, $user->GetUser()->GetId(), null, $user->GetRoleId(), $user->GetUser()->GetId());			
+			$proposal->AddUser($pu);
+		}
+		
+	}
+}
+?>

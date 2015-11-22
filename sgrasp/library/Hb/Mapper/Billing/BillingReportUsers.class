@@ -1,0 +1,42 @@
+<?php
+class Hb_Mapper_Billing_BillingReportUsers extends Hb_Mapper_Billing_BillingReportUser  
+{
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('armc_user_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	protected function doFindByRole($id, $role){
+		$select = $this->GetBaseSelect();
+		$select->where('armc_id = ?', $id);		
+		$select->where('role_id = ?', $role);		
+//		print $select;die();?
+		return $this->getRows($select);
+	}
+	
+	public function FindByRole($id, $role){
+		$result = $this->doFindByRole($id, $role);
+		return $this->BuildCollection($result);
+		
+	}
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Billing_BillingReportUsers');
+	}
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

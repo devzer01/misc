@@ -1,0 +1,265 @@
+<?php 
+/**
+ * Domain Object for Sales Account
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Sales
+ */  
+class Hb_App_Sales_SalesAccount extends Hb_App_Object 
+{
+	/**
+	 * Sales Account Id
+	 * 
+	 * @var int
+	 */
+	protected $sam_account_id = null;
+
+	/**
+	 * Region Id
+	 * 
+	 * @var int
+	 */
+	protected $region_id = null;
+	
+	/**
+	 * User Id
+	 * 
+	 * @var int
+	 */
+	protected $user_id = null;
+
+	/**
+	 * Account Id
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Sales Type Id
+	 * 
+	 * @var int
+	 */
+	protected $sam_type_id = null;
+	
+	/**
+	 * Sales Date
+	 * 
+	 * @var string
+	 */
+	protected $sam_date = null;
+	
+	/**
+	 * Amount
+	 * 
+	 * @var float
+	 */
+	protected $amount = null;
+	
+	
+	/**
+	* Contructor of the Sales Account Domain
+	* 
+	* @param int $id Sales Account Id
+	* @param int $region_id Region Id
+	* @param int $user_id User Id
+	* @param int $account_id Account Id
+	* @param int $sam_type_id Sales Type Id
+	* @param string $sam_date Sales Date
+	* @param int $amount Amount
+	*/		
+	function __construct($id 			 = null,	
+							   $region_id   = null,
+							   $user_id  	 = null,
+							   $account_id  = null,	
+							   $sam_type_id = null,
+							   $sam_date  	 = null,
+							   $amount 		 = null
+							  )
+	{		 					
+		
+		$this->sam_account_id = $id;
+		$this->region_id      = $region_id;
+		$this->user_id        = $user_id ;
+		$this->account_id 	 = $account_id;
+		$this->sam_type_id    = $sam_type_id;
+		$this->sam_date       = $sam_date ;
+		$this->amount 	  		 = $amount;
+				
+		parent::__construct($id);
+	}	
+	
+	
+	/**
+	 * Get Sales Account Id
+	 *	
+	 * @return int $sam_account_id Sales Account Id
+	 */
+	public function GetSalesAccountId()
+	{
+		return $this->sam_account_id;
+	}
+	
+	
+	/**
+	 * Get Region Id
+	 *	
+	 * @return int $region_id Region Id
+	 */
+	public function GetRegionId ()	
+	{
+		return $this->region_id;
+	}	
+	
+	
+	/**	
+	 * Get User Id
+	 *
+	 * @return int $user_id User Id	
+	 */
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}	
+	
+	
+	/**	
+	 * Get Account Id
+	 *
+	 * @return int $account_id Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}	
+	
+	
+	/**	
+	 * Get Sales Type Id
+	 *
+	 * @return int $sam_type_id Sales Type Id
+	 */
+	public function GetSalesTypeId()
+	{
+		return $this->sam_type_id;
+	}	
+	
+	
+	/**	
+	 * Get Sales Date
+	 *
+	 * @return string $sam_date Sales Date
+	 */
+	public function GetSalesDate()
+	{
+		return $this->sam_date;
+	}	
+	
+	
+	/**	
+	 * Get Amount
+	 *
+	 * @return float $amount Amount
+	 */
+	public function GetAmount()
+	{
+		return $this->amount;
+	}
+	
+	
+	/**
+	 * Sets the Sales Account Id
+	 *
+	 * @param int $sam_account_id Sales Account Id
+	 */
+	public function SetSalesAccountId($sam_account_id)
+	{
+		$this->sam_account_id = $sam_account_id;
+
+		$this->__id = $sam_account_id ;	
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets Region Id
+	 *
+	 * @param int $region_id Region Id
+	 */
+	public function SetRegionId ($region_id)
+	{
+		$this->region_id = $region_id;
+		
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Sets User Id
+	 * 
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Account Id
+	 * 
+	 * @param int $user_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}
+		
+	
+	/**
+	 * Sets Sales Type Id
+	 * 
+	 * @param int $sam_type_id Sales Type Id
+	 */
+	public function SetSalesTypeId($sam_type_id)
+	{
+		$this->sam_type_id = $sam_type_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	
+	/**
+	 * Sets Sales Date
+	 * 
+	 * @param string $sam_date Sales Date
+	 */
+	public function SetSalesDate($sam_date)
+	{
+		$this->sam_date = $sam_date;
+		
+		$this->MarkDirty();
+	}	
+
+	
+	/**
+	 * Sets Amount
+	 * 
+	 * @param float $amount Amount
+	 */
+	public function SetAmount($amount)
+	{
+		$this->amount = $amount;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

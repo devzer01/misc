@@ -1,0 +1,124 @@
+<?php
+/**
+ * Mapper Class for UserFile
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera/ krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage User
+ */
+
+class Hb_Mapper_User_UserFile extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the User file id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'user_file_id';
+
+	/**
+	 * User file
+	 *
+	 * @var string 
+	 */
+	protected $table = 'user_file';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_User_UserFile';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_User_UserFile';
+	
+	/**
+	 * Build the UserFile Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_User_UserFile
+	 */
+	protected function doBuildObject($row)
+	{
+		$user_file = new Hb_App_Common_File($row->user_file_id, $row->file_type_id, $row->user_file_name, 
+														$row->user_file_description, $row->user_file_size);
+		return new Hb_App_User_UserFile(
+													$row->user_file_id,
+													$row->login,
+													$user_file
+													);
+	}
+	
+	/**
+	 * Get the base data set for UserFile
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('uf' => 'user_file'), 
+							array('user_file_id',
+									'file_type_id', 
+									'login',
+									'user_file_name',
+									'user_file_description', 
+									'user_file_size'
+				    		  		)
+						 );
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given User file
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('uf.user_file_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the User file
+	 *
+	 * @param Hb_App_Object UserFile
+	 * @return object User file
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+		'file_type_id'				=> $obj->GetFile()->GetFileTypeId(),
+		'login'						=> $obj->GetLogin(),
+		'user_file_name'			=> $obj->GetFile()->GetFileName(),
+		'user_file_description'	=> $obj->GetFile()->GetFileTitle(),
+		'user_file_data'			=> $obj->GetFile()->GetFileData(),
+		'user_file_size'			=> $obj->GetFile()->GetFileSize()
+		);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('user_file', $data);
+			$obj->SetUserFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('user_file', $data, 'user_file_id = ' . $obj->GetId());	
+		}
+	}
+} 
+?>

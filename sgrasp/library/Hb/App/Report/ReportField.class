@@ -1,0 +1,28 @@
+<?php
+
+class Hb_App_Report_ReportField extends Hb_App_Object 
+{
+	
+	protected $name = null;
+	
+	protected $description = null;
+	
+	public function __construct($name = null, $description = null)
+	{
+		$this->name = $name;
+		$this->description = $description;
+	}
+	
+	public function GetName()
+	{
+		return $this->name;
+	}
+	
+	public function GetDescription()
+	{
+		return $this->description;
+	}
+	
+	
+}
+?>

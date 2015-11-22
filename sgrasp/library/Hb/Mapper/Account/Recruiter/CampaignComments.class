@@ -1,0 +1,68 @@
+<?php
+/**
+ * Mapper Object for Recruiter Campaign Comments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_CampaignComments extends Hb_Mapper_Account_Recruiter_CampaignComment  
+{
+	/**
+	 * Find the Campaign Comments and retutn the row object
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_recruiter_campaign_comment_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the Collection class of Campaign Comments
+	 *
+	 * @param Row Object $rows
+	 * @return 
+	 */	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_Recruiter_CampaignComments');
+	}
+	
+	/**
+	 * Find the All Comments by type
+	 *
+	 * @return Row Object
+	 */	
+	public function FindByCommentType($id, $type)
+	{
+		$result = $this->doFindByCommentType($id, $type);
+		
+		return $this->BuildCollection($result, 'Hb_App_Account_Recruiter_CampaignComments');
+	}
+	
+	protected function doFindByCommentType($id, $type)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_recruiter_campaign_id = ?', $id);		
+		$select->where('account_recruiter_comment_type_id = ?', $type);
+			
+		return $this->getRows($select);
+	}
+	
+	
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

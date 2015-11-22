@@ -1,0 +1,112 @@
+<?php
+/**
+ * Mapper Object for Proposal User
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalUser extends Hb_Mapper_Mapper  
+{
+	/**
+	 * Domain for this Mapper
+	 *
+	 * @var string 
+	 */
+	protected $__domain = 'Hb_App_Proposal_ProposalUser';
+	
+	/**
+	 * Geteway for this mapper
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalUser';
+	
+	/**
+	 * Primary Key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'proposal_user_id';
+	
+	/**
+	 * Table Name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_user';
+	
+	/**
+	 * Builds and returns the ProposalUser domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the proposa_user table
+	 * @return object An instance of the ProposalUser domain object 
+	 */	
+	protected function doBuildObject($row)	
+	{
+		return new Hb_App_Proposal_ProposalUser($row->proposal_user_id,
+															 $row->login,
+															 $row->proposal_id,
+															 $row->role_id,
+															 $row->user_id
+															);
+		
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select  = $db->select();
+		
+		$select->from(array('pu' => 'proposal_user'), array('login', 
+																			 'user_id', 
+																			 'role_id',
+																			 'proposal_id',
+																			 'proposal_user_id')
+									  );
+	
+		return $select;
+	}
+	
+	/**
+	 * Finds a proposal user by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the proposa_user table
+	 */	
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('proposal_user_id = ?', $id);
+		
+		return $this->getrow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the ProposalUser domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->login 		= $obj->GetLogin();
+		$row->user_id 		= $obj->GetUserId();
+		$row->role_id 		= $obj->GetRoleId();
+		$row->proposal_id = $obj->GetProposalId();
+		
+		$row->Save();
+		
+		$obj->SetProposalUserId($row->proposal_user_id);
+	}
+}
+?>

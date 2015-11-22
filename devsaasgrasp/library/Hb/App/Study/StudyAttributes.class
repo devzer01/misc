@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Study Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+
+class Hb_App_Study_StudyAttributes extends Hb_App_Attributes 
+{
+	protected $study;
+	
+	protected $study_id;
+	
+	
+	public function AddAttribute(Hb_App_Study_StudyAttribute $attribute)
+	{
+		try 
+		{
+			parent::AddAttribute($attribute);
+		}  
+		catch (Hb_Data_ObjectInCollectionException $e)  
+		{
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Study ". $this->study_id,	HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try 
+		{
+			return parent::GetAttribute($name);
+		} 
+		catch (Hb_Data_ObjectNotInCollectionException $e) 
+		{
+			
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Study " . $this->study_id, HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddProposal(Hb_App_Proposal_Proposal $study)
+	{
+		$this->study = $study;
+		$this->study_id = $study->GetStudyId();
+	}
+	
+
+}
+?>

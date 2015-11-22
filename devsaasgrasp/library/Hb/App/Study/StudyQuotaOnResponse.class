@@ -1,0 +1,211 @@
+<?php
+/**
+ * Domain Object for Study Quota On Response
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyQuotaOnResponse extends Hb_App_Object
+{
+	/**
+	 * Study id
+	 *
+	 * @var int
+	 **/
+	protected $study_id = null;
+
+	/**
+	 * Study quota label
+	 *
+	 * @var string
+	 **/
+	protected $study_quota_label = null;
+	
+	/**
+	 * Study quota name
+	 *
+	 * @var string
+	 **/
+	protected $study_quota_name = null;
+	
+	/**
+	 * Study quota on response id
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_on_response_id = null;
+
+	/**
+	 * Study quota progress
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_progress = null;
+	
+	/**
+	 * Study quota required
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_required = null;
+
+	/**
+	 * Create StudyQuotaOnRespose Object
+	 *
+	 * @param int $id Study quota on response id
+	 * @param int $study_id Study id
+	 * @param string $study_quota_label Study quota label
+	 * @param string $study_quota_name Study quota name
+	 * @param int $study_quota_progress Study quota progress
+	 * @param int $study_quota_required Study quota required
+	 */
+	function __construct($id = null,
+  							   $study_id = null,
+  							   $study_quota_label = null,
+  							   $study_quota_name = null,
+  							   $study_quota_progress = null,
+  							   $study_quota_required = null)
+	{
+		$this->study_quota_on_response_id 	= $id;
+		$this->study_id 							= $study_id;
+		$this->study_quota_label 				= $study_quota_label;
+		$this->study_quota_name					= $study_quota_name;
+		$this->study_quota_progress 			= $study_quota_progress;
+		$this->study_quota_required			= $study_quota_required;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Study Id
+ 	* 
+	* @return int The Study Id
+	**/
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+	
+	/**
+	* Returns the Study quota label
+ 	* 
+	* @return string Study quota label
+	**/
+	public function GetStudyQuotaLabel()
+	{
+		return $this->study_quota_label;
+	}
+
+	/**
+	* Returns the Study quota name
+ 	* 
+	* @return string Study quota name
+	**/
+	public function GetStudyQuotaName()
+	{
+		return $this->study_quota_name;
+	}
+
+	/**
+	* Returns the Study quota on response id
+ 	* 
+	* @return int Study quota on response id
+	**/
+	public function GetStudyQuotaOnResponseId()
+	{
+		return $this->study_quota_on_response_id;
+	}
+
+	/**
+	* Returns the Study quota progress
+ 	* 
+	* @return int Study quota progress
+	**/
+	public function GetStudyQuotaProgress()
+	{
+		return $this->study_quota_progress;
+	}
+
+	/**
+	* Returns the Study quota required
+ 	* 
+	* @return int Study quota required
+	**/
+	public function GetStudyQuotaRequired()
+	{
+		return $this->study_quota_required;
+	}
+
+	/**
+	 * Sets the Study id
+ 	 * 
+	 * @param int $study_id Study id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quote label
+ 	 * 
+	 * @param string $study_quota_label Study quote label
+	 */
+	public function SetStudyQuotaLabel($study_quota_label)
+	{
+		$this->study_quota_label = $study_quota_label;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quote name
+ 	 * 
+	 * @param string $study_quota_name Study quote name
+	 */
+	public function SetStudyQuotaName($study_quota_name)
+	{
+		$this->study_quota_name = $study_quota_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quote on response id
+ 	 * 
+	 * @param int $study_quota_on_response_id Study quote on response id
+	 */
+	public function SetStudyQuotaOnResponseId($study_quota_on_response_id)
+	{
+		$this->study_quota_on_response_id = $study_quota_on_response_id;
+		$this->__id = $study_quota_on_response_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quote progress
+ 	 * 
+	 * @param int $study_quota_progress Study quote progress
+	 */
+	public function SetStudyQuotaProgress($study_quota_progress)
+	{
+		$this->study_quota_progress = $study_quota_progress;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quote required
+ 	 * 
+	 * @param int $study_quota_required Study quote required
+	 */
+	public function SetStudyQuotaRequired($study_quota_required)
+	{
+		$this->study_quota_required = $study_quota_required;
+		$this->MarkDirty();
+	}
+
+}
+?>

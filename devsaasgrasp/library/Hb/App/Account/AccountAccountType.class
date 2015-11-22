@@ -1,0 +1,101 @@
+<?php 
+class Hb_App_Account_AccountAccountType extends Hb_App_Object 
+{
+	/**
+	 * Account Account Type id
+	 *
+	 * @var int 
+	 */
+	protected $account_account_type_id = null;
+	
+	/**
+	 * Account id
+	 *
+	 * @var int 
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Account Type id
+	 *
+	 * @var type 
+	 */
+	protected $account_type_id = null;
+	
+	function __construct($id = null,
+								$account_type_id = null,
+								$account_id)
+	{
+		$this->account_account_type_id = $id;
+		$this->account_id = $account_id;
+		$this->account_type_id = $account_type_id;		
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Account Account type id for the Account Account type domain
+	 *
+	 * @return int Account Account type id
+	 */
+	public function GetAccountAccountTypeId()
+	{
+		return $this->account_account_type_id;
+	}
+	
+	/**
+	 * Return the Account id for the Account Account Type domain
+	 *
+	 * @return int Account id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Return the Account Type id for the Account Account Type domain
+	 *
+	 * @return int Account Type id
+	 */
+	public function GetAccountTypeId()
+	{
+		return $this->account_type_id;
+	}
+	
+	/**
+	 * Set the Account Account Type id for the  Account Account Type domain
+	 * 
+	 * @param int $account_account_type_id Account Account Type id
+	 */
+	public function SetAccountAccountTypeId($account_account_type_id)
+	{
+		$this->account_account_type_id = $account_account_type_id;
+		$this->__id = $account_account_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Account id for the  Account Account Type domain
+	 * 
+	 * @param int $account_id Account id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Account Type id for the  Account Account Type domain
+	 * 
+	 * @param int $account_type_id Account Type id
+	 */
+	public function SetAccountTypeId($account_type_id)
+	{
+		$this->account_type_id = $account_type_id;
+		$this->MarkDirty();
+	}
+}
+
+?>

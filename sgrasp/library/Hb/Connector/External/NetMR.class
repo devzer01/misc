@@ -1,0 +1,164 @@
+<?php
+/**
+ * Enter description here...
+ *
+ */
+class Hb_Connector_External_NetMR extends Hb_Connector_External_Abstract
+{
+	/**
+	 * XMLRPC Server Location, this should be set by a config file
+	 *
+	 * @var string 
+	 */
+	private static $__server = 'se2prestg02.gmi-mr.com';
+	
+	/**
+	 * Path to the XML RPC Server
+	 *
+	 * @var string  
+	 */
+	private static $__path   = '/net-mr2/xmlrpc/server.php';
+
+	/**
+	 * Retrives All Active Studies in Net-MR along with the attributes associated with Router Component
+	 *
+	 * @return array
+	 */
+	public static function GetStudyInfoBatch()
+	{
+		return self::__GetStudyInfoBatch(array('STUDY_ROUTABLE_FLAG', 'STUDY_PRIORITY_SCORE', 'STUDY_PRIORITY_OVERRIDE'));
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param mixed $required_attr
+	 * @return mixed
+	 */
+	private static function __GetStudyInfoBatch($required_attr)
+	{
+		$return = array();
+		
+		$data = self::XmlRpcCall(self::$__server, self::$__path, 'netmr.getStudyInfoBatch', array('attributes' => $required_attr));
+		
+		foreach ($data['result'] as $s) {
+			
+			$study = Hb_Data_Study_NetMR::getInstance($s['study_number'], $s['study_name']);
+			
+			foreach ($s['study_attributes_array'] as $attr) {
+				try {
+					$study->AddAttribute($attr['name'], $attr['value']);	
+				} catch (Hb_Data_ObjectInCollectionException $e) {
+					$study->UpdateAttribute($attr['name'], $attr['value']);
+				}
+			}
+			
+			$return[] = $study;
+		}
+		
+		return $return;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $studies
+	 * @return unknown
+	 */
+	public static function SetStudyInfoBatch($studies = array())
+	{
+		$params = array();
+		
+		$attr = array('STUDY_ROUTABLE_FLAG', 'STUDY_PRIORITY_SCORE', 'STUDY_PRIORITY_OVERRIDE');
+		
+		foreach ($studies as $s) {
+			
+			$data = array('study_name' => $s->study_name, 'study_number' => $s->study_id);
+			
+			foreach ($attr as $key) {
+				$a = $s->GetAttribute($key);					
+				$data['study_attributes_array'][] = array('name' => $key, 'value' => $a->GetAttributeValue());
+			}
+			
+			$params[] = $data;
+		}
+		
+		$out['studies'] = $params;
+		
+		/** need to add error handler here **/
+		return self::XmlRpcCall(self::$__server, self::$__path, 'netmr.setStudyInfoBatch', $out);		
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param Hb_Data_Study $study
+	 * @return unknown
+	 */
+	public static function SetStudyRoutable(Hb_Data_Study_NetMR $study)
+	{
+		$attr_routable_flag = $study->GetAttribute('STUDY_ROUTABLE_FLAG');
+		
+		$params = array(
+			'study_id' => $study->study_id, 
+			'routable' => $attr_routable_flag->GetAttributeValue()
+		);
+		
+		/** need to add error handler here **/
+		$data = self::XmlRpcCall(self::$__server, self::$__path, 'netmr.setStudyRoutable', $params);
+		
+		return $data;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param Hb_Data_Study $study
+	 * @return unknown
+	 */
+	public static function SetStudyPriority(Hb_Data_Study_NetMR $study)
+	{
+		$attr_priority_score = $study->GetAttribute('STUDY_PRIORITY_SCORE');
+		$attr_override       = $study->GetAttribute('STUDY_PRIORITY_OVERRIDE');
+		
+		$params = array(
+			'studyId'          => $study->study_id, 
+			'priority'         => $attr_priority_score->GetAttributeValue(), 
+			'priorityOverride' => $attr_override->GetAttributeValue()
+		);
+		
+		/** need to add error handler here **/
+		$data = self::XmlRpcCall(self::$__server, self::$__path, 'netmr.setStudyPriority', $params);
+		
+		return $data;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $study_id
+	 * @return Hb_Data_Study
+	 */
+	public static function GetRoutedPanelCount($study_id = 0)
+	{
+		static $cache = array();
+		
+		if (empty($cache)) {
+		
+			$studies = self::__GetStudyInfoBatch(array('NUM_RR_PANELISTS'));
+		
+			/* @var $study Hb_Data_Study */
+			foreach ($studies as $study) {
+				$cache[$study->study_id] = $study;
+			}
+		}
+		
+		if (!isset($cache[$study_id])) {
+			return 0;
+			//throw new Hb_Data_Exception("Requested Record Not Found", 1); (no one to catch this)
+		}
+		
+		return $cache[$study_id]->GetAttribute('NUM_RR_PANELISTS')->GetAttributeValue();
+	}
+}
+?>

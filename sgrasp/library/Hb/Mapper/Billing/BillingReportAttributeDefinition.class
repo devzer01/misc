@@ -1,0 +1,97 @@
+<?php
+
+	class Hb_Mapper_Billing_BillingReportAttributeDefinition extends Hb_Mapper_Mapper
+	{
+		/**
+		 * Primary key
+		 *
+		 * @var string 
+		 */
+		protected $primary_key = "armc_attr_def_id";
+	
+		/**
+		 * Table name
+		 *
+		 * @var string 
+		 */	
+		protected $table = "armc_attr_def";
+		
+		/**
+		 * Builds and returns the relevent domain object for this mapper
+		 *
+		 * @param $row object Result row from the Zend_Db framework 
+		 * @return object An instance of the relevent domain object
+		 */	
+		protected function doBuildObject($row)
+		{					 	 	
+			return new Hb_App_Billing_BillingReportAttributeDefinition($row->armc_attr_def_id, $row->armc_attr_name, $row->armc_attr_description);		
+		}
+		
+		/**
+		 * Builds and returns a Zend_Db Select object
+		 *
+		 * @return $row object Result Select object from the Zend_Db framework 
+		 */	
+		protected function GetBaseSelect()
+		{
+			$db = Hb_Util_Db_Connection::GetInstance(); 
+	      $select = $db->select(); 
+	             	 	 	 	 	          	 	 	 	 
+			$select->from('armc_attr_def', array(		
+														'armc_attr_def_id', 	
+														'armc_attr_name'	,
+														'armc_attr_description'																								
+														));
+			         
+	      return $select; 				
+		}
+		
+		/**
+		 * Finds a armc file type by it's Id
+		 *
+		 * @param $id int The record identifier that uniquely identifies the row.
+		 * @return obj Result row from the Zend_Db framework 
+		 */			
+		protected function doFindById($id)
+		{
+			$select = $this->GetBaseSelect();        
+	    	$select->where('armc_attr_def_id = ?', $id);				
+	             
+	    	return $this->getRow($select); 						
+		}
+		
+		/**
+		 * Saves a dirty domain object to the persistence layer
+		 *
+		 * @param $obj object Instance of the relevent domain object
+		 */				
+		protected function doSave(Hb_App_Object $obj)
+		{				
+			$data = array(
+				'armc_attr_def_id'			=> $obj->GetAttributeDefinitionId(),
+				'armc_attr_name'  			=> $obj->GetAttributeName(),
+				'armc_attr_description'  	=> $obj->GetAttributeDescription()
+				);
+				
+			
+			$db = Hb_Util_Db_Connection::GetInstance();
+							
+			if (is_null($obj->GetId())) 
+			{
+				
+				$db->insert('armc_attr_def', $data);
+				
+				$obj->SetAttributeDefinitionId($db->lastInsertId());
+			} 
+			else 
+			{
+				$db->update('armc_attr_def', $data, 'armc_attr_def_id = ' . $obj->GetId());	
+			}
+			
+		}
+		
+	
+		
+	}
+
+?>

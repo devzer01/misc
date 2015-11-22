@@ -1,0 +1,222 @@
+<?php
+/**
+ * Domain class Hb_App_Account_AccountVendor
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountVendor extends Hb_App_Object
+{
+	/**
+	 * Account Vendor id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_vendor_id = null;
+	
+	/**
+	 * Account id
+	 *
+	 * @var int 
+	 */ 	
+	protected $account_id = null;
+	
+	/**
+	 * Vendor Account id
+	 *
+	 * @var object 
+	 */ 	
+	protected $vendor_account_id = null;
+	
+	/**
+	 * Vendor Account Sub Type id
+	 *
+	 * @var int 
+	 */
+	protected $vendor_account_sub_type_id = null;
+
+	/**
+	 * Vendor Account status
+	 *
+	 * @var int 
+	 */
+	protected $status = null;
+
+	/**
+	 * Vendor Account
+	 *
+	 * @var Hb_App_Account_Account 
+	 */
+	protected $vendor_account = null;
+	
+	/**
+	 * Vendor Account sub type
+	 *
+	 * @var Hb_App_Account_AccountSubType 
+	 */
+	protected $vendor_account_sub_type = null;	
+	
+	
+	/**
+	 * Class constructor
+	 *
+	 * @param int $account_vendor_id Account Vendor id
+	 * @param int $account_id Account Account id
+	 * @param int $vendor_account_id Vendor Account id
+	 * @param int $vendor_account_sub_type_id Vendor Account Sub Type id
+	 */ 
+	function __construct($id 							= null,
+								$account_id 				= null,
+								$vendor_account_id 		= null,
+								$vendor_account_sub_type_id = null	
+								)
+	{ 
+		$this->account_vendor_id 				= $id;
+		$this->account_id							= $account_id;		
+		$this->vendor_account_id				= $vendor_account_id;	
+		$this->vendor_account_sub_type_id	= $vendor_account_sub_type_id;	
+		
+		parent::__construct($id);
+	}
+
+	
+	/**
+	 * Returns Account Vendor Id
+	 *
+	 * @return int Account Vendor Id
+	 */ 
+	public function GetAccountVendorId()
+	{
+		return $this->account_vendor_id;
+	}
+
+	/**
+	 * Returns Account Id
+	 *
+	 * @return int Account Id
+	 */ 
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Returns Vendor Account Id
+	 *
+	 * @return int Vendor Account Id
+	 */ 
+	public function GetVendorAccountId()
+	{
+		return $this->vendor_account_id;
+	}
+
+	/**
+	 * Returns Vendor Account Sub Type Id
+	 *
+	 * @return int Vendor Account Sub Type Id
+	 */ 
+	public function GetVendorAccountSubTypeId()
+	{
+		return $this->vendor_account_sub_type_id;
+	}
+
+	/**
+	 * Returns Vendor Account status
+	 *
+	 * @return int Vendor Account status
+	 */ 
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+	
+	/**
+	 * Sets Account Vendor Id
+	 *
+	 * @param int $id Account Vendor Id
+	 */ 
+	public function SetAccountVendorId($id)
+	{
+		$this->account_vendor_id 	= $id;
+		$this->__id						= $id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */ 
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Vendor Account Id
+	 *
+	 * @param int $vendor_account_id Vendor Account Id
+	 */ 
+	public function SetVendorAccountId($vendor_account_id)
+	{
+		$this->vendor_account_id = (int)$vendor_account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Vendor Account Sub Type Id
+	 *
+	 * @param int $vendor_account_sub_type_id Vendor Account Sub Type Id
+	 */ 
+	public function SetVendorAccountSubTypeId($vendor_account_sub_type_id)
+	{
+		$this->vendor_account_sub_type_id = (int)$vendor_account_sub_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Vendor Account status
+	 *
+	 * @param int $status Vendor Account status
+	 */ 
+	public function SetStatus($status)
+	{
+		$this->status = $status;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Get the Vendor account Object
+	 *	
+	 * @return Hb_App_Account_Account $vendor_account Account Object
+	 */
+	public function GetVendorAccount()
+	{
+		if (is_null($this->vendor_account)) {
+			$this->vendor_account = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->vendor_account_id); 			
+		}
+		
+		return $this->vendor_account;
+	}
+
+	/**
+	 * Get the Vendor account sub type Object
+	 *	
+	 * @return Hb_App_Account_AccountSubType $vendor_account_sub_type Object
+	 */
+	public function GetVendorAccountSubType()
+	{
+		if (is_null($this->vendor_account_sub_type)) {
+			$this->vendor_account_sub_type = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_AccountSubType')->Find($this->vendor_account_sub_type_id);
+		}
+		
+		return $this->vendor_account_sub_type;
+	}
+	
+}
+?>

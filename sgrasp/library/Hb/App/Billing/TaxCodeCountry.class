@@ -1,0 +1,124 @@
+<?php
+/**
+ * Domain Object for Tax Code Country
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_TaxCodeCountry extends Hb_App_Object
+{
+
+	/**
+	 * The Country Code
+	 *
+	 * @var string
+	 */
+	protected $country_code = null;
+	
+	/**
+	 * The Tax Code Country Id
+	 *
+	 * @var int
+	 */
+	protected $tax_code_country_id = null;
+	
+	/**
+	 * The Tax Code Id
+	 *
+	 * @var int
+	 */
+	protected $tax_code_id = null;
+
+	/**
+	 * Create TaxCodeCountry Object
+	 *
+	 * @param int $id The Tax Code Country Id
+	 * @param int $tax_code_id The Tax Code Id
+	 * @param string $country_code The Country Code
+	 */
+	function __construct($id = null,
+								$tax_code_id = null,
+								$country_code = null
+								)
+	{
+		$this->tax_code_country_id = $id;
+		$this->tax_code_id = $tax_code_id;
+		$this->country_code = $country_code;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Country Code
+	 *
+	 * @return string The Country Code
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	 * Returns The Tax Code Country Id
+	 *
+	 * @return int The Tax Code Country Id
+	 */
+	public function GetTaxCodeCountryId()
+	{
+		
+		return $this->tax_code_country_id;
+	}
+
+	/**
+	 * Returns The Tax Code Id
+	 *
+	 * @return int The Tax Code Id
+	 */
+	public function GetTaxCodeId()
+	{
+		return $this->tax_code_id;
+	}
+
+	/**
+	 * Sets The Country Code
+	 * 
+	 * @param string $country_code The Country Code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Code Country Id
+	 * 
+	 * @param int $tax_code_country_id The Tax Code Country Id
+	 */
+	public function SetTaxCodeCountryId($tax_code_country_id)
+	{
+		$this->tax_code_country_id = $tax_code_country_id;
+		$this->__id =  $tax_code_country_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Tax Code Id
+	 * 
+	 * @param int $tax_code_id The Country Id
+	 */
+	public function SetTaxCodeId($tax_code_id)
+	{
+		$this->tax_code_id = $tax_code_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

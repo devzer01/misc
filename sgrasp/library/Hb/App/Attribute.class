@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Abstract Attribute functionality of setting and getting attribute values
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Nayana
+ * @version 1.0
+ * @package App
+ *
+ */
+
+abstract class Hb_App_Attribute extends Hb_App_Object 
+{
+	/**
+	 * Name of the attribute
+	 *
+	 * @var mixed
+	 */
+	protected $__attribute_name;
+
+	/**
+	 * Value of the attribute
+	 *
+	 * @var mixed
+	 */
+	protected $__attribute_value;
+	
+	/**
+	 * Creates an Attribute
+	 *
+	 * @param int $id
+	 * @param mixed $name
+	 * @param mixed $value
+	 */
+	public function __construct($id = null, $name, $value)
+	{
+		$this->__attribute_name  = $name;
+		
+		$this->__attribute_value = $value;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the name of the attribute
+	 *
+	 * @return mixed
+	 */
+	public function GetAttributeName()
+	{
+		return $this->__attribute_name;
+	}
+	
+	/**
+	 * return the value of the attribute
+	 *
+	 * @return mixed
+	 */
+	public function GetAttributeValue()
+	{
+		return $this->__attribute_value;
+	}
+	
+	/**
+	 * Sets the new value to the attribute
+	 *
+	 * @param mixed $value
+	 */
+	public function SetAttributeValue($value)
+	{
+		$this->__attribute_value = $value;
+		$this->MarkDirty();
+	}
+}
+?>

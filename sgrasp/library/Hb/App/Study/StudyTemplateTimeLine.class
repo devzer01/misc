@@ -1,0 +1,304 @@
+<?php
+/**
+ * Domain Object for Study Template Timeline
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyTemplateTimeLine extends Hb_App_Object
+{
+	/**
+	 * Estimated complete date updated
+	 *
+	 * @var string
+	 **/
+	protected $estimated_complete_date_updated = null;
+	
+	/**
+	 * Functional group id
+	 *
+	 * @var int
+	 **/
+	protected $functional_group_id = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int
+	 **/
+	protected $login = null;
+
+	/**
+	 * Revision number
+	 *
+	 * @var int
+	 **/
+	protected $revision_number = null;
+	
+	/**
+	 * Sort order
+	 *
+	 * @var int
+	 **/
+	protected $sort_order = null;
+	
+	/**
+	 * Study task id
+	 *
+	 * @var int
+	 **/
+	protected $study_task_id = null;
+	
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_id = null;
+	
+	/**
+	 * Study template timeline id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_timeline_id = null;
+
+	/**
+	 * Study template timeline id
+	 *
+	 * @var double
+	 **/
+	protected $task_duration = null;
+
+	/**
+	 * Create StudyTemplateTimeLine Object
+	 *
+	 * @param int $id Study template timeline id
+	 * @param int $study_template_id Study template id
+	 * @param int $study_task_id Study task id
+	 * @param double $task_duration task duration
+	 * @param int $revision_number Revision number
+	 * @param int $functional_group_id Functional group id
+	 * @param int $login Login
+	 * @param int $sort_order Sort order
+	 * @param string $estimated_complete_date_updated Estimated complete date updated
+	 */
+	function __construct($id = null,
+  							   $study_template_id = null,
+  							   $study_task_id = null,
+  							   $task_duration = null,
+  							   $revision_number = null,
+  							   $functional_group_id = null,
+  							   $login = null,
+  							   $sort_order = null,
+  							   $estimated_complete_date_updated = null)
+	{
+		$this->study_template_timeline_id 		= $id;
+		$this->study_template_id 					= $study_template_id;
+		$this->study_task_id 						= $study_task_id;
+		$this->task_duration							= $task_duration;
+		$this->revision_number 						= $revision_number;
+		$this->functional_group_id					= $functional_group_id;
+		$this->login 									= $login;
+		$this->sort_order								= $sort_order;
+		$this->estimated_complete_date_updated = $estimated_complete_date_updated;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Estimated complete date updated
+ 	* 
+	* @return string Estimated complete date updated
+	**/
+	public function GetEstimatedCompleteDateUpdated()
+	{
+		return $this->estimated_complete_date_updated;
+	}
+
+	/**
+	* Returns the Functional group id
+ 	* 
+	* @return int Functional group id
+	**/
+	public function GetFunctionalGroupId()
+	{
+		return $this->functional_group_id;
+	}
+
+	/**
+	* Returns the Login
+ 	* 
+	* @return int Login
+	**/
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	* Returns the Revision number
+ 	* 
+	* @return int Revision number
+	**/
+	public function GetRevisionNumber()
+	{
+		return $this->revision_number;
+	}
+
+	/**
+	* Returns the Sort order
+ 	* 
+	* @return int Sort order
+	**/
+	public function GetSortOrder()
+	{
+		return $this->sort_order;
+	}
+
+	/**
+	* Returns the Study task id
+ 	* 
+	* @return int Study task id
+	**/
+	public function GetStudyTaskId()
+	{
+		return $this->study_task_id;
+	}
+
+	/**
+	* Returns the Study template id
+ 	* 
+	* @return int Study template id
+	**/
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	* Returns the Study template timeline id
+ 	* 
+	* @return int Study template timeline id
+	**/
+	public function GetStudyTemplateTimeLineId()
+	{
+		return $this->study_template_timeline_id;
+	}
+
+	/**
+	* Returns the Task duration
+ 	* 
+	* @return double Task duration
+	**/
+	public function GetTaskDuration()
+	{
+		return $this->task_duration;
+	}
+
+	/**
+	 * Sets the Estimated complete date updated
+ 	 * 
+	 * @param string $estimated_complete_date_updated Estimated complete date updated
+	 */
+	public function SetEstimatedCompleteDateUpdated($estimated_complete_date_updated)
+	{
+		$this->estimated_complete_date_updated = $estimated_complete_date_updated;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Functional group id
+ 	 * 
+	 * @param int $functional_group_id Functional group id
+	 */
+	public function SetFunctionalGroupId($functional_group_id)
+	{
+		$this->functional_group_id = $functional_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Login
+ 	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Revision number
+ 	 * 
+	 * @param int $revision_number Revision number
+	 */
+	public function SetRevisionNumber($revision_number)
+	{
+		$this->revision_number = $revision_number;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sort order
+ 	 * 
+	 * @param int $sort_order Sort order
+	 */
+	public function SetSortOrder($sort_order)
+	{
+		$this->sort_order = $sort_order;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study task id
+ 	 * 
+	 * @param int $study_task_id Study task id
+	 */
+	public function SetStudyTaskId($study_task_id)
+	{
+		$this->study_task_id = $study_task_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study template id
+ 	 * 
+	 * @param int $study_template_id Study template id
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study template timeline id
+ 	 * 
+	 * @param int $study_template_timeline_id Study template timeline id
+	 */
+	public function SetStudyTemplateTimeLineId($study_template_timeline_id)
+	{
+		$this->study_template_timeline_id = $study_template_timeline_id;
+		$this->__id = $study_template_timeline_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Task duration
+ 	 * 
+	 * @param int $task_duration Task duration
+	 */
+	public function SetTaskDuration($task_duration)
+	{
+		$this->task_duration = $task_duration;
+		$this->MarkDirty();
+	}
+
+}
+?>

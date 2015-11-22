@@ -1,0 +1,94 @@
+<?php 
+/**
+ * Mapper Object for Study Data Export File Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ */ 
+class Hb_Mapper_Study_StudyDataExportFileType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_data_export_file_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_data_export_file_type';
+	
+	
+	/**
+	 * Builds and returns the Study Data Export File Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_data_export_file_type table
+	 * @return object An instance of the Study Data Export File Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyDataExportFileType($row->study_data_export_file_type_id,
+															  			$row->study_data_export_file_type_name
+																	  );
+	} 
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sdeft' => 'study_data_export_file_type'), array('study_data_export_file_type_id',
+																				    			 	'study_data_export_file_type_name')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	
+	/**
+	 * Finds a Study Data Export File Type by it's Id
+	 *
+	 * @param $id int The record Identifier that uniquely Identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_data_export_file_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sdeft.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves domain 
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_data_export_file_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyDataExportFileType   */
+		 	
+	 	$data  = array('study_data_export_file_type_name' => $obj->GetTypeDescription());
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}	
+}
+?>

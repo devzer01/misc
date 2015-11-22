@@ -1,0 +1,314 @@
+<?php
+/**
+ * Business layer componenet class for ContactManager
+ *
+ * @since  - Fri May 25 11:44:58 IST 2007
+ **/
+
+class atm_armc_ContactsManager extends atm_Armc
+{
+	private $db_contact;
+	private $atmDB;
+
+	function __construct() 
+	{
+		$this->db_contact = new db_atm_armc_ContactsManager();     
+		$this->atmDB = new atmDB();     
+	}
+	
+	/**
+	 * CheckBillingContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:31:29 IST 2007
+	 **/
+	public function CheckBillingContact($armc_id)
+	{
+	   $ret = 0;
+	
+	   $billing_contact_rst = $this->db_contact->GetARMCContacts($armc_id, array(ARMC_CONTACT_TYPE_BILLING));
+
+		//if ($billing_contact = mysql_fetch_assoc($billing_contact_rst)) {
+		if (count($billing_contact_rst) > 0 ) 
+		{		
+			foreach ( $billing_contact_rst as $array )
+			{
+				//if ($billing_contact["address_1"]=="" || $billing_contact["city"]=="" || $billing_contact["country_code"]=="" || $billing_contact["email"]=="") 
+				if ($array["address_1"]=="" || $array["city"]=="" || $array["country_code"]=="" || $array["email"]=="") 
+				{
+	         	$ret = -2;
+	         }
+         }
+      } else {
+			$ret = -1;
+		} 
+      return $ret;
+	} 
+	
+	/**
+	 * CheckProjectContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:31:50 IST 2007
+	 **/
+	public function CheckProjectContact($armc_id)
+	{
+		$ret = 0;
+      $sat_survey = $this->atmDB->GetARMCAttr($armc_id, "STM_SEND_SAT_SURVEY");
+		if ($sat_survey) 
+		{
+         $project_contacts = $this->db_contact->GetARMCContacts($armc_id, array(ARMC_CONTACT_TYPE_PROJECT));
+
+         if (count($project_contacts) > 0) 
+			{
+				$project_contact = array_shift($project_contacts);
+				
+         	if ($project_contact["last_name"]=="" || $project_contact["email"]=="") 
+				{
+      	   	$ret = -2;
+   	      }
+	     	} 
+			else 
+			{
+      		$ret = -1;
+      	}
+		}
+		return $ret;
+   }
+		
+	/**
+	 * SaveContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:32:08 IST 2007
+	 **/
+	function SaveContact()
+	{
+	   global $encryption;
+	   
+   	if ( $this->__o["contact_type"]  == "project")
+   	{
+   		$armc_event_type_id = ARMC_EVENT_TYPE_UPDATED_PROJECT_CONTACT;
+   		$armc_contact_type_id = ARMC_CONTACT_TYPE_PROJECT;
+   		
+			SetARMCAttr($this->__o["armc_id"], "PMNAME", $this->__o["project_contact_salutation"]." ".$this->__o["project_contact_first_name"]." ".$this->__o["project_contact_last_name"]);
+   	}
+   	else
+   	{
+   		$armc_event_type_id = ARMC_EVENT_TYPE_UPDATED_BILLING_CONTACT;
+   		$armc_contact_type_id = ARMC_CONTACT_TYPE_BILLING;
+   	}
+
+   	$this->atmDB->WriteARMCEvent(
+			$this->__o["armc_id"],
+			$armc_event_type_id,
+			"New contact : ".$this->__o[$armc_type_id . "_contact_salutation"]." ".
+				$this->__o[$this->__o["contact_type"] . "_contact_first_name"]." ".
+				$this->__o[$this->__o["contact_type"] . "_contact_last_name"]);
+
+		$contact = array(
+      "armc_contact_type_id" => $armc_contact_type_id,
+      "contact_id"=>$this->__o[$this->__o["contact_type"] . "_contact_id"],
+      "salutation"=>$this->__o[$this->__o["contact_type"] . "_contact_salutation"],
+      "first_name"=>$this->__o[$this->__o["contact_type"] . "_contact_first_name"],
+      "last_name"=>$this->__o[$this->__o["contact_type"] . "_contact_last_name"],
+      "address_1"=>$this->__o[$this->__o["contact_type"] . "_contact_address1"],
+      "address_2"=>$this->__o[$this->__o["contact_type"] . "_contact_address2"],
+      "city"=>$this->__o[$this->__o["contact_type"] . "_contact_city"],
+      "state"=>$this->__o[$this->__o["contact_type"] . "_contact_state"],
+      "zip"=>$this->__o[$this->__o["contact_type"] . "_contact_zip"],
+      "country_code"=>$this->__o[$this->__o["contact_type"] . "_contact_country_code"],
+      "phone"=>$this->__o[$this->__o["contact_type"] . "_contact_phone"],
+      "fax"=>$this->__o[$this->__o["contact_type"] . "_contact_fax"],
+      "email"=>$this->__o[$this->__o["contact_type"] . "_contact_email"]);
+	         
+      $this->SetARMCContact($this->__o["armc_id"], $contact);
+
+		header("Location: ?e=".$encryption->Encrypt("action=display_armc_details&armc_id=".$this->__o["armc_id"]."&dont_log_view=1"));
+		exit;
+	}
+
+	/**
+	 * SaveGroupContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:32:26 IST 2007
+	 **/
+	function SaveGroupContact()
+	{
+	   global $encryption;
+
+	   $lines_rst = $this->atmDB->GetARMCGroupList(" AND a.armc_group_id='".$this->__o["armc_group_id"]."'", "ORDER BY a.armc_id");
+	   while ($line=mysql_fetch_assoc($lines_rst)) {
+	      $this->atmDB->WriteARMCEvent($line["armc_id"], ARMC_EVENT_TYPE_UPDATED_BILLING_CONTACT, "New contact : ".$this->__o["billing_contact_salutation"]." ".$this->__o["billing_contact_first_name"]." ".$this->__o["billing_contact_last_name"]);
+	      
+	      $contact = array(
+	         "armc_contact_type_id"=>ARMC_CONTACT_TYPE_BILLING,
+	         "contact_id"=>$this->__o["billing_contact_id"],
+	         "salutation"=>$this->__o["billing_contact_salutation"],
+	         "first_name"=>$this->__o["billing_contact_first_name"],
+	         "last_name"=>$this->__o["billing_contact_last_name"],
+	         "address_1"=>$this->__o["billing_contact_address1"],
+	         "address_2"=>$this->__o["billing_contact_address2"],
+	         "city"=>$this->__o["billing_contact_city"],
+	         "state"=>$this->__o["billing_contact_state"],
+	         "zip"=>$this->__o["billing_contact_zip"],
+	         "country_code"=>$this->__o["billing_contact_country_code"],
+	         "phone"=>$this->__o["billing_contact_phone"],
+	         "fax"=>$this->__o["billing_contact_fax"],
+	         "email"=>$this->__o["billing_contact_email"]);
+	      //print_r($contact);
+	      $this->SetARMCContact($line["armc_id"], $contact);
+	   }
+	   header("Location: ?e=".$encryption->Encrypt("action=display_group_details&armc_group_id=".$this->__o["armc_group_id"]));
+	   exit;
+	} 
+
+   /**
+    * SetARMCContact($armc_id, $info)
+    *
+    * @param 
+    * @author - krathnayake
+    * @since  - Tue Jun 05 11:43:02 IST 2007
+    **/
+    
+   function SetARMCContact($armc_id, $info)
+   {
+		$armc_contact_id = $this->db_contact->isARMCContact($armc_id, $info["armc_contact_type_id"]);
+		if( !$armc_contact_id )
+		{
+			 //insert
+			 $this->db_contact->InsertARMCContact($armc_id, $info);	
+		}
+		else 
+		{			
+			//update
+			$this->db_contact->UpdateARMCContact($armc_contact_id, $info);
+		}
+		return ;
+		
+		/*
+		if (($armc_contact_id = $this->db_contact->isARMCContact($armc_id, $info["armc_contact_type_id"])) !== false) 
+		{//echo ("update $armc_contact_id ".print_r($info, true));
+		   $this->db_contact->UpdateARMCContact($armc_contact_id, $info);
+		}
+		else 
+		{ //echo ("insert $armc_contact_id ".print_r($info, true));
+		   $this->db_contact->InsertARMCContact($armc_id, $info);
+		
+		}    
+		*/
+   } 
+	
+	/**
+	 * DisplayAccountContacts()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:33:11 IST 2007
+	 **/
+	function DisplayAccountContacts()
+	{
+		global $smarty;
+		
+		$account_id = $this->__o['account_id'];
+
+		$params = array(
+	      'account_id' => $account_id,
+	      'contact_type_id' => array(1, 2, 3, 4, 5),
+	      'address_type_id' => 1
+   	);
+		$additional_contacts = HBRPCCall('acm', 'GetAccountContactsDetails', $params);
+		/*
+		print "<pre>";
+		print_r($additional_contacts);
+		print "</pre>";
+		*/
+		//checks if HBRPCCall returns an error
+		if( $additional_contacts['error_code'] == 0 )
+		{
+			foreach ($additional_contacts as $key=>$value)
+			{
+				if( $key != 'error_code' && $key != 'error_message' )
+				{
+					$contacts[] = $value;
+				}
+			}
+			$smarty->assign('contacts', $contacts);
+			$smarty->assign('armc_id', $this->__o['armc_id']);
+			$smarty->display("app/atm/armc/popup_armc_accountcontact.tpl");
+		}
+		else 
+		{
+			print "An error occured. Error #: ".$additional_contacts['error_code']." Error Message: ".$additional_contacts['error_message'];
+		}
+	} 
+
+	/**
+	 * SaveAdditionalContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Fri Jun 01 16:33:26 IST 2007
+	 **/
+	function SaveAdditionalContacts()
+	{
+		if ( isset($this->__o['contact_id']) )
+		{
+			foreach ($this->__o['contact_id'] as $key=>$contact_id)
+			{
+				//--------Saving to the database
+				$info['contact_id'] 				= $contact_id;
+				$info['armc_contact_type_id']	= ARMC_CONTACT_TYPE_ADDITIONAL_BILLING;
+				$info['first_name']				= $this->__o['first_name'][$contact_id];
+				$info['last_name']				= $this->__o['last_name'][$contact_id];
+				$info['phone'] 					= $this->__o['phone'][$contact_id];
+				$info['email']						= $this->__o['email'][$contact_id];
+				$info['salutation']				= $this->__o['salutation'][$contact_id];
+				$info['address_1']				= $this->__o['address_1'][$contact_id];
+				$info['address_2'] 				= $this->__o['address_2'][$contact_id];
+				$info['city']		 				= $this->__o['city'][$contact_id];
+				$info['state']						= $this->__o['state'][$contact_id];
+				$info['province']					= $this->__o['province'][$contact_id];
+				$info['zip']						= $this->__o['zip'][$contact_id];
+				$info['country_code']			= $this->__o['country_code'][$contact_id];
+				$info['fax']						= $this->__o['fax'][$contact_id];
+				
+				$this->db_contact->InsertARMCContact($this->__o['armc_id'], $info);
+				
+				$this->atmDB->WriteARMCEvent($this->__o['armc_id'], ARMC_EVENT_TYPE_ADD_CONTACT, $this->__o['last_name'][$contact_id]);
+			}
+		}
+		else 
+		{
+			echo "Please select a contact";
+		}		
+	}
+	
+	/**
+	 * DeleteContact()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Mon Jun 11 10:55:15 IST 2007
+	 **/
+	function DeleteAdditionalContacts()
+	{
+		global $encryption;
+			
+		$result = $this->db_contact->GetARMCContactDetails($this->__o['armc_contact_id']);
+				
+		$this->db_contact->DeleteARMCContact($this->__o['armc_contact_id']);
+	 	$this->atmDB->WriteARMCEvent($this->__o['armc_id'], ARMC_EVENT_TYPE_DELETE_CONTACT, $result['last_name']);
+	 	
+	 	//header('location:?action=display_armc_details&armc_id='.$armc_id);
+	 	$encypted_param = $encryption->Encrypt('action=display_armc_details&armc_id='.$this->__o['armc_id']);		
+	 	header('location:?e='. $encypted_param);
+	 	exit();
+	} 
+}
+?>

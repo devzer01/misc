@@ -1,0 +1,114 @@
+<?php 
+/**
+ * Mapper Object for Contact Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_ContactAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'contact_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'contact_attr';
+	
+	/**
+	 * Builds and returns the Contact Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the armc_attr table
+	 * @return object An instance of the Contact Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_ContactAttribute($row->contact_attr_id,
+									$row->contact_id,
+									$row->contact_attr,
+									$row->contact_value
+									);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('ca' => 'contact_attr'), array('contact_attr_id',
+																		'contact_id',
+																		'contact_attr',
+																		'contact_value')
+						  );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Contact Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the contact_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('ca.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Contact Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO contact_attr 
+							(contact_id, 
+							 contact_attr, 
+							 contact_value ) "
+               			. "VALUES (" . $obj->GetContactId() . ", 
+               			 			  '" . $db->escapeString($obj->GetAttributeName()) . "', 
+               			 			  '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetContactAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE contact_attr "
+						. "SET contact_id = " . $obj->GetContactId() . ", "
+							. " contact_attr = '" 	. $db->escapeString($obj->GetAttributeName()) . "', "
+							. " contact_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+							. "WHERE contact_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+	
+	}
+}
+
+?>

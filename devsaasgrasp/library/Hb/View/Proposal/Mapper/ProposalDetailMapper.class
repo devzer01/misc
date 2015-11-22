@@ -1,0 +1,21 @@
+<?php
+
+class Hb_View_Proposal_Mapper_ProposalDetailMapper extends Hb_Util_Mapper_Mapper 
+{	
+	protected  function LoadData()
+	{
+		$proposal_manager = new pgen_ProposalManager();
+		
+		$proposal = $proposal_manager->GetProposalDetail($this->__primary_key);
+		
+		$p = new proposalDB();
+		$p->SetProposalId($this->__primary_key);
+
+		$revisions = PrepareSmartyArray($p->GetRevisions());
+		$proposal['comments'] = PrepareSmartyArray($p->GetComments());
+
+		$this->MapData('proposal', $proposal);
+		$this->MapData('revisions', $revisions);
+	}
+}
+?>

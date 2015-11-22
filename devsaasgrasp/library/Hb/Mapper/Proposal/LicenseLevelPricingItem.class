@@ -1,0 +1,123 @@
+<?php
+/**
+ * Mapper for License Level Pricing Item 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Proposal
+ */
+class Hb_Mapper_Proposal_LicenseLevelPricingItem extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_LicenseLevelPricingItem';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_LicenseLevelPricingItem';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "license_level_pricing_item_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "license_level_pricing_item";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_LicenseLevelPricingItem($row->license_level_pricing_item_id,
+																		   $row->pricing_item_id, 
+																		   $row->license_level_id,
+																		   $row->amount,
+																		   $row->is_value,
+																		   $row->is_percent);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('license_level_pricing_item_id', 	
+													 'pricing_item_id', 	
+													 'license_level_id',
+													 'amount',
+													 'is_value',
+													 'is_percent'													 
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a License Level Pricing Item  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		/* @var $obj Hb_App_LicenseLevelPricingItem */
+				
+		$data = array('pricing_item_id'  => $obj->GetPricingItemId (),
+					     'license_level_id' => $obj->GetLicenceLevelId(),
+					     'amount'				=> $obj->GetAmount(),
+					     'is_value' 			=> $obj->GetIsValue(),
+					     'is_percent' 		=> $obj->GetIsPercent()
+					    );
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetLicenseLevelPricingItemId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}	
+}
+?>

@@ -1,0 +1,16 @@
+<?php
+
+class Hb_App_Report_FieldTemplate 
+{
+	function __construct()
+	{
+		
+	}
+	
+	public function Render($data)
+	{
+		return "<a href='/app/acm/?action=something&account_id=" . $data['account_id'] ."'>" . $data['account_name'] ."</a>";
+	}
+}
+
+?>

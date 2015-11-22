@@ -1,0 +1,154 @@
+<?php
+/**
+ * Domain Object for UserSecurity
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */
+
+class Hb_App_User_UserSecurity extends Hb_App_Object
+{
+	/**
+	 * User Security Id
+	 *
+	 * @var int
+	 */
+	protected $user_security_id = null;
+	
+	/**
+	 * Security Id
+	 *
+	 * @var int
+	 */
+	protected $security_id = null;
+	
+	/**
+	 * Login
+	 *
+	 * @var int
+	 */
+	protected $login = null;
+	
+	/**
+	 * Invert
+	 *
+	 * @var int
+	 */
+	protected $invert = null;
+	
+	/**
+	 * Create UserSecurity Object
+	 * 
+	 * @param int $id User Security Id
+	 * @param int $security_id Security Id
+	 * @param int $login Login
+	 * @param int $invert Invert
+	 */
+	function __construct($id 				= null, 
+								$security_id	= null,							
+								$login			= null,
+								$invert			= null
+								)
+	{
+		$this->user_security_id	= $id;
+		$this->security_id		= $security_id;
+		$this->login				= $login;
+		$this->invert				= $invert;
+				
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the User Security Id
+	 *
+	 * @return int User Security Id
+	 */
+	public function GetUserSecurityId()
+	{
+		return $this->user_security_id;
+	}
+
+	/**
+	 * Returns the Security Id
+	 *
+	 * @return int Security Id
+	 */
+	public function GetSecurityId()
+	{
+		return $this->security_id;
+	}
+	
+	/**
+	 * Returns the Login
+	 *
+	 * @return int Login
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Returns the Invert
+	 *
+	 * @return int Invert
+	 */
+	public function GetInvert()
+	{
+		return $this->invert;
+	}
+
+	/**
+	 * Sets the User Security Id
+	 * 
+	 * @param int $user_security_id User Security Id
+	 */
+	public function SetUserSecurityId($user_security_id)
+	{
+		$this->user_security_id = $user_security_id;
+		
+		$this->__id = $user_security_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Security Id
+	 * 
+	 * @param int $security_id Security Id
+	 */
+	public function SetSecurityId($security_id)
+	{
+		$this->security_id = $security_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Login
+	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Invert
+	 * 
+	 * @param int $invert Invert
+	 */
+	public function SetInvert($invert)
+	{
+		$this->invert = $invert;
+
+		$this->MarkDirty();
+	}
+}
+?>

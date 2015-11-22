@@ -1,0 +1,99 @@
+<?php
+
+class Hb_Mapper_Account_AccountProduct extends Hb_Mapper_Mapper
+{
+	protected $primary_key = 'account_product_id';
+	
+	protected $table       = 'account_product';
+	
+	protected function doFindById($id)
+	{
+//		$select = $this->GetBaseSelect();		
+//		$select->where('a.account_id = ?', $id);
+//				
+//		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{		
+		if(!$row)
+			throw  new Hb_App_Account_Exception_AccountProductNotFoundException;
+	
+		return new Hb_App_Account_AccountProduct(	$row->account_product_id, 
+																$row->account_id, 
+																$row->product_id, 
+																$row->license_level_id, 
+																$row->pricing_regime_id,
+																$row->account_identifier);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('account_product');
+		
+		return $select;
+	}
+	
+	/**
+	 * Find a Product By Both Account and Product
+	 *
+	 * @param unknown_type $account_id
+	 * @param unknown_type $product_id
+	 * @return unknown
+	 */
+	public function FindByProduct($account_id, $product_id)
+	{
+		return $this->doBuildObject($this->doFindByProduct($account_id, $product_id));
+	}
+	
+	protected function doFindByProduct($account_id, $product_id)
+	{
+		$select = $this->GetBaseSelect();
+		
+		$select->where('account_id = ?', $account_id);
+		$select->where('product_id = ?', $product_id);
+		$select->where('status = ? ', 'A');
+		
+		return $this->getRow($select);
+	}
+	
+
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+			'account_id' 			=> $obj->GetAccountId(),
+			'product_id' 			=> $obj->GetProductId(),
+			'license_level_id'	=> $obj->GetLicenseId(),
+			'pricing_regime_id' 	=> $obj->GetPricingRegime(),
+			'account_identifier'	=> $obj->GetIdentifier(),
+		   'status'             => $obj->GetAudit()->GetStatus());
+			
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('account_product', $data);
+			$obj->SetAccountProductId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('account_product', $data, 'account_product_id = ' . $obj->GetId());	
+		}
+	}	
+	
+	
+	
+}
+?>

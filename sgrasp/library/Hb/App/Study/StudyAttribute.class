@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * Study Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 	
+
+class Hb_App_Study_StudyAttribute extends Hb_App_Attribute
+{
+	protected $study = null;
+	protected $study_id = null;
+	
+	public function __construct(
+											$id = null,
+											$study_id = null,
+											$name = null,
+											$value = null
+										)
+	{
+		$this->study_id = $study_id;		
+		parent::__construct($id, $name, $value);
+	}
+	
+	function SetStudyAttrId($id)
+	{
+		$this->__id = $id;
+	}
+	
+	function SetStudy(Hb_App_Study_Study $study)
+	{
+		$this->study_id = $study->GetStudyId();
+		$this->study = $study;
+		
+		$this->MarkDirty;
+	}
+	
+	function SetStudyId($study_id)
+	{
+		$this->study_id =  $study_id;
+		
+	}
+	
+	function GetStudyId()
+	{
+		if ( is_null($this->study_id) ) 
+			$this->study_id = $this->doGetStudyId()->GetStudyId();
+	
+		return $this->study_id;
+	}
+	
+	protected function doGetStudyId()
+	{
+		//TO DO: make this throw a Study_Exception type object
+		if( is_null($this->study) && is_null($this->study) ) throw new Exception("Study not found");
+		
+		$this->study = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_Study')->Find($this->study_id);
+		
+		return $this->study;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+?>

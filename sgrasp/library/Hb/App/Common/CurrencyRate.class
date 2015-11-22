@@ -1,0 +1,49 @@
+<?php
+
+class Hb_App_Common_CurrencyRate extends Hb_App_Object
+{
+	protected $currency_rate_id = null;
+	
+	protected $primary_currency_code;
+	
+	protected $currency_code;
+
+	protected $exchange_rate = null;	
+	
+	public function __construct($id = null, $pcode = null, $code = null, $rate = null)
+	{
+		$this->currency_rate_id = $id;
+		$this->primary_currency_code= $pcode;
+		$this->currency_code = $code;
+		$this->exchange_rate    = $rate;
+		
+		parent::__construct($id);
+	}
+	
+	public function SetCurrencyRateId($currency_rate_id)
+	{
+		$this->currency_rate_id = $currency_rate_id;
+	}
+	
+	public function GetCurrencyRateId()
+	{
+		return $this->currency_rate_id;
+	}
+	
+	public function GetPrimaryCode()
+	{
+		return $this->primary_currency_code;
+	}
+		
+	public function GetCurrencyCode()
+	{
+		return $this->currency_code;
+	}
+	
+	public function GetExchangeRate()
+	{
+		return $this->exchange_rate;
+	}
+	
+}
+?>

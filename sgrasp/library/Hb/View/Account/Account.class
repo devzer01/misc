@@ -1,0 +1,24 @@
+<?php
+
+class Hb_View_Account_Account extends Hb_View_View 
+{
+	protected  $__template_name = 'app/acm/account_detail_test.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		
+	}
+	
+	public function AddAccount(Hb_Data_Account_Account $data)
+	{
+		$this->__AddData($data);
+	}
+	
+	public function AddCountryList(Hb_Data_Common_List $data)
+	{
+		$this->__AddData($data);
+	}
+}
+?>

@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * Domain Object for Project Comment File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ *
+ */ 
+class Hb_App_Project_ProjectCommentFile extends Hb_App_Object
+{	
+	/**
+	 * Project Comment File Id
+	 *
+	 * @var int
+	 */
+	protected $project_comment_file_id = null;	
+	
+	/**
+	 * Project Comment Id
+	 *
+	 * @var int
+	 */
+	protected $project_comment_id = null;
+	
+	/**
+	 * Project Comment file
+	 *
+	 * @var Hb_App_Common_File 
+	 */
+	protected $project_comment_file = null;
+	
+
+	/**
+	 * Create Project Comment File Object
+	 *
+	 * @param int $id Project Comment File Id
+	 * @param int $project_comment_id Project Comment Id
+	 * @param Hb_App_Common_File 	$project_comment_file Project Comment file object
+	 */
+	function __construct($id = null,
+								$project_comment_id = null,
+								Hb_App_Common_File $project_comment_file = null
+								)
+	{
+		$this->project_comment_file_id 	= $id;
+		$this->project_comment_id 			= $project_comment_id;
+		$this->project_comment_file		= $project_comment_file;
+		
+		if(!is_null($this->project_comment_file))
+			$this->project_comment_file->RegisterFileOwner('Hb_App_Project_ProjectCommentFile');
+		
+		parent::__construct($id);	
+	}	
+
+	/**
+	 * Returns The Project Comment Filed Id
+	 *
+	 * @return int The Project Comment Filed Id
+	 */
+	public function GetProjectCommentFileId()
+	{
+		return $this->project_comment_file_id;
+	}
+
+	/**
+	 * Returns The Project Comment Id
+	 *
+	 * @return int The Project Comment Id
+	 */
+	public function GetProjectCommentId()
+	{
+		return $this->project_comment_id;
+	}	
+	
+	/**
+	 * Return the Project comment file for the Project Comment File
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->project_comment_file;
+	}
+	
+	/**
+	 * Sets The Project Comment File Id
+	 * 
+	 * @param int $project_comment_file_id The Project Comment File Id
+	 */
+	public function SetProjectCommentFileId($project_comment_file_id)
+	{
+		$this->project_comment_file_id 	= $project_comment_file_id;
+		$this->__id 							= $project_comment_file_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Project Comment Id
+	 * 
+	 * @param int $project_comment_id The Project Comment Id
+	 */
+	public function SetProjectCommentId($project_comment_id)
+	{
+		$this->project_comment_id = $project_comment_id;
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Set the Project comment File for the  Project Comment File
+	 * 
+	 * @param Hb_App_Common_File $project_comment_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $project_comment_file)
+	{
+		$this->project_comment_file_id	= $project_comment_file->GetFileId();
+		$this->__id								= $project_comment_file->GetFileId();
+		$this->project_comment_file		= $project_comment_file;
+		$this->MarkDirty();
+	}
+
+}
+?>

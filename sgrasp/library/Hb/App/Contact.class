@@ -1,0 +1,112 @@
+<?php
+
+class Hb_App_Contact //implements Hb_Data_Object_Interface 
+{
+	
+	public $id = 0;
+	
+	public $first_name = '';
+	
+	public $last_name  = '';
+	
+	public $email      = '';
+	
+	/**
+	 * returns the acm_db Object 
+	 *
+	 * @return db
+	 */
+	protected static function getDbObject() 
+	{
+		return Hb_Db::getInstance();
+	}
+	
+	/**
+	* __construct()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 20:01:41
+	*/
+	function __construct($id)
+	{
+		$this->id = (int) $id;
+	}
+	
+	protected static function GetContactData($key) 
+	{
+		$db = self::getDbObject();	
+		
+		/* @var $db db */
+		$select = $db->getSelect();
+		
+		$select->from('contact AS c', 'c.*');
+		
+		if (is_numeric($key)) {
+			$select->where('c.contact_id = ?', $key);	
+		} elseif (is_a($key, "Hb_Util_Email_Address")) {
+			$select->where('contact_email = ?', $key->address);
+		}
+		
+		return $db->FetchAssoc($select);
+	}
+	
+	
+	/**
+	 * Return Instance of Contact Data Object
+	 *
+	 * @access static
+	 * @param mixed $id
+	 * @return Hb_App_Contact
+	 */
+	static function getInstance($id) 
+	{
+		static $_store = array();
+		
+		if (isset($_store[$id])) return $_store[$id];
+		
+		$row = self::GetContactData($id);
+		
+		$obj = new Hb_App_Contact($row['contact_id']);
+
+		$obj->first_name = $row['contact_first_name'];
+		$obj->last_name  = $row['contact_last_name'];
+		$obj->email      = $row['contact_email'];
+		
+		$_store[$id] = $obj;
+		
+		return $obj;
+	}
+	
+	public static function getInstanceByEmail(Hb_Util_Email_Address $email) 
+	{
+		$row = self::GetContactData($email);
+		//throw 
+		return self::getInstance($row['contact_id']);		
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $first_name
+	 * @param unknown_type $last_name
+	 * @param Hb_Util_Email_Address $email
+	 * @return Hb_App_Contact
+	 */
+	static public function CreateContact($first_name, $last_name, $email)
+	{
+		$db = Hb_Db::getInstance();
+		
+		$contac_id = $db->Insert('contact', array(
+			'contact_first_name' => $first_name,
+			'contact_last_name'  => $last_name,
+			'contact_email'      => $email->address
+		));
+		
+		return self::getInstance($contac_id);
+		
+	}
+	
+}
+?>

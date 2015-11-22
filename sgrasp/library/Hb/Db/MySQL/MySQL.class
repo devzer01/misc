@@ -1,0 +1,17 @@
+<?php
+
+class Hb_Db_MySQL_MySQL
+{
+	protected static function GetConnection()
+	{
+		$config = Hb_Util_Config_SystemConfigReader::Read();
+		
+		return Hb_Util_Connector_Db_Connection::getInstance(
+			$config->database->host,
+			$config->database->username,
+			$config->database->password,
+			$config->database->name
+		);
+	}
+}
+?>

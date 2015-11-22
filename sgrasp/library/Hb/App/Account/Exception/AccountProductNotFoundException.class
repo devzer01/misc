@@ -1,0 +1,12 @@
+<?php
+
+require_once ('class/Hb/Exception.class') ;
+
+/**
+ *
+ */
+class Hb_App_Account_Exception_AccountProductNotFoundException extends Hb_Exception {
+
+}
+
+?>

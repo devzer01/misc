@@ -1,0 +1,88 @@
+<?php
+/**
+ * Domain Object for Study Datasource
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyDataSource extends Hb_App_Object
+{
+	/**
+	 * Study datasource description
+	 *
+	 * @var string
+	 **/
+	protected $study_datasource_description = null;
+
+	/**
+	 * Study datasource id
+	 *
+	 * @var int
+	 **/
+	protected $study_datasource_id = null;
+
+	/**
+	 * Create StudyDataSource Object
+	 *
+	 * @param int $id Study datasource id
+	 * @param int $study_id Study id
+	 * @param string $sample_type_id Sample type id
+	 */
+	function __construct($id = null,
+  							   $study_datasource_description = null )
+	{
+		$this->study_datasource_id 			= $id;
+		$this->study_datasource_description = $study_datasource_description;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Study datasource description
+ 	* 
+	* @return string The Study datasource description
+	**/
+	public function GetStudyDataSourceDescription()
+	{
+		return $this->study_datasource_description;
+	}
+
+	/**
+	* Returns the Study datasource id
+ 	* 
+	* @return int The Study datasource id
+	**/
+	public function GetStudyDataSourceId()
+	{
+		return $this->study_datasource_id;
+	}
+
+	/**
+	 * Sets the Study datasource description
+ 	 * 
+	 * @param string $study_datasource_description Study datasource description
+	 */
+	public function SetStudyDataSourceDescription($study_datasource_description)
+	{
+		$this->study_datasource_description = $study_datasource_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study datasource id
+ 	 * 
+	 * @param int $study_datasource_id Study datasource id
+	 */
+	public function SetStudyDataSourceId($study_datasource_id)
+	{
+		$this->study_datasource_id = $study_datasource_id;
+		$this->__id 					= $study_datasource_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

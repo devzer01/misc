@@ -1,0 +1,71 @@
+<?php
+class Hb_View_Proposal_ProposalAddProgrammingFees extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_programming_fees.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $display  = array();
+	
+	protected $translation 	= null;
+	protected $hosting 		= null;
+	protected $data_export 	= null;
+	protected $focus_tab 	= null;
+	protected $programming 	= null;
+	protected $complexity 	= null;
+	protected $q_len_programming 	= null;
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('translation', $this->translation);
+		$this->SetData('hosting', $this->hosting);
+		$this->SetData('data_export', $this->data_export);
+		$this->SetData('programming', $this->programming);
+		$this->SetData('display', $this->display);
+		$this->SetData('focusTab', $this->focus_tab);
+	}
+	
+	public function SetTranslation($translation)
+	{
+		$this->translation = $translation;
+	}
+	
+	public function SetHosting($hosting)
+	{
+		$this->hosting = $hosting;
+	}
+	
+	public function SetDataExport($data_export)
+	{
+		$this->data_export = $data_export;
+	}
+	
+	public function SetQLenProgram($q_len_programming)
+	{
+		$this->q_len_programming = $q_len_programming;
+	}
+	
+	public function calculateProgramming()
+	{
+		$arrPrices = array('Simple'=>20,'Complex'=>30);
+		$this->programming = $this->q_len_programming * $arrPrices[$this->complexity];
+	}	
+	
+	public function SetComplexity($complexity)
+	{
+		$this->complexity = $complexity;
+	}
+		
+	public function SetFocusTab($focus_tab)
+	{
+		$this->focus_tab = $focus_tab;
+	}
+	
+	public function SetDisplay($display)
+	{		
+		$this->display[$display] = 1;
+	}
+	
+}
+
+?>

@@ -1,0 +1,65 @@
+<?php
+require_once 'Zend/Db.php';
+require_once 'Zend/Db/Table.php';
+require_once 'Zend/Db/Table/Row.php';
+require_once 'Row.class';
+require_once 'Zend/Cache.php';
+
+
+class Hb_Util_Db_Table extends Zend_Db_Table_Abstract
+{
+	protected $_rowClass = 'Hb_Util_Db_Row';
+
+	public function __construct($config = array())
+	{
+		$cfg = Hb_Util_Config_SystemConfigReader::Read();
+
+		$params = array(
+		'host'     => $cfg->database->host,
+		'username' => $cfg->database->username,
+		'password' => $cfg->database->password,
+		'dbname'   => $cfg->database->name);
+
+		$config = array_merge(array('db' =>  Zend_Db::factory('PDO_MYSQL', $params)), $config);
+		
+		$frontendOptions = array(
+    		'automatic_serialization' => true
+    	);
+
+		$backendOptions  = array(
+    		'cacheDir'                => '/var/tmp'
+    	);
+
+		$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+		
+		$config['metadataCache'] = $cache;
+
+		parent::__construct($config);
+	}
+
+	public function getReference($tableClassname, $ruleKey = null)
+	{
+		$thisClass = get_class($this);
+		$refMap = $this->_getReferenceMapNormalized();
+		if ($ruleKey !== null) {
+			if (!isset($refMap[$ruleKey])) {
+				require_once "Zend/Db/Table/Exception.php";
+				throw new Zend_Db_Table_Exception("No reference rule \"$ruleKey\" from table $thisClass to table $tableClassname");
+			}
+			if ($refMap[$ruleKey][self::REF_TABLE_CLASS] != $tableClassname) {
+				require_once "Zend/Db/Table/Exception.php";
+				throw new Zend_Db_Table_Exception("Reference rule \"$ruleKey\" does not reference table $tableClassname");
+			}
+			return $refMap[$ruleKey];
+		}
+		foreach ($refMap as $reference) {
+			if ($reference[self::REF_TABLE_CLASS] == $tableClassname) {
+				return $reference;
+			}
+		}
+		require_once "Zend/Db/Table/Exception.php";
+		throw new Zend_Db_Table_Exception("No reference from table $thisClass to table $tableClassname");
+	}
+
+}
+?>

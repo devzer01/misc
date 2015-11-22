@@ -1,0 +1,113 @@
+<?php
+/**
+ * Mapper Class for BillingReportGroupFile
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+class Hb_Mapper_Billing_BillingReportGroupFile extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Billing Report Group File table
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_group_file_id';
+	
+	/**
+	 * Variable for Billing Report Group File table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'armc_group_file';
+	
+	/**
+	 * Build the BillingReportGroupFile Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReportGroupFile
+	 */
+	protected function doBuildObject($row)
+	{
+		$armc_group_file = new Hb_App_Common_File($row->armc_group_file_id,
+																$row->armc_file_type_id,
+																$row->armc_group_file_name,
+																$row->armc_group_file_title,
+																$row->armc_group_file_size
+																);
+		
+		return new Hb_App_Billing_BillingReportGroupFile($row->armc_group_file_id,			
+																		$row->armc_group_id,
+																		$armc_group_file
+																		);
+	}
+	
+	/**
+	 * Returns Billing Report Group File data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('ba' => 'armc_group_file'), array('armc_group_file_id',
+																				'armc_file_type_id',
+																				'armc_group_id',
+																				'armc_group_file_name',
+																				'armc_group_file_title',																				
+																				'armc_group_file_size'
+									)
+							);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('ba.armc_group_file_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Billing_BillingReportGroupFile  
+		
+		$data = array(
+			'armc_file_type_id'		=>  $obj->GetFile()->GetFileTypeId(),
+			'armc_group_id'			=>  $obj->GetBillingReportGroupId(),
+			'armc_group_file_name'	=>  $obj->GetFile()->GetFileName(),
+			'armc_group_file_title'	=>  $obj->GetFile()->GetFileTitle(),
+			'armc_group_file_data'	=>	 $obj->GetFile()->GetFileData(),
+			'armc_group_file_size'	=>  $obj->GetFile()->GetFileSize()
+			);
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('armc_group_file', $data);
+			$obj->SetBillingReportGroupFileId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('armc_group_file', $data, 'armc_group_file_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

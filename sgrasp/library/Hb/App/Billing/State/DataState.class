@@ -1,0 +1,44 @@
+<?php 
+class Hb_App_Billing_State_DataState implements Hb_App_Billing_State_BillingReportStateReference   
+{	
+	/**
+	 * approval instance
+	 *
+	 * @var Hb_App_Billing_BillingReport 
+	 */
+	private $approval = null;	
+	
+	/**
+	 * Constructor for the Domain DataState
+	 *
+	 * @param Hb_App_Billing_Approval $approval
+	 */
+	function __construct(Hb_App_Billing_Approval $approval) {
+		$this->approval = $approval;
+	}
+	
+	/**
+	 * Return the Next Status instance for the DataState
+	 *
+	 * @return Object Next Status instance
+	 */
+	public function GetNextState()
+	{ 			
+		if($this->approval->GetApprovalStatus()) {
+			//check whethere user can skip for the Approval and Billing reporty type is a Credit memo type
+			if(!$this->approval->GetNewLines() && $this->approval->IsUserAllowedToSkipWithCreditMemo()) {			
+				return ARMC_STATUS_READY_FOR_INVOICE;
+			}
+			//check whether user can skip for the Approval and Billing type skip by checking in the Billing report settings.
+			elseif ($this->approval->IsUserAllowedToSkipWithBRType()){			
+				return ARMC_STATUS_READY_FOR_INVOICE;
+			}				
+			
+			return ARMC_STATUS_AM_APPROVAL;		 				
+		}
+		
+		return $this->approval->GetBillingReport()->GetBillingReportStatusID();
+	}
+}
+
+?>

@@ -1,0 +1,33 @@
+<?php 
+class Hb_Util_Email_Address {
+	
+	public $address = '';
+	
+	public $name    = '';
+	
+	public $domain  = '';
+	
+	/**
+	* __construct()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 14:18:18
+	*/
+	function __construct($str)
+	{
+		if (preg_match("/>?([^\s@<]+@[^\s>]+)>?/", $str, $match)) {
+			$this->address = $match[1];
+		}
+		
+		if (preg_match("/^([^<]+)/", $str, $match)) {
+			$this->name = $match[1];
+		}
+		
+		if (preg_match("/@[^>]+$/", $str, $match)) {
+			$this->domain = $match[1];
+		}
+	}
+}
+?>

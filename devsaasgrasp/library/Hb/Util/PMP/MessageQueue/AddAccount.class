@@ -1,0 +1,33 @@
+<?php 
+/**
+ * Message Queue class for Add Account 
+ *
+ * @author Harsha
+ * @copyright Global Market Insite 2007
+ * @version 0.1
+ * @package Util
+ * @subpackage PMP
+ * 
+ */
+class Hb_Util_PMP_MessageQueue_AddAccount extends Hb_Util_PMP_MessageQueue_Message 
+{
+	function __construct($message = array()) {
+		$this->message	= $message;
+	}
+	
+	
+	/**
+	 * Implement the Sending message here with Add Account message type
+	 *
+	 */
+	protected function AddQueueMessage()
+	{		
+		$message = new Gmi_DataRouter_Message();
+		$message->setMessageType(Gmi_DataRouter_Message_Type::NEW_ACCOUNT_CREATED);
+		$message->setMessage($this->message);
+		$this->router->sendMessage($message);
+
+	}
+}
+
+?>

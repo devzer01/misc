@@ -1,0 +1,38 @@
+<?php
+
+require_once ('class/Hb/Mapper/ListMapper.class') ;
+
+class Hb_Mapper_List_ListUser
+{
+	 protected static function doGetListByRole($role) 
+	 {
+		$db = Hb_Util_Db_Query::getInstance();
+
+		$query = "SELECT u.user_id, u.login, CONCAT(u.first_name, ' ', u.last_name) AS name "
+               . "FROM user_role AS ur "
+               . "LEFT OUTER JOIN user AS u ON u.login = ur.login "
+               . "WHERE ur.role_id = ". $role . " AND ur.status = 'A' AND u.status = 'A' ";
+		
+		$rs = $db->q($query);
+		
+		$list = new Hb_App_List_ListUser();
+		
+		while(($r = $db->getAssoc($rs))) {
+			$list->AddItem(new Hb_App_List_User($r['login'], $r['name'], $r['user_id']));
+		}
+		
+		return $list;
+	 }
+	 
+	 public static function GetAeList()
+	 {
+	 	return self::doGetListByRole(ROLE_ACCOUNT_EXECUTIVE);
+	 }
+	 
+	 public static function GetAmList()
+	 {
+	 	return self::doGetListByRole(ROLE_ACCOUNT_MANAGER);
+	 }
+}
+
+?>

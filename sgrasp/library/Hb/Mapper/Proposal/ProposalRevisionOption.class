@@ -1,0 +1,126 @@
+<?php
+/**
+ * Mapper for ProposalRevisionOption
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @updated 14-Aug-2007 10:11:12 AM
+ */
+class Hb_Mapper_Proposal_ProposalRevisionOption extends Hb_Mapper_Mapper
+{
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'proposal_revision_option';
+	
+	protected $primary_key = 'proposal_revision_option_id';
+	/**
+	 * Finds the proposal revision option by it's proposal_revision_option_id
+	 *
+	 * @param int $id Id 
+	 * @return object Instance of a proposal domain 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+	
+		$select->where('a.proposal_revision_option_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{	
+			return new Hb_App_Proposal_ProposalRevisionOption(
+					$row->proposal_revision_option_id ,
+					$row->avg_words_per_open_end, $row->client_portal_programming_hours , 
+					$row->completes , $row->country_code , $row->data_export_hours , 
+					$row->data_import_hours ,$row->data_recording_hours , $row->data_tab_hours, 
+					$row->incidence_of_open_end , $row->incidence_rate , $row->open_end_questions,
+					$row->open_end_text_coding_hours ,$row->option_cpc, $row->option_number , 
+					$row->option_total ,$row->overlay , $row->overlay_language_code , 
+					$row->panel_cost_per_interview,$row->panel_import_hours,$row->panel_total,
+					$row->programming ,$row->proposal_revision_id,  
+					$row->questions_per_interview , $row->questions_per_screener,$row->questions_programmed,
+					$row->respondent_portal_programming_hours, $row->respondent_portal_type_id,
+					$row->sort_order,$row->study_datasource_id,
+					$row->study_programming_type_id,$row->sub_group_description , $row->translation ,
+					$row->translation_language_code
+				);                                          
+			
+	}	
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+	
+	 	$select->from(array('a' =>'proposal_revision_option'),
+	 		array('proposal_revision_option_id','proposal_revision_id','country_code','option_number',
+	 				'sort_order','sub_group_description','programming','study_programming_type_id',
+	 				'translation','translation_language_code','overlay','overlay_language_code',
+	 				'study_datasource_id','incidence_rate','completes','questions_programmed',
+	 				'questions_per_interview','questions_per_screener','data_recording_hours',
+	 				'data_tab_hours','data_export_hours','data_import_hours','open_end_questions',
+	 				'incidence_of_open_end','avg_words_per_open_end','open_end_text_coding_hours',
+	 				'respondent_portal_type_id','respondent_portal_programming_hours',
+	 				'client_portal_programming_hours','panel_import_hours','panel_cost_per_interview',
+	 				'option_total','panel_total','option_cpc'));
+		
+		return $select;
+	}
+
+	/**
+	 * Saves a proposal_revision_option
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app proposal_revision_option 
+	 */	
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->avg_words_per_open_end = $obj->GetAvgWordsPerOpenEnd();
+		$row->client_portal_programming_hours = $obj->GetClientPortalProgrammingHours();
+		$row->completes = $obj->GetCompletes();
+		$row->country_code = $obj->GetCountryCode();
+		$row->data_export_hours = $obj->GetDataExportHours();
+		$row->data_import_hours = $obj->GetDataImportHours();
+		$row->data_recording_hours = $obj->GetDataRecordingHours();
+		$row->data_tab_hours = $obj->GetDataTabHours();
+		$row->incidence_of_open_end = $obj->GetIncidenceOfOpenEnd();
+		$row->incidence_rate = $obj->GetIncidenceRate();
+		$row->open_end_questions = $obj->GetOpenEndQuestions();
+		$row->open_end_text_coding_hours = $obj->GetOpenEndTextCodingHours();
+		$row->option_cpc = $obj->GetOptionCpc();
+		$row->option_number = $obj->GetOptionNumber();
+		$row->option_total = $obj->GetOptionTotal();
+		$row->overlay = $obj->GetOverlay();
+		$row->overlay_language_code = $obj->GetOverlayLanguageCode();
+		$row->panel_cost_per_interview = $obj->GetPanelCostPerInterview();
+		$row->panel_import_hours = $obj->GetPanelImportHours();
+		$row->panel_total = $obj->GetPanelTotal();
+		$row->programming = $obj->GetProgramming();
+		$row->proposal_revision_id = $obj->GetProposalRevisionId();
+		$row->questions_per_interview = $obj->GetQuestionsPerInterview();
+		$row->questions_per_screener = $obj->GetQuestionsPerScreener();
+		$row->questions_programmed = $obj->GetQuestionsProgrammed();
+		$row->respondent_portal_programming_hours = $obj->GetRespondentPortalProgrammingHours();
+		$row->respondent_portal_type_id = $obj->GetRespondentPortalTypeId();
+		$row->sort_order = $obj->GetSortOrder();
+		$row->study_datasource_id = $obj->GetStudyDatasourceId();
+		$row->study_programming_type_id = $obj->GetStudyProgrammingTypeId();
+		$row->sub_group_description = $obj->GetSubGroupDescription();
+		$row->translation = $obj->GetTranslation();
+		$row->translation_language_code = $obj->GetTranslationLanguageCode();
+		
+		$row->Save();
+		
+		$obj->SetProposalRevisionOptionId($row->proposal_revision_option_id);
+	}
+
+}
+?>

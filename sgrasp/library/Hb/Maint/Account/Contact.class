@@ -1,0 +1,61 @@
+<?php
+class Hb_Maint_Account_Contact extends Hb_App_Object 
+{
+	
+	/**
+	 * Account Object
+	 *
+	 * @var Hb_Maint_Account
+	 */
+	public $account = null;
+	
+	/**
+	 * Contact Objeect
+	 *
+	 * @var Hb_Maint_Contact
+	 */
+	public $contact = null;
+	
+	public $id = 0;
+	
+	/**
+	* __construct()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 20:01:41
+	*/
+	function __construct($id)
+	{
+		$this->id = (int) $id;
+	}
+	
+	/**
+	 * Return Instance of Contact Data Object
+	 *
+	 * @access static
+	 * @param Hb_Maint_Contact $contact
+	 * @return Hb_Maint_Account_Contact
+	 */
+	public static function getInstance($contact) 
+	{
+		$db = Hb_Db::getInstance();
+		
+		$select = $db->getSelect();
+		
+		$select->from('account_contact', array('account_contact_id', 'account_id'));
+		$select->where('contact_id = ?', $contact->id);
+		
+		$row = $db->FetchAssoc($select);
+		
+		$obj = new Hb_Maint_Account_Contact($row['account_contact_id']);
+		$obj->account = Hb_App_Account::getInstance($row['account_id']);
+		$obj->contact = $contact;
+
+		return $obj;
+		
+	}
+
+}
+?>

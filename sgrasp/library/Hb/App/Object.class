@@ -1,0 +1,94 @@
+<?php
+/**
+ * Basic Domain Object
+ * 
+ * @author nayana
+ * @version 1.0
+ * @package App
+ * @updated 18-Jul-2007 12:05:22 PM
+ */
+
+abstract class Hb_App_Object
+{	
+	protected $__id = null;
+	
+	protected $__new = false;
+	
+	protected $__dirty = false;
+	
+	protected $audit = null;
+	
+	public function __construct($id = null)
+	{
+		$this->__id = $id;
+		
+		if (is_null($id)) {
+			$this->MarkNew();			
+		}
+	}
+	
+	public function GetId()
+	{
+		return $this->__id;
+	}
+
+	protected function MarkDirty()
+	{
+		if (!is_null($this->__id)) {
+			$this->__dirty = true;
+			Hb_App_ObjectWatcher::registerDirty($this);	
+		}
+		
+	}
+
+	protected function MarkNew()
+	{
+		$this->__new = true;
+		Hb_App_ObjectWatcher::registerNew($this);
+	}
+	
+	public function isNew()
+	{
+		return $this->__new;
+	}
+	
+	public function markSaved()
+	{
+		$this->__new = false;
+		$this->__dirty = false;
+	}
+	
+	public function isDirty()
+	{
+		return $this->__dirty;
+	}
+	
+	/**
+	 * The audit fields
+	 *
+	 * @return Hb_App_Common_Audit
+	 */
+	public function GetAudit()
+	{		
+		if(is_null($this->__id)){			
+			throw new Hb_App_Common_Exception_AuditNotFoundException('The id is not set for this domain');
+		}
+		
+		if(is_null($this->audit)) {	
+			$audit_mapper 	= Hb_App_ObjectHelper::GetMapper('Hb_App_Common_Audit');
+			$object_mapper = Hb_App_ObjectHelper::GetMapper(get_class($this));			 
+			$audit_mapper->SetTable($object_mapper->GetTableName());
+			//Sine we search Users from the login , we set it as primary key in to the user table
+			($object_mapper  instanceof Hb_Mapper_User_User) ? $audit_mapper->SetPrimaryKey('login') :  $audit_mapper->SetPrimaryKey($object_mapper->GetPrimaryKey());				
+			
+			$this->audit = $audit_mapper->Find($this->__id);			
+		}		
+		return $this->audit;
+	}
+	
+	public function __clone() {
+	   $this->__id = null;
+	   $this->MarkNew();
+	}
+}
+?>

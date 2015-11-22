@@ -1,0 +1,25 @@
+<?php 
+/**
+ * Domain class of Account Hierarchy Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountHierarchyType extends Hb_App_Common_Type 
+{ 
+	
+	/**
+	 * Constructor of the domain class
+	 *
+	 * @param int $id Account Hierarchy Type Id
+	 * @param string $description Description
+	 */ 
+	function __construct($id = null, $description = null) 
+	{ 
+		 parent::__construct($id, $description);
+	}
+}
+?>

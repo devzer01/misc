@@ -1,0 +1,174 @@
+<?php
+/**
+ * 
+ * Object watcher implements a Unit-of-work pattern
+ * 
+ * @author nayana
+ * @version 1.0
+ * @package App
+ * @created 18-Jul-2007 12:10:04 PM
+ */
+class Hb_App_ObjectWatcher
+{
+
+	private $all = array();
+	
+	private $delete = array();
+	
+	private $dirty = array();
+	
+	private static $instance;
+	
+	private $new = array();
+	
+	/**
+	 * This is a implicit list of sort order for Domain objects, 
+	 * this is used to handle object associations when commiting to the database, 
+	 * Domain objects with the lowest sort order are handled first, 
+	 * all domain objects that is not provided here will have a sort order of 1
+	 *
+	 * @var array
+	 */
+	private $sort = array(
+		'Hb_App_Account_Account'                         => 1,
+	    'Hb_App_Account_AccountProduct'                  => 2,
+	    'Hb_App_Account_AccountProductAttribute'         => 3,
+		'Hb_App_Common_Contact'	                         => 2,
+		'Hb_App_Account_AccountContact'	                 => 3,
+		'Hb_App_Common_ContactPhone'	                 => 3,
+	    'Hb_App_Common_Address'	                         => 3,
+	    'Hb_App_Common_ContactAttribute'	             => 3,
+		'Hb_App_Proposal_Proposal'                       => 1,
+	    'Hb_App_Proposal_ProposalUser'	                 => 2,
+		'Hb_App_Proposal_ProposalAttribute'              => 2,
+		'Hb_App_Study_Study'	                         => 1,
+	    'Hb_App_Study_StudyCost'	                     => 2,
+	    'Hb_App_Study_StudyCostFile'                     => 3,
+	    'Hb_App_Study_StudyCostComment'	                 => 3,
+	    'Hb_App_Study_StudyCostAction'	                 => 3
+	);
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function __construct()
+	{
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 */
+	function __destruct()
+	{
+	}
+	
+	/**
+	 * Provides the Unit of work instance to the caller
+	 *
+	 * @return Hb_App_ObjectWatcher
+	 */
+	public static function getInstance()
+	{
+		if (is_null(self::$instance)) {
+			self::$instance = new Hb_App_ObjectWatcher();
+		}
+		
+		return self::$instance;
+	}
+
+	/**
+	 * Register an existing in-memory object as being dirty
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	public static function registerDirty(Hb_App_Object $obj)
+	{
+		$class = get_class($obj);
+		
+		if (Hb_Util_Lang_Class::isInstanceOf($class, 'Hb_App_Collection')) {
+			return false;	
+		}
+		
+		$sort  = (isset(self::getInstance()->sort[$class])) ? self::getInstance()->sort[$class] : 1;
+		self::getInstance()->dirty[$sort][$class][$obj->GetId()] = $obj;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param class
+	 */
+	public function exists($id, $class)
+	{
+		
+	}
+	
+	/**
+	 * Register a new In-memory object 
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	public static function registerNew(Hb_App_Object $obj)
+	{
+		$class = get_class($obj);
+		
+		if (Hb_Util_Lang_Class::isInstanceOf($class, 'Hb_App_Collection')) {
+			return false;	
+		}
+		
+		$sort  = (isset(self::getInstance()->sort[$class])) ? self::getInstance()->sort[$class] : 1;
+		self::getInstance()->new[$sort][$class][] = $obj;
+		return true;
+	}
+	
+	/**
+	 * Once you are done working with the domain model call ::commit to 
+	 * save your in memory changes to the back-end data store.
+	 *
+	 */
+	public static function commit()
+	{
+		$watcher = self::getInstance();
+		
+		ksort($watcher->new);
+		
+		foreach ($watcher->new as $sort => $classes) 
+		{
+			foreach ($classes as $class => $objs) {
+				$mapper = Hb_App_ObjectHelper::GetMapper($class);
+			
+				foreach ($objs as $obj) {
+					$mapper->Save($obj);
+				}
+			}
+		}	
+		
+		ksort($watcher->dirty);
+		
+		foreach ($watcher->dirty as $sort => $classes) 
+		{
+			foreach ($classes as $class => $objs) {
+				$mapper = Hb_App_ObjectHelper::GetMapper($class);
+			
+				foreach ($objs as $obj) {
+					
+					if (!$obj->isDirty()) continue;
+					
+					$mapper->Save($obj);
+				}
+			}
+		}	
+		
+		$watcher->reset();
+	}
+	
+	public static function reset()
+	{
+		$watcher = self::getInstance();
+		$watcher->dirty = array();
+		$watcher->new   = array();
+	}
+}
+?>

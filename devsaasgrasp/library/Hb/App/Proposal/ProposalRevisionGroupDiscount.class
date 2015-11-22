@@ -1,0 +1,281 @@
+<?php
+/**
+ * Domain Object for ProposalRevisionGroupDiscount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Propsal
+ */ 
+
+class Hb_App_Proposal_ProposalRevisionGroupDiscount extends Hb_App_Object
+{
+	/**
+	 * Ad_hoc Discount
+	 * 
+	 * @var string
+	 */
+	protected $ad_hoc_discount = null;
+
+	/**
+	 * Contracted Discount
+	 * 
+	 * @var string
+	 */
+	protected $contracted_discount = null;
+	
+	/**
+	 * Inflator
+	 * 
+	 * @var string
+	 */
+	protected $inflator = null;
+	
+	/**
+	 * Non_contracted Discount
+	 * 
+	 * @var string
+	 */
+	protected $non_contracted_discount = null;
+	
+	/**
+	 * Pricing Item Group Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_item_group_id = null;
+	
+	/**
+	 * Promotional Discount
+	 * 
+	 * @var string
+	 */
+	protected $promotional_discount = null;
+	
+	/**
+	 * Proposal Revision Group Discount Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_group_discount_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+
+	/**
+	 * Create Proposal Revision Group Discount
+	 * 
+	 * @param int $id Proposal Revision Group Discount id
+	 * @param int $ad_hoc_discount Ad_hoc Discount
+	 * @param int $contracted_discount Contracted Discount
+	 * @param int $inflator Inflator
+	 * @param int $non_contracted_discount Non Contracted Discount
+	 * @param int $pricing_item_group_id Pricing Item Group Id
+	 * @param int $promotional_discount Promotional Discount
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */	
+
+	function __construct($id 											= null, 
+								$ad_hoc_discount							= null, 
+								$contracted_discount						= null, 
+								$inflator 									= null, 
+								$non_contracted_discount 				= null, 
+								$pricing_item_group_id 					= null, 
+								$promotional_discount 					= null, 
+								$proposal_revision_id					= null)
+	{
+		$this->proposal_revision_group_discount_id  	= $id;
+		$this->ad_hoc_discount 								= $ad_hoc_discount;
+		$this->contracted_discount 						= $contracted_discount;
+		$this->inflator  										= $inflator;
+		$this->non_contracted_discount  					= $non_contracted_discount;
+		$this->pricing_item_group_id 						= $pricing_item_group_id;
+		$this->promotional_discount  						= $promotional_discount;
+		$this->proposal_revision_id  						= $proposal_revision_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Ad Hoc Discount
+	 * 
+	 * @return string Ad Hoc Discount
+	 */
+	public function GetAdHocDiscount()
+	{
+		return $this->ad_hoc_discount;
+	}
+
+	/**
+	 * Returns Contracted Discount
+	 * 
+	 * @return string Contracted Discount
+	 */
+	public function GetContractedDiscount()
+	{
+		return $this->contracted_discount;
+	}
+
+	/**
+	 * Returns Inflator
+	 * 
+	 * @return string Inflator
+	 */
+	public function GetInflator()
+	{
+		return $this->inflator;
+	}
+	
+	/**
+	 * Returns Non Contracted Discount
+	 * 
+	 * @return string Non Contracted Discount
+	 */
+	public function GetNonContractedDiscount()
+	{
+		return $this->non_contracted_discount;
+	}
+
+	/**
+	 * Returns Pricing Item Group Id
+	 * 
+	 * @return int Pricing Item Group Id
+	 */
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	/**
+	 * Returns Promotional Discount
+	 * 
+	 * @return string Promotional Discount
+	 */
+	public function GetPromotionalDiscount()
+	{
+		return $this->promotional_discount;
+	}
+
+	/**
+	 * Returns Proposal Revision Group Discount Id
+	 * 
+	 * @return int Proposal Revision Group Discount Id
+	 */
+	public function GetProposalRevisionGroupDiscountId()
+	{
+		return $this->proposal_revision_group_discount_id;
+	}
+
+	/**
+	 * Returns Proposal Revision Id
+	 * 
+	 * @return int Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Sets Ad Aoc Discount
+	 * 
+	 * @param string $ad_hoc_discount Ad Aoc Discount
+	 */
+	public function SetAdAocDiscount($ad_hoc_discount)
+	{
+		$this->ad_hoc_discount = $ad_hoc_discount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Contracted Discount
+	 * 
+	 * @param string $contracted_discount Contracted Discount
+	 */
+	public function SetContractedDiscount($contracted_discount)
+	{
+		$this->contracted_discount = $contracted_discount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Inflator
+	 * 
+	 * @param string $inflator Inflator
+	 */
+	public function SetInflator($inflator)
+	{
+		$this->inflator = $inflator;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Non Contracted Discount
+	 * 
+	 * @param string $contact_email Non Contracted Discount
+	 */
+	public function SetNonContractedDiscount($non_contracted_discount)
+	{
+		$this->non_contracted_discount = $non_contracted_discount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Pricing Item Group Id
+	 * 
+	 * @param int $pricing_item_group_id Pricing Item Group Id
+	 */
+	public function SetPricingItemGroupId($pricing_item_group_id)
+	{
+		$this->pricing_item_group_id = (int)$pricing_item_group_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Promotional Discount
+	 * 
+	 * @param string $promotional_discount Promotional Discount
+	 */
+	public function SetPromotionalDiscount($promotional_discount)
+	{
+		$this->promotional_discount = $promotional_discount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Group Discount Id
+	 * 
+	 * @param int $proposal_revision_group_discount_id Proposal Revision Group Discount Id
+	 */
+	public function SetProposalRevisionGroupDiscountId($proposal_revision_group_discount_id)
+	{
+		$this->proposal_revision_group_discount_id = (int)$proposal_revision_group_discount_id;
+		$this->__id = (int) $proposal_revision_group_discount_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Id
+	 * 
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int)$proposal_revision_id;
+	
+		$this->MarkDirty();
+	}
+}
+?>

@@ -1,0 +1,127 @@
+<?php
+/**
+ * Domain Object for RecruiterCampaignMetrics
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+class Hb_App_Account_RecruiterCampaignMetrics extends Hb_App_Object 
+{
+
+	protected $recruiter_campaign_metrics_id = null;
+	
+	protected $recruiter_campaign_id = null;
+	
+	protected $quality_rating = null;
+	
+	protected $metrics_notes = null;
+
+	/**
+	 * Create an RecruiterCampaignMetrics Object
+	 *
+	 * @param int $id Recruiter Campaign Metrics Id
+	 * @param int $recruiter_campaign_id Recruiter Campaign Id
+	 * @param int $quality_rating Quality Rating
+	 * @param string $metrics_notes Metrics Notes
+	 */
+	public function __construct($id = null, $recruiter_campaign_id = null, $quality_rating = null, $metrics_notes = null)
+	{
+		$this->recruiter_campaign_metrics_id = $id;
+		$this->recruiter_campaign_id         = $recruiter_campaign_id;
+		$this->quality_rating        		 = $quality_rating;
+		$this->metrics_notes     			 = $metrics_notes;
+		
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Recruiter Campaign Metrics Id
+	 * 
+	 * @return int Recruiter Campaign Metrics Id
+	 */	
+	function GetRecruiterCampaignMetricsId()
+	{
+		return (int)$this->recruiter_campaign_metrics_id;
+	}
+
+	/**
+	 * Sets the Recruiter Campaign Metrics Id
+	 * 
+	 * @param int $id Recruiter Campaign Metrics Id
+	 */
+	function SetRecruiterCampaignMetricsId($id)
+	{
+		$this->__id = $id;
+		$this->recruiter_campaign_metrics_id = $id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Recruiter Campaign Id
+	 * 
+	 * @return int Recruiter Campaign Id
+	 */	
+	function GetRecruiterCampaignId()
+	{
+		return (int)$this->recruiter_campaign_id;
+	}
+
+	/**
+	 * Sets the Recruiter Campaign Id
+	 * 
+	 * @param int $id Recruiter Campaign Id
+	 */
+	function SetRecruiterCampaignId($id)
+	{
+		$this->recruiter_campaign_id = $id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Quality Rating
+	 * 
+	 * @return int Quality Rating
+	 */	
+	function GetQualityRating()
+	{
+		return (int)$this->quality_rating;
+	}
+
+	/**
+	 * Sets the Quality Rating
+	 * 
+	 * @param int $rating Quality Rating
+	 */
+	function SetQualityRating($rating)
+	{
+		$this->quality_rating = $rating;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Returns the Metrics Notes
+	 * 
+	 * @return int Metrics Notes
+	 */	
+	function GetMetricsNotes()
+	{
+		return $this->metrics_notes;
+	}
+
+	/**
+	 * Sets the Metrics Notes
+	 * 
+	 * @param string $notes Metrics Notes
+	 */
+	function SetMetricsNotes($notes)
+	{
+		$this->metrics_notes = $notes;
+		$this->MarkDirty();
+	}	
+}
+?>

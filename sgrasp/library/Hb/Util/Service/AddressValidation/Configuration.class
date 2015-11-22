@@ -1,0 +1,41 @@
+<?php 
+class Hb_Util_Service_AddressValidation_Configuration
+{
+
+	/**
+	 * Private construcor private instantiating this class
+	 *
+	 */
+	private function __construct()
+	{
+		
+	}
+	
+	/**
+	 * Get a best Service name, 
+	 *
+	 * @param string $country_code Country code
+	 * @param string $service_name Service name
+	 * @return string 
+	 */
+	public static function GetInstance($country_code)
+	{
+		if (trim($country_code) == '') {
+			throw new Hb_Util_Service_AddressValidation_Exception_CountryCodeNotProvidedException("Country Code Can Not Be Empty", 
+				EXCEPTION_UTIL_SERVICE_ADDRESSVALIDATION_COUNTRY_CODE_EMPTY);
+		}
+				
+		/** lets configure the avs now **/
+		$sysconfig = Hb_Util_Config_SystemConfigReader::Read('service');
+		
+		try {
+			$avs_config = Hb_Util_Service_AddressValidation_ConfigReader::Read($sysconfig->avs->conf, $country_code);
+		}catch (Hb_Util_Service_AddressValidation_Exception_ConfigurationNotFoundException $e) {
+			$avs_config = Hb_Util_Service_AddressValidation_ConfigReader::Read($sysconfig->avs->conf, 'default'); 
+		}
+		return $avs_config->validator;
+	}	
+}
+
+
+?>

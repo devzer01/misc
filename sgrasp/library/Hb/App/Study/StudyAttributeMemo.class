@@ -1,0 +1,152 @@
+<?php
+/**
+ * Domain Object for StudyAttributeMemo
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */
+class Hb_App_Study_StudyAttributeMemo  extends Hb_App_Object
+{
+	/**
+	 * Study Attr Memo Id
+	 *
+	 * @var int
+	 */
+	protected $study_attr_memo_id = null;
+	
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */
+	protected $study_id = null;
+	
+	/**
+	 * Study Attr
+	 *
+	 * @var string
+	 */
+	protected $study_attr = null;
+	
+	/**
+	 * Study Value
+	 *
+	 * @var string
+	 */
+	protected $study_value = null;
+
+	/**
+	 * Create StudyAttributeMemo Object
+	 * 
+	 * @param int $id study_attr_memo_id
+	 * @param int $study_id study_id
+	 * @param int $study_attr study_attr
+	 * @param int $study_value study_value
+	 */
+	function __construct($id 					= null, 
+								$study_id 			= null,
+								$study_attr			= null, 
+								$study_value      = null)
+	{
+		$this->study_attr_memo_id	= $id;
+		$this->study_id				= $study_id;
+		$this->study_attr 			= $study_attr;
+		$this->study_value 			= $study_value;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns the Study Attr Memo Id
+	 *
+	 * @return int Study Attr Memo Id
+	 */
+	public function GetStudyAttributeMemoId()
+	{
+		return $this->study_attr_memo_id;
+	}
+
+	/**
+	 * Returns the Study Id
+	 *
+	 * @return int Study Id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Returns the Study Attr
+	 *
+	 * @return string Study Attr
+	 */
+	public function GetStudyAttr()
+	{
+		return $this->study_attr;
+	}
+
+	/**
+	 * Returns the Study Value
+	 *
+	 * @return string Study Value
+	 */
+	public function GetStudyValue()
+	{
+		return $this->study_value;
+	}
+
+	/**
+	 * Sets the Study Attr Memo Id
+	 * 
+	 * @param int $study_attr_memo_id Study Attr Memo Id
+	 */
+	public function SetStudyAttributeMemoId($study_attr_memo_id)
+	{
+		$this->study_attr_memo_id = (int) $study_attr_memo_id;
+
+		$this->__id = (int) $study_attr_memo_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Id
+	 * 
+	 * @param int $study_id Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = (int) $study_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Attr
+	 * 
+	 * @param string $study_attr Study Attr
+	 */
+	public function SetStudyAttr($study_attr)
+	{
+		$this->study_attr = $study_attr;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets the Study Value
+	 * 
+	 * @param string $study_value Study Value
+	 */
+	public function SetStudyValue($study_value)
+	{
+		$this->study_value = $study_value;
+
+		$this->MarkDirty();
+	}
+}
+?>

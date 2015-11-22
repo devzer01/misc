@@ -1,0 +1,2613 @@
+<?php
+
+/**
+ * @author Nayana Hettiarachchi
+ * @copyright Global Market Insite 2006 
+ * @version 2.0
+ * @package db_ppm
+ * 
+ * HB Framework 2.0 style db access layer utilizing Zend Framework Zend_DB
+ * All Inserts/Updates are wraped around a table level __InsertTableName/__UpdateTableName with a Camolized Naming Convension
+ * Each __InsertTableName/__UpdateTableName will utilize the underlying __Insert/__Update derived from the package db, 
+ * No Overloading of DB __Insert/__Update allowed
+ */
+
+class db_ppm extends db_common {
+	
+	/**
+	* GetProposalList()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 18:20:11
+	*/
+	function GetProposalList()
+	{
+		$this->select->from('proposal', array('proposal_id', 'proposal_status_id', 'account_id'))
+						 ->where('status = ?', 'A')
+						 ->where('proposal_status_id = ?', PROPOSAL_STATUS_WORK_PROGRESS);
+		return $this->db->fetchAll($this->select);
+	}
+	
+	/**
+	* UpdateRevisionStatus()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 21:32:46
+	*/
+	function UpdateRevisionStatus($proposal_revision_id, $proposal_revision_status_id)
+	{		
+		$this->__UpdateProposalRevision($proposal_revision_id, 
+			array(
+				'proposal_revision_status_id' => $proposal_revision_status_id
+			)
+		);
+	}
+	
+	/**
+	* UpdateProposalStatus()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 20:30:18
+	*/
+	function UpdateProposalStatus($proposal_id, $proposal_status_id)
+	{
+		$this->__UpdateProposal($proposal_id, 
+			array(
+				'proposal_status_id' => $proposal_status_id
+			)
+		);
+	}
+	
+	/**
+	* UpdateCurrentRevisionNumber()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:25:48
+	*/
+	function UpdateCurrentRevisionNumber($proposal_id, $current_revision)
+	{
+		$fields = array(
+			'current_revision' => $current_revision
+		);
+		
+		$this->__UpdateProposal($proposal_id, $fields);
+	}
+	
+	/**
+	* UpdateRevisionSentDate()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:38:26
+	*/
+	function UpdateRevisionSentDate($proposal_revision_id, $sent_date)
+	{
+		$fields = array(
+			'sent_date' => $sent_date
+		);
+		
+		$this->__UpdateProposalRevision($proposal_revision_id, $fields);
+	}
+	
+	/**
+	* SetProposalRevisionCustomPrice()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:15:52
+	*/
+	function SetProposalRevisionCustomPrice($proposal_revision_option_id, $pricing_item_group_id, $amount)
+	{
+		$fields = array(
+			'proposal_revision_option_id' => $proposal_revision_option_id, 
+			'pricing_item_group_id'       => $pricing_item_group_id, 
+			'amount'                      => $amount
+		);
+		
+		$this->__InsertProposalRevisionCustomPricing($fields);
+	}
+	
+	/**
+	* SetRevision()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:12:45
+	*/
+	function SetRevision($proposal_id, $revision, $study_interview_type_id, $study_setup_duration_id, $study_fieldwork_duration_id, $study_data_processing_duration_id, 
+		$proposal_option_type_id, $proposal_type_id, $number_of_countries, $number_of_options, $login, $user_id, $pricing_type_id, $revision_date = 'NOW()', $text = '')
+	{
+		$fields = array(
+			'proposal_id' => $proposal_id,
+			'revision'    => $revision,
+			'study_interview_type_id' => $study_interview_type_id,
+			'study_setup_duration_id' => $study_setup_duration_id,
+			'study_fieldwork_duration_id' => $study_fieldwork_duration_id,
+			'study_data_processing_duration_id' => $study_data_processing_duration_id,
+			'proposal_option_type_id' => $proposal_option_type_id,
+			'proposal_type_id' => $proposal_type_id,
+			'number_of_countries' => $number_of_countries,
+			'number_of_options' => $number_of_options,
+			'login' => $login, 
+			'user_id' => $user_id,
+			'pricing_type_id' => $pricing_type_id
+		);
+		
+		if ($revision_date != 'NOW()') {
+			$fields['created_date'] = $revision_date;
+		}
+		
+		$this->__InsertProposalRevision($fields);
+	}
+	
+	/**
+	* SetRevisionComment()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:46:19
+	*/
+	function SetRevisionComment($proposal_revision_id, $proposal_revision_comment_type_id, $comment)
+	{
+		$fields = array(
+			'proposal_revision_id' => $proposal_revision_id,
+			'proposal_revision_comment_type_id' => $proposal_revision_comment_type_id,
+			'comment' => $comment
+		);
+		
+		$this->__InsertProposalRevisionComment($fields);
+	}
+	
+	/**
+	* SetRevisionSampleType()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:56:21
+	*/
+	function SetRevisionSampleType($proposal_revision_id, $sample_type_id)
+	{
+		$fields = array(
+			'proposal_revision_id' => $proposal_revision_id,
+			'sample_type_id' => $sample_type_id
+		);
+		
+		$this->__InsertProposalRevisionSampleType($fields);
+		
+	}
+	
+	/**
+	* SetRevisionService()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 11:05:44
+	*/
+	function SetRevisionService($proposal_revision_id, $service_id)
+	{
+		$fields = array(
+			'proposal_revision_id' => $proposal_revision_id,
+			'service_id' => $service_id
+		);
+		
+		$this->__InsertProposalRevisionService($fields);
+	}
+	
+	/**
+	* SetRevisionOption()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 18:19:21
+	*/
+	function SetRevisionOption($proposal_revision_id, $country_code, $option_number, $sort_order, $sub_group_description, $programming, $study_programming_type_id, $translation, $translation_language_code, 
+   		$overlay, $overlay_language_code, $study_datasource_id, $incidence_rate, $completes, $questions_programmed, $questions_per_interview,
+   		$questions_per_screener, $data_recording_hours, $data_tab_hours, $data_export_hours, $data_import_hours, $open_end_questions, $incidence_of_open_end,
+   		$avg_words_per_open_end, $open_end_text_coding_hours, $respondent_portal_type_id, $respondent_portal_programming_hours,
+   		$client_portal_programming_hours, $panel_import_hours, $panel_cost_per_interview, $option_total, $panel_total, $option_cpc)
+	{
+		$fields = array(
+			'proposal_revision_id'                => $proposal_revision_id, 
+			'country_code'                        => $country_code, 
+			'option_number'                       => $option_number, 
+			'sort_order'                          => $sort_order, 
+			'sub_group_description'               => $sub_group_description,
+			'programming'                         => $programming, 
+			'study_programming_type_id'           => $study_programming_type_id, 
+			'translation'                         => $translation, 
+			'translation_language_code'           => $translation_language_code, 
+   		'overlay'                             => $overlay, 
+   		'overlay_language_code'               => $overlay_language_code, 
+   		'study_datasource_id'                 => $study_datasource_id, 
+   		'incidence_rate'                      => $incidence_rate, 
+   		'completes'                           => $completes, 
+   		'questions_programmed'                => $questions_programmed, 
+   		'questions_per_interview'             => $questions_per_interview,
+   		'questions_per_screener'              => $questions_per_screener, 
+   		'data_recording_hours'                => $data_recording_hours, 
+   		'data_tab_hours'                      => $data_tab_hours, 
+   		'data_export_hours'                   => $data_export_hours, 
+   		'data_import_hours'                   => $data_import_hours, 
+   		'open_end_questions'                  => $open_end_questions, 
+   		'incidence_of_open_end'               => $incidence_of_open_end,
+   		'avg_words_per_open_end'              => $avg_words_per_open_end, 
+   		'open_end_text_coding_hours'          => $open_end_text_coding_hours, 
+   		'respondent_portal_type_id'           => $respondent_portal_type_id,
+   		'respondent_portal_programming_hours' => $respondent_portal_programming_hours,
+   		'client_portal_programming_hours'     => $client_portal_programming_hours, 
+   		'panel_import_hours'                  => $panel_import_hours, 
+   		'panel_cost_per_interview'            => $panel_cost_per_interview, 
+   		'option_total'                        => $option_total, 
+   		'panel_total'                         => $panel_total, 
+   		'option_cpc'                          => $option_cpc
+		);
+		
+		$this->__InsertProposalRevisionOption($fields);
+	}
+	
+	/**
+	* __InsertProposalRevisionOption()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 18:19:40
+	*/
+	function __InsertProposalRevisionOption($fields)
+	{
+		$table = 'proposal_revision_option';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __InsertProposalRevisionService()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 11:06:34
+	*/
+	function __InsertProposalRevisionService($fields)
+	{
+		$table = 'proposal_revision_service';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __InsertProposalRevisionSampleType()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:58:37
+	*/
+	function __InsertProposalRevisionSampleType($fields)
+	{
+		$table = 'proposal_revision_sample_type';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __InsertProposalRevisionComment()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:46:37
+	*/
+	function __InsertProposalRevisionComment($fields)
+	{
+		$table = 'proposal_revision_comment';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __InsertRevision()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:06:50
+	*/
+	protected function __InsertProposalRevision($fields)
+	{
+		$table = 'proposal_revision';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __InsertProposalRevisionCustomPricing()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:13:53
+	*/
+	protected function __InsertProposalRevisionCustomPricing($fields)
+	{
+		$table = 'proposal_revision_custom_pricing';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* __UpdateProposalRevision()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 17:20:24
+	*/
+	protected function __UpdateProposalRevision($proposal_revision_id, $fields)
+	{
+		/* table to update */
+		$table = 'proposal_revision';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND proposal_revision_id = ?', $proposal_revision_id);
+		
+		$this->__Update($table, $fields, $where);		
+	}
+	
+	/**
+	* __UpdateProposal()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:13:02
+	*/
+	protected function __UpdateProposal($proposal_id, $fields)
+	{
+		$table = 'proposal';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND proposal_id = ?', $proposal_id);
+		       
+		$this->__Update($table, $fields, $where);
+		       
+	}
+	
+	/**
+	* GetRevisionDetail()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 13:43:31
+	*/
+	function GetRevisionDetail($proposal_revision_id, $get_desc = false)
+	{
+		/* initialize the select object */
+		$this->SetSelect();
+		
+		$this->select->from(array('pr' => 'proposal_revision'), array("proposal_type_id", 'min_amount', 'max_amount', 'study_interview_type_id', 'study_fieldwork_duration_id',
+			'proposal_option_type_id', 'number_of_countries', 'number_of_options', 'proposal_revision_id', 'proposal_id', 'study_setup_duration_id', 'study_data_processing_duration_id',
+			'pricing_type_id', 'created_date' => new Zend_Db_Expr("CONVERT_TZ(pr.created_date,'+00:00','". $this->tz ."')"), 
+			'proposal_revision_status_id', 'revision', "created_by"));
+		
+		/* for presentation only */
+		if ($get_desc) {
+			$this->select->joinLeft(array('pt' => 'proposal_type'), 'pt.proposal_type_id = pr.proposal_type_id', array('proposal_type_description'));
+			$this->select->joinLeft(array('sit' => 'study_interview_type'), 'sit.study_interview_type_id = pr.study_interview_type_id', array('study_interview_type_description'));
+			$this->select->joinLeft(array('sfd' => 'study_fieldwork_duration'), 'sfd.study_fieldwork_duration_id = pr.study_fieldwork_duration_id', array('study_fieldwork_duration_description'));
+			$this->select->joinLeft(array('pot' => 'proposal_option_type'), 'pot.proposal_option_type_id = pr.proposal_option_type_id', array('proposal_option_type_description'));
+			$this->select->joinLeft(array('ssd' => 'study_setup_duration'), 'ssd.study_setup_duration_id = pr.study_setup_duration_id', array('study_setup_duration_description'));
+			$this->select->joinLeft(array('sdpd' => 'study_data_processing_duration'), 'sdpd.study_data_processing_duration_id = pr.study_data_processing_duration_id', array('study_data_processing_duration_description'));
+			$this->select->joinLeft(array('pr_t' => 'pricing_type'), 'pr_t.pricing_type_id = pr.pricing_type_id', array('pricing_type_description'));
+			$this->select->joinLeft(array('prs' => 'proposal_revision_status'), 'prs.proposal_revision_status_id = pr.proposal_revision_status_id', array('proposal_revision_status_description'));
+			$this->select->joinLeft(array('u' => 'user'), 'u.login = pr.created_by', array('created_by_name' => 'last_name'));
+		}
+		
+		$this->select->where('pr.proposal_revision_id = ?', $proposal_revision_id);
+		
+		return $this->db->fetchRow($this->select);
+	}
+	
+	
+   /**
+   * GetRevisionCount()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - Mon Dec 12 17:54:37 PST 2005
+   */
+   function GetRevisionCount($proposal_id)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from('proposal_revision', array('revision_count' => new Zend_Db_Expr('count(proposal_revision_id)')));
+   	$this->select->where("status = 'A' ");
+   	$this->select->where("proposal_id = ?", $proposal_id);
+
+   	return $this->db->fetchOne($this->select);
+   }
+   
+   /**
+   * GetRevisionComments()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 23:41:44
+   */
+   function GetRevisionComments($proposal_revision_id)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from('proposal_revision_comment', array('proposal_revision_comment_type_id', 'comment', 'created_by'));
+   	$this->select->where('status = ?', 'A');
+   	$this->select->where('proposal_revision_id = ?', $proposal_revision_id);
+   	
+   	return $this->db->fetchAssoc($this->select);
+   }
+   
+   /**
+   * GetRevisionSampleTypes()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 23:51:20
+   */
+   function GetRevisionSampleTypes($proposal_revision_id, $get_desc = false)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('prst' => 'proposal_revision_sample_type'), array('sample_type_id'));
+   	
+   	if ($get_desc) {
+   		$this->select->joinLeft(array('st' => 'sample_type'), 'st.sample_type_id = prst.sample_type_id', array('sample_type_description'));
+   	}
+   	
+   	$this->select->where('prst.proposal_revision_id = ?', $proposal_revision_id);
+   	
+   	return $this->db->fetchAssoc($this->select);
+   }
+   
+   /**
+   * GetRevisionServiceList()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 11:01:39
+   */
+   function GetRevisionServiceList($proposal_revision_id, $get_desc = false)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('prs' => 'proposal_revision_service'), array('service_id'));
+   	
+   	if ($get_desc) {
+   		$this->select->joinLeft(array('s' => 'service'), 's.service_id = prs.service_id', array('service_description'));
+   	}
+   	
+   	$this->select->where('prs.status = ?', 'A');
+   	$this->select->where('prs.proposal_revision_id = ?', $proposal_revision_id);
+   	
+   	return $this->db->fetchAssoc($this->select);
+   }
+   
+   /**
+   * GetProposalDetail()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 17:05:58
+   */
+   function GetProposalDetail($proposal_id, $get_desc = false)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('p' => 'proposal'), array('proposal_id', 'proposal_name', 'account_id', 'account_name', 'account_type_id', 'license_level_id',
+   		'pricing_regime_id', 'product_id', 'functional_group_id', 'proposal_status_id', 'proposal_sub_status_id', 'region_id', 'login',
+   		'user_id', 'country_code', 'proposal_date', 'current_revision', 'created_by', 'created_date'));
+   	
+   	if ($get_desc) {
+   		
+   		$this->select->joinLeft(array('ll' => 'license_level'), 'll.license_level_id = p.license_level_id', array('license_level_description'));
+   		$this->select->joinLeft(array('preg' => 'pricing_regime'), 'preg.pricing_regime_id = p.pricing_regime_id', array('pricing_regime_description'));
+   		$this->select->joinLeft(array('product' => 'product'), 'product.product_id = p.product_id', array('product_description'));
+   		$this->select->joinLeft(array('fg' => 'functional_group'), 'fg.functional_group_id = p.functional_group_id', array('functional_group_description'));
+   		$this->select->joinLeft(array('ps' => 'proposal_status'), 'ps.proposal_status_id = p.proposal_status_id', array('proposal_status_description'));
+   		$this->select->joinLeft(array('pss' => 'proposal_sub_status'), 'pss.proposal_sub_status_id = p.proposal_sub_status_id', array('proposal_sub_status_description'));
+			$this->select->joinLeft(array('r' => 'region'), 'r.region_id = p.region_id', array('region_description'));
+			$this->select->joinLeft(array('u' => 'user'), 'u.login = p.login', array('cb_first_name' => 'first_name', 'cb_last_name' => 'last_name'));
+			$this->select->joinLeft(array('c' => 'country'), 'c.country_code = p.country_code', array('country_description'));
+   		
+   	}
+   	
+   	$this->select->where('p.status = ?', 'A');
+   	$this->select->where('p.proposal_id = ?', $proposal_id);
+   	
+   	return $this->db->fetchRow($this->select);
+   }
+   
+   /**
+   * GetProposalUser()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 11:03:17
+   */
+   function GetProposalUser($proposal_id, $get_desc = false)
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('pu' => 'proposal_user'), array('role_id', 'proposal_user_id', 'proposal_id', 'login'));
+   	
+   	if ($get_desc) {
+   		$this->select->joinLeft(array('u' => 'user'), 'u.login = pu.login', array('first_name', 'last_name', 'email_address'));
+   		$this->select->joinLeft(array('ua' => 'user_attr'), "ua.login = u.login AND ua.user_attr = 'TITLE'", array('title' => 'user_value'));
+   		$this->select->joinLeft(array('r' => 'role'), 'r.role_id = pu.role_id', array('role_description'));
+   		$this->select->joinLeft(array('uc' => 'user_contact'), 'uc.login = u.login', array());
+   		$this->select->joinLeft(array('c' => 'contact'), 'c.contact_id = uc.contact_id', array());
+   		$this->select->joinLeft(array('cp' => 'contact_phone'), 'cp.contact_id = c.contact_id AND cp.phone_type_id = 2', array('phone_country_code', 'contact_phone_number', 'contact_phone_ext'));
+   	}
+   	
+   	$this->select->where('pu.status = ?', 'A');
+   	$this->select->where('pu.proposal_id = ?', $proposal_id);
+   	
+   	return $this->db->fetchAssoc($this->select);
+   }
+   
+   /**
+   * GetRevisionOptions()
+   *
+   * @param - int $proposal_revision_id Revision id which the desired options belongs to
+   * @param - array $options optional specific options (default blank array_
+   * @return - records
+   * @since  - version 2.0
+   */
+   function GetRevisionOptions($proposal_revision_id, $options = array(), $sort_order = array())
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from(array('pro' => 'proposal_revision_option'), array('proposal_revision_option_id', 'proposal_revision_id', 'country_code', 
+   		'option_number', 'sort_order', 'sub_group_description', 'programming', 'study_programming_type_id', 'translation', 'translation_language_code', 
+   		'overlay', 'overlay_language_code', 'study_datasource_id', 'incidence_rate', 'completes', 'questions_programmed', 'questions_per_interview',
+   		'questions_per_screener', 'data_recording_hours', 'data_tab_hours', 'data_export_hours', 'data_import_hours', 'open_end_questions', 'incidence_of_open_end',
+   		'avg_words_per_open_end', 'open_end_text_coding_hours', 'respondent_portal_type_id', 'respondent_portal_programming_hours',
+   		'client_portal_programming_hours', 'panel_import_hours', 'panel_cost_per_interview', 'option_total', 'panel_total', 'option_cpc',
+   		'created_by', 'created_date'));
+   	
+   	$this->select->where('pro.status = ?', 'A');
+   	$this->select->where('pro.proposal_revision_id = ?', $proposal_revision_id);
+   	
+   	if (!empty($options)) {
+   		$this->select->where('pro.option_number IN (?)', $options);
+   		
+   		/* sort order selecting only makes sence if options is not empty */
+   		if (!empty($sort_order)) {
+   			$this->select->where('pro.sort_order IN (?)', $sort_order);
+   		}
+   	}
+   	
+   	return $this->db->fetchAssoc($this->select);
+   	
+   }
+   
+   /**
+   * GetRevisionCustomPriceByOptionId()
+   *
+   * @param
+   * @param -
+   * @return
+   * @throws
+   * @access
+   * @global
+   * @since  - 19:11:44
+   */
+   function GetRevisionCustomPriceByOptionId($proposal_revision_option_id)
+   {
+   	return $this->__SelectProposalRevisionCustomPricing(
+   		array(
+   			'proposal_revision_option_id'	=> $proposal_revision_option_id
+   		)
+   	);
+   }
+   
+   /**
+	* __SelectProposalRevisionCustomPricing()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:03:27
+	*/
+	protected function __SelectProposalRevisionCustomPricing($where)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('prcp' => 'proposal_revision_custom_pricing'), array('proposal_revision_custom_pricing_id', 'proposal_revision_option_id',
+			'pricing_item_group_id', 'amount', 'created_by', 'created_date'));
+		
+		$this->select->where('prcp.status = ?', 'A');
+		
+		if (isset($where['proposal_revision_option_id'])) {
+			$this->select->where('prcp.proposal_revision_option_id = ?', $where['proposal_revision_option_id']);	
+		}
+		
+		if (isset($where['proposal_revision_custom_pricing_id'])) {
+			$this->select->where('prcp.proposal_revision_custom_pricing_id = ?', $where['proposal_revision_custom_pricing_id']);	
+		}
+		
+		if (isset($where['proposal_revision_id'])) {
+			$this->select->joinLeft(array('pro' => 'proposal_revision_option'), 'pro.proposal_revision_option_id = prcp.proposal_revision_option_id', array());
+			$this->select->where('pro.proposal_revision_id = ?', $where['proposal_revision_id']);	
+		}
+		
+		return $this->db->fetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* __SelectProposalRevisionAction()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 19:59:48
+	*/
+	protected function __SelectProposalRevisionAction($where)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('pra' => 'proposal_revision_action'), array('proposal_revision_action_id', 'proposal_revision_id', 'pra.proposal_review_group_id',
+			'login', 'proposal_action_id', 'action_date', 'action_comment', 'is_copy', 'created_by', 'created_date'));
+		
+		if (isset($where['proposal_revision_id'])) {
+			$this->select->where('pra.proposal_revision_id = ?', $where['proposal_revision_id']);
+		}
+		
+		return $this->db->fetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* GetRevisionActionList()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 20:16:16
+	*/
+	function GetRevisionActionList($proposal_revision_id)
+	{
+		return $this->__SelectProposalRevisionAction(
+			array(
+				'proposal_revision_id' => $proposal_revision_id
+			)
+		);
+	}
+	
+	/**
+	* GetAuctionList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 08:19:40
+	*/
+	function GetAuctionList($params = array(), $attr = array())
+	{
+		$attr['group_by_auction_id']  = 1;
+		
+		return $this->__SelectProposalAuction(
+			$params, 
+			$attr
+		);
+	}
+	
+	/**
+	* __InsertProposalRevisionAction()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 20:18:39
+	*/
+	function __InsertProposalRevisionAction($fields)
+	{
+		$table = 'proposal_revision_action';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SetProposalRevisionAction()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 20:19:34
+	*/
+	function SetProposalRevisionAction($proposal_review_group_id, $login, $proposal_action_id, $action_date, $action_comment, $is_copy)
+	{
+		$this->__InsertProposalRevisionAction(
+			array(
+				'proposal_review_group_id' => $proposal_review_group_id, 
+				'login'                    => $login, 
+				'proposal_action_id'       => $proposal_action_id, 
+				'action_date'              => $action_date, 
+				'action_comment'           => $action_comment, 
+				'is_copy'                  => $is_copy
+			)
+		);
+	}
+	
+	/**
+	* GetProposalBudgetLineAmountByBudgetId()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:35:29
+	*/
+	function GetProposalBudgetLineAmountByBudgetId($proposal_revision_option_id, $proposal_budget_line_item_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('prbli' => 'proposal_revision_budget_line_item'), array('amount'));
+		
+		$this->select->where('prbli.status = ?', 'A');
+		$this->select->where('prbli.proposal_revision_option_id = ?', $proposal_revision_option_id);
+		$this->select->where('prbli.proposal_budget_line_item_id = ?', $proposal_budget_line_item_id);
+		
+		return $this->db->fetchOne($this->select);
+		
+	}
+	
+	/**
+	* GetOptionCustomPriceTotal()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:42:33
+	*/
+	function GetOptionCustomPriceTotal($proposal_revision_option_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_revision_custom_pricing', array('amount' => new Zend_Db_Expr('SUM(amount)')));
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('proposal_revision_option_id = ?', $proposal_revision_option_id);
+		
+		return $this->db->fetchOne($this->select);
+	}
+	
+	/**
+	* UpdateRevisionMaxAmount()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:58:10
+	*/
+	function UpdateRevisionMaxAmount($proposal_revision_id, $max_amount)
+	{
+		$this->__UpdateProposalRevision($proposal_revision_id, 
+			array(
+				'max_amount' => $max_amount
+			)
+		);
+	}
+	
+	/**
+	* UpdateRevisionMinAmount()
+	*
+	* @param
+	* @param -
+	* @return
+	* @throws
+	* @access
+	* @global
+	* @since  - 23:58:16
+	*/
+	function UpdateRevisionMinAmount($proposal_revision_id, $min_amount)
+	{
+		$this->__UpdateProposalRevision($proposal_revision_id, 
+			array(
+				'min_amount' => $min_amount
+			)
+		);
+	}
+	
+	/**
+	* UpdateRevisionCreatedDate()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 09:57:42
+	*/
+	function UpdateRevisionCreatedDate($proposal_revision_id, $created_date)
+	{
+		$fields = array(
+			'created_date' => $created_date
+		);
+		
+		$this->__UpdateProposalRevision($proposal_revision_id, $fields);
+		
+	}
+	
+	/**
+	* GetProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 14:58:49
+	*/
+	function GetAllProposalAttr($proposal_id)
+	{
+		return  $this->__SelectProposalAttr($proposal_id);
+	}
+	
+	/**
+	* __SelectProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:00:39
+	*/
+	function __SelectProposalAttr($proposal_id, $proposal_attr_name = null)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_attr', array('proposal_attr_name', 'proposal_attr_value'));
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('proposal_id = ?', $proposal_id);
+		
+		return $this->db->fetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* GetReviewGroupMembers()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:18:09
+	*/
+	function GetReviewGroupMembers($proposal_review_group_id)
+	{
+		return $this->__SelectProposalReviewGroupLogin($proposal_review_group_id);
+	}
+	
+	/**
+	* __SelectProposalReviewGroupLogin()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:15:44
+	*/
+	function __SelectProposalReviewGroupLogin($proposal_review_group_id, $login = null)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_review_group_login', array('login', 'created_by'));
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('proposal_review_group_id = ?', $proposal_review_group_id);
+		
+		if ($login != null) {
+			$this->select->where('login = ?', $login);
+		}
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+	
+	/**
+	* __InsertProposalRevisionReviewLog()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:22:26
+	*/
+	function __InsertProposalRevisionReviewLog($fields)
+	{
+		$table = 'proposal_revision_review_log';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SetRevisionReviewLog()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:23:59
+	*/
+	function SetRevisionReviewLog($proposal_revision_id, $proposal_review_group_id, $login, $notification_sent_date = null)
+	{
+		if ($notification_sent_date == null) {
+			$notification_sent_date = date("Y/m/d H:i:s");
+		}
+		
+		$this->__InsertProposalRevisionReviewLog(
+			array(
+				'proposal_revision_id'     => $proposal_revision_id,
+				'proposal_review_group_id' => $proposal_review_group_id,
+				'login'                    => $login,
+				'notification_sent_date'   => $notification_sent_date
+			)
+		);
+	}
+	
+	/**
+	* isMemberOfGroup()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:55:31
+	*/
+	function isMemberOfGroup($proposal_review_group_id, $login)
+	{
+		$rows = $this->__SelectProposalReviewGroupLogin($proposal_review_group_id, $login);
+		return (count($rows) > 0) ? true : false;
+	}
+	
+	/**
+	* GetProposalContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 22:14:13
+	*/
+	function GetProposalContact($proposal_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_contact', array('first_name', 'last_name', 'email', 'phone'));
+		$this->select->where('proposal_id = ?', $proposal_id);
+		
+		return $this->db->fetchRow($this->select);
+	}
+	
+	/**
+	* SetProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 23:26:35
+	*/
+	function SetProposalAttr($proposal_id, $proposal_attr_name, $proposal_attr_value)
+	{
+		$this->__InsertProposalAttr(
+			array(
+				'proposal_id' => $proposal_id,
+				'proposal_attr_name' => $proposal_attr_name,
+				'proposal_attr_value' => $proposal_attr_value
+			)
+		);
+		
+	}
+	
+	/**
+	* __InsertProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 23:26:51
+	*/
+	function __InsertProposalAttr($fields)
+	{
+		$table = 'proposal_attr';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	
+	/**
+	* UpdateProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 23:31:56
+	*/
+	function UpdateProposalAttr($proposal_id, $proposal_attr_name, $proposal_attr_value)
+	{
+		$this->__UpdateProposalAttr($proposal_id, $proposal_attr_name,
+			array(
+				'proposal_attr_value' => $proposal_attr_value
+			)
+		);
+		
+	}
+	
+	/**
+	* __UpdateProposalAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 23:28:52
+	*/
+	function __UpdateProposalAttr($proposal_id, $proposal_attr_name, $fields)
+	{
+		/* table to update */
+		$table = 'proposal_attr';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A')
+		       . $this->db->quoteInto(' AND proposal_id = ?', $proposal_id)
+		       . $this->db->quoteInto(' AND proposal_attr_name = ?', $proposal_attr_name);
+		
+		$this->__Update($table, $fields, $where);		
+		
+	}
+	
+	/**
+	* isProposalAttrSet()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 23:33:05
+	*/
+	function isProposalAttrSet($proposal_id, $proposal_attr_name)
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_attr', 'proposal_attr_name');
+		
+		$this->select->where('status = ?', 'A');
+		$this->select->where('proposal_id = ?', $proposal_id);
+		$this->select->where('proposal_attr_name = ?', $proposal_attr_name);
+		
+		return $this->db->fetchOne($this->select);
+	}
+	
+	/**
+	* GetRevisionCustomPrice()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:00:45
+	*/
+	function GetRevisionCustomPrice($proposal_revision_id)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('pro' => 'proposal_revision_option'), array('option_number', 'sort_order', 'proposal_revision_option_id'));
+		
+		$this->select->joinLeft(array('prcp' => 'proposal_revision_custom_pricing'), 'pro.proposal_revision_option_id = prcp.proposal_revision_option_id',  array('amount', 'pricing_item_group_id', 'option_number', 'sort_order', 'proposal_revision_custom_pricing_id'));
+
+		$this->select->where('pro.status = ?', 'A');
+		$this->select->where('pro.proposal_revision_id = ?', $proposal_revision_id);
+		
+		return $this->db->fetchAll($this->select);
+	}
+	
+	/**
+	* GetRevisionStandardPrice()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:20:44
+	*/
+	function GetRevisionStandardPrice($proposal_revision_id, $summary_items = true)
+	{
+		
+		$this->SetSelect();
+		
+		$this->select->from(array('pro' => 'proposal_revision_option'), array('option_number', 'country_code', 'o_sort_order' => 'sort_order', 'proposal_revision_option_id'));
+		
+		$this->select->joinLeft(array('prbli' => 'proposal_revision_budget_line_item'), 'prbli.proposal_revision_option_id = pro.proposal_revision_option_id', array('amount'));
+		
+		$this->select->joinLeft(array('pbli' => 'proposal_budget_line_item'), 'pbli.proposal_budget_line_item_id = prbli.proposal_budget_line_item_id', 
+			array('proposal_budget_line_item_description', 'proposal_budget_line_item_id', 'sort_order', 'value_type', 'pricing_item_group_id', 'precision', 'display_on_pdf'));
+		
+		$this->select->where('pro.proposal_revision_id = ?', $proposal_revision_id);
+		
+		if ($summary_items) {
+			$this->select->where('pbli.proposal_budget_line_item_id IN (?)', array( 
+				PROPOSAL_BUDGET_LICENSE, 
+				PROPOSAL_BUDGET_TOTAL_PROJECT_SETUP, 
+				PROPOSAL_BUDGET_TOTAL_HOSTING, 
+				PROPOSAL_BUDGET_TOTAL_PANEL, 
+				PROPOSAL_BUDGET_TOTAL_DP)
+			);
+		}
+		
+		$this->select->order('pbli.sort_order');
+		
+		return $this->db->fetchAll($this->select);
+	}
+	
+	/**
+	* SetupAuction()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:17:23
+	*/
+	function SetupAuction($proposal_id, $proposal_revision_id, $proposal_revision_option_id, 
+									$completes, $country_code, $incidence_rate, $sample_type_id, 
+									$proposal_auction_status_id = PROPOSAL_AUCTION_STATUS_SETUP)
+	{
+		$this->__InsertProposalAuction(
+			array(
+				'proposal_id' 						=> $proposal_id,
+				'proposal_revision_id' 			=> $proposal_revision_id,
+				'proposal_revision_option_id' => $proposal_revision_option_id,
+				'proposal_auction_status_id'  => $proposal_auction_status_id,
+				'completes'                   => $completes,
+				'country_code'                => $country_code,
+				'incidence_rate'              => $incidence_rate,
+				'sample_type_id'              => $sample_type_id
+			)
+		);
+		return $this->last_insert_id;
+	}
+	
+	/**
+	* __InsertProposalAuction()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:17:37
+	*/
+	protected function __InsertProposalAuction($fields)
+	{
+		$table = 'proposal_auction';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	
+	/**
+	* SetAuctionComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 19:55:24
+	*/
+	function SetAuctionComment($proposal_auction_id, $proposal_auction_comment_type_id, $subject, $comment)
+	{
+		$this->__InsertProposalAuctionComment(
+			array(
+				'proposal_auction_id' => $proposal_auction_id,
+				'proposal_auction_comment_type_id' => $proposal_auction_comment_type_id,
+				'subject' => $subject,
+				'comment' => $comment
+			)
+		);
+		
+	}
+	
+	/**
+	* __InsertProposalAuctionComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 19:54:21
+	*/
+	protected function __InsertProposalAuctionComment($fields)
+	{
+		$table = 'proposal_auction_comment';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	
+	/**
+	* GetRevisionAuctionList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 10:04:26
+	*/
+	function GetRevisionAuctionList($proposal_revision_id, $proposal_auction_status_id = 0)
+	{
+		if ($proposal_auction_status_id != 0)
+			return $this->__SelectProposalAuction(
+				array('proposal_revision_id' => $proposal_revision_id, 'proposal_auction_status_id' => $proposal_auction_status_id)
+			);
+		
+		return $this->__SelectProposalAuction(
+			array('proposal_revision_id' => $proposal_revision_id)
+		);
+	}
+	
+	/**
+	* GetAuctionDetail()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 10:41:06
+	*/
+	function GetAuctionDetail($proposal_auction_id)
+	{
+		$data = $this->__SelectProposalAuction(
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+		
+		return $data[$proposal_auction_id];
+	}
+	
+	/**
+	* __SelectProposalAuction()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 10:39:11
+	*/
+	protected function __SelectProposalAuction($params = array(), $attr = array())
+	{
+		$time = date("Y-m-d H:i:s");
+		
+		$this->SetSelect();
+		
+		$this->select->from(array('pa' => 'proposal_auction'), array('proposal_auction_id', 'auction_name', 'proposal_id', 'proposal_revision_id', 
+										'proposal_revision_option_id', 'proposal_auction_status_id', 'proposal_auction_duration_type_id', 
+										'completes', 'country_code', 'incidence_rate', 'auction_start_date', 'starting_bid', 'current_bid', 
+										'created_by', 'created_date', 'modified_by', 'modified_date', 'status', 'sample_type_id', 
+										'current_bid_by_contact_id', 'current_bid_by_account_id', 
+										'hrs_left' => new Zend_Db_Expr("TIMEDIFF(pa.auction_end_date, '. $time .')"), 'auction_end_date'));
+		
+		/* qualifying criteria */
+		$this->select->joinLeft(array('pac_qc' => 'proposal_auction_comment'), 
+											'pac_qc.proposal_auction_id = pa.proposal_auction_id 
+												AND pac_qc.proposal_auction_comment_type_id = '. PROPOSAL_AUCTION_COMMENT_TYPE_QC, 
+											array('qc_subject' => 'subject', 'qc_comment' => 'comment'));
+											
+		$this->select->joinLeft(array('paa' => 'proposal_auction_account'), 'paa.proposal_auction_id = pa.proposal_auction_id', 
+			array('account_id', 'account_name'));
+			
+		/* current bid user information */
+		
+		$this->select->joinLeft(array('paa_cb' => 'proposal_auction_account'), 'paa_cb.account_id = pa.current_bid_by_account_id 
+			AND paa_cb.proposal_auction_id = pa.proposal_auction_id ', array('cb_account_id' => 'account_id' , 'cb_account_name' => 'account_name'));
+		
+		$this->select->joinLeft(array('paac_cb' => 'proposal_auction_account_contact'), 'paac_cb.proposal_auction_account_id = paa_cb.proposal_auction_account_id
+			AND paac_cb.account_contact_id = pa.current_bid_by_contact_id', array('account_contact_id', 'contact_first_name', 'contact_last_name'));
+		
+		/* end current bid user information */
+			
+		$this->select->joinLeft(array('pau' => 'proposal_auction_user'), 'pau.proposal_auction_id = pa.proposal_auction_id AND pau.role_id = '. ROLE_CREATOR, 
+			array('creator_login' => 'login', 'creator_role_id' => 'role_id'));
+		
+		$this->select->joinLeft(array('paa_pname' => 'proposal_auction_attr'), 'paa_pname.proposal_auction_id = pa.proposal_auction_id 
+			AND paa_pname.proposal_auction_attr_name = \'PROPOSAL_NAME\'', 
+			array('proposal_name' => 'proposal_auction_attr_value'));
+		
+		$this->select->joinLeft(array('paa_aname' => 'proposal_auction_attr'), 'paa_aname.proposal_auction_id = pa.proposal_auction_id 
+			AND paa_aname.proposal_auction_attr_name = \'PROPOSAL_ACCOUNT_NAME\'', 
+			array('proposal_account_name' => 'proposal_auction_attr_value'));
+			
+		$this->select->joinLeft(array('paa_aid' => 'proposal_auction_attr'), 'paa_aid.proposal_auction_id = pa.proposal_auction_id 
+			AND paa_aid.proposal_auction_attr_name = \'PROPOSAL_ACCOUNT_ID\'', 
+			array('proposal_account_id' => 'proposal_auction_attr_value'));
+		
+		$this->select->joinLeft(array('pas' => 'proposal_auction_status'), 'pas.proposal_auction_status_id = pa.proposal_auction_status_id', 
+			array('proposal_auction_status_description'));
+			
+		$this->select->joinLeft(array('st' => 'sample_type'), 'st.sample_type_id = pa.sample_type_id', 
+			array('sample_type_description'));
+			
+		$this->select->joinLeft(array('c' => 'country'), 'c.country_code = pa.country_code', 
+			array('country_description'));
+											
+		$this->select->where('pa.status = ?', 'A');
+		
+		if (isset($params['proposal_revision_id']) && is_numeric($params['proposal_revision_id'])) {
+			$this->select->where('pa.proposal_revision_id = ?', $params['proposal_revision_id']);
+		} 
+		
+		if (isset($params['proposal_id']) && is_numeric($params['proposal_id'])) {
+			$this->select->where('pa.proposal_id = ?', $params['proposal_id']);
+		} 
+		
+		if (isset($params['vendor_invited']) && is_numeric($params['vendor_invited'])) {
+			$this->select->where('paa.invited = ?', $params['vendor_invited']);
+		} 
+		
+		if (isset($params['proposal_auction_id']) && is_numeric($params['proposal_auction_id'])) {
+			$this->select->where('pa.proposal_auction_id = ?', $params['proposal_auction_id']);
+		}
+		
+		if (isset($params['proposal_auction_status_id']) && is_numeric($params['proposal_auction_status_id'])) {
+			$this->select->where('pa.proposal_auction_status_id = ?', $params['proposal_auction_status_id']);
+		}
+		
+		if (isset($params['account_id']) && is_numeric($params['account_id'])) {
+			$this->select->where('paa.account_id= ?', $params['account_id']);
+		}
+		
+		if (isset($params['owner']) && is_numeric($params['owner'])) {
+			$this->select->where('pau.login = ?', $params['owner']);
+		}
+		
+		if (isset($params['country_code'])) {
+			$this->select->where('pa.country_code = ?', $params['country_code']);
+		}
+		
+		if (isset($params['account_name'])) {
+			$this->select->where('paa.account_name LIKE ? ', "%". $params['account_name'] ."%");
+		}
+		
+		if (isset($params['proposal_auction_name'])) {
+			$this->select->where('pa.auction_name LIKE ?', "%". $params['proposal_auction_name'] . "%");
+		}
+		
+		if (isset($params['proposal_name'])) {
+			$this->select->where('paa_pname.proposal_auction_attr_value LIKE ?', "%". $params['proposal_name'] . "%");
+		}
+		
+		if (isset($attr['group_by_auction_id'])) {
+			$this->select->group('pa.proposal_auction_id');
+		}
+		
+		if (isset($attr['page_size']) && $attr['page_size'] != 0) {
+			$this->select->limit($attr['page_size'], $attr['start']);
+		}
+		
+		if (isset($attr['sort_by'])) {
+			$this->select->order($attr['sort_by']);
+		}
+		
+		if (isset($params['expired_auctions']) && $params['expired_auctions'] == 1) {
+			$this->select->where('TIMEDIFF(pa.auction_end_date, \''. $time .'\') <= 0');
+			
+		}
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* SelectProposalAuctionStatusList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 10:22:02
+	*/
+	function SelectProposalAuctionStatusList()
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_auction_status', array('proposal_auction_status_id', 'proposal_auction_status_description'));
+		
+		$this->select->where('status = ?', 'A');
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* SetAuctionAccount()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:21:33
+	*/
+	function SetAuctionAccount($proposal_auction_id, $account_id, $account_name, $proposed_completes)
+	{
+		$this->__InsertProposalAuctionAccount(
+			array(
+				'proposal_auction_id' => $proposal_auction_id,
+				'account_id'          => $account_id,
+				'account_name'        => $account_name,
+				'proposed_completes'  => $proposed_completes
+			)
+		);
+		
+	}
+	
+	/**
+	* __InsertProposalAuctionAccount()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:22:13
+	*/
+	protected function __InsertProposalAuctionAccount($fields)
+	{
+		$table = 'proposal_auction_account';
+		
+		$this->__Insert($table, $fields);
+		
+	}
+	/**
+	* GetAuctionAccountList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:29:27
+	*/
+	function GetAuctionAccountList($proposal_auction_id)
+	{
+		return $this->__SelectProposalAuctionAccount(
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* __SelectProposalAuctionAccount()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:29:35
+	*/
+	function __SelectProposalAuctionAccount($params = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('paa' => 'proposal_auction_account'), array('proposal_auction_account_id', 'proposal_auction_id', 
+										'account_id', 'account_name', 'proposed_completes'));
+		
+		$this->select->where('paa.status = ?', 'A');
+		
+		if (isset($params['proposal_auction_id']) && is_numeric($params['proposal_auction_id'])) {
+			$this->select->where('paa.proposal_auction_id = ?', $params['proposal_auction_id']);	
+		}
+		
+		if (isset($params['account_id']) && is_numeric($params['account_id'])) {
+			$this->select->where('paa.account_id = ?', $params['account_id']);
+		}
+		
+		//echo $this->select;
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* isAuctionAccount()()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:35:41
+	*/
+	function isAuctionAccount($proposal_auction_id, $account_id)
+	{
+		$data = $this->__SelectProposalAuctionAccount(
+			array('proposal_auction_id' => $proposal_auction_id, 'account_id' => $account_id)
+		);
+		
+		return ($data) ? true : false;
+	}
+	
+	/**
+	* UpdateAuctionAccountComplete()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:38:51
+	*/
+	function UpdateAuctionAccountComplete($proposal_auction_id, $account_id, $proposed_completes)
+	{
+		$this->__UpdateProposalAuctionAccount(
+			array(
+				'proposed_completes' => $proposed_completes
+			), 
+			array(
+				'proposal_auction_id' => $proposal_auction_id,
+				'account_id'          => $account_id
+			)
+		);
+	}
+	
+//	/**
+//	* __UpdateProposalAuctionAccount()
+//	*
+//	* @param
+//	* @param 
+//	* @return
+//	* @since  - 11:39:30
+//	*/
+//	protected function __UpdateProposalAuctionAccount($fields, $proposal_auction_id, $account_id)
+//	{
+//		$table = 'proposal_auction_account';
+//
+//		/* where clause */
+//		$where = $this->db->quoteInto('status = ?', 'A')
+//		       . $this->db->quoteInto(' AND proposal_auction_id = ?', $proposal_auction_id)
+//		       . $this->db->quoteInto(' AND account_id = ?', $account_id);
+//		       
+//		$this->__Update($table, $fields, $where);
+//		
+//	}
+	
+	/**
+	* GetAuctionDurationList()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:12:07
+	*/
+	function GetAuctionDurationList()
+	{
+		return $this->__SelectProposalAuctionDurationType();
+	}
+	
+	/**
+	* __SelectProposalAuctionDurationType()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:12:12
+	*/
+	protected function __SelectProposalAuctionDurationType($fields = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_auction_duration_type', array('proposal_auction_duration_type_id', 'proposal_auction_duration_type_description', 'duration'));
+		
+		if (isset($fields['duration']) && is_numeric($fields['duration']))
+		{
+			$this->select->where('duration = ?', $fields['duration']);
+		}
+		
+		return $this->FetchAssoc($this->select);
+	}
+	
+	/**
+	* GetAuctionDurationIdByDuration()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:08:13
+	*/
+	function GetAuctionDurationIdByDuration($duration)
+	{
+		$data = $this->__SelectProposalAuctionDurationType(array('duration' => $duration));
+		
+		$r = array_shift($data);
+		
+		return $r['proposal_auction_duration_type_id'];
+	}
+	
+	/**
+	* SetAuctionName()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:05:48
+	*/
+	function SetAuctionName($proposal_auction_id, $auction_name)
+	{
+		$this->__UpdateProposalAuction(
+			array('auction_name' => $auction_name),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* SetAuctionStatus()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 07:46:19
+	*/
+	function SetAuctionStatus($proposal_auction_id, $proposal_auction_status_id)
+	{
+		$this->__UpdateProposalAuction(
+			array('proposal_auction_status_id' => $proposal_auction_status_id),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	
+	/**
+	* SetAuctionDurationId()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:14:25
+	*/
+	function SetAuctionDurationId($proposal_auction_id, $proposal_auction_duration_type_id)
+	{
+		$this->__UpdateProposalAuction(
+			array('proposal_auction_duration_type_id' => $proposal_auction_duration_type_id),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* SetAuctionStartEndDate()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:15:33
+	*/
+	function SetAuctionStartEndDate($proposal_auction_id, $auction_start_date, $auction_end_date)
+	{
+		$this->__UpdateProposalAuction(
+			array('auction_start_date' => $auction_start_date, 'auction_end_date' => $auction_end_date),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* SetAuctionStartingBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:54:27
+	*/
+	function SetAuctionStartingBid($proposal_auction_id, $starting_bid)
+	{
+		$this->__UpdateProposalAuction(
+			array('starting_bid' => $starting_bid),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* UpdateProposalAuction()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 15:02:55
+	*/
+	protected function __UpdateProposalAuction($fields, $params)
+	{
+		$table = 'proposal_auction';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A');
+		
+		if (isset($params['proposal_auction_id'])) {
+			$where .= $this->db->quoteInto(' AND proposal_auction_id = ?', $params['proposal_auction_id']);
+		}
+		       
+		$this->__Update($table, $fields, $where);
+		
+	}
+	
+	/**
+	* SetAuctionAccountInviteFlag()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:54:28
+	*/
+	function SetAuctionAccountInviteFlag($proposal_auction_account_id, $invited)
+	{
+		$this->__UpdateProposalAuctionAccount(
+			array('invited' => $invited),
+			array('proposal_auction_account_id' => $proposal_auction_account_id)
+		);
+	}
+	
+	/**
+	* __UpdateProposalAuctionAccount()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:54:49
+	*/
+	function __UpdateProposalAuctionAccount($fields, $params)
+	{
+		$table = 'proposal_auction_account';
+
+		/* where clause */
+		$where = $this->db->quoteInto('status = ?', 'A');
+		
+		if (isset($params['proposal_auction_account_id'])) {
+			$where .= $this->db->quoteInto(' AND proposal_auction_account_id = ?', $params['proposal_auction_account_id']);
+		}
+		
+		if (isset($params['proposal_auction_id'])) {
+			 $where .= $this->db->quoteInto(' AND proposal_auction_id = ?', $params['proposal_auction_id']);
+		}
+		
+		if (isset($params['account_id'])) {
+			$where .= $this->db->quoteInto(' AND account_id = ?', $params['account_id']);
+		}
+		       
+		$this->__Update($table, $fields, $where);
+	}
+	
+	/**
+	* SetAuctionUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:13:17
+	*/
+	function SetAuctionUser($proposal_auction_id, $role_id, $login)
+	{
+		$this->__InsertProposalAuctionUser(
+			array(
+				'proposal_auction_id' => $proposal_auction_id,
+				'role_id'             => $role_id,
+				'login'               => $login
+			)
+		);
+		
+		return $this->last_insert_id;
+	}
+	
+	/**
+	* __InsertProposalAuctionUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:13:28
+	*/
+	function __InsertProposalAuctionUser($fields)
+	{
+		$table = 'proposal_auction_user';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SetAuctionContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:16:34
+	*/
+	function SetAuctionContact($proposal_auction_account_id, $proposal_auction_user_id, $account_contact_id, 
+											$contact_first_name, $contact_last_name, $contact_email, $access_key)
+	{
+		$this->__InsertProposalAuctionAccountContact(
+			array(
+				'proposal_auction_account_id' => $proposal_auction_account_id,
+				'proposal_auction_user_id'    => $proposal_auction_user_id,
+				'account_contact_id'          => $account_contact_id, 
+				'contact_first_name'          => $contact_first_name,
+				'contact_last_name'           => $contact_last_name,
+				'contact_email'               => $contact_email,
+				'access_key'                  => $access_key
+			)
+		);
+	}
+	
+	/**
+	* __InsertProposalAuctionAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:17:47
+	*/
+	protected function __InsertProposalAuctionAccountContact($fields)
+	{
+		$table = 'proposal_auction_account_contact';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SetAuctionBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:00:59
+	*/
+	function SetAuctionBid($proposal_auction_id, $proposal_auction_account_contact_id, $cost_per_complete, $number_of_completes, $notify_outbid)
+	{
+		$this->__InsertProposalAuctionBid(
+			array(
+				'proposal_auction_id'                 => $proposal_auction_id, 
+				'proposal_auction_account_contact_id' => $proposal_auction_account_contact_id, 
+				'cost_per_complete'                   => $cost_per_complete, 
+				'number_of_completes'                 => $number_of_completes,
+				'notify_outbid'                       => $notify_outbid
+			)
+		);
+		
+		return $this->last_insert_id;
+	}
+	
+	/**
+	* __InsertProposalAuctionBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:01:35
+	*/
+	protected function __InsertProposalAuctionBid($fields)
+	{
+		$table = 'proposal_auction_bid';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* SetAuctionBidComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:06:50
+	*/
+	function SetAuctionBidComment($proposal_auction_bid_id, $comment)
+	{
+		$this->__InsertProposalAuctionBidComment(
+			array(
+				'proposal_auction_bid_id' => $proposal_auction_bid_id,
+				'comment'                 => $comment
+			)
+		);
+		
+	}
+	
+	/**
+	* __InsertProposalAuctionBidComment()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:07:17
+	*/
+	function __InsertProposalAuctionBidComment($fields)
+	{
+		$table = 'proposal_auction_bid_comment';
+		
+		$this->__Insert($table, $fields);
+	}
+	
+	/**
+	* GetAuctionBids()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:46:02
+	*/
+	function GetAuctionBids($proposal_auction_id)
+	{
+		return $this->__SelectProposalAuctionBid(
+			array('proposal_auction_id' => $proposal_auction_id),
+			array('comments' => 1, 'parent' => 1, 'account' => 1)
+		);
+	}
+	
+	/**
+	* __SelectProposalAuctionBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:46:08
+	*/
+	function __SelectProposalAuctionBid($params, $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('pab' => 'proposal_auction_bid'), array('proposal_auction_bid_id', 'proposal_auction_id', 
+			'proposal_auction_account_contact_id', 'cost_per_complete', 'number_of_completes', 
+			'bid_date' => new Zend_Db_Expr("CONVERT_TZ(pab.created_date, '+0:00','" . $this->tz . "')"), 'bid_accepted', 
+			'bid_accepted_date' => new Zend_Db_Expr("CONVERT_TZ(pab.bid_accepted_date, '+0:00','" .$this->tz . "')")));
+		
+		if (isset($attr['comments']) && $attr['comments'] = 1) {
+			$this->select->joinLeft(array('pabc' => 'proposal_auction_bid_comment'), 'pab.proposal_auction_bid_id = pabc.proposal_auction_bid_id', 
+				array('comment'));
+		}
+		
+		$this->select->where('pab.status = ?', 'A');
+		
+		if (isset($params['proposal_auction_id']) && is_numeric($params['proposal_auction_id'])) {
+			$this->select->where('pab.proposal_auction_id = ?', $params['proposal_auction_id']);
+		}
+		
+		if (isset($attr['parent'])) {
+			$this->select->joinLeft(array('pa' => 'proposal_auction'), 'pa.proposal_auction_id = pab.proposal_auction_id');
+		}
+		
+		if (isset($attr['account'])) {
+			$this->select->joinLeft(array('paac' => 'proposal_auction_account_contact'), 'paac.proposal_auction_account_contact_id = pab.proposal_auction_account_contact_id', array('account_contact_id', 'proposal_auction_user_id'));
+			$this->select->joinLeft(array('paa' => 'proposal_auction_account'), 'paa.proposal_auction_account_id = paac.proposal_auction_account_id', array('account_id', 'account_name', 'proposal_auction_account_id'));
+		}
+		
+		if (isset($params['notify_outbid'])) {			
+			$this->select->where('pa.proposal_auction_status_id = ?', PROPOSAL_AUCTION_STATUS_INPROGRESS);
+			$this->select->where('pab.notify_outbid = ?', 1);
+			$this->select->where('pab.cost_per_complete > pa.current_bid');
+			$this->select->where('( pab.notify_outbid_date IS NULL OR pab.notify_outbid_date = ? )', '0000-00-00 00:00:00');
+		}
+		
+		return $this->FetchAssoc($this->select);
+	}
+	
+	/**
+	* SetAuctionCurrentBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 09:26:31
+	*/
+	function SetAuctionCurrentBid($proposal_auction_id, $current_bid, $account_id, $current_bid_by_contact_id)
+	{
+		$this->__UpdateProposalAuction(
+			array(
+				'current_bid' => $current_bid, 
+				'current_bid_by_contact_id' => $current_bid_by_contact_id,
+				'current_bid_by_account_id' => $account_id
+			),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* GetPendingAuctionInvites()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:04:13
+	*/
+	function GetPendingAuctionInvites()
+	{
+		return $this->__SelectProposalAuctionAccountContact(
+			array('invite_date' => 0)
+		);
+	}
+	
+	/**
+	* GetPendingOutBidNotices()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:27:28
+	*/
+	function GetPendingOutBidNotices()
+	{
+		return $this->__SelectProposalAuctionBid(
+			array('notify_outbid' => 1),
+			array('parent' => 1)
+		);
+	}
+	
+	/**
+	* __SelectProposalAuctionAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:04:34
+	*/
+	protected function __SelectProposalAuctionAccountContact($params = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('paac' => 'proposal_auction_account_contact'), array('proposal_auction_account_contact_id', 'proposal_auction_account_id', 
+			'proposal_auction_user_id', 'account_contact_id', 'contact_first_name', 'contact_last_name', 'contact_email', 
+			'access_key', 'invite_sent_date'));
+
+		$this->select->joinLeft(array('paa' => 'proposal_auction_account'), 'paa.proposal_auction_account_id = paac.proposal_auction_account_id', array('proposal_auction_account_id', 'proposal_auction_id'));
+		$this->select->joinLeft(array('pac' => 'proposal_auction_comment'), 'pac.proposal_auction_id = paa.proposal_auction_id AND 
+			pac.proposal_auction_comment_type_id = '. PROPOSAL_AUCTION_COMMENT_TYPE_INVITE_TEXT, array('proposal_auction_comment_id', 'comment', 'subject'));
+		
+		$this->select->joinLeft(array('pau' => 'proposal_auction_user'), 'pau.proposal_auction_user_id = paac.proposal_auction_user_id', array('login'));
+		
+		if (isset($params['invite_date']) && $params['invite_date'] == 0) {
+			$this->select->where('paac.invite_sent_date IS NULL');
+			$this->select->orWhere('paac.invite_sent_date = ?', '0000-00-00 00:00:00');	
+		}
+		
+		if (isset($params['access_key'])) {
+			$this->select->where('paac.access_key = ?', $params['access_key']);
+		}
+		
+		if (isset($params['proposal_auction_account_id'])) {
+			$this->select->where('paac.proposal_auction_account_id = ?', $params['proposal_auction_account_id']);
+		}
+		
+		if (isset($params['account_contact_id'])) {
+			$this->select->where('paac.account_contact_id = ?', $params['account_contact_id']);
+		}
+		
+		if (isset($params['proposal_auction_account_contact_id'])) {
+			$this->select->where('paac.proposal_auction_account_contact_id = ?', $params['proposal_auction_account_contact_id']);
+		}
+		
+		//echo $this->select;
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* SetAuctionInviteSent()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 12:23:24
+	*/
+	function SetAuctionInviteSent($proposal_auction_account_contact_id, $invite_sent_date)
+	{
+		$this->__UpdateProposalAuctionAccountContact(
+			array('invite_sent_date' => $invite_sent_date),
+			array('proposal_auction_account_contact_id', $proposal_auction_account_contact_id)
+		);
+	}
+	
+	/**
+	* __UpdateProposalAuctionAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 12:23:52
+	*/
+	protected function __UpdateProposalAuctionAccountContact($fields, $params = array())
+	{
+		$table = 'proposal_auction_account_contact';
+		
+		if (isset($params['proposal_auction_account_contact_id'])) {
+			$where = $this->db->quoteInto('proposal_auction_account_contact_id = ?', $params['proposal_auction_account_contact_id']);
+		}
+		
+		$this->__Update($table, $fields, $where);
+		
+	}
+	
+	/**
+	* isValidAuctionAccessKey()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 18:22:44
+	*/
+	function isValidAuctionAccessKey($access_key)
+	{
+		$row = $this->__SelectProposalAuctionAccountContact(
+			array('access_key' => $access_key)
+		);
+		
+		return ($row) ? true : false;
+	}
+	
+	/**
+	* GetAuctionContactByAccessKey()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 18:25:01
+	*/
+	function GetAuctionContactByAccessKey($access_key)
+	{
+		$row =  $this->__SelectProposalAuctionAccountContact(
+			array('access_key' => $access_key)
+		);
+		
+		return array_shift($row);
+	}
+	
+	/**
+	* GetAuctionListByAuctionAccount()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 19:53:48
+	*/
+	function GetAuctionListByAuctionAccount($account_id)
+	{
+		return $this->__SelectProposalAuction(
+			array(
+				'account_id'                 => $account_id, 
+				'proposal_auction_status_id' => PROPOSAL_AUCTION_STATUS_INPROGRESS,
+				'vendor_invited'             => 1
+			)
+		);
+	}
+	
+	/**
+	* GetAuctionAccountContactIdByAccountContactId()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 21:58:20
+	*/
+	function GetAuctionAccountContactIdByAccountContactId($proposal_auction_account_id, $account_contact_id)
+	{
+		$rows = $this->__SelectProposalAuctionAccountContact(
+			array(
+				'proposal_auction_account_id' => $proposal_auction_account_id,
+				'account_contact_id' => $account_contact_id
+			)
+		);
+		
+		$r = array_shift($rows);
+		
+		return $r['proposal_auction_account_contact_id'];
+	}
+	
+	/**
+	* GetAuctionAccountByAccountAuction()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 22:05:03
+	*/
+	function GetAuctionAccountByAccountAuction($proposal_auction_id, $account_id)
+	{
+		$rows = $this->__SelectProposalAuctionAccount(
+			array(
+				'proposal_auction_id' => $proposal_auction_id,
+				'account_id'          => $account_id
+			)
+		);
+		
+		$r = array_shift($rows);
+		
+		return $r['proposal_auction_account_id'];
+		
+	}
+	
+	/**
+	* GetAuctionAccountByAccountContact()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:40:56
+	*/
+	function GetAuctionAccountByAccountContact($proposal_auction_account_contact_id)
+	{
+		$rows = $this->__SelectProposalAuctionAccountContact(
+			array()
+		);
+		
+		$r = array_shift($rows);
+		
+		return ($r) ? $r['account_id'] : 0;
+		
+	}
+	
+	/**
+	* GetAuctionContactById()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:52:02
+	*/
+	function GetAuctionContactById($proposal_auction_account_contact_id)
+	{
+		return $this->__SelectProposalAuctionAccountContact(
+			array('proposal_auction_account_contact_id' => $proposal_auction_account_contact_id)
+		);
+	}
+	
+	/**
+	* SetAuctionOutbidNoticeSent()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:56:55
+	*/
+	function SetAuctionOutbidNoticeSent($proposal_auction_bid_id, $notify_outbid_date)
+	{
+		$this->__UpdateProposalAuctionBid(
+			array('notify_outbid_date' => $notify_outbid_date),
+			array('proposal_auction_bid_id' => $proposal_auction_bid_id)
+		);
+	}
+	
+	/**
+	* __UpdateProposalAuctionBid()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:57:48
+	*/
+	protected function __UpdateProposalAuctionBid($fields, $params)
+	{
+		$table = 'proposal_auction_bid';
+		
+		if (isset($params['proposal_auction_bid_id'])) {
+			$where = $this->db->quoteInto('proposal_auction_bid_id = ?', $params['proposal_auction_bid_id']);
+		}
+		
+		$this->__Update($table, $fields, $where);
+		
+	}
+	
+	/**
+	* SetAuctionAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:32:40
+	*/
+	function SetAuctionAttr($proposal_auction_id, $proposal_auction_attr_name, $proposal_auction_attr_value)
+	{
+		$this->__InsertProposalAuctionAttr(
+			array(
+				'proposal_auction_id'         => $proposal_auction_id, 
+				'proposal_auction_attr_name'  => $proposal_auction_attr_name, 
+				'proposal_auction_attr_value' => $proposal_auction_attr_value, 
+			)
+		);
+		
+		return $this->last_insert_id;
+	}
+	
+	/**
+	* __InsertProposalAuctionAttr()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:33:03
+	*/
+	function __InsertProposalAuctionAttr($fields)
+	{
+		$table = 'proposal_auction_attr';
+		
+		$this->__insert($table, $fields);
+	}
+	
+	/**
+	* GetAuctionOwners()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:18:37
+	*/
+	function GetAuctionOwners()
+	{
+		return $this->__SelectProposalAuctionUser(
+			array('role_id' => ROLE_CREATOR)
+		);
+	}
+	
+	/**
+	* __SelectProposalAuctionUser()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:18:54
+	*/
+	function __SelectProposalAuctionUser($params)
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('pau' => 'proposal_auction_user'), array('login', 'role_id'));
+		$this->select->joinLeft(array('u' => 'user'), 'u.login = pau.login', array('first_name', 'last_name'));
+		
+		if (isset($params['role_id'])) {
+			$this->select->where('pau.role_id = ?', $params['role_id']);
+		}
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* SetAuctionBidAccepted()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 11:13:53
+	*/
+	function SetAuctionBidAccepted($proposal_auction_bid_id, $bid_accepted, $bid_accepted_date)
+	{
+		$this->__UpdateProposalAuctionBid(
+			array('bid_accepted' => $bid_accepted, 'bid_accepted_date' => $bid_accepted_date),
+			array('proposal_auction_bid_id' => $proposal_auction_bid_id)
+		);
+	}
+	
+	/**
+	* GetJustExpiredAuctions()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:11:41
+	*/
+	function GetJustExpiredAuctions()
+	{
+		return $this->__SelectProposalAuction(
+			array('expired_auctions' => 1, 'proposal_auction_status_id' => PROPOSAL_AUCTION_STATUS_INPROGRESS),
+			array('group_by_auction_id' => 1)
+		);
+		
+	}
+	
+	/**
+	* UpdateAuctionStatus()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 17:01:49
+	*/
+	function UpdateAuctionStatus($proposal_auction_id, $proposal_auction_status_id)
+	{
+		$this->__UpdateProposalAuction(
+			array('proposal_auction_status_id' => $proposal_auction_status_id),
+			array('proposal_auction_id' => $proposal_auction_id)
+		);
+	}
+	
+	/**
+	* __SelectProposal()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 09:32:00
+	*/
+	protected function __SelectProposal($attr = array(), $q_attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('p' => 'proposal'), array('proposal_revision_id', 'proposal_name', 'account_id', 'account_name', 
+			'created_by', 'proposal_date', 'proposal_id', 'proposal_status_id'));
+		
+		$this->select->joinLeft(array('pc' => 'proposal_contact'), 'pc.proposal_id = p.proposal_id', 
+			array('first_name', 'last_name'));
+		
+		$this->select->joinLeft(array('pr' => 'proposal_revision'), 'pr.proposal_id = p.proposal_id',
+			 array('proposal_type_id', 'pricing_type_id', 'revision_date' => 'created_date', 'revision', 'max_amount', 
+			  'proposal_revision_status_id', 'number_of_options', 'number_of_countries', 'revision_created_by' => 'created_by'));
+			 
+		//extra join for current revision
+		$this->select->joinLeft(array('pr_current' => 'proposal_revision'), 'pr_current.proposal_id = p.proposal_id AND pr_current.revision = p.current_revision',
+			 array('current_revision_created_date' => 'created_date'));
+		
+		//extra join for won date
+		$this->select->joinLeft(array('pr_won' => 'proposal_revision'), 'pr_won.proposal_id = p.proposal_id AND pr_won.proposal_revision_status_id = '. PROPOSAL_REVISION_STATUS_CLIENT_ACCEPTED,
+			 array('proposal_won_created_date' => 'created_date'));
+			 
+		$this->select->joinLeft(array('pu_ae' => 'proposal_user'), 'pu_ae.proposal_id = p.proposal_id AND pu_ae.role_id = '. ROLE_PRIMARY_ACCT_EXEC,
+			 array('role_id', 'ae_login' => 'login'));
+		
+		$this->select->joinLeft(array('pu_am' => 'proposal_user'), 'pu_am.proposal_id = p.proposal_id AND pu_am.role_id = '. ROLE_PRIMARY_ACCT_MGR,
+			 array('role_id', 'am_login' => 'login'));
+		
+		$this->select->joinLeft(array('prst' => 'proposal_revision_sample_type'), 'prst.proposal_revision_id = pr.proposal_revision_id', 
+			array('sample_type_id'));
+			
+		$this->select->where('p.status = ?', 'A');
+		$this->select->where('pr.status = ?', 'A');
+		
+		//$this->select->limit(200,200);
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* GetProposals()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 16:33:33
+	*/
+	function GetProposals()
+	{
+		return $this->__SelectProposal();
+	}
+	
+	/**
+	* __SelectProposalRevisionOption()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 00:05:38
+	*/
+	protected function __SelectProposalRevisionOption($params = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from('proposal_revision_option');
+		
+		$this->select->where('status = ?', 'A');
+		
+		if (isset($params['proposal_revision_id'])) {
+			$this->select->where('proposal_revision_id = ?', $params['proposal_revision_id']);
+		}
+		
+		return $this->FetchAssoc($this->select);
+		
+	}
+	
+	/**
+	* GetRevisionOptions()
+	*
+	* @param
+	* @param 
+	* @return
+	* @todo  merge with V1
+	* @since  - 00:12:18
+	*/
+	function GetRevisionOptionsV2($proposal_revision_id)
+	{
+		return $this->__SelectProposalRevisionOption(
+			array('proposal_revision_id' => $proposal_revision_id)
+		);
+	}
+	
+}
+?>

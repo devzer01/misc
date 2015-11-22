@@ -1,0 +1,102 @@
+<?php 
+/**
+ * Domain class Account Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{ 
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Account  Attribute Definition Id
+	 * @param string $attribute_name Account  Attribute Name
+	 * @param string $description Account  Attribute Description
+	 */ 
+	function __construct($id = null, $attribute_name = null , $description = null) 
+	{ 
+		parent::__construct($id, $attribute_name , $description );
+	}
+	
+	/**
+	 * Return Vendor exclude attributes array
+	 *
+	 * @return array  
+	 */
+	protected function GetVendorExcludeAttributes()
+	{
+		return array(
+			'ARMC_GMI_PO_REQUIRED', 
+			'ARMC_VENDOR_PO_REQUIRED', 
+			'ARMC_PAYMENT_AUTH_SUPERVISOR_REQUIRED', 
+			'ARMC_PAYMENT_AUTH_MANAGER_REQUIRED',
+			'GLOBAL_ACCOUNT_STATUS_ID',
+			'ARMC_CREDIT_BALANCE'
+		);
+	}
+	
+	/**
+	* Return the Credit Hold exclude atributes array for the Attribute Definition
+	*
+	* @return array Credit Hold exclude atributes array
+	*/
+	protected function GetExcludeAttrList()
+	{
+		return array(
+			'GLOBAL_ACM_CREDIT_HOLD',
+			'GLOBAL_ACM_PROPOSAL_HOLD',
+			'GLOBAL_ACM_PROJECT_HOLD',
+			'GLOBAL_ACM_INVOICE_HOLD'
+		);
+	}
+
+	
+	
+	/**
+	 * Check whether Account attribute definition is editable 
+	 * 
+	 * @return boolean
+	 */
+	public function isEditable()
+	{
+	    if ($_SESSION['user_type_id'] == USER_TYPE_EXTERNAL) {				
+		    if (in_array($this->attr_name, $this->GetVendorExcludeAttributes())) {
+			    return false;
+			}
+		}	
+		
+		if(in_array($this->attr_name, $this->GetExcludeAttrList())){
+			return false;
+		}
+		
+		$attribute_security_keys = $this->GetAttributeNameSecurityKey();
+		
+		if(array_key_exists($this->attr_name, $attribute_security_keys)) {
+	        if(!isset($_SESSION[$attribute_security_keys[$this->attr_name]])){ 
+			    return false;
+			}			
+		}
+		
+		return true;			      
+	}
+	
+	/**
+	 * Return array of security keys for disabled attributes 
+	 *
+	 * @return array  
+	 */
+	protected function GetAttributeNameSecurityKey()
+	{
+		return array(			
+			'ARMC_ALTERNATE_MAIL_NAME'		=> 'ACM_CHANGE_AMRC_ACCT_APPROVAL',
+			'GLOBAL_PREFFERED_CURRENCY'	=> 'ACM_CHANGE_CURRENCY',
+			'ARMC_ORA_TAX_CODE'				=> 'ACM_CHANGE_AMRC_ACCT_APPROVAL',
+			'ARMC_ORA_PAYMENT_TERM'			=> 'ACM_CHANGE_AMRC_ACCT_APPROVAL'	
+		);
+	}
+}
+?>

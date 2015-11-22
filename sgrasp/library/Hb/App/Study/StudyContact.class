@@ -1,0 +1,488 @@
+<?php
+/**
+ * Domain Object for StudyContact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ */ 
+
+class Hb_App_Study_StudyContact extends Hb_App_Object
+{
+	/**
+	 * Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $contact_id = null;
+	
+	/**
+	 * Email
+	 * 
+	 * @var string
+	 */
+	protected $email = null;
+	
+	/**
+	 * Fax
+	 * 
+	 * @var string
+	 */
+	protected $fax = null;
+
+	/**
+	 * First Name
+	 * 
+	 * @var string
+	 */
+	protected $first_name = null;
+
+	/**
+	 * Last Name
+	 * 
+	 * @var string
+	 */
+	protected $last_name = null;
+
+	/**
+	 * Middle Name
+	 * 
+	 * @var string
+	 */
+	protected $middle_initial = null;
+
+	/**
+	 * Phone
+	 * 
+	 * @var string
+	 */
+	protected $phone = null;
+
+	/**
+	 * Status - Mr, Mrs, Miss, Dr, etc.
+	 * 
+	 * @var string
+	 */
+	protected $salutation = null;
+	
+	/**
+	 * Schedule Sent Date
+	 * 
+	 * @var string
+	 */
+	protected $schedule_sent_date = null;
+
+	/**
+	 * Study Account Id
+	 * 
+	 * @var int
+	 */
+	protected $study_account_id = null;
+	
+	/**
+	 * Study Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $study_contact_id = null;
+	
+	/**
+	 * Study Contact Type Id
+	 * 
+	 * @var int
+	 */
+	protected $study_contact_type_id = null;
+
+	/**
+	 * Study Id
+	 * 
+	 * @var int
+	 */
+	protected $study_id = null;
+
+	/**
+	 * Recipient
+	 * 
+	 * @var int
+	 */
+	protected $tcm_recipient = null;
+	
+	/**
+	 * Create a Study Contact Object
+	 *
+	 * @param int $id Study Contact Number
+	 * @param string $email Email Id
+	 * @param string $fax Fax
+	 * @param string $first_name First Name
+	 * @param string $last_name Last Name
+	 * @param string $middle_initial Middle Name
+	 * @param string $phone Phone #
+	 * @param string $salutation Mr/Miss/Mrs/Dr etc
+	 * @param string $schedule_sent_date Scheduled sent date
+	 * @param int $study_account_id Study Account Id
+	 * @param int $contact_id  Contact Id
+	 * @param int $study_contact_type_id Study Contact Type Id
+	 * @param int $study_id Study Id
+	 * @param string $tcm_recipient Recipient
+	 */
+	public function __construct(
+								$id 					= null,
+								$email 					= null,
+								$fax 					= null,
+								$first_name 			= null,
+								$last_name 				= null,
+								$middle_initial 		= null,
+								$phone 					= null,
+								$salutation 			= null,
+								$schedule_sent_date 	= null,
+								$study_account_id 		= null,
+								$contact_id 			= null,
+								$study_contact_type_id 	= null,
+								$study_id 				= null,
+								$tcm_recipient 			= null 
+								)
+	{
+		$this->study_contact_id 		= $id;
+		$this->email					= $email;
+		$this->fax			  			= $fax;
+		$this->first_name  				= $first_name;
+		$this->last_name  				= $last_name;
+		$this->middle_initial			= $middle_initial;
+		$this->phone 					= $phone;
+		$this->salutation 				= $salutation;
+		$this->schedule_sent_date		= $schedule_sent_date;
+		$this->study_account_id 		= $study_account_id;		
+		$this->contact_id 				= $contact_id;		
+		$this->study_contact_type_id	= $study_contact_type_id;
+		$this->study_id 				= $study_id;
+		$this->tcm_recipient			= $tcm_recipient;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Contact Id
+	 * 
+  	 * @author krathnayake
+	 * @return int Contact Id
+	 */
+	function GetContactId()
+	{
+		return $this->contact_id;
+	}
+
+	/**
+	 * Returns the Email
+	 * 
+  	 * @author krathnayake
+	 * @return string Email
+	 */
+	function GetEmail()
+	{
+		return $this->email;
+	}
+
+	/**
+	 * Returns the Fax
+	 * 
+  	 * @author krathnayake
+	 * @return string Fax
+	 */
+	function GetFax()
+	{
+		return $this->fax;
+	}
+
+	/**
+	 * Returns the First Name
+	 * 
+  	 * @author krathnayake
+	 * @return string First Name
+	 */
+	function GetFirstName()
+	{
+		return $this->first_name;
+	}
+
+	/**
+	 * Returns the Last Name
+	 * 
+  	 * @author krathnayake
+	 * @return string Last Name
+	 */
+	function GetLastName()
+	{
+		return $this->last_name;
+	}
+
+	/**
+	 * Returns the Middle Name
+	 * 
+  	 * @author krathnayake
+	 * @return string Middle Name
+	 */
+	function GetMiddleInitial()
+	{
+		return $this->middle_initial;
+	}
+	
+	/**
+	 * Returns the Phone
+	 * 
+  	 * @author krathnayake
+	 * @return string Phone
+	 */
+	function GetPhone()
+	{
+		return $this->phone;
+	}
+
+	/**
+	 * Returns the Status - Mr, Mrs, Miss, Dr, etc.
+	 * 
+  	 * @author krathnayake
+	 * @return string Status
+	 */
+	function GetSalutation()
+	{
+		return $this->salutation;
+	}
+
+	/**
+	 * Returns the Schedule Sent Date
+	 * 
+  	 * @author krathnayake
+	 * @return string Schedule Sent Date
+	 */
+	function GetScheduleSentDate()
+	{
+		return $this->schedule_sent_date;
+	}
+
+	/**
+	 * Returns the Study Account Id
+	 * 
+  	 * @author krathnayake
+	 * @return int Study Account Id
+	 */
+	function GetStudyAccountId()
+	{
+		return $this->study_account_id;
+	}
+
+	/**
+	 * Returns the Study Contact Id
+	 * 
+  	 * @author krathnayake
+	 * @return int Study Contact Id
+	 */
+	function GetStudyContactId()
+	{
+		return $this->study_contact_id;
+	}
+
+	/**
+	 * Returns the Study Contact Type Id
+	 * 
+  	 * @author krathnayake
+	 * @return int Study Contact Type Id
+	 */
+	function GetStudyContactTypeId()
+	{
+		return $this->study_contact_type_id;
+	}
+
+	/**
+	 * Returns Study Id
+	 * 
+  	 * @author krathnayake
+	 * @return int Study Id
+	 */
+	function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Returns Recipient
+	 * 
+  	 * @author krathnayake
+	 * @return int Recipient
+	 */
+	function GetTcmRecipient()
+	{
+		return $this->tcm_recipient;
+	}
+
+	/**
+	 * Sets the Contact Id
+	 * 
+  	 * @author krathnayake
+	 * @param  int $contact_id Contact Id
+	 */
+	function SetContactId($contact_id)
+	{
+		$this->contact_id = $contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Email
+	 * 
+  	 * @author krathnayake
+	 * @param  string $email Email
+	 */
+	function SetEmail($email)
+	{
+		$this->email = $email;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Fax
+	 * 
+  	 * @author krathnayake
+	 * @param  string $fax Fax
+	 */
+	function SetFax($fax)
+	{
+		$this->fax = $fax;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the First Name
+	 * 
+  	 * @author krathnayake
+	 * @param  string $first_name First Name
+	 */
+	function SetFirstName($first_name)
+	{
+		$this->first_name = $first_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Last Name
+	 * 
+  	 * @author krathnayake
+	 * @param  string $last_name Last Name
+	 */
+	function SetLastName($last_name)
+	{
+		$this->last_name = $last_name;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Middle Name
+	 * 
+  	 * @author krathnayake
+	 * @param  string $middle_initial Middle Name
+	 */
+	function SetMiddleInitial($middle_initial)
+	{
+		$this->middle_initial = $middle_initial;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Phone
+	 * 
+  	 * @author krathnayake
+	 * @param  string $phone Phone
+	 */
+	function SetPhone($phone)
+	{
+		$this->phone = $phone;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Salutation
+	 * 
+  	 * @author krathnayake
+	 * @param  string $salutation Salutation
+	 */
+	function SetSalutation($salutation)
+	{
+		$this->salutation = $salutation;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Schedule Sent Date
+	 * 
+  	 * @author krathnayake
+	 * @param  string $schedule_sent_date Schedule Sent Date
+	 */
+	function SetScheduleSentDate($schedule_sent_date)
+	{
+		$this->schedule_sent_date = $schedule_sent_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Account Id
+	 * 
+  	 * @author krathnayake
+	 * @param  int $study_account_id Study Account Id
+	 */
+	function SetStudyAccountId($study_account_id)
+	{
+		$this->study_account_id = $study_account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Contact Id
+	 * 
+  	 * @author krathnayake
+	 * @param  int $study_contact_id Study Contact Id
+	 */
+	function SetStudyContactId($study_contact_id)
+	{
+		$this->study_contact_id = (int) $study_contact_id;
+		$this->__id = (int) $study_contact_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Contact Type Id
+	 * 
+  	 * @author krathnayake
+	 * @param  int $study_contact_type_id Study Contact Type Id
+	 */
+	function SetStudyContactTypeId($study_contact_type_id)
+	{
+		$this->study_contact_type_id = $study_contact_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Id
+	 * 
+  	 * @author krathnayake
+	 * @param  int $study_id Study Id
+	 */
+	function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Recipient
+	 * 
+  	 * @author krathnayake
+	 * @param  string $tcm_recipient Recipient
+	 */
+	function SetTcmRecipient($tcm_recipient)
+	{
+		$this->tcm_recipient = $tcm_recipient;
+		$this->MarkDirty();
+	}
+}
+?>

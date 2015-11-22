@@ -1,0 +1,117 @@
+<?php
+/**
+ * Mapper for Account Merge Update
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Account_AccountMergeUpdate extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Account_AccountMergeUpdate';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Account_AccountMergeUpdate';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "account_merge_update_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "account_merge_update";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountMergeUpdate($row->account_merge_update_id,$row->account_merge_update_def_id,$row->account_merge_id,
+											 $row->table_name_id_field_value , $row->update_field_value_before_update,$row->update_field_value_after_update);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('account_merge_update', array(
+													'account_merge_update_id', 	
+													'account_merge_update_def_id',
+													'account_merge_id',
+													'table_name_id_field_value',
+													'update_field_value_before_update',
+													'update_field_value_after_update'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Account Merge Update by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('account_merge_update_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'account_merge_update_def_id' => $obj->GetAccountMergeUpdateDefinitionId(),
+					'account_merge_id' => $obj->GetAccountMergeId(),
+					'table_name_id_field_value' => $obj->GetTableNameIdFieldValue(),
+					'update_field_value_before_update' => $obj->GetUpdateFieldValueBeforeUpdate(),
+					'update_field_value_after_update' => $obj->GetUpdateFieldValueAfterUpdate());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('account_merge_update', $data);
+			$obj->SetAccountMergeUpdateId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('account_merge_update', $data, 'account_merge_update_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

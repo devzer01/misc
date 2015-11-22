@@ -1,0 +1,98 @@
+<?php
+/**
+ * Mapper class of Account Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountAttributes extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'account_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'account_attr';
+	
+	/**
+	 * Finds Account Attributes by Account Id
+	 *
+	 * @param  int $id Account Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('aa.account_id = ?', $id);
+		
+		return $this->getRows($select);
+	}	
+	
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountAttribute Returns domain object
+    */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountAttribute($row->account_attr_id,
+													   $row->account_id,
+													   $row->account_attr_name,
+													   $row->account_attr_value);
+	}
+
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('aa' => $this->table), array('account_attr_id',
+																		  'account_id',
+																		  'account_attr_name',
+																		  'account_attr_value'));
+	 	return $select;
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+	
+    protected function BuildCollection($rows, $collection_class = 'Hb_App_Account_AccountAttributes')
+	{
+
+	    $collection = new Hb_App_Account_AccountAttributes();
+		
+		foreach ($rows as $row)
+		{
+			try {
+				$collection->AddAttribute($this->doFindInMap($row->{$this->primary_key}));
+			} catch (Hb_Mapper_Exception_ObjectNotFoundException $e) {
+				try {
+				    $collection->AddAttribute($this->BuildObject($row));
+				} catch (Hb_Data_ObjectInCollectionException $e) {
+				     $log = Hb_Util_Log_Logger::GetInstance('account');
+			        $log->LogException($e);
+				}  
+			} 
+		}
+		
+		return $collection;
+	}
+}
+?>

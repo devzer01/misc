@@ -1,0 +1,13 @@
+<?php
+   
+   interface Hb_Util_PDF_Generator_PDFGeneratorInterface
+   {
+      public function SetOption($key, $value);
+      public function GetOption($key);
+      public function GetOptions();
+      public function SetOutputFile($file);       
+      public function SetHTML($html);
+      public function Generate();                     
+   }
+
+?>

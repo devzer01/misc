@@ -1,0 +1,130 @@
+<?php
+/**
+ * Mapper Class for StudyTemplateTimeLine
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyTemplateTimeLine extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study template timeline
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_template_timeline_id';
+
+	/**
+	 * Study template timeline table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_template_timeline';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyTemplateTimeLine';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyTemplateTimeLine';
+	
+	/**
+	 * Build the StudyTemplateTimeLine Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyTemplateTimeLine
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTemplateTimeLine($row->study_template_timeline_id,
+																	 $row->study_template_id,
+															 		 $row->study_task_id,
+															   	 $row->task_duration,
+															 		 $row->revision_number,
+															 		 $row->functional_group_id,
+															   	 $row->login,
+															 		 $row->sort_order,
+																	 $row->estimated_complete_date_updated);
+	}
+	
+	/**
+	 * Get the base data set for StudyTemplateTimeLine
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('stt' => $this->table), array('study_template_timeline_id',
+																		  'study_template_id',
+																    	  'study_task_id',  
+																 	 	  'task_duration',
+																    	  'revision_number',
+																    	  'functional_group_id',  
+																 	 	  'login',
+																    	  'sort_order', 
+																    	  'estimated_complete_date_updated'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study template timeline
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('stt.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study template timeline
+	 *
+	 * @param Hb_App_Object StudyTemplateTimeLine
+	 * @return object Study template timeline
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_template_id'						=> $obj->GetStudyTemplateId(),
+							'study_task_id' 							=> $obj->GetStudyTaskId(),
+							'task_duration' 							=> $obj->GetTaskDuration(),
+							'revision_number' 						=> $obj->GetRevisionNumber(),
+							'functional_group_id' 					=> $obj->GetFunctionalGroupId(),
+							'login' 										=> $obj->GetLogin(),
+							'sort_order' 								=> $obj->GetSortOrder(),
+							'estimated_complete_date_updated' 	=> $obj->GetEstimatedCompleteDateUpdated()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyTemplateTimeLineId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

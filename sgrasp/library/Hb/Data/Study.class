@@ -1,0 +1,90 @@
+<?php
+
+abstract class Hb_Data_Study
+{
+	public $study_name;
+
+	public $study_id;
+	
+	public $panel_provider = array();
+
+	/**
+	 * Study Attribute Collection
+	 *
+	 * @var Hb_Data_Study_Attributes
+	 */
+	public $study_attributes;
+
+	private function __construct($study_id, $study_name = '')
+	{
+		$this->study_id = $study_id;
+
+		$this->study_name = $study_name;
+
+		$this->study_attributes = new Hb_Data_Study_Attributes($study_id);
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $name
+	 * @param unknown_type $value
+	 */
+	public function AddAttribute($name, $value)
+	{
+		$this->study_attributes->AddAttribute(new Hb_Data_Study_Attribute($name, $value));
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $name
+	 * @param unknown_type $value
+	 */
+	public function UpdateAttribute($name, $value)
+	{
+		/** @param $attr Hb_Data_Study_Attribute **/
+		$attr = $this->study_attributes->GetAttribute($name);
+		$attr->SetAttributeValue($value);
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $name
+	 * @return Hb_Data_Study_Attribute
+	 */
+	public function GetAttribute($name)
+	{
+		return $this->study_attributes->GetAttribute($name);
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $study_id
+	 * @return Hb_Data_Study
+	 */
+	abstract public static function getInstance($study_id, $study_name = '');
+	
+	public function AddPanelProvider(Hb_Data_Study_PanelProvider $provider)
+	{
+		$this->panel_provider[] = $provider;
+	}
+	
+	public function GetStudyProvider($provider_id)
+	{
+		
+	}
+	
+	public function GetStudyProviders()
+	{
+		return $this->panel_provider;
+	}
+	
+	function __clone()
+	{
+		$this->study_attributes = clone $this->study_attributes;
+	}
+}
+?>

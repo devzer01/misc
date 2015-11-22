@@ -1,0 +1,167 @@
+<?php
+class Hb_Util_File_Xml {
+	
+	private $resParser ;
+	private $xml_data ;
+	private $my_array = array ( ) ;
+	private $my_stack = array ( ) ;
+	
+	private $xml ;
+	
+	/**
+	 * 
+	 * 
+	 * @param string $xml XML data in a string format 
+	 */
+	public function __construct ( $xml ) 
+	{
+		$this->xml = $xml ;
+	}
+	
+	/**
+	 * Convert the xml into an array
+	 * 
+	 */
+	public function toArrayNew () 
+	{
+		
+		$xml = $this->xml ;
+		
+		$_data = NULL ;
+		
+		$xp = xml_parser_create () ;
+		xml_parser_set_option ( $xp, XML_OPTION_CASE_FOLDING, false ) ;
+		xml_parser_set_option ( $xp, XML_OPTION_SKIP_WHITE, true ) ;
+		
+		xml_parse_into_struct ( $xp, $xml, $vals, $index ) ;
+		xml_parser_free ( $xp ) ;
+		
+		$temp = $depth = array ( ) ;
+		$dc = array ( ) ;
+		
+		foreach ( $vals as $value ) {
+			
+			$p = join ( '::', $depth ) ;
+			
+			$key = $value [ 'tag' ] ;
+			
+			switch ( $value [ 'type' ]) {
+				
+				case 'open' :
+					array_push ( $depth, $key ) ;
+					array_push ( $depth, ( int ) $dc [ $p ] ++ ) ;
+				break ;
+				
+				case 'complete' :
+					array_pop ( $depth ) ;
+					array_push ( $depth, $key ) ;
+					$p = join ( '::', $depth ) ;
+					$temp [ $p ] = $value [ 'value' ] ;
+					array_pop ( $depth ) ;
+					array_push ( $depth, ( int ) $dc [ $p ] ) ;
+				break ;
+				
+				case 'close' :
+					array_pop ( $depth ) ;
+					array_pop ( $depth ) ;
+				break ;
+			
+			}
+		
+		}
+		
+		foreach ( $temp as $key => $value ) {
+			
+			$levels = explode ( '::', $key ) ;
+			$num_levels = count ( $levels ) ;
+			
+			if ($num_levels == 1) {
+				$_data [ $levels [ 0 ] ] = $value ;
+			} else {
+				$pointer = &$_data ;
+				for ( $i = 0 ; $i < $num_levels ; $i ++ ) {
+					if (! isset ( $pointer [ $levels [ $i ] ] )) {
+						$pointer [ $levels [ $i ] ] = array ( ) ;
+					}
+					$pointer = &$pointer [ $levels [ $i ] ] ;
+				}
+				$pointer = $value ;
+			}
+		
+		}
+		
+		return ($_data) ;
+	}
+	
+	/**
+	 * 
+	 */
+	function toArray () {
+		//create the parser object
+		$this->resParser = xml_parser_create () ;
+		
+		//set this as the child
+		xml_set_object ( $this->resParser, $this ) ;
+		
+		//set our handlers
+		xml_set_element_handler ( $this->resParser, "TagOpen", "TagClosed" ) ;
+		
+		//data handler
+		xml_set_character_data_handler ( $this->resParser, "TagData" ) ;
+		
+		//call the parser 
+		$this->xml_data = xml_parse ( $this->resParser, $this->xml ) ;
+		
+		//error handling
+		if (! $this->xml_data) {
+			die ( sprintf ( "XML error: %s at line %d", xml_error_string ( xml_get_error_code ( $this->resParser ) ), xml_get_current_line_number ( $this->resParser ) ) ) ;
+		}
+		
+		//free up some memory
+		xml_parser_free ( $this->resParser ) ;
+		
+		//return our array back
+		return $this->my_array ;
+	}
+	
+	/**
+	 * 
+	 */
+	function TagOpen ( $parser , $name , $attrs ) 
+	{
+		array_push ( $this->my_stack, $name ) ;
+	}
+	
+	/**
+	 * 
+	 */
+	function TagData ( $parser , $tagData ) 
+	{
+		
+		if (trim ( $tagData ) != '') {
+			
+			$eval = '$this->my_array' ;
+			
+			for ( $i = 0 ; $i < count ( $this->my_stack ) ; $i ++ ) {
+				if ($i == 0)
+					$eval .= "[]" ;
+				$eval .= "['" . strtolower ( $this->my_stack [ $i ] ) . "']" ;
+			}
+			
+			$eval .= " = '" . $tagData . "';" ;
+			eval ( $eval ) ;
+		}
+	
+	}
+	
+	/**
+	 * Called when a closing tag is found
+	 *  
+	 */
+	function TagClosed ( $parser , $name ) 
+	{
+		array_pop ( $this->my_stack ) ;
+	}
+}
+
+?>

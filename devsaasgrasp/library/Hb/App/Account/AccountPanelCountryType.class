@@ -1,0 +1,161 @@
+<?php
+
+/**
+ * Domain object for Account Panel Country Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+
+class Hb_App_Account_AccountPanelCountryType extends Hb_App_Object 
+{
+	
+	/**
+	 * Account panel country type 
+	 *
+	 * @var Hb_App_Common_Type
+	 */
+	protected $account_panel_country_type = null;
+	
+	/**
+	 * Account panel country type id
+	 *
+	 * @var int
+	 */
+	protected $account_panel_country_type_id = null;
+	
+	/**
+	 * Sample type id
+	 *
+	 * @var int
+	 */
+	protected $sample_type_id = null;
+	
+	/**
+	 * Country specific attribute description
+	 *
+	 * @var string
+	 */
+	protected $country_specific_attribute_description = null;
+	
+	/**
+	 * Create the Hb_App_Account_AccountPanelCountryType object
+	 *
+	 * @param int $id
+	 * @param Hb_App_Common_Type $common_type
+	 * @param int $sample_type_id
+	 * @param string $country_specific_attribute_description
+	 */
+	function __construct(
+								$id = null, 
+								Hb_App_Common_Type $common_type = null, 
+								$sample_type_id = null, 
+								$country_specific_attribute_description = null
+								)
+	{
+		$this->account_panel_country_type_id = $id;
+		$this->account_panel_country_type = $common_type;
+		
+		$this->sample_type_id = $sample_type_id;
+		$this->country_specific_attribute_description = $country_specific_attribute_description;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Returns account panel country type id
+	 *
+	 * @return int
+	 */
+	public function GetAccountPanelCountryTypeId()
+	{
+		return $this->account_panel_country_type_id;
+	}
+	
+	/**
+	 * Returns Type object
+	 *
+	 * @return Hb_App_Common_Type
+	 */
+	public function GetType()
+	{
+		return $this->account_panel_country_type;
+	}
+	
+	/**
+	 * Returns sample type id
+	 *
+	 * @return int
+	 */
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+	
+	/**
+	 * Returns country specific attribute description
+	 *
+	 * @return string
+	 */
+	public function GetCountrySpecificAttributeDescription()
+	{
+		return $this->country_specific_attribute_description;
+	}
+	
+	/**
+	 * Sets account panel country type id
+	 *
+	 * @param int $account_panel_country_type_id
+	 */
+	public function SetAccountPanelCountryTypeId($account_panel_country_type_id)
+	{
+		$this->account_panel_country_type_id = $account_panel_country_type_id;
+		$this->__id = $account_panel_country_type_id;
+		
+		$this->MarkDirty();
+		
+	}
+	
+	/**
+	 * Sets type
+	 *
+	 * @param Hb_App_Common_Type $account_panel_country_type
+	 */
+	public function SetType(Hb_App_Common_Type $account_panel_country_type)
+	{
+		$this->account_panel_country_type = $account_panel_country_type;
+		$this->account_panel_country_type_id = $account_panel_country_type->GetTypeId();
+		$this->__id = $account_panel_country_type->GetTypeId();
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets sample type
+	 *
+	 * @param int $sample_type_id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = $sample_type_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets country specific attribute description
+	 *
+	 * @param string $country_specific_attribute_description
+	 */
+	public function SetCountrySpecificAttributeDescription($country_specific_attribute_description)
+	{
+		$this->country_specific_attribute_description = $country_specific_attribute_description;
+		
+		$this->MarkDirty();
+	}
+}
+?>

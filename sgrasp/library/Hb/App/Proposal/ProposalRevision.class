@@ -1,0 +1,654 @@
+<?php
+/**
+ * Domain Object for ProposalRevision
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Propsal
+ */ 
+
+class Hb_App_Proposal_ProposalRevision extends Hb_App_Object 
+{
+	/**
+	 * Login
+	 * 
+	 * @var int
+	 */
+	protected $login = null;
+	
+	/**
+	 * Maximum Amount
+	 * 
+	 * @var int
+	 */
+	protected $max_amount = null;
+	
+	/**
+	 * Minimum Amount
+	 * 
+	 * @var int
+	 */
+	protected $min_amount = null;
+
+	/**
+	 * Number Of Countries
+	 * 
+	 * @var int
+	 */
+	protected $number_of_countries = null;
+	
+	/**
+	 * Number Of Options
+	 * 
+	 * @var string
+	 */
+	protected $number_of_options = null;
+	
+	/**
+	 * Pricing Type Id
+	 * 
+	 * @var int
+	 */
+	protected $pricing_type_id = null;
+	
+	/**
+	 * Proposal Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_id = null;
+	
+	/**
+	 * Proposal Option Type Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_option_type_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Proposal Revision Status Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_revision_status_id = null;
+	
+	/**
+	 * Proposal Revision Text
+	 * 
+	 * @var string
+	 */
+	protected $proposal_revision_text = null;
+	
+	/**
+	 * Proposal Type Id
+	 * @var int
+	 * 
+	 */
+	protected $proposal_type_id = null;
+	
+	/**
+	 * Revision
+	 * 
+	 * @var int
+	 */
+	protected $revision = null;
+	
+	/**
+	 * Sent Date
+	 * 
+	 * @var string
+	 */
+	protected $sent_date = null;
+	
+	/**
+	 * Study Data Processing Duration Id
+	 * 
+	 * @var int
+	 */
+	protected $study_data_processing_duration_id = null;
+	
+	/**
+	 * Study Fieldwork Duration Id
+	 * 
+	 * @var int
+	 */
+	protected $study_fieldwork_duration_id = null;
+	
+	/**
+	 * Study Interview Type Id
+	 * 
+	 * @var int
+	 */
+	protected $study_interview_type_id = null;
+	
+	/**
+	 * Study Setup Duration Id
+	 * 
+	 * @var int
+	 */
+	protected $study_setup_duration_id = null;
+	
+	/**
+	 * User Id
+	 * 
+	 * @var int
+	 */
+	protected $user_id = null;
+	
+
+	/**
+	 * Create an ProposalRevision Object
+	 * 
+	 * @author krathnayake
+	 * @param int $id Proposal Revision Id
+	 * @param int $login Login
+	 * @param int $max_amount Maximum Amount
+	 * @param int $min_amount Minimum Amount
+	 * @param int $number_of_countries Number of Countres
+	 * @param int $number_of_options	 Number of Options
+	 * @param int $pricing_type_id Pricing Type Id
+	 * @param int $proposal_id Proposal Id
+	 * @param int $proposal_option_type_id Proposal Option Type Id
+	 * @param int $proposal_revision_status_id Proposal Revision Status Id
+	 * @param string $proposal_revision_text Proposal Revision Text
+	 * @param int $proposal_type_id Proposal Type Id
+	 * @param int $revision Revision
+	 * @param string $sent_date Sent Date			
+	 * @param int $study_data_processing_duration_id Study Data Processing Duration Id
+	 * @param int $study_fieldwork_duration_id Study Fieldwork Duration Id
+	 * @param int $study_interview_type_id Study Interview Type Id
+	 * @param int $study_setup_duration_id Study Setup Duration Id
+	 * @param int $user_id User Id
+	 */	
+	function __construct(		$id 								= null, 
+								$login 								= null, 
+								$max_amount 						= null,
+								$min_amount 						= null,
+								$number_of_countries				= null,
+								$number_of_options					= null,
+								$pricing_type_id 					= null,
+								$proposal_id						= null,
+								$proposal_option_type_id			= null,
+								$proposal_revision_status_id 		= null,
+								$proposal_revision_text				= null,
+								$proposal_type_id					= null,
+								$revision 							= null,
+								$sent_date 							= null,
+								$study_data_processing_duration_id 	= null,
+								$study_fieldwork_duration_id		= null,
+								$study_interview_type_id			= null,
+								$study_setup_duration_id 			= null,
+								$user_id							= null
+								)
+	{
+		$this->proposal_revision_id 				= $id;
+		$this->login 								= $login;
+		$this->max_amount 							= $max_amount;
+		$this->min_amount 							= $min_amount;
+		$this->number_of_countries 					= $number_of_countries;
+		$this->number_of_options 					= $number_of_options;
+		$this->pricing_type_id 						= $pricing_type_id;
+		$this->proposal_id 							= $proposal_id;
+		$this->proposal_option_type_id				= $proposal_option_type_id;
+		$this->proposal_revision_status_id 			= $proposal_revision_status_id;
+		$this->proposal_revision_text 				= $proposal_revision_text;
+		$this->proposal_type_id						= $proposal_type_id;
+		$this->revision 							= $revision;
+		$this->sent_date 							= $sent_date;
+		$this->study_data_processing_duration_id 	= $study_data_processing_duration_id;
+		$this->study_fieldwork_duration_id			= $study_fieldwork_duration_id;
+		$this->study_interview_type_id 		 		= $study_interview_type_id;
+		$this->study_setup_duration_id				= $study_setup_duration_id;
+		$this->user_id 								= $user_id;
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Login
+	 * 
+ 	 * @author krathnayake
+	 * @return int Login
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Returns Maximum Amount
+	 * 
+	 * @author krathnayake
+	 * @return int Maximum Amount
+	 */
+	public function GetMaxAmount()
+	{
+		return (int) $this->max_amount;
+	}
+
+	/**
+	 * Returns Minimum Amount
+	 * 
+	 * @author krathnayake
+	 * @return int Minimum Amount
+	 */
+	public function GetMinAmount()
+	{
+		return (int) $this->min_amount;
+	}
+
+	/**
+	 * Returns Number Of Countries
+	 * 
+	 * @author krathnayake
+	 * @return int Number Of Countries
+	 */
+	public function GetNumberOfCountries()
+	{
+		return $this->number_of_countries;
+	}
+	
+	/**
+	 * Returns Number Of Options
+	 * 
+	 * @author krathnayake
+	 * @return int Number Of Options
+	 */
+	public function GetNumberOfOptions()
+	{
+		return $this->number_of_options;
+	}
+
+	/**
+	 * Returns Pricing Type Id
+	 * 
+	 * @author krathnayake
+	 * @return int Pricing Type Id
+	 */
+	public function GetPricingTypeId()
+	{
+		return $this->pricing_type_id;
+	}
+
+	/**
+	 * Returns Proposal Id
+	 * 
+	 * @author krathnayake
+	 * @return int Proposal Id
+	 */
+	public function GetProposalId()
+	{
+		return $this->proposal_id;
+	}
+	
+	/**
+	 * Returns Proposal Option Type Id
+	 * 
+	 * @author krathnayake
+	 * @return int Proposal Option Type Id
+	 */
+	public function GetProposalOptionTypeId()
+	{
+		return $this->proposal_option_type_id;
+	}
+	
+	/**
+	 * Returns Proposal Revision Id
+	 * 
+	 * @author krathnayake
+	 * @return int Proposal Revision Id
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Returns Proposal Revision Status Id
+	 * 
+	 * @author krathnayake
+	 * @return int Proposal Revision Status Id
+	 */
+	public function GetProposalRevisionStatusId()
+	{
+		return $this->proposal_revision_status_id;
+	}
+
+	/**
+	 * Returns Proposal Revision Text
+	 * 
+	 * @author krathnayake
+	 * @return string Proposal Revision Text
+	 */
+	public function GetProposalRevisionText()
+	{
+		return $this->proposal_revision_text;
+	}
+
+	/**
+	 * Returns Proposal Type Id
+	 * 
+	 * @author krathnayake
+	 * @return string Proposal Type Id
+	 */
+	public function GetProposalTypeId()
+	{
+		return $this->proposal_type_id;
+	}
+
+	/**
+	 * Returns Revision
+	 * 
+	 * @author krathnayake
+	 * @return int Revision
+	 */
+	public function GetRevision()
+	{
+		return $this->revision;
+	}
+
+	/**
+	 * Returns Sent Date
+	 * 
+	 * @author krathnayake
+	 * @return string Sent Date
+	 */
+	public function GetSentDate()
+	{
+		return $this->sent_date;
+	}
+
+	/**
+	 * Returns Study Data Processing Duration Id
+	 * 
+	 * @author krathnayake
+	 * @return int Study Data Processing Duration Id
+	 */
+	public function GetStudyDataProcessingDurationId()
+	{
+		return $this->study_data_processing_duration_id;
+	}
+
+	/**
+	 * Returns Study Fieldwork Duration Id
+	 * 
+	 * @author krathnayake
+	 * @return int Study Fieldwork Duration Id
+	 */
+	public function GetStudyFieldWorkDurationId()
+	{
+		return $this->study_fieldwork_duration_id;
+	}
+	
+	/**
+	 * Returns Study Interview Type Id
+	 * 
+	 * @author krathnayake
+	 * @return int Study Interview Type Id
+	 */
+	public function GetStudyInterviewTypeId()
+	{
+		return $this->study_interview_type_id;
+	}
+
+	/**
+	 * Returns Study Setup Duration Id
+	 * 
+	 * @author krathnayake
+	 * @return int Study Setup Duration Id
+	 */
+	public function GetStudySetupDurationId()
+	{
+		return $this->study_setup_duration_id;
+	}
+
+	/**
+	 * Returns User Id
+	 * 
+	 * @author krathnayake
+	 * @return int User Id
+	 */	
+	public function GetUserId()
+	{
+		return $this->user_id;
+	}
+
+	/**
+	 * Sets the Login
+	 * 
+	 * @author krathnayake
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+	/**
+	 * Sets the Maximum Amount
+	 * 
+	 * @author krathnayake
+	 * @param int $max_amount Maximum Amount
+	 */
+	public function SetMaxAmount($max_amount)
+	{
+		$this->max_amount = $max_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Minimum Amount
+	 * 
+	 * @author krathnayake
+	 * @param int $min_amount Minimum Amount
+	 */
+	public function SetMinAmount($min_amount)
+	{
+		$this->min_amount = $min_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Number Of Countries
+	 * 
+	 * @author krathnayake
+	 * @param int $number_of_countries Number Of Countries
+	 */
+	public function SetNumberOfCountries($number_of_countries)
+	{
+		$this->number_of_countries = $number_of_countries;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Number Of Options
+	 * 
+	 * @author krathnayake
+	 * @param int $number_of_options Number Of Options
+	 */
+	public function SetNumberOfOptions($number_of_options)
+	{
+		$this->number_of_options = $number_of_options;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Pricing Type Id
+	 * 
+	 * @author krathnayake
+	 * @param int $pricing_type_id Pricing Type Id
+	 */
+	public function SetPricingTypeId($pricing_type_id)
+	{
+		$this->pricing_type_id = $pricing_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Id
+	 * 
+	 * @author krathnayake
+	 * @param int $proposal_id Proposal Id
+	 */
+	public function SetProposalId($proposal_id)
+	{
+		$this->proposal_id = $proposal_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Option Type Id
+	 * 
+	 * @author krathnayake
+	 * @param int $proposal_option_type_id Proposal Option Type Id
+	 */
+	public function SetProposalOptionTypeId($proposal_option_type_id)
+	{
+		$this->proposal_option_type_id = $proposal_option_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Revision Id
+	 * 
+	 * @author krathnayake
+	 * @param int $proposal_revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->__id = (int) $proposal_revision_id;
+		$this->MarkDirty();
+		
+	}
+
+	/**
+	 * Sets the Proposal Revision Status Id
+	 * 
+	 * @author krathnayake
+	 * @param int $proposal_revision_status_id Proposal Revision Status Id
+	 */
+	public function SetProposalRevisionStatusId($proposal_revision_status_id)
+	{
+		$this->proposal_revision_status_id = $proposal_revision_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Revision Text
+	 * 
+	 * @author krathnayake
+	 * @param string $proposal_revision_text Proposal Revision Text
+	 */
+	public function SetProposalRevisionText($proposal_revision_text)
+	{
+		$this->proposal_revision_text = $proposal_revision_text;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Type Id
+	 * 
+	 * @author krathnayake
+	 * @param int $proposal_type_id Proposal Type Id
+	 */
+	public function SetProposalTypeId($proposal_type_id)
+	{
+		$this->proposal_type_id = $proposal_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Revision
+	 * 
+	 * @author krathnayake
+	 * @param int $revision Revision
+	 */
+	public function SetRevision($revision)
+	{
+		$this->revision = $revision;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sent Date
+	 * 
+	 * @author krathnayake
+	 * @param string $sent_date Sent Date
+	 */
+	public function SetSentDate($sent_date)
+	{
+		$this->sent_date = $sent_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Data Processing Duration Id
+	 * 
+	 * @author krathnayake
+	 * @param int $study_data_processing_duration_id Study Data Processing Duration Id
+	 */
+	public function SetStudyDataProcessingDurationId($study_data_processing_duration_id)
+	{
+		$this->study_data_processing_duration_id = $study_data_processing_duration_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Fieldwork Duration Id
+	 * 
+	 * @author krathnayake
+	 * @param int $study_fieldwork_duration_id Study Fieldwork Duration Id
+	 */
+	public function SetStudyFieldWorkDurationId($study_fieldwork_duration_id)
+	{
+		$this->study_fieldwork_duration_id = $study_fieldwork_duration_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Interview Type Id
+	 * 
+	 * @author krathnayake
+	 * @param int $study_interview_type_id Study Interview Type Id
+	 */
+	public function SetStudyInterviewTypeId($study_interview_type_id)
+	{
+		$this->study_interview_type_id = $study_interview_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study Setup Duration Id
+	 * 
+	 * @author krathnayake
+	 * @param int $study_setup_duration_id Study Setup Duration Id
+	 */
+	public function SetStudySetupDurationId($study_setup_duration_id)
+	{
+		$this->study_setup_duration_id = $study_setup_duration_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the User Id
+	 * 
+	 * @author krathnayake
+	 * @param int $user_id User Id
+	 */
+	public function SetUserId($user_id)
+	{
+		$this->user_id = $user_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

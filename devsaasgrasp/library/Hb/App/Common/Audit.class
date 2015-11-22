@@ -1,0 +1,208 @@
+<?php 
+/**
+ * Domain Object for Audit
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_Audit
+{
+	/**
+	 * Created by user
+	 *
+	 * @var int 
+	 */
+	protected $created_by = null;
+	
+	/**
+	 * Created date
+	 *
+	 * @var string 
+	 */
+	protected $created_date = null;
+	
+	/**
+	 * Modified by user
+	 *
+	 * @var int 
+	 */
+	protected $modified_by = null;
+	
+	/**
+	 * Modified date
+	 *
+	 * @var string 
+	 */
+	protected $modified_date = null;
+	
+	/**
+	 * Modified/Created by user 
+	 * 
+	 * @var Hb_App_User_User
+	 */
+	protected $user = null;
+	
+	/**
+	 * Status 
+	 * 
+	 * @var string
+	 */
+	protected $status = null;
+	
+	/**
+	 * Create Audit Object
+	 *
+	 * @param int $created_by Created by user
+	 * @param string $created_date Created date
+	 * @param ing $modified_by Modified by user
+	 * @param string $modified_date Modified date 
+	 */
+	function __construct($created_by 	= null,
+								$created_date 	= null,
+								$modified_by 	= null,
+								$modified_date = null,
+								$status 			= null )
+	{
+		$this->created_by 	= $created_by;
+		$this->created_date	= $created_date;
+		$this->modified_by	= $modified_by;
+		$this->modified_date	= $modified_date;
+		$this->status			= $status;
+	}
+	
+	/**
+	 * Return the Created by user login for the Audit
+	 *
+	 * @return int Created by user login
+	 */
+	public function GetCreatedBy()
+	{
+		return $this->created_by;
+	}
+	
+	/**
+	 * Return the Created date for the Audit
+	 *
+	 * @return string Created date
+	 */
+	public function GetCreatedDate()
+	{
+		return $this->created_date;
+	}
+	
+	/**
+	 * Return the Modfied by user login for the Audit
+	 *
+	 * @return int Modfied by user login
+	 */
+	public function GetModifiedBy()
+	{
+		return $this->modified_by;
+	}
+	
+	/**
+	 * Return the Modified date for the Audit
+	 *
+	 * @return string Modified date
+	 */
+	public function GetModifiedDate()
+	{
+		return $this->modified_date;
+	}
+	
+	/**
+	 * Return the Updated date for the Audit
+	 *
+	 * @return string Updated date
+	 */
+	public function GetUpdatedDate()
+	{		
+		if($updated_date = (($this->modified_date != '0000-00-00 00:00:00' ) ? $this->modified_date : (($this->created_date != '0000-00-00 00:00:00') ? $this->created_date : false))) {					
+			return $updated_date;
+		}		
+		return null;
+	}
+	
+	/**
+	 * Set the Created by user login for the  Audit
+	 * 
+	 * @param int $created_by Created by user login
+	 */
+	public function SetCreatedBy($created_by)
+	{
+		$this->created_by = $created_by;
+	}
+	
+	/**
+	 * Set the Created date for the  Audit
+	 * 
+	 * @param string $created_date Created date
+	 */
+	public function SetCreatedDate($created_date)
+	{
+		$this->created_date = $created_date;
+	}
+	
+	/**
+	 * Set the Modified by user login for the  Audit
+	 * 
+	 * @param int $modified_by Modified by
+	 */
+	public function SetModifiedBy($modified_by)
+	{
+		$this->modified_by = $modified_by;
+	}
+	
+	/**
+	 * Set the Modified date for the  Audit
+	 * 
+	 * @param string $modified_date Modified date
+	 */
+	public function SetModifiedDate($modified_date)
+	{
+		$this->modified_date = $modified_date;
+	}
+	
+	/**
+	 * Return the Status for the Audit
+	 *
+	 * @return string Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+	
+	/**
+	 * Set the Status for the  Audit
+	 * 
+	 * @param string $status Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status  = $status;
+	}
+	
+	/**
+	 * Return the Modified/Created by user  for the domain name
+	 *
+	 * @return Hb_App_User_User Modified/Created by user 
+	 */
+	public function GetUser()
+	{	
+		if(is_null($this->user)) {
+			if($user_login = (($this->modified_by != 0 ) ? $this->modified_by : (($this->created_by != 0)? $this->created_by : false))) {
+				$this->user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($user_login);				
+			}else {
+				return null;
+			}
+		}
+		
+		return $this->user;
+	}
+}
+?>

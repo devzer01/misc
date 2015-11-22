@@ -1,0 +1,136 @@
+<?php 
+/**
+ * Mapper Object for Address
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Common
+ *
+ */ 
+class Hb_Mapper_Common_Address extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'address_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'address';
+	
+	/**
+	 * Builds and returns the Address domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the address table
+	 * @return object An instance of the Address domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Address($row->address_id,
+									$row->address_city ,
+									$row->address_country_code ,
+									$row->address_province ,
+									$row->address_state ,
+									$row->address_street_1,
+									$row->address_street_2,
+									$row->address_type_id,
+									$row->address_zip,
+									$row->contact_id									
+									);
+	} 
+
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('a' => 'address'), array('address_id', 
+																	'contact_id',
+																	'address_type_id',
+																	'address_street_1',
+																	'address_street_2',
+																	'address_city',
+																	'address_state',
+																	'address_province',
+																	'address_zip',
+																	'address_country_code'
+																	));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Address by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the address table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('a.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	protected function doFindByCotnactId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('a.contact_id = ?', $id);
+		 	
+		return $this->getRow($select);
+		
+		
+	}
+	
+	public function FindByContactId($id)
+	{
+		$result = $this->doFindByCotnactId($id);
+		 	
+		return $this->BuildObject($result);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Address domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Common_Address   */
+		 	
+	 	$data  = array(
+			'contact_id' 				=> $obj->GetContactId(),
+			'address_type_id'			=> $obj->GetAddressTypeId(),
+			'address_street_1'		=> $obj->GetAddressStreet1(),
+			'address_street_2'		=> $obj->GetAddressStreet2(),
+			'address_city'				=> $obj->GetAddressCity(),
+			'address_state'			=> $obj->GetAddressState(),
+			'address_province'		=> $obj->GetAddressProvince(),
+			'address_zip'				=> $obj->GetAddressZip(),
+			'address_country_code'	=> $obj->GetAddressCountryCode()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetAddressId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

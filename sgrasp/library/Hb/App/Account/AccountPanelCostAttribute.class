@@ -1,0 +1,71 @@
+<?php 
+/**
+ * Domain Object for Account Panel Cost Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountPanelCostAttribute extends Hb_App_Attribute 
+{
+	/**
+	 * Account Panal Cost object (@link Hb_App_Account_AccountPanelCost)
+	 *
+	 * @var Hb_App_Account_AccountPanelCost
+	 */
+	protected $account_panel_cost = null;
+	
+	/**
+	 * Account panel cost atribute id
+	 *
+	 * @var int 
+	 */
+	protected $partner_panel_cost_attr_id = null;
+	
+	/**
+	 * Return the Account Panel Cost object associated with the attributes 
+	 *
+	 * @return Hb_App_Account_AccountPanelCost Account Panel Cost object
+	 */
+	public function  GetAccountPanelCost()
+	{
+		return $this->account_panel_cost;
+	}
+	
+	/**
+	 * Set the Account Panel Cost object for the atribute 
+	 * 
+	 * @param Hb_App_Account_AccountPanelCost $account_panel_cost Account Panel Cost object
+	 */
+	public function SetAccountPanelCost(Hb_App_Account_AccountPanelCost $account_panel_cost)
+	{
+		$this->account_panel_cost = $account_panel_cost;
+	}	
+	
+	/**
+	 * Set the Account Panel Cost Attribute id for the  Account Panel Cost Attribute
+	 * 
+	 * @param int $partner_panel_cost_attr_id Account Panel Cost Attribute id
+	 */
+	public function SetAccountPanelCostAttrId($partner_panel_cost_attr_id)
+	{
+		$this->partner_panel_cost_attr_id 	= (int) $partner_panel_cost_attr_id;
+		$this->__id									= (int) $partner_panel_cost_attr_id;
+	}
+	
+	/**
+	 * Return the Account Panel Cost Id for the Account Panel Cost Attribute
+	 *
+	 * @return int Account Panel Cost Id
+	 */
+	public function GetAccountPanelCostAttrId()
+	{
+		return $this->partner_panel_cost_attr_id;
+	}
+	
+	
+}
+?>

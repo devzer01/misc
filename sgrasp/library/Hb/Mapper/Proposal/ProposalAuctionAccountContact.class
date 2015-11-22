@@ -1,0 +1,129 @@
+<?php
+/**
+ * Mapper Class for ProposalActionAccountContact.class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+class Hb_Mapper_Proposal_ProposalAuctionAccountContact extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of proposal_auction_account_contact table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'proposal_auction_account_contact_id';
+	
+	/**
+	 * Variable for proposal_auction_account_contact table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'proposal_auction_account_contact';
+			
+	/**
+	 * Returns proposal auction account contact object
+	 * 
+	 * @return Hb_App_Proposal_ProposalAuctionAccountContact
+	 */
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalAuctionAccountContact';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_App_Proposal_ProposalAuctionAccountContact';
+	
+	/**
+	 * Build the ProposalAuctionAccountContact Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalAuctionAccountContact
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAuctionAccountContact
+		(
+			$row->proposal_auction_account_contact_id,
+			$row->access_key, 
+			$row->account_contact_id,
+			$row->contact_email,
+			$row->contact_first_name,
+			$row->contact_last_name,
+			$row->invite_sent_date,
+			$row->proposal_auction_account_id,
+			$row->proposal_auction_user_id
+		);
+	}
+	
+	/**
+	 * Returns proposal auction account contact data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('pc' => 'proposal_auction_account_contact'), 
+							array(	'proposal_auction_account_contact_id', 
+										'access_key', 
+										'account_contact_id', 
+										'contact_email',
+										'contact_first_name',
+										'contact_last_name',
+										'invite_sent_date',
+										'proposal_auction_account_id',
+										'proposal_auction_user_id'	)
+									);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('pc.proposal_auction_account_contact_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+
+		$row->access_key 							= $obj->GetAccessKey();
+		$row->account_contact_id				= $obj->GetAccountContactId();
+		$row->contact_email 						= $obj->GetContactEmail();
+		$row->contact_first_name 				= $obj->GetContactFirstName();
+		$row->contact_last_name 				= $obj->GetContactLastName();
+		$row->invite_sent_date 					= $obj->GetInviteSentDate();
+		$row->proposal_auction_account_id 	= $obj->GetProposalAuctionAccountId();
+		$row->proposal_auction_user_id		= $obj->GetProposalAuctionUserId();
+					
+		$row->Save();
+		
+		$obj->SetProposalAuctionAccountContactId($row->proposal_auction_account_contact_id); 
+	}
+}
+?>

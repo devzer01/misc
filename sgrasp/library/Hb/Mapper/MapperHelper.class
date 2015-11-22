@@ -1,0 +1,21 @@
+<?php
+
+class Hb_Mapper_MapperHelper
+{
+	public static function GetRowGatway($class)
+	{
+		$class = preg_replace("/App/", "Db", $class);
+		if (class_exists($class)) 
+		{
+			return new $class;		
+		} 
+			
+		throw new Exception("Row Gateway Not Found");	
+	}
+	
+	public static function GetRowGatewayByTable($table)
+	{
+		return new Hb_Util_Db_Table(array('name' => $table));	
+	}
+}
+?>

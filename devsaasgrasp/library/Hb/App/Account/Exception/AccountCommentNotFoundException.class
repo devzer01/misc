@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Exception class for Hb_App_Account_AccountComment not found
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Account/Exception
+ */
+
+require_once ('class/Hb/Exception.class');
+
+/**
+ * AccountComment Not Found Exception
+ *
+ */
+class Hb_App_Account_Exception_AccountCommentNotFoundException extends Hb_Exception 
+{
+	
+}

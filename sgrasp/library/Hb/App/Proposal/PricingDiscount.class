@@ -1,0 +1,242 @@
+<?php
+/**
+ * Domain Object for Pricing Discount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_PricingDiscount extends Hb_App_Object 
+{
+	/**
+	 * discount amount
+	 *
+	 * @var float 
+	 */
+	protected $discount_amount = null;
+	
+	/**
+	 * effective date
+	 *
+	 * @var string 
+	 */
+	protected $effective_date = null;
+	
+	/**
+	 * Expire date
+	 *
+	 * @var string 
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * License level id
+	 *
+	 * @var int 
+	 */
+	protected $license_level_id = null;
+	
+	/**
+	 * Pricing discount id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_discount_id = null;
+	
+	/**
+	 * Pricing discount type id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_discount_type_id = null;
+	
+	/**
+	 * Pricing item id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_item_id = null;
+
+	/**
+	 * Create Pricing Discount Object
+	 *
+	 * @param int $id Pricing discount id
+	 * @param float $discount_amount Discount amount
+	 * @param string $effective_date Effective date
+	 * @param string $expire_date Expire date
+	 * @param int $license_level_id License level id
+	 * @param int $pricing_discount_type_id Pricing discount type id
+	 * @param int $pricing_item_id Pricing item id
+	 */
+	function __construct($id 					= null,
+								$expire_date 		= null,
+								$effective_date 	= null,
+								$discount_amount 	= null,
+								$pricing_item_id 	= null,
+								$license_level_id = null,
+								$pricing_discount_type_id = null
+								)
+	{
+		$this->expire_date			= $expire_date;
+		$this->effective_date		= $effective_date;
+		$this->discount_amount		= $discount_amount;
+		$this->pricing_item_id		= $pricing_item_id;
+		$this->license_level_id		= $license_level_id;
+		$this->pricing_discount_id	= $id;
+		$this->pricing_discount_type_id	= $pricing_discount_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Discount amount for the Pricing Discount 
+	 *
+	 * @return float Discount amount
+	 */
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+	/**
+	 * Return the Effective date for the Pricing Discount
+	 *
+	 * @return string Effective date
+	 */
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	 * Return the Expire date for the Pricing Discount
+	 *
+	 * @return string Expire date
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Return the License level id for the Pricing Discount
+	 *
+	 * @return int License level id
+	 */
+	public function GetLicenseLevelId()
+	{
+		return $this->license_level_id;
+	}
+
+	/**
+	 * Return the Pricing discount id for the Pricing Discount
+	 *
+	 * @return int Pricing discount id
+	 */
+	public function GetPricingDiscountId()
+	{
+		return $this->pricing_discount_id;
+	}
+
+	/**
+	 * Return the Pricing discount type id for the Pricing Discount
+	 *
+	 * @return int Pricing discount type id
+	 */
+	public function GetPricingDiscountTypeId()
+	{
+		return $this->pricing_discount_type_id;
+	}
+
+	/**
+	 * Return the Pricing item id for the Pricing Discount
+	 *
+	 * @return int Pricing item id
+	 */
+	public function GetPricingItemId()
+	{
+		return $this->pricing_item_id;
+	}
+
+	/**
+	 * Set the Discount amount for the Pricing Discount
+	 * 
+	 * @param float $discount_amount Discount amount
+	 */
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = (float) $discount_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Effective date for the Pricing Discount
+	 * 
+	 * @param string $effective_date Effective date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Expire date for the Pricing Discount
+	 * 
+	 * @param string $expire_date Expire date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the License level id for the Pricing Discount
+	 * 
+	 * @param int $license_level_id License level id
+	 */
+	public function SetLicenseLevelId($license_level_id)
+	{
+		$this->license_level_id = (int) $license_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing discount id for the Pricing Discount
+	 * 
+	 * @param int $pricing_discount_id Pricing discount id
+	 */
+	public function SetPricingDiscountId($pricing_discount_id)
+	{
+		$this->pricing_discount_id = (int) $pricing_discount_id;
+		$this->__id						= (int) $pricing_discount_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing discount type id for the Pricing Discount
+	 * 
+	 * @param int $pricing_discount_type_id Pricing discount type id
+	 */
+	public function SetPricingDiscountTypeId($pricing_discount_type_id)
+	{
+		$this->pricing_discount_type_id = (int) $pricing_discount_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Pricing item id for the Pricing Discount
+	 * 
+	 * @param int $pricing_item_id Pricing item id
+	 */
+	public function SetPricingItemId($pricing_item_id)
+	{
+		$this->pricing_item_id = (int) $pricing_item_id;
+		$this->MarkDirty();
+	}
+}
+?>

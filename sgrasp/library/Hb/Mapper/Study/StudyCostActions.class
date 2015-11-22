@@ -1,0 +1,69 @@
+<?php
+/**
+ * Mapper for Study Cost Cost Actions
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+class Hb_Mapper_Study_StudyCostActions extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_action_id';	
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table       = 'study_cost_action';	
+	
+	/**
+	 * Finds Study Cost Actions  by Study Cost Id
+	 *
+	 * @param  int $id Study Cost Id
+	 * @return  Result Rows from the Zend_Db framework 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('study_cost_id = ?', $id);
+		
+		return $this->getRows($select);
+	}	
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCostAction($row->study_cost_action_id,
+													   $row->study_cost_id,
+													   $row->study_cost_action_type_id,
+													   $row->status);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sc' => $this->table), array('study_cost_action_id',
+																		 'study_cost_id',
+																		 'study_cost_action_type_id',
+																		 'status'
+																		)
+						 );
+	 	
+	 	return $select;
+	}
+	
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+?>

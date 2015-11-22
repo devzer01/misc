@@ -1,0 +1,81 @@
+<?php 
+/**
+ * Domain Object for Account Comments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountComments extends Hb_App_Collection 
+{
+    protected $account_id = null;
+    
+    /**
+     * Enter description here...
+     *
+     * @var Hb_App_Account_Account
+     */
+    protected $account    = null;
+
+	public function AddItem(Hb_App_Account_AccountComment $account_comment) 
+	{
+		try {
+			parent::AddItem($account_comment);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Comment Already Exists In Collection For Account ". $account_comment->account_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	public function GetItem($account_comment_id)
+	{
+		try {
+			return parent::GetItem($account_comment_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Comment Not Found For Account Comments Collection" . $account_comment_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddAccountComment(Hb_App_Account_AccountComment $account_comment)
+	{
+		$this->account_comment		= $account_comment;
+		$this->account_comment_id	= $account_comment->GetAccountCommentId();
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @param Hb_App_Account_Account $account
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+	    $this->account = $account;
+	    $this->account_id = $account->GetAccountId();
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function GetAccountId()
+	{
+	    if (is_null($this->account_id) && is_null($this->account)) 
+	    {
+	        //TODO Here we have to add proper exception object
+	        throw new Exception("TODO: ADD EXCETION");    
+	    }
+	    
+	    if (is_null($this->account_id)) {
+	        $this->account_id = $this->account->GetAccountId();
+	    }
+	    
+	    return $this->account_id;
+	}
+}
+?>

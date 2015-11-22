@@ -1,0 +1,243 @@
+<?php
+/**
+ * Domain Object for Project
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ */ 
+
+class Hb_App_Project_Project extends Hb_App_Object
+{
+	/**
+	 * Alert Level Id
+	 * 
+	 * @var int
+	 */
+	protected $alert_level_id = null;
+
+	/**
+	 * Project Description
+	 * 
+	 * @var string
+	 */
+	protected $project_description = null;
+
+	/**
+	 * Date Project ends
+	 * 
+	 * @var string
+	 */
+	protected $project_end_date = null;
+	
+	/**
+	 * Project Id
+	 * 
+	 * @var int
+	 */
+	protected $project_id = null;
+	
+	/**
+	 * Date Project starts
+	 * 
+	 * @var string
+	 */
+	protected $project_start_date = null;
+	
+	/**
+	 * Project Status Id
+	 * 
+	 * @var int
+	 */
+	protected $project_status_id = null;
+	
+	/**
+	 * Project Type Id
+	 * 
+	 * @var int
+	 */
+	protected $project_type_id = null;
+	
+	/**
+	 * Create a Project Object
+	 * 
+	 * @author krathnayake
+	 * @param int $id Project Id
+	 * @param int $alert_level_id Alert Level Id
+	 * @param string $project_end_date Project End Date
+	 * @param string $project_start_date Project Start Date
+	 * @param int $project_status_id Project Status Id
+	 * @param int $project_type_id Project Type Id
+	 * @param string $project_description Project Description
+	 */	
+	function __construct($id 						= null,
+								$alert_level_id 		= null,
+								$project_description = null,
+								$project_end_date 	= null,
+								$project_start_date 	= null,
+								$project_status_id 	= null,
+								$project_type_id 		= null
+								)
+	{
+		$this->project_id			 	= $id;
+		$this->alert_level_id	 	= $alert_level_id;
+		$this->project_description = $project_description;
+		$this->project_end_date	 	= $project_end_date;
+		$this->project_start_date 	= $project_start_date;
+		$this->project_status_id	= $project_status_id;
+		$this->project_type_id	 	= $project_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Alert Level Id
+	 * 
+	 * @return int Alert Level Id
+	 */
+	public function GetAlertLevelId()
+	{
+		return $this->alert_level_id;
+	}
+
+	/**
+	 * Returns the Project Description
+	 *
+	 * @return string Project Description
+	 */
+	public function GetProjectDescription()
+	{
+		return $this->project_description;
+	}
+
+	/**
+	 * Returns the Project End Date
+	 *
+	 * @return string Project End Date
+	 */
+	public function GetProjectEndDate()
+	{
+		return $this->project_end_date;
+	}
+
+	/**
+	 * Returns the Project Id
+	 *
+	 * @return int Project Id
+	 */
+	public function GetProjectId()
+	{
+		return $this->project_id;
+	}
+
+	/**
+	 * Returns the Project Start Date
+	 *
+	 * @return string Project Start Date
+	 */
+	public function GetProjectStartDate()
+	{
+		return $this->project_start_date;
+	}
+
+	/**
+	 * Returns the Project Status Id
+	 *
+	 * @return int Project Status Id
+	 */
+	public function GetProjectStatusId()
+	{
+		return $this->project_status_id;
+	}
+
+	/**
+	 * Returns the Project Type Id
+	 *
+	 * @return int Project Type Id
+	 */
+	public function GetProjectTypeId()
+	{
+		return $this->project_type_id;
+	}
+
+	/**
+	 * Sets Alert Level Id
+	 * 
+	 * @param int $alert_level_id Alert Level Id
+	 */
+	public function SetAlertLevelId($alert_level_id)
+	{
+		$this->alert_level_id = $alert_level_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Description
+	 * 
+	 * @param string $project_description Project Description
+	 */
+	public function SetProjectDescription($project_description)
+	{
+		$this->project_description = $project_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project End Date
+	 * 
+	 * @param string $project_end_date Project End Date
+	 */
+	public function SetProjectEndDate($project_end_date)
+	{
+		$this->project_end_date = $project_end_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Id
+	 * 
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectId($project_id)
+	{
+		$this->project_id = (int) $project_id;
+		$this->__id = (int) $project_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Start Date
+	 * 
+	 * @param string $project_start_date Project Start Date
+	 */
+	public function SetProjectStartDate($project_start_date)
+	{
+		$this->project_start_date = $project_start_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Status Id
+	 * 
+	 * @param int $project_status_id Project Status Id
+	 */
+	public function SetProjectStatusId($project_status_id)
+	{
+		$this->project_status_id = $project_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Type Id
+	 * 
+	 * @param int $project_type_id Project Type Id
+	 */
+	public function SetProjectTypeId($project_type_id)
+	{
+		$this->project_type_id = $project_type_id;
+		$this->MarkDirty();
+	}
+}
+?>

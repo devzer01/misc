@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * An Account Sub Types Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanpathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountSubTypes extends Hb_App_Collection 
+{
+	/**
+	 * Account Type Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_type_id = null;
+	
+	/**
+	 * Add Account Sub Types
+	 *
+	 * @param Hb_App_Account_AccountSubType $subtype Account Sub Type
+	 */ 
+	public function AddItem(Hb_App_Account_AccountSubType $subtype)
+	{
+		$this->account_type_id = $subtype->GetAccountTypeId();
+		parent::AddItem($subtype);
+	}
+}
+?>

@@ -1,0 +1,55 @@
+<?php
+
+   /**
+    * CSV Report generator
+    * Author : jsadique@gmi-mr.com
+    * Date   : 05/08/2007
+    * 
+    */
+   
+   class Hb_Util_Report_CSVReportGenerator extends Hb_Util_Report_ReportGenerator
+   {
+      private $m_outputfile = '';
+     
+   	/**
+   	 * Sets the filename of the ouput file.
+   	 *
+   	 * @param char $file
+   	 * @return void
+   	 */          
+      public function SetOutputFile($file)
+      {
+         $this->m_outputfile = $file;         
+      }
+            
+   	/**
+   	 * Generates the report, outputs a CSV file.
+   	 *
+   	 * @param array $data_array
+   	 * @return void
+   	 */     
+      public function GetReport($data_array)
+      {                      
+         require_once('File/CSV.php');
+         
+         $file_csv =  $this->m_outputfile;
+      		
+      	// write to CSV file
+         foreach ($data_array as $data) 
+      	{	
+      	  /*CSV line config array */
+      	  $config_csv = array("fields"=>sizeof($data),"quote"=>"\"","sep"=>",", "crlf"=>"\n");																		
+   	     $success = File_CSV::write($file_csv, $data, $config_csv);
+	
+      	  if (!$success)
+      	  {
+      	      $log_export = Hb_Util_Log_Logger::GetInstance("data_export");      		   			
+               $log_export->LogWarn("Metrics Export","CSV Write Failed ");
+      	  }
+	      }
+	     	     
+                          
+      }               
+   }
+
+?>

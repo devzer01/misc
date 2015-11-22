@@ -1,0 +1,38 @@
+<?php 
+/**
+ * Domain class Proposal Setting
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_ProposalSetting extends Hb_App_Common_Setting
+{ 
+  /**
+    * Constructor of Domain class
+    *
+    * @param int $id Proposal Setting Id
+    * @param string $name Proposal Setting Name
+    * @param string $value Proposal Setting Value
+    * @param string $description Proposal Setting Description
+    */ 
+   function __construct($id = null, $name = null, $value = null, $description = null) 
+   { 
+   	parent::__construct($id, $name, $value, $description);
+   } 
+   
+   /**
+    * sdf
+    *
+    * @param data type var name var description
+    * @return data_type desciption
+    */ 
+   public static function GetSetting($setting_name) 
+   { 
+   	$mapper = Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalSetting');
+   	return $mapper->Find($setting_name)->GetSettingValue();
+   }
+}
+?>

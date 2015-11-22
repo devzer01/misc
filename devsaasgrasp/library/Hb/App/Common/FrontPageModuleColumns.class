@@ -1,0 +1,43 @@
+<?php 
+/**
+ * Domain Object for Front Page ModuleColumn
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_FrontPageModuleColumns extends Hb_App_Collection 
+{
+    
+    /**
+     * Enter description here...
+     *
+     * @var Hb_App_Common_FrontPageModuleColumn
+     */
+    protected $frontpage_module_column    = null;
+
+	public function AddItem(Hb_App_Common_FrontPageModuleColumn $frontpage_module_column) 
+	{
+		try {
+			parent::AddItem($frontpage_module_column);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Front page module column Already Exists In Collection For front page module columns ". $frontpage_module_column->GetFrontPageModuleColumnID(),
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	public function GetItem($frontpage_module_column_id)
+	{
+		try {
+			return parent::GetItem($frontpage_module_column_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Module column Not Found For Module columns Collection" . $frontpage_module_column_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+}
+?>

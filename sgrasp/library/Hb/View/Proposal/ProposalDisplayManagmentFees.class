@@ -1,0 +1,36 @@
+<?php
+class Hb_View_Proposal_ProposalDisplayManagmentFees extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_managment_fees.tpl';
+	
+	protected $__handler = 'Smarty';	
+	
+	private $managment = array();
+
+	protected  function LoadData()
+	{			
+		$this->SetData('managment', $this->managment);
+	}
+	
+	public function SetDescription($description)
+	{
+		$this->managment['description'] = $description;
+	}
+	
+	public function SetHours($hours)
+	{
+		$this->managment['hours'] = $hours;
+		$amount = $hours*74;
+		$this->managment['amount']	 = $amount;
+		
+	}
+	
+	public function SetFocusTab($focusTab)
+	{
+		$this->managment['focusTab'] = $focusTab;
+		
+	}	
+	
+}
+
+?>

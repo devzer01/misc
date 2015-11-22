@@ -1,0 +1,45 @@
+<?php
+
+class  Hb_Util_Lang_Date 
+{
+	
+	/**
+	 * Get number of days between 2 dates
+	 * 
+	 * @param string Date 1
+	 * @param string Date 2
+	 * @return int The number of days between Date 1 and Date 2
+	 **/	
+	public static function GetDateDifference($d1, $d2)
+	{
+	     $d1 = (is_string($d1) ? strtotime($d1) : $d1);
+	     $d2 = (is_string($d2) ? strtotime($d2) : $d2);
+	     
+	     $diff_secs = abs($d1 - $d2);       
+	     $days = floor($diff_secs / (3600 * 24));
+	     return $days;
+	}
+	
+	/**
+	 * 
+	 */
+	public static function isValidDate($date_time)
+	{
+	    if($date_time == NULL || $date_time == '0000-00-00 00:00:00') {
+			return false;	
+	    }
+		
+	    $matches = array();
+	    
+		if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $date_time, $matches)) {
+            if (!checkdate($matches[2], $matches[3], $matches[1])) {
+                return false;
+            }
+		}
+		
+		return true;
+	}
+   
+      
+}
+?>

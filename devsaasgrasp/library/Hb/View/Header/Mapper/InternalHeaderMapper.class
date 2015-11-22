@@ -1,0 +1,42 @@
+<?php
+
+class Hb_View_Header_Mapper_InternalHeaderMapper extends Hb_Util_Mapper_Mapper 
+{	
+	private $__module_name = '';
+	
+	private $__module_code = '';
+	
+	private $__action = '';
+	
+	public function __construct($module_name, $module_code, $action)
+	{
+		$this->__module_name = $module_name;
+		$this->__module_code = $module_code;
+		$this->__action      = $action;
+		
+		$this->__primary_key = 1;
+	}
+	
+	protected  function LoadData()
+	{
+		$css_file = 'netmr50.css'; //default
+		
+		if (isset($_SESSION['css_file']) && $_SESSION['css_file'] != '') {
+			$css_file = $_SESSION['css_file']; //default
+		}
+
+		$meta = array(
+			'module_name' => $this->__module_name,
+			'module_code'  => $this->__module_code,
+			'version'             => 1, 
+			'build'                  => 7155,
+			'action'                => $this->__action,
+			'css_file'              => $css_file,
+			'display_menu'   => 1
+		);
+
+
+		$this->MapData('menu', $meta);
+	}
+}
+?>

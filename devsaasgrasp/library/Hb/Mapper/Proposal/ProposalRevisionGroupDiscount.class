@@ -1,0 +1,106 @@
+<?php
+/**
+ * Mapper Class for ProposalRevisionGroupDiscount.class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+class Hb_Mapper_Proposal_ProposalRevisionGroupDiscount extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of proposal_revision_group_discount table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'proposal_revision_group_discount_id';
+	
+	/**
+	 * Variable for proposal_revision_group_discount table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'proposal_revision_group_discount';
+
+	/**
+	 * Build the ProposalRevisionGroupDiscount Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_ProposalRevisionGroupDiscount
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevisionGroupDiscount
+		(
+			$row->proposal_revision_group_discount_id,
+			$row->ad_hoc_discount,
+			$row->contracted_discount,
+			$row->inflator,
+			$row->non_contracted_discount,
+			$row->pricing_item_group_id,
+			$row->promotional_discount,
+			$row->proposal_revision_id		
+		);
+	}
+	
+	/**
+	 * Returns Proposal Revision Group Discount data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('pd' => 'proposal_revision_group_discount'), 
+							array(	'proposal_revision_group_discount_id', 
+										'ad_hoc_discount',
+										'contracted_discount',
+										'inflator',
+										'non_contracted_discount',
+										'pricing_item_group_id',
+										'promotional_discount',
+										'proposal_revision_id'	)
+							);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('pd.proposal_revision_group_discount_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+
+		$row->ad_hoc_discount = $obj->GetAdHocDiscount();
+		$row->contracted_discount = $obj->GetContractedDiscount();
+		$row->inflator = $obj->GetInflator();
+		$row->non_contracted_discount = $obj->GetNonContractedDiscount();
+		$row->pricing_item_group_id = $obj->GetPricingItemGroupId();
+		$row->promotional_discount = $obj->GetPromotionalDiscount();
+		$row->proposal_revision_id	= $obj->GetProposalRevisionId();
+					
+		$row->Save();
+		
+		$obj->SetProposalRevisionGroupDiscountId($row->proposal_revision_group_discount_id); 
+	}
+}
+?>

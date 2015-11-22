@@ -1,0 +1,100 @@
+<?php
+/**
+ * Mapper Class for BillingReportLineAction
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+class Hb_Mapper_Billing_BillingReportLineAction extends Hb_Mapper_Mapper
+{
+	/**
+	 * Variable for the Primary Key Field of Billing Report Line Action table
+	 *
+	 * @var int 
+	 */	
+	protected $primary_key = 'armc_budget_line_item_action_id';
+	
+	/**
+	 * Variable for Billing Report Line Action table
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'armc_budget_line_item_action';
+	
+	/**
+	 * Build the BillingReportLineAction Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReportLineAction
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportLineAction
+		(	$row->armc_budget_line_item_action_id,
+			$row->armc_budget_line_item_id,
+			$row->armc_action_type_id
+		);
+	}
+	
+	/**
+	 * Returns Billing Report Line Action data
+	 * 
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(array('ba' => 'armc_budget_line_item_action'), 
+							array(	'armc_budget_line_item_action_id',
+										'armc_budget_line_item_id',
+										'armc_action_type_id'
+									)
+							);
+		return $select;
+	}
+	
+	/**
+	 * Returns a row by id
+	 * 
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('ba.armc_budget_line_item_action_id = ?', $id);
+				
+		return $this->getRow($select);
+	}
+		
+	/**
+	 * Saving Data
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app object 
+	 * @return object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		// @var $obj Hb_App_Billing_BillingReportLineAction  
+		
+		$data = array(
+			'armc_budget_line_item_id'	=> $obj->GetBillingReportLineId(),
+			'armc_action_type_id'		=> $obj->GetBillingReportActionTypeId());
+
+		$db = Hb_Util_Db_Connection::GetInstance();
+					
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('armc_budget_line_item_action', $data);
+			$obj->SetBillingReportLineActionId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('armc_budget_line_item_action', $data, 'armc_budget_line_item_action_id = ' . $obj->GetId());	
+		}
+	}
+}
+?>

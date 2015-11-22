@@ -1,0 +1,30 @@
+<?php 
+/**
+ * Domain Object for Recruiter Comment Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_Recruiter_CommentTypes extends Hb_App_Collection 
+{
+	/**
+	 * Overwrites the basic AddItem method so that collection uses type id as an identifier for index
+	 *
+	 * @param Hb_App_Account_Recruiter_CommentType $item
+	 */
+	public function AddItem(Hb_App_Account_Recruiter_CommentType $item)
+	{
+		if (isset($this->__collection[$item->GetTypeId()])) 
+		{
+			throw new Hb_Data_ObjectInCollectionException("Item Already Exists In Collection", $item->GetTypeId());
+		}
+		
+		$this->__collection[$item->GetTypeId()] = $item;
+	}
+}
+
+?>

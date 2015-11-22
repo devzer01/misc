@@ -1,0 +1,142 @@
+<?php 
+/**
+ * Domain Object for Study Study Classification
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyStudyClassification extends Hb_App_Object 
+{
+	/**
+	 * Study Study Classification ID
+	 *
+	 * @var int 
+	 */
+	private $study_study_classification_id = null;
+	
+	/**
+	 * Study ID
+	 *
+	 * @var int 
+	 */
+	private $study_id = null;
+	
+	/**
+	 * Study category type id
+	 *
+	 * @var int 
+	 */
+	private $study_category_type_id = null;
+	
+	/**
+	 * status
+	 *
+	 * @var char 
+	 */
+	private $status = null;
+	
+	function __construct($id = null,
+								$study_id = null,
+								$study_category_type_id = null,
+								$status	= null)								
+	{
+		$this->study_study_classification_id	= $id;
+		$this->study_id								= $study_id;
+		$this->study_category_type_id				= $study_category_type_id;
+		$this->status									= $status;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Status for the Study Classificaion
+	 *
+	 * @return char Status
+	 */
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+	
+	/**
+	 * Set the Status for the  Study Classification
+	 * 
+	 * @param Status $status Status
+	 */
+	public function SetStatus($status)
+	{
+		$this->status	= $status;
+		$this->MarkDirty();
+	}
+	
+	
+	/**
+	 * Return the Study Classification ID for the Study Classfication
+	 *
+	 * @return int Study Classification ID
+	 */
+	public function GetStudyClassificationID()
+	{
+		return $this->study_study_classification_id;
+	}
+	
+	/**
+	 * Return the Study ID for the Study Classfication
+	 *
+	 * @return itn Study ID
+	 */
+	public function GetStudyID()
+	{
+		return $this->study_id;
+	}
+	
+	/**
+	 * Return the Study Category Type ID for the Study Classfication
+	 *
+	 * @return int Study Category Type ID
+	 */
+	public function GetStudyCategoryTypeID()
+	{
+		return $this->study_category_type_id;
+	}
+	
+	/**
+	 * Set the Study Classificaiton ID for the  Study Classfication
+	 * 
+	 * @param int $study_classification_id Study Classificaiton ID
+	 */
+	public function SetStudyClassificationID($study_classification_id)
+	{
+		$this->study_study_classification_id	= $study_classification_id;
+		$this->__id										= $study_classification_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study ID for the  Study Classfication
+	 * 
+	 * @param int $study_id Study ID
+	 */
+	public function SetStudyID($study_id)
+	{
+		$this->study_id	= $study_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study Category Type ID for the  Study Classfication
+	 * 
+	 * @param int $study_category_type_id Study Category Type ID
+	 */
+	public function SetStudyCategoryTypeID($study_category_type_id)
+	{
+		$this->study_category_type_id	= $study_category_type_id;
+		$this->MarkDirty();
+	}
+	
+}
+?>

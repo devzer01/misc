@@ -1,0 +1,547 @@
+<?php 
+class acm_ProductManager extends Acm 
+{	
+	private $db_account; 
+
+	function __construct() {
+		$this->db_account = new accountDB();     
+	}
+
+	/**
+	* GetProductSecurityToken()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Fri May 11 16:46:04 LKT 2007
+	*/
+	function GetProductSecurityToken($account_id, $product_id) 
+	{		
+		$this->db_account->SetAccountId($account_id);
+		
+		$account_product = $this->db_account->GetAccountProduct($product_id);	
+		if($account_product) {
+			
+ 			$account_product_att = $this->db_account->GetAccountProductAttr($account_product['account_product_id'], 'ACCOUNT_HIERARCHY_SECURITY_TOKEN');       		
+ 		
+ 			while ($apt = mysql_fetch_assoc($account_product_att)) {	
+ 				if($apt['account_product_attr_name'] == 'ACCOUNT_HIERARCHY_SECURITY_TOKEN') { 
+ 					return $apt['account_product_attr_value'];
+ 				} 				
+ 			}			
+		}
+		return  false;		
+	}
+	
+	/**
+	* SetProductSecurityToken()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Fri May 11 16:57:34 LKT 2007
+	*/
+	function SetProductSecurityToken($account_id, $product_id, $encrypted_token)
+	{
+		$this->db_account->SetAccountId($account_id);
+		$account_product = $this->db_account->GetAccountProduct($product_id);
+		if($account_product) {
+			$account_product_attr_name = 'ACCOUNT_HIERARCHY_SECURITY_TOKEN';
+			//check whether accouint_product-attr is exit for the security token
+			if($this->db_account->isAccountProductAttrSet($account_product['account_product_id'], $account_product_attr_name)){
+				$this->db_account->UpdateAccountProductAttr($account_product['account_product_id'], $account_product_attr_name, $encrypted_token);
+			}else {			
+	 			$this->db_account->SetAccountProductAttr($account_product['account_product_id'], $account_product_attr_name, $encrypted_token);
+			}
+	 		return true;
+		}
+		
+		return false;
+		
+	}
+	
+	
+	/**
+	* GetAuthToken()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Thu May 17 09:18:43 IST 2007
+	*/
+	function GetAuthToken()
+	{		
+		$this->db_account->SetAccountId($this->__o['account_id']);
+			
+//		$product				= $this->db_account->GetAccountProductByAccountProductId($this->__o['account_product_id']);		
+		$account_product	= $this->db_account->GetAccountProduct($this->__o['product_id']);
+		
+		$product_identifier	= $account_product['account_identifier'];
+
+		$p	 	= array(
+			'product_id' 			=> $this->__o['product_id'], 
+			'product_identifier' => $product_identifier
+		);
+		
+		//get the auth token from the connect module	
+		$data = HBRPCCall("cnm", "GetAuthToken", $p);				
+
+		if($data['error_code'] == 0) {	
+			$this->SetProductSecurityToken($this->__o['account_id'], $this->__o['product_id'], $data['data']['auth_code']);		
+		}
+		header("Location:?action=display_product_attr&account_id=". $this->__o['account_id']. "&account_product_id=". $this->__o['account_product_id']);
+		return true;
+
+	}
+	
+	
+	/**
+	* DisplaySelectProduct()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 08:50:05 LKT 2007
+	*/
+	function DisplaySelectProduct()
+	{
+	 	global $smarty;
+	 	
+		$a = new accountDB();
+		$c = new commonDB();
+		$a->SetAccountId($this->__o['account_id']);
+		
+		$account = $a->GetAccountDetail();
+				
+		$account['sub_type'] 	= mysql_fetch_assoc($a->GetAccountSubType()); //NOTE THIS IS A HACK
+		$account['new_account'] = 1;
+		$list['product'] 			= $this->CreateSmartyArray($c->GetProductList(), 'product_id', 'product_description');
+
+		$list['license_level'] 	= $this->CreateSmartyArray($c->GetLicenseLevels(), 'license_level_id', 'license_level_description');
+		$list['pricing_regime'] = $this->CreateSmartyArray($c->GetPricingRegimes(), 'pricing_regime_id', 'pricing_regime_description');
+		if (isset($this->__o['new_account']) && $this->__o['new_account'] == 0) {
+			$account['product'] 		= $this->PrepareSmartyArray($a->GetAccountProducts());
+			$account['new_account'] = 0;
+		} else {
+			
+		}
+
+		$smarty->assign('account', $account);
+		$smarty->assign('list', $list);
+		
+		$this->DisplayHeader("Account Manager", "acm");
+		
+		$smarty->display('app/acm/vw_select_product.tpl');
+		
+		$this->DisplayFooter();
+	
+		return true;
+	}
+
+	
+	/**
+	* SaveAccountProduct()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 09:57:04 LKT 2007
+	*/
+	function SaveAccountProduct()
+	{
+		global $smarty, $encryption;
+		$a = new accountDB();
+		$a->SetAccountId($this->__o['account_id']);
+		
+		$account_type = mysql_fetch_assoc($a->GetAccountType());
+      $account_sub_type = mysql_fetch_assoc($a->GetAccountSubType());
+		$account = $a->GetAccountDetail();
+		
+		$account["account_type"] = $account_type["account_type_description"];
+      $account["account_sub_type"] = $account_type["account_sub_type_description"];
+      $account["url"] = "http://".SERVER_NAME."/app/acm/?e=".$encryption->Encrypt("action=display_account_detail&account_id=".$account["account_id"]);
+      
+      $account_users = array();
+      $account_users_rst = $a->GetAccountUsers();
+      while (($account_user = mysql_fetch_assoc($account_users_rst))) {
+      	$rcpt[$account_user["user_id"]] = $account_user["user_id"];
+      	$account_users[] = $account_user["product_description"] . " - " . $account_user["role_description"] . " : " . $account_user["first_name"]. " " . $account_user["last_name"];
+      }
+      $account["users"] = $account_users;
+		
+		for ($i=0; $i < 5; $i++) {
+		   
+		   //THIS IS A HACK, TO SURVE A SPECIFIC BUSINESS REQUIRMENT, NEED TO BE FIXED WITH A TABLE FOR DEFAULT PRODUCT SETTINGS
+		   if ($this->__o['product_id_'. $i] == PRODUCT_NETMR) {
+		      if ($account_sub_type['account_sub_type_id'] == 2 || $account_sub_type['account_sub_type_id'] == 4) {
+		         $this->__o['pricing_regime_id_'. $i] = PRICING_REGIME_THREE;
+		      }
+		   }
+		   
+			if (isset($this->__o['account_product_id_'.$i])) {
+				
+				$old = $a->GetAccountProduct($this->__o["product_id_".$i]);
+				if (($old["license_level_id"] != $this->__o["license_level_id_".$i]) || 
+				    ($old["pricing_regime_id"] != $this->__o["pricing_regime_id_".$i]) ||
+				    ($old["account_identifier"] != $this->__o["account_identifier_".$i])) {
+
+               //Prepare and send an alert message detailing changes to the account product.
+				   $account["product"] = $old["product_description"];
+				   $attr = array("account_id" => $this->__o["account_id"],
+				                 "product_id" => $this->__o["product_id_".$i],
+				                 "account_type_id" => $account_type["account_type_id"],
+				                 "account_sub_type_id" => $account_sub_type["account_sub_type_id"],
+				                 "license_level_update" => ($old["license_level_id"] != $this->__o["license_level_id_".$i]),
+				                 "old_license_level_id" => $old["license_level_id"],
+				                 "license_level_id" => $this->__o["license_level_id_".$i],
+                             "pricing_regime_update" => ($old["pricing_regime_id"] != $this->__o["pricing_regime_id_".$i]),
+                             "old_pricing_regime_id" => $old["pricing_regime_id"],
+                             "pricing_regime_id" => $this->__o["pricing_regime_id_".$i],
+				                 "account_identifier_update" => ($old["account_identifier"] != $this->__o["account_identifier_".$i]),
+                             "old_account_identifier" => $old["account_identifier"],
+                             "account_identifier" => $this->__o["account_identifier_".$i]);
+               $smarty->assign("account", $account);
+               $smarty->assign("attr", $attr);
+               $body = $smarty->fetch("app/acm/email_account_product_update.tpl");
+               $params = array(
+                  "message_type_id" => MESSAGE_TYPE_ACCOUNT_PRODUCT_UPDATE,
+                  "rcpt" => $rcpt,
+                  "msg" => array(
+                     "subject" => "Account product update for ".$account["account_name"],
+                     "body" => $body
+                  ),
+                  "attr" => $attr);
+               HBRPCCall("com", "QueueMessage", $params);    	
+				}
+				$a->UpdateAccountProduct($this->__o['account_product_id_'.$i], $this->__o['product_id_'.$i], $this->__o['license_level_id_'. $i], $this->__o['pricing_regime_id_'. $i], $this->__o['account_identifier_'.$i]);
+			} elseif ($this->__o['product_id_'.$i] != '') {
+				$a->SetAccountProduct($this->__o['product_id_'.$i], $this->__o['license_level_id_'. $i], $this->__o['pricing_regime_id_'. $i], $this->__o['account_identifier_'.$i]);
+			}
+		}
+		
+		if ($this->__o['new_account'] == 1)
+			header("Location:?action=dispaly_product_attributes&account_id=". $this->__o['account_id']);	
+		else 
+			header("Location: ?action=display_account_detail&account_id=". $this->__o['account_id']);
+		
+		return true;
+	}
+	
+	/**
+	* DisplayProductAttribute()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 10:06:35 LKT 2007
+	*/
+	function DisplayProductAttribute()
+	{
+	 	global $smarty;	
+	
+		$acc = new accountDB();
+		$acc->SetAccountId($this->__o['account_id']);
+		
+		$account 	= $acc->GetAccountDetail();	
+		$account['account_type']     = $this->PrepareSmartyArray($acc->GetAccountType());
+		$account['account_sub_type'] = $this->PrepareSmartyArray($acc->GetAccountSubType());
+		
+		$products 	= $this->PrepareSmartyArray($acc->GetAccountProducts());
+		$common 		= new commonDB();
+		$list['language'] = $this->CreateSmartyArray($common->GetLanguageList(), 'language_code', 'language_description');
+
+		$account_obj = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->__o['account_id']);
+		$account_term = $account_obj->GetAccountTerm();
+		
+		$display['view_credit_hold_status'] = 0;
+		if(($acc->isAccountType(ACCOUNT_TYPE_CUSTOMER) || $acc->isAccountType(ACCOUNT_TYPE_PROSPECT))){
+   		$display['view_credit_hold_status'] = 1;
+		}
+		
+		$smarty->assign('display', $display);
+		$smarty->assign('account_term',$account_term);
+		$smarty->assign('list', $list);
+		$smarty->assign('account', $account);
+		$smarty->assign('products', $products);
+		
+		if ($products[0]['license_level_id'] == 1) 
+		{
+			$product['attr']['LICENSE_END_DATE'] = Hb_App_Account_AccountSetting::GetSetting('ACM_LICENSE_0_EXPIRE_DATE');
+			$smarty->assign('product',$product);
+		}
+		
+		$this->DisplayHeader("Account Manager", "acm");
+		
+		$smarty->display('app/acm/vw_product_attributes.tpl');
+		
+		$this->DisplayFooter();
+	
+		return true;
+	}
+	
+	/**
+	* SaveProductAttributes()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 10:19:20 LKT 2007
+	*/
+	function SaveProductAttributes()
+	{
+	 	$acc = new accountDB();
+		$acc->SetAccountId($this->__o['account_id']);
+		
+		$products = $this->PrepareSmartyArray($acc->GetAccountProducts());
+		
+		//get each product which belong to the current account
+		foreach ($products as $product) {
+			$rs = $acc->GetAccountProductAttrDef();
+			//save each product attribute values 	
+			while ($r = mysql_fetch_assoc($rs)) {
+				
+				if ($this->__o[$r['account_product_attr_name']. '_'. $product['account_product_id']] == 'on') 
+					$this->__o[$r['account_product_attr_name'].'_'. $product['account_product_id']] = 1;					
+	
+				$acc->SetAccountProductAttr($product['account_product_id'], $r['account_product_attr_name'], 
+					$this->__o[$r['account_product_attr_name'].'_'. $product['account_product_id']]);			
+			}		
+		}
+			
+		
+		header("Location:/app/Account/DisplayBasicAccountContact/account_id/". $this->__o['account_id']);
+		exit();
+	}
+	
+	
+	/**
+	* DeleteAccountProduct()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 10:26:00 LKT 2007
+	*/
+	function DeleteAccountProduct()
+	{
+	 	$a = new accountDB();
+		$a->SetAccountID($this->__o['account_id']);
+		
+		$a->DeleteAccountProduct($this->__o['account_product_id']);
+		
+		header("Location: ?action=display_account_detail&account_id=". $this->__o['account_id']);
+	}
+	
+	/**
+	* DisplayProductAttr()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 10:35:03 LKT 2007
+	*/
+	function DisplayProductAttr()
+	{
+		global $smarty;
+		
+		$a = new accountDB();
+		$a->SetAccountId($this->__o['account_id']);
+		$account = $a->GetAccountDetail();
+		$account['account_type']     = PrepareSmartyArray($a->GetAccountType());
+		$account['account_sub_type'] = PrepareSmartyArray($a->GetAccountSubType());
+		
+		$c = new commonDB();
+		$list['language'] = $this->CreateSmartyArray($c->GetLanguageList(), 'language_code', 'language_description');
+		
+		$product['account_product_id'] 	= $this->__o['account_product_id'];
+		$product['attr']  					= $this->CreateSmartyArray($a->GetAccountProductAttr($this->__o['account_product_id']),'account_product_attr_name', 'account_product_attr_value');
+		
+		$account_product 			= $a->GetAccountProductByAccountProductId($this->__o['account_product_id']);	
+		$product['product_id']	= $account_product['product_id'];			
+		$product['auth_token'] 	= $this->GetProductSecurityToken($this->__o['account_id'], $account_product['product_id']);
+
+		$display['view_credit_hold_status'] = 0;
+		if(($a->isAccountType(ACCOUNT_TYPE_CUSTOMER) || $a->isAccountType(ACCOUNT_TYPE_PROSPECT))){
+   		$display['view_credit_hold_status'] = 1;
+   		
+   		$account_obj = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->__o['account_id']);
+			$account_term = $account_obj->GetAccountTerm();
+			
+			$smarty->assign('account_term',$account_term);
+		}
+		
+		$smarty->assign('display', $display);
+		$smarty->assign('account', $account);
+		$smarty->assign('product', $product);
+		$smarty->assign('list', $list);
+		
+		$this->DisplayHeader("Accounts", "acm");
+		
+		$smarty->display('app/acm/vw_product_attr.tpl');
+		
+		$this->DisplayFooter();
+	}
+	
+	private function SendProductAttrUpdateAlert($account_id, $product_id, $account_product_attr_name, $old_value, $new_value)
+	{
+		$send_update = array(PRODUCT_NETMR => array("LICENSE_END_DATE"));
+		if (($new_value != $old_value) && isset($send_update[$product_id]) && in_array($account_product_attr_name, $send_update[$product_id])) {
+   		global $smarty, $encryption;
+   		
+			$a = new accountDB();
+         $a->SetAccountId($account_id);
+
+         $rst = $a->GetAccountProductAttrDef();
+         while(($attr = mysql_fetch_assoc($rst))) {
+         	if ($attr["account_product_attr_name"] == $account_product_attr_name) {
+         		$attribute = array("name" => $attr["account_product_attr_description"], "old_value" => $old_value, "new_value" => $new_value);
+         		break;
+         	}
+         }
+         
+         $users = array();
+         $users_rst = $a->GetAccountUsers();
+         while (($user = mysql_fetch_assoc($users_rst))) {
+            $rcpt[$user["user_id"]] = $user["user_id"];
+            $users[] = $user["product_description"] . " - " . $user["role_description"] . " : " . $user["first_name"] . " " . $user["last_name"];
+         }
+
+         $account = $a->GetAccountDetail();
+         $details = $a->GetAccountProduct($product_id);
+         $account["users"] = $users;
+         $account["product"] = $details;
+         $account["url"] = "http://".SERVER_NAME."/app/acm/?e=".$encryption->Encrypt("action=display_account_detail&account_id=".$account_id);
+         
+         $smarty->assign("account", $account);
+         $smarty->assign("attribute", $attribute);
+         $body = $smarty->fetch("app/acm/email_account_product_attr_update.tpl");
+         
+         $attr = array(
+            "account_id" => $account_id,
+            "product_id" => $product_id,
+            "license_level_id" => $details["license_level_id"],
+            "pricing_regime_id" => $details["pricing_regime_id"],
+            "account_identifier" => $details["account_identifier"],
+            "account_product_attr_name" => $account_product_attr_name,
+            "account_product_attr_value_old" => $old_value,
+            "account_product_attr_value_new" => $new_value);		
+         $params = array(
+            "message_type_id" => MESSAGE_TYPE_ACCOUNT_PRODUCT_ATTR_UPDATE,
+            "rcpt" => $rcpt,
+            "msg" => array(
+               "subject" => $details["product_description"]." ".$attribute["name"]." changed for ".$account["account_name"],
+               "body" => $body),
+            "attr" => $attr);
+            
+         HBRPCCall("com", "QueueMessage", $params);
+		}
+	}
+	
+	/**
+	* SaveProductAttr()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 10:42:56 LKT 2007
+	*/
+	function SaveProductAttr()
+	{
+	 	$a = new accountDB();
+		$a->SetAccountId($this->__o['account_id']);
+		
+		$attr = $this->CreateSmartyArray($a->GetAccountProductAttr($this->__o['account_product_id']), 'account_product_attr_name', 'account_product_attr_value');
+		$product = $a->GetAccountProductByAccountProductId($this->__o["account_product_id"]);
+		$rs = $a->GetAccountProductAttrDef();
+		
+		while ($r = mysql_fetch_assoc($rs)) {
+			
+			if ($this->__o[$r['account_product_attr_name']] == 'on') 
+					$this->__o[$r['account_product_attr_name']] = 1;
+					
+			if (isset($this->__o[$r['account_product_attr_name']]) && isset($attr[$r['account_product_attr_name']])) {
+				$this->SendProductAttrUpdateAlert($this->__o["account_id"], $product["product_id"], $r["account_product_attr_name"], $attr[$r["account_product_attr_name"]], $this->__o[$r["account_product_attr_name"]]);
+				$a->UpdateAccountProductAttr($this->__o['account_product_id'], $r['account_product_attr_name'], $this->__o[$r['account_product_attr_name']]);
+			} elseif(!isset($this->__o[$r['account_product_attr_name']]) && isset($attr[$r['account_product_attr_name']])){
+				$this->__o[$r['account_product_attr_name']] = 0;
+            $this->SendProductAttrUpdateAlert($this->__o["account_id"], $product["product_id"], $r["account_product_attr_name"], $attr[$r["account_product_attr_name"]], $this->__o[$r["account_product_attr_name"]]);
+				$a->UpdateAccountProductAttr($this->__o['account_product_id'], $r['account_product_attr_name'], $this->__o[$r['account_product_attr_name']]);
+			} else {
+				$a->SetAccountProductAttr($this->__o['account_product_id'], $r['account_product_attr_name'], $this->__o[$r['account_product_attr_name']]);
+			}			
+		}
+		
+		header("Location: ?action=display_account_detail&account_id=". $this->__o['account_id']);
+		return true;
+	}
+	
+	
+	/**
+	* GetAccountIdByAccountProductId()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 11:18:20 IST 2007
+	*/
+	function GetAccountIdByAccountProductId($account_identifier)
+	{
+		$a = new accountDB();
+		$account_id = $a->GetAccountByProductAccountIdentifier($account_identifier);
+		
+		if (!$account_id) 
+			return array('error_code' => -1, 'error_description' => 'Not Found', 'reference' => $account_identifier);			
+		
+		return array('error_code' => 0, 'error_description' => 'Sucess', 'account_id' => $account_id);
+		
+	}
+	
+	/**
+	* GetAccountByProductAccount()
+	*
+	* @param 
+	* @param  
+	* @throws 
+	* @return
+	* @access
+	* @since  - Tue May 15 15:28:53 LKT 2007
+	*/
+	function GetAccountByProductAccount($product_id, $account_identifier)
+	{
+	   $a = new accountDB();
+	   $account = $a->GetAccountByProductAccount($product_id, $account_identifier);
+	   if ($account) {
+	      $account['error_code'] = 0;
+	      $account['error_message'] = 'Sucess';
+	      return $account;
+	   } 
+	   
+	   return array('error_code' => 1, 'error_message' => 'No Account With Product');
+	}	
+
+	
+}
+
+?>

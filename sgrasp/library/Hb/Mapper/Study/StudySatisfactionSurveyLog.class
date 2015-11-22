@@ -1,0 +1,188 @@
+<?php 
+/**
+ * Mapper Object for Study Satisfaction Survey Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudySatisfactionSurveyLog extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_satisfaction_survey_log_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_satisfaction_survey_log';
+	
+	
+	/**
+	 * Builds and returns the Study Satisfaction Survey Log domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_timeline_alert table
+	 * @return object An instance of the Study Satisfaction Survey Log domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudySatisfactionSurveyLog($row->study_satisfaction_survey_log_id,
+																			$row->account_id,
+																			$row->account_name,
+																			$row->study_id,
+																			$row->study_name,
+																			$row->pjm_id,
+																			$row->pjm_description,
+																			$row->contact_name,
+																			$row->contact_phone,
+																			$row->contact_email,
+																			$row->contact_address,
+																			$row->ae_login,
+																			$row->ae_name,
+																			$row->ae_email,
+																			$row->am_login,
+																			$row->am_name,
+																			$row->am_email,
+																			$row->fm_login,
+																			$row->fm_email,
+																			$row->fm_name,
+																			$row->cs_login,
+																			$row->cs_name,
+																			$row->cs_email,
+																			$row->cs_title,
+																			$row->country_code,
+																			$row->region,
+																			$row->teritory,
+																			$row->study_type,
+																			$row->study_datasource,
+																			$row->account_tier,
+																			$row->product,
+																			$row->delivery_status,
+																			$row->delivery_date
+																			);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+		$select->from(array('sssl' => $this->table), array('study_satisfaction_survey_log_id',
+																			'study_id',
+																			'study_name',
+																			'pjm_id',
+																			'pjm_description',
+																			'account_id',
+																			'account_name',
+																			'contact_name',
+																			'contact_phone',
+																			'contact_email',
+																			'contact_address',
+																			'ae_login',
+																			'ae_name',
+																			'ae_email',
+																			'am_login',
+																			'am_name',
+																			'am_email',
+																			'fm_login',
+																			'fm_name',
+																			'fm_email',
+																			'cs_login',
+																			'cs_name',
+																			'cs_title',
+																			'cs_email',
+																			'country_code',
+																			'region',
+																			'teritory',
+																			'study_type',
+																			'study_datasource',
+																			'account_tier',
+																			'product',
+																			'delivery_status',
+																			'delivery_date')
+							);
+		return $select;	
+	}
+	
+	/**
+	 * Finds a Study Satisfaction Survey Log by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_satisfaction_survey_log table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sssl.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Satisfaction Survey Log domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudySatisfactionSurveyLog   */
+	 	
+	 	$data  = array(
+	 		'study_id' 				=> $obj->GetStudyId(),
+			'study_name'			=> $obj->GetStudyName(),
+			'pjm_id' 				=> $obj->GetPjmId(),
+			'pjm_description'		=> $obj->GetPjmDescription(),
+			'account_id'			=> $obj->GetAccountId(),
+			'account_name'			=> $obj->GetAccountName(),
+			'contact_name'			=> $obj->GetContactName(),
+			'contact_phone'		=> $obj->GetContactPhone(),
+			'contact_email'		=> $obj->GetContactEmail(),
+			'contact_address'		=> $obj->GetContactAddress(),
+			'ae_login'				=> $obj->GetAELogin(),
+			'ae_name'				=> $obj->GetAEName(),
+			'ae_email'				=> $obj->GetAEEmail(),		
+			'am_login'				=> $obj->GetAMLogin(),
+			'am_name'				=> $obj->GetAEName(),		
+			'am_email'				=> $obj->GetAMEmail(),
+			'fm_login'				=> $obj->GetFMLogin(),
+			'fm_name'				=> $obj->GetFMName(),
+			'fm_email'				=> $obj->GetFMEmail(),
+			'cs_login'				=> $obj->GetCSLogin(),
+			'cs_name'				=> $obj->GetCSName(),	
+			'cs_title'				=> $obj->GetCSTitle(),
+			'cs_email'				=> $obj->GetCSEmail(),
+			'country_code'			=> $obj->GetCountryCode(),
+			'region'					=> $obj->GetRegion(),
+			'teritory'				=> $obj->GetTeritory(),
+			'study_type'			=> $obj->GetStudyType(),
+			'study_datasource'	=> $obj->GetStudyDatasource(),
+			'account_tier'			=> $obj->GetAccountTier(),
+			'product'				=> $obj->GetProduct(),
+			'delivery_status'		=> $obj->GetDeliveryDate(),
+			'delivery_date'		=> $obj->GetDeliveryStatus()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudySatisfactionSurveyLogId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}		
+	}	
+}
+
+?>

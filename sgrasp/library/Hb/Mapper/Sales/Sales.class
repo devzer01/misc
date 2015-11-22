@@ -1,0 +1,96 @@
+<?php 
+/**
+ * Mapper class of Hb_App_Sales_Sales
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Sales
+ */  
+class Hb_Mapper_Sales_Sales extends Hb_Mapper_Mapper  
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Sales_Sales'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'sam_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'sam';
+   
+   /**
+    * Find by id
+    *
+    * @param int $id Sam Id
+    * @return Hb_App_Sales_Sales Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+		$select->where('s.sam_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+   	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+		$select = $db->select();
+		$select->from(array('s' => 'sam'), array('sam_id', 'sam_type_id', 'sam_date', 'amount'));
+	  
+		return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Sales_Sales Returns domain object
+    */ 
+   function doBuildObject($row)
+   { 
+   	return new Hb_App_Sales_Sales($row->sam_id, $row->amount, $row->sam_date, $row->sam_type_id, null);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Sales_Sales
+    */ 
+   function doSave(Hb_App_Object $obj)
+   {
+   	$data = array(
+      'amount'			=> $obj->GetAmount(),
+      'sam_date'		=> $obj->GetSalesDate(),
+      'sam_type_id'	=> $obj->GetSalesTypeId());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('sam', $data);
+			$obj->SetSalesId($db->lastInsertId());
+	  	} else {
+			$db->update('sam', $data, 'sam_id = ' . $obj->GetId());
+	  	}
+   }
+}
+?>

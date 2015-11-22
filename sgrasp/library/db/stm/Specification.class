@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * This class helps to doing database task of study specification module
+ * @author Salika Wijewardana
+ * @copyright Global Market Insite 2007
+ * @package db_stm
+ */
+
+class db_stm_Specification extends db 
+{
+	protected 	function __InsertStudyDataExportFileType($param )
+   {
+   	$table = 'study_data_export_file_type';
+		
+   	$this->__Insert($table, $param);
+   }
+
+   protected function __UpdateStudyDataExportFileType($param = array(), $fields = array())
+   {
+ 		$table = 'study_data_export_file_type';
+		
+ 		if (isset($param['study_data_export_file_type_id'])) 
+ 		{
+			$where = $this->db->quoteInto('study_data_export_file_type_id = ?',$param['study_data_export_file_type_id'] );
+ 		}
+						
+		$this->__Update($table, $fields, $where);		
+		
+   }
+   
+   protected function __UpdateStudyAttr($param = array(), $fields = array())
+   {
+ 		$table = 'study_attr';
+		
+ 		if (isset($param['study_id']))
+ 		{
+			$where = $this->db->quoteInto('study_id = ?',$param['study_id']);
+ 		}
+						
+ 		if (isset($param['study_attr']))
+ 		{
+			$where .= $this->db->quoteInto(' AND study_attr = ?',$param['study_attr'] );
+ 		} 
+ 		 		
+		$this->__Update($table, $fields, $where);		
+		
+   }
+   
+   protected function __InsertStudyAttr($param = array(), $fields = array())
+   {
+ 		$table = 'study_attr';
+		
+ 		if (isset($param['study_id']))
+ 		{
+			$where = $this->db->quoteInto('study_id = ?',$param['study_id']);
+ 		}
+						
+ 		if (isset($param['study_attr']))
+ 		{
+			$where .= $this->db->quoteInto(' AND study_attr = ?',$param['study_attr'] );
+ 		} 
+ 		 		
+		$this->__Insert($table, $fields);		
+		
+   }
+  
+   protected function __SelectStudyDataExportFileType($param = array(), $attr = array())
+   {
+   	$this->SetSelect();
+   	
+   	$this->select->from('study_data_export_file_type');
+   	
+   	if (isset($param['status']) && $param['status'] != '')  	
+   	{
+			$this->select->where('status = ?', $param['status']);
+		}
+		
+		if (isset($param['study_data_export_file_type_id'])) 
+		{
+			$this->select->where('study_data_export_file_type_id = ?', $param['study_data_export_file_type_id']);
+		}
+						
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+			
+		}
+		
+		return $this->db->fetchAssoc($this->select);
+   }
+   
+	protected function __SelectStudyAttr($param = array(), $attr = array())
+	{
+		$this->SetSelect();
+		
+		$this->select->from(array('sa' => 'study_attr'), array('study_value'));
+		
+		if (isset($param['status']) && $param['status'] != '') 
+		{
+			$this->select->where('status = ?', $param['status']);
+		}
+		
+		if (isset($param['study_attr'])) 
+		{
+			$this->select->where('study_attr = ?', $param['study_attr']);
+		}
+	
+		if (isset($param['study_id'])) 
+		{
+			$this->select->where('study_id = ?', $param['study_id']);
+		}
+				
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		
+		return $this->db->fetchAssoc($this->select);
+	}
+	
+   /**
+    * Add export file types into study_data_export_file_type
+    *
+    * @param varchar(50) $study_data_export_file_type_name
+    * @return int
+    */
+	function AddStudyDataExportFileType($study_data_export_file_type_name)
+	{
+		$param['study_data_export_file_type_name'] =	$study_data_export_file_type_name;
+		$param['status']                           =	'A';
+		
+		$this->__InsertStudyDataExportFileType($param);
+		
+		return $this->last_insert_id;
+	}	
+	   
+	/**
+	 * Modify study_data_export_file_type table
+	 *
+	 * @param int $study_data_export_file_type_id
+	 * @param varchar(50) $study_data_export_file_type_name
+	 * @return int
+	 */
+   function ModifyStudyDataExportFileType($study_data_export_file_type_id,$study_data_export_file_type_name)
+	{
+		$param['study_data_export_file_type_id']    = $study_data_export_file_type_id;
+		
+		$fields['study_data_export_file_type_name'] = $study_data_export_file_type_name;
+				
+		$this->__UpdateStudyDataExportFileType($param,$fields);
+		
+		return $this->affected_rows;
+	}   	
+   
+	/**
+	 * Delete study_data_export_file_type table
+	 *
+	 * @param int $study_data_export_file_type_id
+	 * @return int
+	 */
+	function DeleteStudyDataExportFileType($study_data_export_file_type_id)
+	{
+		$param['study_data_export_file_type_id'] = $study_data_export_file_type_id;
+		
+		$fields['status']                        = 'D';
+				
+		$this->__UpdateStudyDataExportFileType($param,$fields);
+		
+		return $this->affected_rows;
+	}
+	
+	/**
+	 * get export file type according to type id
+	 *
+	 * @param int $study_data_export_file_type_id
+	 * @return array()
+	 */
+	function GetStudyDataExportFileTypebyTypeId($study_data_export_file_type_id)
+	{
+		$param['study_data_export_file_type_id'] = $study_data_export_file_type_id;
+   	$param['status']                         = 'A';
+   	
+   	$attr['fetch_row']                       = 1;
+   	
+   	return $this->__SelectStudyDataExportFileType($param,$attr);
+	}
+	
+	/**
+	 * get export file types 
+	 *	 
+	 * @return array()
+	 */
+	function GetStudyDataExportFileType()
+	{
+   	$param['status']   = 'A';
+   	
+   	$attr['fetch_row'] = 0;
+   	
+   	return $this->__SelectStudyDataExportFileType($param,$attr);
+	}
+	
+	/**
+	 * get export file types from attr 
+	 *	 
+	 * @return array()
+	 */
+	function GetStudyAttribute($study_id,$study_attr)
+	{
+   	$param['status']       = 'A';
+   	$param['study_id']     = $study_id;
+   	$param['study_attr']   = $study_attr;
+   	
+   	$attr['fetch_row']     = 1;
+   	
+   	return $this->__SelectStudyAttr($param,$attr);
+	}
+	
+	/**
+	 * Update attributes of study 
+	 *
+	 * @param int $studyId
+	 * @param int $attr_values
+	 * @param string $study_attr
+	 * @return int
+	 */
+	function UpdateStudyAttribute($study_id,$study_attr,$attr_value)
+	{
+		$param['study_id']      = $study_id;
+   	$param['study_attr']    = $study_attr;
+   	$fields['study_value']	= $attr_value;
+   	
+   	
+   	$this->__UpdateStudyAttr($param,$fields);
+   	
+   	return $this->affected_rows;
+	}
+				
+ 	function InsertStudyAttribute($study_id,$study_attr,$attr_value)
+ 	{	
+ 		$fields['study_id']      = $study_id;
+   	$fields['study_attr']    = $study_attr;
+   	$fields['study_value']	= $attr_value;
+   	$this->__InsertStudyAttr($param,$fields);
+   	
+   	return $this->affected_rows;
+ 	}
+}
+?>

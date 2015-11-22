@@ -1,0 +1,121 @@
+<?php 
+/**
+ * Mapper class of AccountAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountAttribute extends Hb_Mapper_Mapper 
+{  
+   /**
+    * Domain object class name
+    *
+    * @var string 
+    */ 
+   protected static $__domain = 'Hb_App_Account_AccountAttribute'; 
+
+   /**
+    * primary key of the table
+    *
+    * @var string 
+    */
+   protected $primary_key = 'account_attr_id';
+   
+   /**
+    * table name
+    *
+    * @var string 
+    */  
+   protected $table = 'account_attr';   
+   
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('aat' => $this->table), array('account_attr_id', 'account_id', 'account_attr_name', 'account_attr_value'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Attribute Id
+    * @return Hb_App_Account_AccountAttribute Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	  $select = $this->GetBaseSelect();	
+	  $select->where('aat.account_attr_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountAttribute Returns domain object
+    */ 
+    protected function doBuildObject($row)
+   { 
+   	  return new Hb_App_Account_AccountAttribute($row->account_attr_id,
+   	  			$row->account_id,
+   	  			$row->account_attr_name,
+   	  			$row->account_attr_value);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountAttribute
+    */ 
+    protected function doSave(Hb_App_Object $obj)
+   {
+   	require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		$user = isset($_SESSION['admin_id']) ?  $_SESSION["admin_id"] : SYSTEM_USER;
+		
+		if (is_null($obj->GetId())) 
+		{
+			try {
+				$query = "INSERT INTO account_attr (account_id, account_attr_name, account_attr_value, created_by, created_date, status ) "
+          			. "VALUES (" . $obj->GetAccountId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "', ". 
+          			$user .", '". date("Y-m-d h:i:s") ."', '" . $obj->GetAudit()->GetStatus()."')";
+			}catch (Hb_App_Common_Exception_AuditNotFoundException $e) {
+				$query = "INSERT INTO account_attr (account_id, account_attr_name, account_attr_value, created_by, created_date ) "
+          			. "VALUES (" . $obj->GetAccountId() . ", '" . $db->escapeString($obj->GetAttributeName()) . "', '" . $db->escapeString($obj->GetAttributeValue()) . "', ". 
+          			$user .", '". date("Y-m-d h:i:s") ."')";
+			}
+          			
+			$db->q($query);
+			
+			$obj->SetAccountAttributeId($db->getLastInsertId());			
+		} 
+		else
+		{
+			$query = "UPDATE account_attr "
+						. "SET account_id = " . $obj->GetAccountId() . ", "
+						. " account_attr_name = '" . $db->escapeString($obj->GetAttributeName()) . "', "
+						. " account_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "', "
+						. " modified_by = ".$user .","
+						. " modified_date = '". date("Y-m-d h:i:s") ."', "
+						. " status = '" . $obj->GetAudit()->GetStatus(). "' "
+						. "WHERE account_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+   }
+} 
+?>

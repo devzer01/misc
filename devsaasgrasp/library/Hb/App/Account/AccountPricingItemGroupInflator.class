@@ -1,0 +1,212 @@
+<?php
+/**
+ * Domain Object for Account Pricing Item Group Inflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+ 
+class Hb_App_Account_AccountPricingItemGroupInflator extends Hb_App_Object
+{
+	/**
+	 * Account pricing item group effective date
+	 *
+	 * @var string
+	 **/	
+	protected $effective_date = null;
+	
+	/**
+	 * Account pricing item group expire date
+	 *
+	 * @var string
+	 **/
+	protected $expire_date = null;
+
+	/**
+	 * Account pricing item group inflator amount
+	 *
+	 * @var double
+	 **/
+	protected $inflator_amount = null;
+
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 **/
+	protected $account_id = null;
+
+	/**
+	 * Account pricing item group inflator Id
+	 *
+	 * @var int
+	 **/
+	protected $account_pricing_item_group_inflator_id = null;
+
+	/**
+	 * Pricing item group Id
+	 *
+	 * @var int
+	 **/
+	protected $pricing_item_group_id = null;
+
+
+	/**
+	 * Create AccountItemGroupInflator Object
+	 *
+	 * @param int $id Account pricing item group inflator Id
+	 * @param int $pricing_item_group_id Pricing item group Id
+	 * @param int $account_id Account Id
+	 * @param int $inflator_amount Inflator amount
+	 * @param int $effective_date Effective date
+	 * @param int $expire_date Expire Date
+	 */
+	function __construct($id = null,
+  							   $pricing_item_group_id = null,
+  							   $account_id = null, 
+  							   $inflator_amount = null,
+  							   $effective_date = null, 
+  							   $expire_date = null )
+	{
+		$this->account_pricing_item_group_inflator_id = $id;
+		$this->pricing_item_group_id = $pricing_item_group_id;
+		$this->account_id = $account_id;
+		$this->inflator_amount = $inflator_amount;
+		$this->effective_date = $effective_date;
+		$this->expire_date = $expire_date;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Effective Date
+ 	* 
+	* @return String The Effective Date
+	**/
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	* Returns the Expire Date
+ 	* 
+	* @return String The Expire Date
+	**/
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	* Returns the Inflator amount
+ 	* 
+	* @return double The Inflator amount
+	**/
+	public function GetInflatorAmount()
+	{
+		return $this->inflator_amount;
+	}
+
+	/**
+	* Returns the Account
+ 	* 
+	* @return int The Account Id
+	**/
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	* Returns the Account pricing item group inflator Id
+ 	* 
+	* @return int The Account pricing item group inflator Id
+	**/
+	public function GetAccountPricingItemGroupInflatorId()
+	{
+		return $this->account_pricing_item_group_inflator_id;
+	}
+
+	/**
+	* Returns the Pricing Item group Id
+ 	* 
+	* @return int The Pricing Item group Id
+	**/
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	/**
+	 * Sets the Effective date
+ 	 * 
+	 * @param string $effective_date Effective date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Expire date
+ 	 * 
+	 * @param string $expire_date Expire date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Inflator amount
+ 	 * 
+	 * @param double $expire_date Inflator amount
+	 */
+	public function SetInflatorAmount($inflator_amount)
+	{
+		$this->inflator_amount = (double) $inflator_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account Id
+ 	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int) $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account pricing item group inflator Id
+ 	 * 
+	 * @param int $account_pricing_item_group_inflator_id Account pricing item group inflator Id
+	 */
+	public function SetAccountPricingItemGroupInflatorId($account_pricing_item_group_inflator_id)
+	{
+		$this->account_pricing_item_group_inflator_id = (int) $account_pricing_item_group_inflator_id;
+		$this->__id = (int) $account_pricing_item_group_inflator_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Pricing item group Id
+ 	 * 
+	 * @param int $pricing_item_group_id Pricing item group Id
+	 */
+	public function SetPricingItemGroupId($pricing_item_group_id)
+	{
+		$this->pricing_item_group_id = (int) $pricing_item_group_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

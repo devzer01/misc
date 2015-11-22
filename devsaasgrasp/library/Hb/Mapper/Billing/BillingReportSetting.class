@@ -1,0 +1,120 @@
+<?php
+/**
+ * Mapper for Billing Report Setting
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Billing_BillingReportSetting extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Billing_BillingReportSetting';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Billing_BillingReportSetting';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "armc_setting_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "armc_setting";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+	
+		return new Hb_App_Billing_BillingReportSetting($row->armc_setting_id,
+																	  $row->armc_setting_name,
+																	  $row->armc_setting_value,
+																	  $row->armc_setting_description);
+											 
+	
+
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('armc_setting', array(
+													'armc_setting_id', 	
+													'armc_setting_name',
+													'armc_setting_value',
+													'armc_setting_description'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Billing Report Setting by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+    	$select->where('armc_setting_name = ?', $id);				
+    	             
+    	return $this->getRow($select);
+
+    	
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+		$data = array(
+					'armc_setting_name' 			=> $obj->GetSettingName(),
+					'armc_setting_value' 		=> $obj->GetSettingValue(),
+					'armc_setting_description' => $obj->GetSettingDescription());
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('armc_setting', $data);
+			$obj->SetSettingId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('armc_setting', $data, 'armc_setting_id = ' . $obj->GetId());
+		} 
+	}
+}
+?>

@@ -1,0 +1,32 @@
+<?php
+/**
+ * An Account Contacts Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ */
+
+class Hb_App_Billing_BillingReportUsers extends Hb_App_Collection 
+{
+	/**
+	 * Billing report id
+	 *
+	 * @var int 
+	 */ 
+	protected $billing_report_id = null;
+	
+	/**
+	 * Add Billing Report User
+	 *
+	 * @param Hb_App_Billing_BillingReportUser $billing_report_user Billing Report User
+	 */ 
+	public function AddItem(Hb_App_Billing_BillingReportUser $billing_report_user)
+	{
+		$this->billing_report_id = $billing_report_user->GetBillingReportID();
+		parent::AddItem($billing_report_user);
+	}
+}
+?>

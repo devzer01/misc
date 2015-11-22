@@ -1,0 +1,126 @@
+<?php 
+/**
+ * Mapper class of BillingReportItem
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */  
+
+class Hb_Mapper_Billing_BillingReportItem extends Hb_Mapper_Mapper
+{
+
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Billing_BillingReportItem';
+	
+  /**
+   * attribute description...
+   *
+   * @var string 
+   */ 
+   protected $__gateway = 'Hb_Db_Billing_BillingReportItem';  
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'armc_budget_line_item_def_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'armc_budget_line_item_def';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Budget line item definition id
+    * @return Hb_App_Billing_BillingReportItem Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  if (Hb_App_ObjectMap::hasObject('Hb_App_Billing_BillingReportItem', $id)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Billing_BillingReportItem', $id);	
+		}
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('ablid.armc_budget_line_item_def_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   } 
+   
+   /**
+    * Save
+    *
+    * @param Hb_App_Object obj 
+    * 
+    */ 
+   protected function doSave(Hb_App_Object $obj) 
+   { 	
+	 $row = null;
+	 
+	 if(is_null($obj->GetId())) 
+	 {	
+		$row = $this->Insert();
+		
+	 } else {
+		
+		$row = $this->Update($obj);
+	 }
+	 
+	 $row->armc_budget_line_item_description 	= $obj->GetBillingReportItemDescription();
+	 $row->atm_gl_account_id 					= $obj->GetGLAccountID();
+	 $row->default_quantity 					= $obj->GetDefaultQuantity();
+	 $row->item_number							= $obj->GetItemNumber();
+	 $row->default_rate							= $obj->GetDefaultRate();
+	
+	 $row->Save();
+		
+	 $obj->SetBillingReportItemID($row->armc_budget_line_item_def_id); 
+	 $obj->markSaved();
+	 
+	 Hb_App_ObjectMap::register($obj);
+   } 
+   
+   /**
+    * Prepare basic select statement
+    *
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('ablid' => 'armc_budget_line_item_def'), array('armc_budget_line_item_def_id', 
+	  'armc_budget_line_item_description', 'atm_gl_account_id', 
+	  'default_quantity', 'default_rate', 'item_number'));
+	  
+	  return $select;
+   }
+   
+  /**
+    * Builds Hb_App_Object object from the provided row member of Hb_Util_Db_Table object
+    *
+    * @param row $row 
+    * @return Hb_App_Object
+    */ 
+   protected function doBuildObject($row) 
+   { 
+      return new Hb_App_Billing_BillingReportItem($row->armc_budget_line_item_def_id, $row->armc_budget_line_item_description, 
+	  null, $row->atm_gl_account_id, $row->default_quantity, 
+	  $row->default_rate, $row->item_number);
+   }  
+}
+?>

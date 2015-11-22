@@ -1,0 +1,252 @@
+<?php
+/**
+ * Domain Object for Panel Discount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_PanelDiscount extends Hb_App_Object
+{
+
+	/**
+	 * Discount Amount
+	 *
+	 * @var double
+	 */
+	protected $discount_amount = null;
+	
+	/**
+	 * Effective Date
+	 *
+	 * @var string
+	 */
+	protected $effective_date = null;
+	
+	/**
+	 * Expire Date
+	 *
+	 * @var string
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * License Level Id
+	 *
+	 * @var int
+	 */
+	protected $license_level_id = null;
+	
+	/**
+	 * Panel Cost Type Id
+	 *
+	 * @var int
+	 */
+	protected $panel_cost_type_id = null;
+	
+	/**
+	 * Panel Discount Id
+	 *
+	 * @var int
+	 */
+	protected $panel_discount_id = null;
+	
+	/**
+	 * Priceing Discount Type Id
+	 *
+	 * @var int
+	 */
+	protected $pricing_discount_type_id = null;
+
+	/**
+	 * Create Proposal Panel Discount object
+	 *
+	 * @param int $id Panel Discount Id
+	 * @param int $panel_cost_type_id Panel Cost Type Id
+	 * @param int $pricing_discount_type_id Pricing Discount Type Id
+	 * @param int $license_level_id License Level Id
+	 * @param double $discount_amount Discount Amount 
+	 * @param string $effective_date Effective Date
+	 * @param string $expire_date Expire Date
+	 */
+	function __construct( 	
+							$id 						= null,
+							$panel_cost_type_id 		= null,
+							$pricing_discount_type_id 	= null,
+							$license_level_id 			= null,
+							$discount_amount 			= null,
+							$effective_date 			= null,
+							$expire_date 				= null
+						)
+	{
+			$this->panel_discount_id        =	$id;
+			$this->panel_cost_type_id		=	$panel_cost_type_id;
+			$this->pricing_discount_type_id =	$pricing_discount_type_id;
+			$this->license_level_id 		=	$license_level_id;
+			$this->discount_amount			=	$discount_amount;
+			$this->effective_date			=	$effective_date;
+			$this->expire_date  			=	$expire_date;
+			
+			parent::__construct($id);
+	}
+	
+	/**
+	 * Returns The Discount Amount
+	 *
+	 * @return double The Discount Amount
+	 */
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+	/**
+	 * Returns The Effective Date
+	 *
+	 * @return string The Effective Date
+	 */
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	 * Returns The Expire Date
+	 *
+	 * @return string
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Returns The License Level Id
+	 *
+	 * @return int The License Level Id
+	 */
+	public function GetLicenseLevelId()
+	{
+		return $this->license_level_id;
+	}
+
+	/**
+	 * Returns The Panel Cost Type Id
+	 *
+	 * @return int The Panel Cost Type Id
+	 */
+	public function GetPanelCostTypeId()
+	{
+		return $this->panel_cost_type_id;
+	}
+
+	/**
+	 * Returns The Panle Discount Id
+	 *
+	 * @return int The Panle Discount Id
+	 */
+	public function GetPanelDiscountId()
+	{
+		return $this->panel_discount_id;
+	}
+
+	/**
+	 * Returns The Pricing Discount Type Id
+	 *
+	 * @return int The Pricing Discount Type Id
+	 */
+	public function GetPricingDiscountTypeId()
+	{
+		return $this->pricing_discount_type_id;
+	}
+
+	/**
+	 * Sets The Discount Amount
+	 * 
+	 * @param double $discount_amount The Discount Amount
+	 */
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = $discount_amount;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Effective Date
+	 * 
+	 * @param string $effective_date The Effective Date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Expire Date
+	 * 
+	 * @param string $expire_date The Expire Date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Licens Level Id
+	 * 
+	 * @param int $license_level_id The Licens Level Id
+	 */
+	public function SetLicenseLevelId($license_level_id)
+	{
+		$this->license_level_id =(int)  $license_level_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Panel Cost Type Id
+	 * 
+	 * @param int $panel_cost_type_id The Panel Cost Type Id
+	 */
+	public function SetPanelCostTypeId($panel_cost_type_id)
+	{
+		$this->panel_cost_type_id = (int) $panel_cost_type_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Panel Discount Id
+	 * 
+	 * @param int $panel_discount_id The Panel Discount Id
+	 */
+	public function SetPanelDiscountId($panel_discount_id)
+	{
+		$this->panel_discount_id = (int) $panel_discount_id;
+		$this->__id = (int) $panel_discount_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Pricing Discount Type Id
+	 * 
+	 * @param int $pricing_discount_type_id The Pricing Discount Type Id
+	 */
+	public function SetPricingDiscountTypeId($pricing_discount_type_id)
+	{
+		$this->pricing_discount_type_id = (int) $pricing_discount_type_id;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,24 @@
+<?php
+class Hb_App_Proposal_Mapper_ProposalContactMapper extends Hb_App_AbstractMapper 
+{
+	protected $__gateway = 'Hb_Db_Proposal_ProposalContact';
+	
+	protected $__domain  = 'Hb_App_Proposal_ProposalContact';
+	
+	public function Load($id)
+	{
+		$obj    = new Hb_App_Proposal_ProposalContact();
+		$table  = new Hb_Db_Proposal_ProposalContact();
+		$info   = $table->info();
+		
+		$row = $table->fetchRow("proposal_id = $id");
+		
+		foreach ($info['cols'] as $field) 
+		{
+			$obj->$field = $row->$field;	
+		}
+		
+		return $obj;
+	}
+}
+?>

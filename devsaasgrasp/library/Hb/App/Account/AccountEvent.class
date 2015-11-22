@@ -1,0 +1,217 @@
+<?php
+
+/**
+ * Domain Object for Account Event
+ * @copyright 2007 Global Market Insite Inc
+ * @package App
+ * @subpackage Account
+ * @author wfernando
+ * @version 1.0
+ * @created 11-Sep-2007 9:06:27 AM
+ */
+class Hb_App_Account_AccountEvent extends Hb_App_Object
+{
+	/**
+	 * Account Event Id
+	 *
+	 * @var int
+	 */
+	protected $account_event_id = null;
+	
+	/**
+	 * Account Event Type Id
+	 *
+	 * @var int
+	 */
+	protected $account_event_type_id = null;
+	
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Comment
+	 *
+	 * @var string
+	 */
+	protected $comment = null;
+	
+	/**
+	 * Remote Address
+	 *
+	 * @var string
+	 */
+	protected $remote_address = null;
+	
+	/**
+	 * User Agent
+	 *
+	 * @var string
+	 */
+	protected $user_agent = null;
+
+	/**
+	 * Create Account Event Object
+	 *
+	 * @param int $id Account Event Id
+	 * @param int $account_id Account Id
+	 * @param int $account_event_type_id Account Event Type Id
+	 * @param string $remote_address Remote Address
+	 * @param string $user_agent User Agent
+	 * @param string $comment Comment
+	 */
+	function __construct(	$id = null,
+							$account_id = null,
+							$account_event_type_id = null,
+							$remote_address = null,
+							$user_agent = null,
+							$comment = null)
+	{
+		$this->account_event_id = $id;
+		$this->account_id = $account_id;
+		$this->account_event_type_id = $account_event_type_id;
+		$this->remote_address = $remote_address;
+		$this->user_agent = $user_agent;
+		$this->comment = $comment;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Account Event Id
+	 *
+	 * @return int The Account Event Id
+	 */
+	public function GetAccountEventId()
+	{
+		return $this->account_event_id;
+	}
+
+	/**
+	 * Returns The Accont Event Type Id
+	 *
+	 * @return int The Accont Event Type Id
+	 */
+	public function GetAccountEventTypeId()
+	{
+		return $this->account_event_type_id;
+	}
+
+	/**
+	 * Returns The Account Id
+	 *
+	 * @return int The Account Id
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Returns The Comment
+	 *
+	 * @return string Comment
+	 */
+	public function GetComment()
+	{
+		return $this->comment;
+	}
+
+	/**
+	 * Returns The Remote Address
+	 *
+	 * @return string The Remote Address
+	 */
+	public function GetRemoteAddress()
+	{
+		return $this->remote_address;
+	}
+
+	/**
+	 * Returns The User Agent
+	 *
+	 * @return string The User Agent
+	 */
+	public function GetUserAgent()
+	{
+		return $this->user_agent;
+	}
+
+	/**
+	 * Sets The Account Event Id
+	 * 
+	 * @param int $account_event_id The Account Event Id
+	 */
+	public function SetAccountEventId($account_event_id)
+	{
+		$this->account_event_id = $account_event_id;
+		$this->__id = $account_event_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Event Type Id
+	 * 
+	 * @param int $account_event_type_id The Account Event Type Id
+	 */
+	public function SetAccountEventTypeId($account_event_type_id)
+	{
+		$this->account_event_type_id = $account_event_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Id
+	 * 
+	 * @param int $account_id The Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Comment
+	 * 
+	 * @param string $comment The Comment
+	 */
+	public function SetComment($comment)
+	{
+		$this->comment = $comment;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Remote Address
+	 * 
+	 * @param string $remote_address The Remote Address
+	 */
+	public function SetRemoteAddress($remote_address)
+	{
+		$this->remote_address = $remote_address;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The User Agent 
+	 * 
+	 * @param string $user_agent The User Agent 
+	 */
+	public function SetUserAgent($user_agent)
+	{
+		$this->user_agent = $user_agent;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

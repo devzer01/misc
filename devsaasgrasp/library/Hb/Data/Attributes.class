@@ -1,0 +1,85 @@
+<?php
+
+abstract class Hb_Data_Attributes implements Iterator
+{
+
+	private $__attributes = array();
+	
+	public function AddAttribute(Hb_Data_Attribute $attribute)
+	{
+		if (isset($this->__attributes[$attribute->GetAttributeName()])) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection", HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+		
+		$this->__attributes[$attribute->GetAttributeName()] = $attribute;
+	}
+
+	/**
+	 * 
+	 *
+	 * @param unknown_type $name
+	 * @return Hb_Data_Attribute
+	 */
+	public function GetAttribute($name)
+	{
+		if (!isset($this->__attributes[$name])) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found", HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+		
+		return $this->__attributes[$name];
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	public function Rewind() 
+	{
+       		reset($this->__attributes);
+   	}
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Current() {
+       return current($this->__attributes);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Key() {
+       return key($this->__attributes);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Next() {
+       return next($this->__attributes);
+   }
+
+   /**
+    * Enter description here...
+    *
+    * @return unknown
+    */
+   public function Valid() {
+       return $this->current() !== false;
+   }
+	
+	function __clone()
+   {
+   	foreach ($this->__attributes as $name => $attr) {
+   		$this->__attributes[$name] = clone $attr;
+   	}
+   }
+   
+}
+?>

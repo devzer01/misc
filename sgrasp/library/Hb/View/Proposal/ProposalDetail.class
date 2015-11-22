@@ -1,0 +1,34 @@
+<?php
+
+class Hb_View_Proposal_ProposalDetail extends Hb_View_View 
+{
+	protected  $__template_name = '';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		$this->SetErrorHandler('pgen');
+		$this->SetMessageHandler('ppm');
+	}
+	
+	public function AddProposal($data)
+	{
+		$this->SetRawData('proposal', $data);
+	}
+	
+	public function AddRevisions($data)
+	{
+		$this->SetRawData('revisions', $data);
+	}
+	
+	public static function factory()
+	{
+		if ($_SESSION['user_type_id'] == USER_TYPE_EXTERNAL) {
+			return new Hb_View_Proposal_ProposalDetailExternal();
+		}
+		
+		return new Hb_View_Proposal_ProposalDetailInternal();
+	}
+}
+?>

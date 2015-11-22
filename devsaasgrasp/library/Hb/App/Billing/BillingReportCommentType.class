@@ -1,0 +1,15 @@
+<?php
+	class Hb_App_Billing_BillingReportCommentType extends Hb_App_Common_Type 
+	{		
+		public function __construct(
+												$id = null,
+												$description = null
+											)
+		{								
+			parent::__construct($id, $description);
+		}
+		
+		
+	}
+	
+?>

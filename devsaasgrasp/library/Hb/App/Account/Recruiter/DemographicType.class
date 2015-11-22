@@ -1,0 +1,126 @@
+<?php
+/**
+ * Domain Object for  Demographic Type
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+class Hb_App_Account_Recruiter_DemographicType extends Hb_App_Object
+{
+	/**
+	 *  Demographic Type Id
+	 *
+	 * @var int
+	 */
+	protected $account_recruiter_demographic_type_id = null;
+
+	/**
+	 *  Demographic Id
+	 *
+	 * @var int
+	 */
+	protected $account_recruiter_demographic_id = null;
+
+	/**
+		 *  Demographic Type Description
+		 *
+		 * @var string
+		 */
+	protected $account_recruiter_demographic_type_description = null;
+
+	/**
+	* Contructor of the  Demographic Type Domain
+	*
+	* @param int $id  Demographic Type Id
+	* @param int $account_recruiter_demographic_id  Demographic Type Id
+	* @param int $account_recruiter_demographic_type_description  Demographic Type Description
+	*/
+	function __construct($id 					  		  								= null,
+								$account_recruiter_demographic_id  					= null,
+								$account_recruiter_demographic_type_description = null
+							   )
+
+	{
+		$this->account_recruiter_demographic_type_id 			= $id;
+		$this->account_recruiter_demographic_id  		 			= $account_recruiter_demographic_id;
+		$this->account_recruiter_demographic_type_description = $account_recruiter_demographic_type_description;
+
+		parent::__construct($id);
+	}
+
+	/**
+	 * Get  Demographic Type Id
+	 *
+	 * @return int $account_recruiter_demographic_type_id  Demographic Type Id
+	 */
+	public function GetRecruiterDemographicTypeId()
+	{
+		return $this->account_recruiter_demographic_type_id;
+	}
+
+	/**
+	 * Get  Demographic Id
+	 *
+	 * @return int $account_recruiter_demographic_id  Demographic id
+	 */
+	public function GetRecruiterDemographicId()
+	{
+		return $this->account_recruiter_demographic_id;
+	}
+
+	/**
+		 * Get  Demographic Type Description
+		 *
+		 * @return int $account_recruiter_demographic_type_description  Demographic Type Description
+		 */
+		public function GetRecruiterDemographicTypeDescription()
+		{
+			return $this->account_recruiter_demographic_type_description;
+		}
+
+
+
+	/**
+	 * Sets the  Demographic Type Id
+	 *
+	 * @param int $account_recruiter_demographic_type_id  Demographic Type Id
+	 */
+	public function SetRecruiterDemographicTypeId($account_recruiter_demographic_type_id)
+	{
+		$this->account_recruiter_demographic_type_id = $account_recruiter_demographic_type_id;
+
+		$this->__id = $account_recruiter_demographic_type_id ;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets  Demographic  Id
+	 *
+	 * @param int $account_recruiter_demographic_id  Demographic Id
+	 */
+	public function SetRecruiterDemographicId($account_recruiter_demographic_id)
+	{
+		$this->account_recruiter_demographic_id = $account_recruiter_demographic_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+		 * Sets  Demographic Type Description
+		 *
+		 * @param string $account_recruiter_demographic_type_description  Demographic Type Description
+		 */
+		public function SetRecruiterDemographicTypeDescription($account_recruiter_demographic_type_description)
+		{
+			$this->account_recruiter_demographic_type_description = $account_recruiter_demographic_type_description;
+
+			$this->MarkDirty();
+	}
+
+}
+?>
+

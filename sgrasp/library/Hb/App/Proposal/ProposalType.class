@@ -1,0 +1,28 @@
+<?php 
+/**
+ * Domain Object for Proposal Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalType extends Hb_App_Common_Type
+{
+	/**
+	 * Create Proposal Type Object
+	 *
+	 * @param int $id Proposal type id
+	 * @param string $description Proposal type description
+	 */
+	 public function __construct($id = null,
+									     $description 	= null
+									    )
+   {  	
+   	parent::__construct($id, $description);	
+   }
+   
+}
+?>

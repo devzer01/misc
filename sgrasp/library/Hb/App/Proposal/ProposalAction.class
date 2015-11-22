@@ -1,0 +1,88 @@
+<?php
+/**
+ * Domain Object for Proposal Action
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAction extends Hb_App_Object
+{
+	/**
+	 * Proposal Action Id 
+	 *
+	 * @var int
+	 **/
+	protected $proposal_action_id = null;
+	
+	/**
+	 * Proposal Action description 
+	 *
+	 * @var String
+	 **/
+	protected $proposal_action_description = null;
+	
+	/**
+	 * Create ProposalAction Object
+	 *
+	 * @param int $id Proposal Action Id
+	 * @param int $proposal_action_description Proposal Action Description 
+	 */
+	function __construct( $id = null,
+						  $proposal_action_description = null 
+						)
+	{
+		$this->proposal_action_id = $id;
+		$this->proposal_action_description = $proposal_action_description;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	* Returns the Proposal Action Id
+ 	* 
+	* @return int The Proposal Action Id
+	**/
+	public function GetProposalActionId()
+	{
+		return $this->proposal_action_id;
+	}
+	
+	/**
+	 * Returns the Proposal Action Description
+ 	 * 
+	 * @return String The Proposal Action Description
+	 **/	
+	public function GetProposalActionDescription()
+	{
+		return $this->proposal_action_description;
+	}
+
+	/**
+	 * Sets the Proposal Action Id 
+ 	 * 
+	 * @param int $proposal_action_id The Proposal Action Id
+	 */
+	public function SetProposalActionId($proposal_action_id)
+	{
+		$this->proposal_action_id = (int) $proposal_action_id;
+		$this->__id = (int) $proposal_action_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Action Description 
+ 	 * 
+	 * @param String $proposal_action_description The Proposal Action Description
+	 */
+	public function SetProposalActionDescription($proposal_action_description)
+	{
+		$this->proposal_action_description = $proposal_action_description;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Standard Package Exception Object
+ *
+ * @package  Util
+ * @subpackage  Config
+ */
+class Hb_Util_Config_Exception extends Hb_Exception
+{
+
+}
+?>

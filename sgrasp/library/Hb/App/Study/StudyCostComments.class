@@ -1,0 +1,81 @@
+<?php 
+/**
+ * Domain Object for Study Cost Comments
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCostComments extends Hb_App_Collection 
+{
+    protected $study_cost_id = null;
+    
+    /**
+     * Enter description here...
+     *
+     * @var Hb_App_Study_StudyCost
+     */
+    protected $study_cost    = null;
+
+	public function AddItem(Hb_App_Study_StudyCostComment $study_cost_comment) 
+	{
+		try {
+			parent::AddItem($study_cost_comment);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Cost Comment Already Exists In Collection For StudyCosts ". $study_cost_comment->study_cost_comment_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	public function GetItem($sudy_cost_comment_id)
+	{
+		try {
+			return parent::GetItem($study_cost_comment_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Cost Comment Not Found For Study Cost Comments Collection" . $study_cost_comment_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddStudyCostComment(Hb_App_Study_StudyCostComment $study_cost_comment)
+	{
+		$this->study_cost_comment		= $study_cost_comment;
+		$this->study_cost_comment_id	= $study_cost_comment->GetStudyCostCommentId();
+	}
+
+	/**
+	 * Enter description here...
+	 *
+	 * @param Hb_App_Study_StudyCost $study_cost
+	 */
+	public function SetStudyCost(Hb_App_Study_StudyCost $study_cost)
+	{
+	    $this->study_cost = $study_cost;
+	    $this->study_cost_id = $study_cost->GetStudyCostId();
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	public function GetStudyCostId()
+	{
+	    if (is_null($this->study_cost_id) && is_null($this->study_cost)) 
+	    {
+	        //TODO add proper exception object
+	        throw new Exception("TODO: ADD EXCETION");    
+	    }
+	    
+	    if (is_null($this->study_cost_id)) {
+	        $this->study_cost_id = $this->study_cost->GetStudyCostId();
+	    }
+	    
+	    return $this->study_cost_id;
+	}
+}
+?>

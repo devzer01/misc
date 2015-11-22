@@ -1,0 +1,101 @@
+<?php 
+/**
+ * Mapper Object for Service
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_Service extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var stinrg 
+	 */
+	protected $primary_key = 'service_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'service';
+	
+	/**
+	 * Builds and returns the Service domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the service table
+	 * @return object An instance of the Service domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_Service($row->service_id,
+													  $row->service_description,
+													  $row->pricing_item_group_id,
+													  $row->sort_order
+													  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('s' => 'service'), array('pricing_item_group_id',
+																	'service_description',
+																	'sort_order',
+																	'service_id')
+						 );
+						 
+		return $select;
+	}
+	
+	/**
+	 * Finds a Service by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the service table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('s.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Service domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Proposal_Service   */
+		 	
+	 	$data  = array(
+			'pricing_item_group_id'	=> $obj->GetPricingItemGroupId(),
+			'service_description'	=> $obj->GetServiceDescription(),
+			'sort_order'				=> $obj->GetSortOrder()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetServiceId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+}
+
+?>

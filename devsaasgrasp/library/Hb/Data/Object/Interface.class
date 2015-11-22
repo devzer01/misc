@@ -1,0 +1,11 @@
+<?php
+
+interface Hb_Data_Object_Interface
+{
+
+	static function getDbInstance();
+	
+	public static function getInstance($id);
+	
+}
+?>

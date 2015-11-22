@@ -1,0 +1,149 @@
+<?php
+/**
+ * Domain Object for Account Merge Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+ 
+class Hb_App_Account_AccountMergeComment extends Hb_App_Object
+{
+	/**
+	 * Account comment type id
+	 *
+	 * @var int
+	 **/
+	protected $account_comment_type_id = null;
+
+	/**
+	 * Account merge comment id
+	 *
+	 * @var int
+	 **/
+	protected $account_merge_comment_id = null;
+
+	/**
+	 * Account merge id
+	 *
+	 * @var int
+	 **/
+	protected $account_merge_id = null;
+
+	/**
+	 * Account merge comment text
+	 *
+	 * @var string
+	 **/
+	protected $comment_text = null;
+
+	/**
+	 * Create AccountMergeComment Object
+	 *
+	 * @param int $id Account merge comment id
+	 * @param int $account_merge_id Account merge id
+	 * @param int $account_comment_type_id Account comment type id
+	 * @param string $comment_text Account merge comment text
+	 */
+	function __construct($id = null,
+  							   $account_merge_id = null,
+  							   $account_comment_type_id = null, 
+  							   $comment_text = null )
+	{
+		$this->account_merge_comment_id = $id;
+		$this->account_merge_id = $account_merge_id;
+		$this->account_comment_type_id = $account_comment_type_id;
+		$this->comment_text = $comment_text;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the The Account comment type id
+ 	* 
+	* @return int The Account comment type id
+	**/
+	public function GetAccountCommentTypeId()
+	{
+		return $this->account_comment_type_id;
+	}
+
+	/**
+	* Returns the The Account merge comment type id
+ 	* 
+	* @return int The Account merge comment type id
+	**/
+	public function GetAccountMergeCommentId()
+	{
+		return $this->account_merge_comment_id;
+	}
+
+	/**
+	* Returns the The Account merge id
+ 	* 
+	* @return int The Account merge id
+	**/
+	public function GetAccountMergeId()
+	{
+		return $this->account_merge_id;
+	}
+
+	/**
+	* Returns the The Account merge comment text
+ 	* 
+	* @return string The Account merge comment text
+	**/
+	public function GetCommentText()
+	{
+		return $this->comment_text;
+	}
+
+	/**
+	 * Sets the Account comment type id
+ 	 * 
+	 * @param int $account_comment_type_id Account comment type id
+	 */
+	public function SetAccountCommentTypeId($account_comment_type_id)
+	{
+		$this->account_comment_type_id = $account_comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account merge comment type id
+ 	 * 
+	 * @param int $account_merge_comment_id Account merge comment type id
+	 */
+	public function SetAccountMergeCommentId($account_merge_comment_id)
+	{
+		$this->account_merge_comment_id = $account_merge_comment_id;
+		$this->__id = (int) $account_merge_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account merge id
+ 	 * 
+	 * @param int $account_merge_id Account merge id
+	 */
+	public function SetAccountMergeId($account_merge_id)
+	{
+		$this->account_merge_id = $account_merge_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Account merge comment text
+ 	 * 
+	 * @param string $comment_text Account merge comment text
+	 */
+	public function SetCommentText($comment_text)
+	{
+		$this->comment_text = $comment_text;
+		$this->MarkDirty();
+	}
+
+}
+?>

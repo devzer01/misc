@@ -1,0 +1,243 @@
+<?php
+/**
+ * Domain Object for Account Pricing Discount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */
+ 
+class Hb_App_Account_AccountPricingDiscount extends Hb_App_Object
+{
+	/**
+	 * Discount amount
+	 *
+	 * @var double
+	 **/
+	protected $discount_amount = null;
+
+	/**
+	 * Account pricing discount effective date
+	 *
+	 * @var string
+	 **/	
+	protected $effective_date = null;
+
+	/**
+	 * Account pricing discount expire date
+	 *
+	 * @var string
+	 **/	
+	protected $expire_date = null;
+
+	/**
+	 * Account Id
+	 *
+	 * @var int
+	 **/	
+	protected $account_id = null;
+
+	/**
+	 * Pricing discount Id
+	 *
+	 * @var int
+	 **/	
+	protected $pricing_discount_id = null;
+
+	/**
+	 * Pricing discount type Id
+	 *
+	 * @var int
+	 **/	
+	protected $pricing_discount_type_id = null;
+
+	/**
+	 * Priving item Id
+	 *
+	 * @var int
+	 **/	
+	protected $pricing_item_id = null;
+
+	/**
+	 * Create AccountPricingDiscount Object
+	 *
+	 * @param int $id Pricing discount Id
+	 * @param int $pricing_item_id Pricing item Id
+	 * @param int $account_id Account Id
+	 * @param int $pricing_discount_type_id Pricing discount type Id
+	 * @param int $discount_amount Discount amount
+	 * @param int $effective_date Effective date
+	 * @param int $expire_date Expire date
+	 */	
+	function __construct($id = null,
+  							  		 $pricing_item_id = null,
+  							   		 $account_id = null, 
+  							   		 $pricing_discount_type_id = null,
+  							   		 $discount_amount = null,
+  							   		 $effective_date = null,
+  							   		 $expire_date = null )
+	{
+		$this->pricing_discount_id = $id;
+		$this->pricing_item_id = $pricing_item_id;
+		$this->account_id = $account_id;
+		$this->pricing_discount_type_id = $pricing_discount_type_id;
+		$this->discount_amount = $discount_amount;
+		$this->effective_date = $effective_date;
+		$this->expire_date = $expire_date;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Discount amount
+ 	* 
+	* @return double Discount amount
+	**/
+	public function GetDiscountAmount()
+	{
+		return $this->discount_amount;
+	}
+
+	/**
+	* Returns the Effective Date
+ 	* 
+	* @return string Effective Date
+	**/
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	* Returns the Expire Date
+ 	* 
+	* @return string Expire Date
+	**/
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	* Returns the Account Id
+ 	* 
+	* @return int Account Id
+	**/
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	* Returns the Pricing discount Id
+ 	* 
+	* @return int Pricing discount Id
+	**/
+	public function GetAccountPricingDiscountId()
+	{
+		return $this->pricing_discount_id;
+	}
+
+	/**
+	* Returns the Pricing discount Type Id
+ 	* 
+	* @return int Pricing discount Type Id
+	**/
+	public function GetPricingDiscountTypeId()
+	{
+		return $this->pricing_discount_type_id;
+	}
+
+	/**
+	* Returns the Pricing Item Id
+ 	* 
+	* @return int Pricing Item Id
+	**/
+	public function GetPricingItemId()
+	{
+		return $this->pricing_item_id;
+	}
+
+	/**
+	 * Sets the Discount Amount
+ 	 * 
+	 * @param double $discount_amount Discount amount
+	 */
+	public function SetDiscountAmount($discount_amount)
+	{
+		$this->discount_amount = (double) $discount_amount;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Effective date
+ 	 * 
+	 * @param string $effective_date Effective date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Expire date
+ 	 * 
+	 * @param string $expire_date Expire date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+		
+	}
+
+	/**
+	 * Sets the Account Id
+ 	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int) $account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Pricing discount Id
+ 	 * 
+	 * @param int $pricing_discount_id Pricing discount Id
+	 */
+	public function SetAccountPricingDiscountId($pricing_discount_id)
+	{
+		$this->pricing_discount_id = (int) $pricing_discount_id;
+		$this->__id = (int) $pricing_discount_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Pricing discount type Id
+ 	 * 
+	 * @param int $pricing_discount_type_id Pricing discount type Id
+	 */
+	public function SetPricingDiscountTypeId($pricing_discount_type_id)
+	{
+		$this->pricing_discount_type_id = (int) $pricing_discount_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Pricing Item Id
+ 	 * 
+	 * @param int $pricing_item_id Pricing Item Id
+	 */
+	public function SetPricingItemId($pricing_item_id)
+	{
+		$this->pricing_item_id = (int) $pricing_item_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

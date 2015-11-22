@@ -1,0 +1,91 @@
+<?php
+/**
+ * Mapper for Study
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @updated 09-Aug-2007 10:58:50 AM
+ */
+class Hb_Mapper_Study_Study extends Hb_Mapper_Mapper
+{
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected $table = 'study';
+	
+	protected $primary_key = 'study_id';
+	
+	/**
+	 * Finds the study by it's study_id
+	 *
+	 * @param int $id Id 
+	 * @return object Instance of a study domain 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+	
+		$select->where('a.study_id = ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_Study($row->study_id ,$row->alert_level_id ,$row->current_estimated_complete_date , 
+			$row->current_revision_number, $row->current_task_functional_group_id, $row->current_task_owner_login, 
+			$row->partner_id, $row->start_date, $row->study_datasource_id, $row->study_invoice_date, 
+			$row->study_name, $row->study_stage_id, $row->study_status_id, $row->study_type_id, $row->timeline_created_date);
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(array('a' =>'study'), 
+			array('study_id', 'partner_id' , 'study_name' , 'start_date', 'study_status_id' , 
+			'alert_level_id', 'current_estimated_complete_date' , 'current_revision_number' , 
+			'current_task_functional_group_id' , 'current_task_owner_login' , 'study_datasource_id' , 
+			'study_invoice_date' , 'study_stage_id' , 'study_status_id' , 'study_type_id', 'timeline_created_date'));
+		
+		return $select;
+	}
+	
+	/**
+	 * Saves a study
+	 *
+	 * @param Hb_App_Object $obj Instance of a HB app study 
+	 */	
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->partner_id 						= $obj->GetPartnerId();
+		$row->study_name						= $obj->GetStudyName();
+		$row->start_date						= $obj->GetStartDate();
+		$row->study_status_id					= $obj->GetStudyStatusId();
+		$row->alert_level_id					= $obj->GetAlertLevelId();
+		$row->current_estimated_complete_date	= $obj->GetCurrentEstimatedCompleteDate();
+		$row->current_revision_number			= $obj->GetCurrentRevisionNumber();
+		$row->current_task_functional_group_id 	= $obj->GetCurrentTaskFunctionalGroupId();
+		$row->current_task_owner_login 			= $obj->GetCurrentTaskOwnerLogin();
+		$row->study_datasource_id 				= $obj->GetStudyDatasourceId();
+		$row->study_invoice_date 				= $obj->GetStudyInvoiceDate();
+		$row->study_stage_id 					= $obj->GetStudyStageId();
+		$row->study_status_id 					= $obj->GetStudyStatusId();
+		$row->timeline_created_date 			= $obj->GetTimelineCreatedDate();
+		$row->study_type_id						= $obj->GetStudyTypeId();
+
+		$row->Save();
+		
+		$obj->SetStudyId($row->study_id);
+		
+	}
+
+}
+?>

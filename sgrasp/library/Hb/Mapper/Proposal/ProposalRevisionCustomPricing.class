@@ -1,0 +1,113 @@
+<?php
+/**
+ * Mapper for Proposal Revision Custom Pricing
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @created 24-Aug-2007 10:50:50 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalRevisionCustomPricing extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionCustomPricing';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalRevisionCustomPricing';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_revision_custom_pricing_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_revision_custom_pricing";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevisionCustomPricing(		
+														$row->proposal_revision_custom_pricing_id,
+														$row->proposal_revision_option_id, 
+														$row->pricing_item_group_id, 
+														$row->amount
+														);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+        $select = $db->select(); 
+          	 	 	 	 	
+		$select->from($this->table, array(
+											'proposal_revision_custom_pricing_id', 	
+											'proposal_revision_option_id', 	
+											'pricing_item_group_id', 	
+											'amount'
+											));
+		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Proposal Revision Custom Pricing by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		if (is_null($obj->GetId())) $row   = $this->Insert($obj); else $row = $this->Update($obj);
+									
+		$row->proposal_revision_option_id  = $obj->GetProposalRevisionOptionId();
+		$row->pricing_item_group_id   	   = $obj->GetProposaPricingItemGroupId();
+		$row->amount    				   = $obj->GetAmount();
+		
+		$row->save();				
+		$obj->SetProposalRevisionCustomPricingId($row->proposal_revision_custom_pricing_id);				
+	}
+	
+}
+?>

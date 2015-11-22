@@ -1,0 +1,103 @@
+<?php 
+/**
+ * Mapper Object for Billing Report Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_Mapper_Billing_BillingReportType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for armc_type
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'armc_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_type';
+	
+	/**
+	 * Builds and returns the Billing Report Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the armc_type table
+	 * @return object An instance of the Billing Report Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportType($row->armc_type_id,
+																  $row->armc_type_prefix,
+																  $row->product_id,
+						 										  $row->armc_type_description
+																 );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('brt' => 'armc_type'), array('armc_type_id',
+																		 'armc_type_prefix',
+																		 'product_id',
+																	  	 'armc_type_description'));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Billing Report Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the armc_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('brt.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the armc_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	$data  = array(
+	 		'armc_type_prefix' 		=> $obj->GetBillingReportTypePrefix(),
+	 		'product_id' 				=> $obj->GetProductId(),
+			'armc_type_description' => $obj->GetTypeDescription()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) 
+	 	{
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}
+	 	else 
+	 	{
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+}
+
+?>

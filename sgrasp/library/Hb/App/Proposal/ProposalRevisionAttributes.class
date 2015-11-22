@@ -1,0 +1,71 @@
+<?php 
+/**
+ * Collection class of Proposal Revision Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_ProposalRevisionAttributes extends Hb_App_Attributes 
+{
+  /**
+   * Proposal Revision Id
+   *
+   * @var int 
+   */ 
+   protected  $proposal_revision_id = null;
+   
+  /**
+   * Proposal Revision domain object
+   *
+   * @var Hb_App_Proposal_ProposalRevision 
+   */ 
+   protected $proposal_revision = null;
+   
+   /**
+	 * Adds attributes into the collection
+	 *
+	 * @param Hb_App_Proposal_ProposalRevisionAttribute $attribute Object of Proposal Revision Attribute
+	 * @throws Hb_Data_ObjectInCollectionException
+	 */ 
+	public function AddAttribute(Hb_App_Proposal_ProposalRevisionAttribute $attribute)
+	{
+		try {
+			parent::AddAttribute($attribute);
+		}  catch (Hb_Data_ObjectInCollectionException $e)  {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Proposal Revision Attribute ". $this->proposal_revision_id, 
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Returns Hb_Data_Attribute object
+	 *
+	 * @param string $name Attribute Name
+	 * @return Hb_Data_Attribute
+	 * @throws Hb_Data_ObjectNotInCollectionException
+	 */ 
+	public function GetAttribute($name) 
+	{
+		try {
+			return parent::GetAttribute($name);
+		} catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Proposal Revision Attribute " . $this->proposal_revision_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Adds Proposal Revision domain object
+	 *
+	 * @param Hb_App_Proposal_ProposalRevision $proposal_revision domain object 
+	 */ 
+	function AddProposalRevision(Hb_App_Proposal_ProposalRevision $proposal_revision) 
+	{ 
+		$this->proposal_revision		= $proposal_revision;
+		$this->proposal_revision_id	= $proposal_revision->GetId();
+	}
+}
+?>

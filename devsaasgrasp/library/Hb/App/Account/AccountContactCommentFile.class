@@ -1,0 +1,125 @@
+<?php
+/**
+ * Domain Object for Account Contact Comment File
+ * @copyright 2007 Global Market Insite Inc
+ * @package App
+ * @subpackage Account
+ * @author wfernando
+ * @version 1.0
+ */
+class Hb_App_Account_AccountContactCommentFile extends Hb_App_Object
+{
+
+	/**
+	 * Account Contact Comment Filed Id
+	 * 
+	 * @var int
+	 */
+	protected $account_contact_comment_file_id = null;
+	
+	/**
+	 * Account Contact Comment Id
+	 * 
+	 * @var int
+	 */
+	protected $account_contact_comment_id = null;
+	
+	/**
+	 * Billing File Object
+	 * 
+	 * @var Hb_App_Common_File
+	 */
+	protected $account_contact_comment_file = null;
+
+	/**
+	 * Creates Account Contact Comment File Object
+	 *
+	 * @param int $id Account Contact Comment Filed Id
+	 * @param int $account_contact_comment_id Account Contact Comment Id
+	 * @param Hb_App_Common_File $account_contact_comment_file Billing File Object
+	 */
+	function __construct($id = null,
+						 $account_contact_comment_id = null,
+						 Hb_App_Common_File $account_contact_comment_file = null)
+	{
+		$this->account_contact_comment_file_id = $id;
+		$this->account_contact_comment_id 		= $account_contact_comment_id;
+		$this->account_contact_comment_file 	= $account_contact_comment_file;
+		
+		if( !is_null($account_contact_comment_file) ) {
+			$this->account_contact_comment_file->RegisterFileOwner("Hb_App_Account_AccountContactCommentFile");
+		}
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Account Contact Comment Filed Id
+	 * 
+	 * @return int The Account Contact Comment Filed Id
+	 */
+	public function GetAccountContactCommentFileId()
+	{
+		return $this->account_contact_comment_file_id;
+	}
+
+	/**
+	 * Returns The Account Contact Comment Id
+	 * 
+	 * @return int The Account Contact Comment Id
+	 */
+	public function GetAccountContactCommentId()
+	{
+		return $this->account_contact_comment_id;
+	}
+
+	/**
+	 * Returns Hb_App_Common_File object
+	 * 
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->account_contact_comment_file;
+	}
+
+	/**
+	 * Sets The Account Contact Comment Filed Id
+	 * 
+	 * @param int $account_contact_comment_file_id  The Account Contact Comment Filed Id
+	 */
+	public function SetAccountContactCommentFileId($account_contact_comment_file_id)
+	{
+		$this->account_contact_comment_file_id = $account_contact_comment_file_id;
+		$this->__id = $account_contact_comment_file_id;
+		
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Account Contact Comment Id
+	 * 
+	 * @param int $account_contact_comment_id The Account Contact Comment Id
+	 */
+	public function SetAccountContactCommentId($account_contact_comment_id)
+	{
+		$this->account_contact_comment_id = $account_contact_comment_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Hb_App_Common_File Instance
+	 * 
+	 * @param Hb_App_Common_File $account_contact_comment_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $account_contact_comment_file)
+	{
+		$this->account_contact_comment_file 		= $account_contact_comment_file;
+		$this->account_contact_comment_file_id 	= $account_contact_comment_file->GetFileId();
+		$this->__id 										= $account_contact_comment_file->GetFileId(); 
+		$this->MarkDirty();
+	}
+}
+?>

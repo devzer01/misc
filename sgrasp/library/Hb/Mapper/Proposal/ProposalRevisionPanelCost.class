@@ -1,0 +1,125 @@
+<?php
+/**
+ * Mapper for Proposal Revision Panel Cost
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @created 24-Aug-2007 10:50:50 AM
+ */
+
+class Hb_Mapper_Proposal_ProposalRevisionPanelCost extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionPanelCost';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_ProposalRevisionPanelCost';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_revision_panel_cost_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_revision_panel_cost";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevisionPanelCost(		
+														$row->proposal_revision_panel_cost_id,
+														$row->panel_cost_type_id, 
+														$row->proposal_revision_id, 
+														$row->inflator,
+														$row->contracted_discount,
+														$row->non_contracted_discount, 
+														$row->promotional_discount, 
+														$row->ad_hoc_discount
+														);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select  Result Set from Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+        $select = $db->select(); 
+          	 	 	 	 	
+		$select->from($this->table, array(
+											'proposal_revision_panel_cost_id', 	
+											'panel_cost_type_id', 	
+											'proposal_revision_id', 	
+											'inflator',
+											'contracted_discount', 	
+											'non_contracted_discount', 	
+											'promotional_discount', 	
+											'ad_hoc_discount'
+											));
+		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Proposal Revision Panel Cost by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object 
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		if (is_null($obj->GetId())) $row   = $this->Insert($obj); else $row = $this->Update($obj);
+									
+		$row->panel_cost_type_id       = $obj->GetPanelCostTypeId();
+		$row->proposal_revision_id     = $obj->GetProposalRevisionId();
+		$row->inflator    		   	   = $obj->GetInflator();
+		$row->contracted_discount  	   = $obj->GetContractedDiscount();
+		$row->non_contracted_discount  = $obj->GetNonContractedDiscount();
+		$row->promotional_discount     = $obj->GetPromotionalDiscount();
+		$row->ad_hoc_discount    	   = $obj->GetAdHocDiscount();
+		
+		$row->save();				
+		$obj->SetProposalRevisionPanelCostId($row->proposal_revision_panel_cost_id);				
+	}
+	
+}
+?>

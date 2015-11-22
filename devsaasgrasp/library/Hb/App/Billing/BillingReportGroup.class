@@ -1,0 +1,118 @@
+<?php
+/**
+ * Domain Object for Billing Report Group
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */
+ 
+class Hb_App_Billing_BillingReportGroup extends Hb_App_Object
+{
+	/**
+	 * Billing report group date
+	 *
+	 * @var string
+	 **/
+	protected $armc_group_date = null;
+	
+	/**
+	 * Billing report group description
+	 *
+	 * @var string
+	 **/	
+	protected $armc_group_description = null;
+	
+	/**
+	 * Billing report group id
+	 *
+	 * @var int
+	 **/	
+	protected $armc_group_id = null;
+
+	/**
+	 * Create BillingReportGroup Object
+	 *
+	 * @param int $id Billing report group id
+	 * @param string $armc_group_description Billing report group description
+	 * @param string $armc_group_date Billing report group date
+	 */
+	function __construct($id = null,
+								$armc_group_description = null,
+  							   $armc_group_date = null)
+	{
+		$this->armc_group_id 			= $id;
+		$this->armc_group_description = $armc_group_description;
+		$this->armc_group_date 			= $armc_group_date;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Billing report group date
+ 	* 
+	* @return string The Billing report group date
+	**/
+	public function GetBillingReportGroupDate()
+	{
+		return $this->armc_group_date;
+	}
+
+	/**
+	* Returns the Billing report group description
+ 	* 
+	* @return string The Billing report group description
+	**/
+	public function GetBillingReportGroupDescription()
+	{
+		return $this->armc_group_description;
+	}
+
+	/**
+	* Returns the Billing report group id
+ 	* 
+	* @return int The Billing report group id
+	**/
+	public function GetBillingReportGroupId()
+	{
+		return $this->armc_group_id;
+	}
+
+	/**
+	 * Sets the Billing report group date
+ 	 * 
+	 * @param string $armc_group_date Billing report group date
+	 */
+	public function SetBillingReportGroupDate($armc_group_date)
+	{
+		$this->armc_group_date = $armc_group_date;
+		$this->MarkDirty();		
+	}
+
+	/**
+	 * Sets the Billing report group description
+ 	 * 
+	 * @param string $armc_group_description Billing report group description
+	 */
+	public function SetBillingReportGroupDescription($armc_group_description)
+	{
+		$this->armc_group_description = $armc_group_description;
+		$this->MarkDirty();		
+	}
+
+	/**
+	 * Sets the Billing report group id
+ 	 * 
+	 * @param int $armc_group_id Billing report group id
+	 */
+	public function SetBillingReportGroupId($armc_group_id)
+	{
+		$this->armc_group_id = $armc_group_id;
+		$this->__id = $armc_group_id;		
+		$this->MarkDirty();		
+	}
+
+}
+?>

@@ -1,0 +1,128 @@
+<?php 
+/**
+ * Domain Object for User Contact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */  
+class Hb_App_User_UserContact extends Hb_App_Object 
+{
+	/**
+	 * User Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $user_contact_id = null;
+
+	/**
+	 * Login
+	 * 
+	 * @var int
+	 */
+	protected $login = null;
+	
+	/**
+	 * Contact Id
+	 * 
+	 * @var int
+	 */
+	protected $contact_id = null;
+		
+	
+  /**
+	* Contructor of the User Contact Domain
+	* 
+	* @param int $id User Contact Id
+	* @param int $login Login
+	* @param int $contact_id Contact Id
+	*/		
+	function __construct($id 	      = null,	
+							   $login      = null,
+							   $contact_id = null)
+	{		 					
+		
+		$this->user_contact_id = $id;
+		$this->login           = $login;
+		$this->contact_id      = $contact_id ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get User Contact Id
+	 *	
+	 * @return int $user_contact_id User Contact Id
+	 */
+	public function GetUserContactId()
+	{
+		return $this->user_contact_id;
+	}
+
+	
+	/**
+	 * Get Login
+	 *	
+	 * @return int $login Login
+	 */
+	public function GetLogin()	
+	{
+		return $this->login;
+	}
+	
+	
+	/**	
+	 * Get Login
+	 *
+	 * @return int $contact_id Contact Id	
+	 */
+	public function GetContactId()
+	{
+		return $this->contact_id;
+	}
+
+	
+	/**
+	 * Sets the User Contact Id
+	 *
+	 * @param int $user_contact_id User Contact Id
+	 */
+	public function SetUserContactId($user_contact_id)
+	{
+		$this->user_contact_id = $user_contact_id;
+
+		$this->__id = $user_contact_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Login
+	 *
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Contact Id
+	 * 
+	 * @param int $contact_id Contact Id
+	 */
+	public function SetContactId($contact_id)
+	{
+		$this->contact_id = $contact_id;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

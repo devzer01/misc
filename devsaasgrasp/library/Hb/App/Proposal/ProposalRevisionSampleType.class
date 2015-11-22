@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * Domain Object for Proposal Revision Sample Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ * 
+ */
+class Hb_App_Proposal_ProposalRevisionSampleType extends Hb_App_Object 
+{
+
+	/**
+	 * Proposal Revision Sample Type Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_revision_sample_type_id = null;
+	
+	/**
+	 * Proposal Revision Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Sample Type Id
+	 *
+	 * @var int
+	 */
+	protected $sample_type_id = null;
+
+	/**
+	 * Creates a Proposal Revision Sample Type Object 
+	 *
+	 * @param int $id
+	 * @param int $proposal_revision_sample_type_id
+	 * @param int $sample_type_id
+	 */
+	public function __construct(
+								$id = null,
+								$proposal_revision_id = null,
+								$sample_type_id = null
+								)
+	{
+		$this->proposal_revision_sample_type_id = $id;
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->sample_type_id = $sample_type_id;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Proposal Revision Sample Type Id
+	 *
+	 * @return int
+	 */
+	public function GetProposalRevisionSampleTypeId()
+	{
+		return $this->proposal_revision_sample_type_id;
+	}
+
+	/**
+	 * Returns Proposal Revision Id 
+	 *
+	 * @return int
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Returns Sample Type
+	 *
+	 * @return int
+	 */
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+
+	/**
+	 * Sets Proposal Revision Sample Type Id
+	 * 
+	 * @param int
+	 */
+	public function SetProposalRevisionSampleTypeId($proposal_revision_sample_type_id)
+	{
+		$this->proposal_revision_sample_type_id = (int) $proposal_revision_sample_type_id;
+		$this->__id = (int) $proposal_revision_sample_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Proposal Revision Id
+	 * 
+	 * @param int 
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = (int) $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Sample Type Id 
+	 * 
+	 * @param int
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = (int) $sample_type_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

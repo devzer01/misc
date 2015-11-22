@@ -1,0 +1,115 @@
+<?php
+/**
+ * Mapper Class for UserFunctionalGroup
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage User
+ */
+
+class Hb_Mapper_User_UserFunctionalGroup extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the User funcional group id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'user_functional_group_id';
+
+	/**
+	 * User funcional group
+	 *
+	 * @var string 
+	 */
+	protected $table = 'user_functional_group';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_User_UserFunctionalGroup';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_User_UserFunctionalGroup';
+	
+	/**
+	 * Build the UserFunctionalGroup Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_User_UserFunctionalGroup
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserFunctionalGroup($row->user_functional_group_id,
+																 $row->login,
+																 $row->functional_group_id,
+															 	 $row->functional_group_owner);
+	}
+	
+	/**
+	 * Get the base data set for UserFunctionalGroup
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('ufg' => 'user_functional_group'), array('user_functional_group_id',
+																						 'login', 
+																						 'functional_group_id', 
+																	    		  		 'functional_group_owner'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given User Functional Group
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('ufg.user_functional_group_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the User functional group
+	 *
+	 * @param Hb_App_Object UserFunctionalGroup
+	 * @return object User functional group
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'login' 							=> $obj->GetLogin(),
+							'functional_group_id' 		=> $obj->GetFunctionalGroupId(),
+							'functional_group_owner' 	=> $obj->GetFunctionalGroupOwner()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetUserFunctionalGroupId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

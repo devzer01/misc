@@ -1,0 +1,136 @@
+<?php
+/**
+ * Mapper Class for StudyTemplateContact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyTemplateContact extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study template contact
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_template_contact_id';
+
+	/**
+	 * Study template contact table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_template_contact';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyTemplateContact';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyTemplateContact';
+	
+	/**
+	 * Build the StudyTemplateContact Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyTemplateContact
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Study_StudyTemplateContact($row->study_template_contact_id,
+																	$row->study_template_id,
+															 		$row->study_contact_type_id,
+															   	$row->contact_id,
+															 		$row->salutation,
+															 		$row->first_name,
+															   	$row->middle_initial,
+															   	$row->last_name,
+															 		$row->phone,
+															 		$row->fax,
+															   	$row->email);
+	}
+	
+	/**
+	 * Get the base data set for StudyTemplateContact
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('stc' => $this->table), array('study_template_contact_id',
+																		  'study_template_id',
+																    	  'study_contact_type_id',  
+																 	 	  'contact_id',
+																    	  'salutation',
+																    	  'first_name',  
+																 	 	  'middle_initial',
+																 	 	  'last_name',
+																    	  'phone',
+																    	  'fax',
+																    	  'email'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study template contact
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('stc.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study template contact
+	 *
+	 * @param Hb_App_Object StudyTemplateContact
+	 * @return object Study template contact
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_template_id'				=> $obj->GetStudyTemplateId(),
+							'study_contact_type_id' 		=> $obj->GetStudyContactTypeId(),
+							'contact_id' 						=> $obj->GetContactId(),
+							'salutation' 						=> $obj->GetSalutation(),
+							'first_name' 						=> $obj->GetFirstName(),
+							'middle_initial' 					=> $obj->GetMiddleInitial(),
+							'last_name' 						=> $obj->GetLastName(),
+							'phone' 								=> $obj->GetPhone(),
+							'fax' 								=> $obj->GetFax(),
+							'email' 								=> $obj->GetEmail()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyTemplateContactId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

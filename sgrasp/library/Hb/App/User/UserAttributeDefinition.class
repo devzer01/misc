@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * User Attribute Definition class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * 
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage User
+ */
+
+class Hb_App_User_UserAttributeDefinition extends Hb_App_Common_AttributeDefinition 
+{
+	/**
+	 * Attribute type
+	 *
+	 * @var string
+	 */
+   protected $attribute_type = null;
+   
+   /**
+    * Build the Hb_App_User_UserAttributeDefinition object
+    *
+    * @param int $user_attribute_definition_id
+    * @param string $user_attribute
+    * @param string $user_attribute_description
+    * @param string $attribute_type
+    */
+	public function __construct(
+											$user_attribute_definition_id = null,
+											$user_attribute = null,
+											$user_attribute_description = null,
+											$attribute_type = null
+										)
+	{
+		parent::__construct(
+									$user_attribute_definition_id, 
+									$user_attribute, 
+									$user_attribute_description
+								);
+								
+		$this->attribute_type = $attribute_type;
+	}
+	
+	/**
+	 * Returns attribute type
+	 *
+	 * @return string
+	 */
+	public function GetAttributeType()
+	{
+		return $this->attribute_type;
+	}
+	
+	/**
+	 * Sets attribute type
+	 *
+	 * @param string $attribute_type
+	 */
+	public function SetAttributeType($attribute_type)
+	{
+		$this->attribute_type = $attribute_type;
+		$this->MarkDirty();
+	}
+	
+}
+?>

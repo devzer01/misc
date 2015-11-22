@@ -1,0 +1,21 @@
+<?php
+require_once ('ReportField.class');
+
+/**
+ * @author nayana
+ * @version 1.0
+ * @created 07-Sep-2007 2:53:29 PM
+ */
+interface Hb_App_Report_ReportDefinitionInterface
+{
+
+	public function GetColumnFields();
+
+	public function GetConditionFields();
+
+	public function GetQuery();
+	
+	public function GetCountQuery();
+
+}
+?>

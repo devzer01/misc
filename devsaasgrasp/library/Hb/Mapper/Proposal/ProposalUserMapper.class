@@ -1,0 +1,6 @@
+<?php
+class Hb_App_Proposal_Mapper_ProposalUserMapper extends Hb_App_AbstractMapper 
+{
+	protected $__gateway = 'Hb_Db_Proposal_ProposalUser';
+}
+?>

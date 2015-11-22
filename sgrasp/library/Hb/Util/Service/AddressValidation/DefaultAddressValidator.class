@@ -1,0 +1,70 @@
+<?php
+/**
+ * Default class for  Address Validation
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Util
+ * @subpackage Service
+ */ 
+
+class Hb_Util_Service_AddressValidation_DefaultAddressValidator implements Hb_Util_Service_AddressValidation_AddressValidationInterface
+{	
+	
+	protected $address = null;
+	
+	/**
+	 * Return true for IsValid()
+	 *
+	 * @return boolean
+	 */
+	public function IsValid()
+	{			
+		return true ;		
+	}
+
+	/**
+	 * Return an empty array for recommended addresses
+	 *
+	 * @return array
+	 */
+	public function GetRecommendedAddresses()
+	{		
+		return array() ;
+	}	
+	
+	/**
+	 * Return Status Code
+	 *
+	 * @return int
+	 */
+	public  function GetStatusCode()
+	{
+		return 1 ;	
+	}
+	
+	/**
+	 * Return Status Description
+	 *
+	 * @return string
+	 */
+	public  function GetStatusDescription()
+	{
+		return 'Address is considered valid'	;
+	}
+	
+	/**
+	 * Set address
+	 *
+	 * @param  $address HB_App_Common_Address
+	 */
+	public function SetAddress($address)
+	{
+		$this->address = $address;
+		
+	}
+	
+	
+}
+?>

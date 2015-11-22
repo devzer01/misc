@@ -1,0 +1,25 @@
+<?php 
+/**
+ * Domain class Common Contact Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App 
+ * @subpackage Common
+ */  
+class Hb_App_Common_CountryAttributeDefinition extends Hb_App_Common_AttributeDefinition
+{ 
+	/**
+	 * Constructor of Domain Class
+	 *
+	 * @param int $id Common Contact Attribute Definition Id
+	 * @param string $attribute_name Contact Attribute Name
+	 * @param string $description Contact Attribute Description
+	 */ 
+	public function __construct($id=null, $attr_name=null, $attr_def_desc=null)
+	{
+		parent::__construct($id, $attr_name, $attr_def_desc);
+	}
+}
+?>

@@ -1,0 +1,75 @@
+<?php
+
+class Hb_Mapper_Common_Contact extends Hb_Mapper_Mapper 
+{
+	protected $primary_key = 'contact_id';
+	
+	protected $table       = 'contact';
+	
+	/**
+	 * retrives a Contact object based on its id
+	 * 
+	 * 
+	 * @return Hb_App_Common_Contact
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('contact_id = ?', $id);
+
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * 
+	 *
+	 * @todo Add mappings for all fields 
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		
+		$data = array('contact_first_name' => $obj->GetFirstName(),
+					     'contact_last_name'  => $obj->GetLastName(),
+					     'contact_type_id' 	  => $obj->GetTypeId(),
+					     'contact_title'		  => $obj->GetTitle(),
+					     'contact_email'   	  => $obj->GetEmail()					     
+					    );
+	
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{ 
+			$db->insert($this->table, $data);
+			$obj->SetContactId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+			
+	}
+	
+	/**
+	 * @todo Add all the fields for the select 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('contact', array('contact_id', 'contact_first_name', 'contact_last_name', 'contact_type_id', 'contact_email', 'contact_title'));
+		
+		return $select;
+	}
+	
+	/**
+	 * @todo add all fields to the build object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Contact($row->contact_id, $row->contact_first_name, '', $row->contact_last_name, $row->contact_email, $row->contact_type_id, $row->contact_title);	
+		
+	}
+}
+?>

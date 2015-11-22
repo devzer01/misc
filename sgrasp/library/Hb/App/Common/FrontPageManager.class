@@ -1,0 +1,156 @@
+<?php 
+/**
+ * Domain Object for Front Page Manager
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_FrontPageManager 
+{
+	/**
+	 * Module
+	 *
+	 * @var int 
+	 */
+	private $module_id = null;
+	
+	/**
+	 * User ID
+	 *
+	 * @var int 
+	 */
+	private $user_id = null;
+	
+	/**
+	 * Default columns
+	 *
+	 * @var array 
+	 */
+	private $defult_columns = array();
+	
+	
+	function __construct($module_id = null, $user_id = null)
+	{
+		$this->module_id	= $module_id;
+		$this->user_id		= $user_id;
+	}
+	
+	/**
+	 * Set the Module ID for the  Front Page Manager
+	 * 
+	 * @param itn $module_id Module ID
+	 */
+	public function SetModule_id($module_id)
+	{
+		$this->module_id	= $module_id;
+	}
+	
+	/**
+	 * Return the Module ID for the domain name
+	 *
+	 * @return int Module ID
+	 */
+	public function GetModule()
+	{
+		return $this->module_id;
+	}
+	/**
+	 * Set the User ID for the  Front Page manager
+	 * 
+	 * @param int $user_id User ID
+	 */
+	public function SetUserID($user_id)
+	{
+		$this->user_id	= $user_id;
+	}
+	
+	private function GetColumns()
+	{
+		return  array('1' => array(
+								      array('id' => PJM_COLUMN_PROJECT_ALERT, 'field'=>'p.alert_level_id',     'title'=>'Project Alert'),
+								      array('id' => PJM_COLUMN_PROJECT_ID, 'field'=>'p.pjm_id',             'title'=>'Project ID'),
+								      array('id' => PJM_COLUMN_PROJECT_NAME, 'field'=>'p.pjm_description',    'title'=>'Project Name'),
+								      array('id' => PJM_COLUMN_ACCOUNT_ID, 'field'=>'account_id',           'title'=>'Account ID'),
+								      array('id' => PJM_COLUMN_ACCOUNT_NAME, 'field'=>'account_name',         'title'=>'Account Name'),
+								      array('id' => PJM_COLUMN_PRIMARY_AM, 'field'=>'am_name',              'title'=>'Primary AM'),
+								      array('id' => PJM_COLUMN_PRIMARY_AE,'field'=>'ae_name',              'title'=>'Primary AE'),
+								      array('id' => PJM_COLUMN_PROJECT_STATUS, 'field'=>'ps.pjm_status_description', 'title'=>'Project Status'),
+								      array('id' => PJM_COLUMN_START_DATE, 'field'=>'p.pjm_start_date',     'title'=>'Start Date'),
+								      array('id' => PJM_COLUMN_END_DATE, 'field'=>'p.pjm_end_date',       'title'=>'End Date'),
+								      array('id' => PJM_COLUMN_TOTAL_STUDIES, 'field'=>'total_elements',       'title'=>'Total Studies'),
+								      array('id' => PJM_COLUMN_STUDY_ALERT, 'field'=>'elements_alert_score', 'title'=>'Study Alert')
+								  ),
+							'2' => array(
+								      array('id' => STM_COLUMN_ALERT,'field'=>'s.alert_level_id',                    'title'=>'Alert'),
+								      array('id' => STM_COLUMN_STUDY_ID,'field'=>'s.study_id',                          'title'=>'Study<br>ID'),
+								      array('id' => STM_COLUMN_STUDY_NAME,'field'=>'s.study_name',                        'title'=>'Study Name'),
+								      array('id' => STM_COLUMN_COUNTRY,'field'=>'country_description',                 'title'=>'Country'),								
+								      array('id' => STM_COLUMN_TYPE,'field'=>'study_type_description',              'title'=>'Type'),
+								      array('id' => STM_COLUMN_ACCOUNT_ID,'field'=>'s.partner_id',                        'title'=>'Acct<br>ID'),
+								      array('id' => STM_COLUMN_ACCOUNT_NAME,'field'=>'company_name',                        'title'=>'Account Name'),
+								      array('id' => STM_COLUMN_ACCOUNT_MANAGER,'field'=>'acct_mgr',                            'title'=>'Account</br>Manager'),
+								      array('id' => STM_COLUMN_ACCOUNT_EXECUTIVE ,'field'=>'acct_exec',                           'title'=>'Account</br>Executive'),
+								      array('id' => STM_COLUMN_TASK_OWNER,'field'=>'task_owner',                          'title'=>'Task</br>Owner'),							
+								      array('id' => STM_COLUMN_STAGE,'field'=>'sstatus.study_status_description',    'title'=>'Stage'),
+								      array('id' => STM_COLUMN_START_DATE,'field'=>'s.start_date',                        'title'=>'Start<br>Date'),
+								      array('id' => STM_COLUMN_ESTIMATE_COMPLETE,'field'=>'s.current_estimated_complete_date',   'title'=>'Estimate<br>Complete'),
+								      array('id' => STM_COLUMN_QUOTA_FILLED,'field'=>'percent_quota_progress',              'title'=>'Quota<br>Filled'),
+								      array('id' => STM_COLUMN_PROJECT_VALUE,'field'=>'project_value',               'title'=>'Project Value')
+   
+						)
+				);									
+		
+	}
+	
+	public function GetModuleHeaders()
+	{
+		//get the whole columns
+		$columns = $this->GetColumns();
+		//get the columns for the module that has set
+		$module_columns =  $columns[$this->module_id];
+		
+		//check whether this user has a front page 
+		$frontpage_module_user = Hb_App_ObjectHelper::GetMapper('Hb_App_Common_FrontPageModuleUser')->FindByUser($this->user_id, $this->module_id);
+		//this user does not has a column configured
+		if(!$frontpage_module_user) {
+			return $module_columns;
+		}
+		
+		$user_columns = explode(':', $frontpage_module_user->GetUserColumnPrefer());
+		
+		//loop module columns to set the new dashboard
+		foreach ($module_columns as $column) {
+			if(in_array($column['id'], $user_columns)) {
+				$new_frontpage[] = $column;
+			}
+		}
+		
+		return $new_frontpage;
+		
+	}
+	
+	public function isColumnSet($id)
+	{ 
+		$module_columns = $this->GetModuleHeaders();
+		
+		foreach ($module_columns as $column) {
+			if(in_array($id, $column)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//Get the Number of columns
+	public function GetNoOfColumns()
+	{
+		return count($this->GetModuleHeaders());
+	}
+}
+
+?>

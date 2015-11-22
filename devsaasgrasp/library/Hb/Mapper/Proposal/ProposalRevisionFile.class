@@ -1,0 +1,122 @@
+<?php
+/**
+ * Mapper Object for Proposal Revision File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalRevisionFile extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain for the Mapper
+	 *
+	 * @var string 
+	 */
+	protected $__domain = 'Hb_App_Proposal_ProposalRevisionFile';
+	
+	/**
+	 * Gateway for the mapper
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevisionFile';
+	
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'proposal_revision_file_id';
+	
+	/**
+	 * Table Name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_revision_file';
+		
+	/**
+	 * Builds and returns the ProposalRevisionFile domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework 
+	 * @return object An instance of the ProposalRevisionFile domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		$file = new Hb_App_Common_File($row->proposal_revision_file_id, 
+				$row->file_type_id, $row->file_name, null, $row->file_size);
+		return new Hb_App_Proposal_ProposalRevisionFile($row->proposal_revision_file_id, 
+				$row->proposal_file_type_id, $row->proposal_revision_id, $file);													
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object for the proposal_revision_file table
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework for the proposal_revision_file table 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(array('prf' => 'proposal_revision_file'), array('proposal_revision_file_id',
+																						  'proposal_revision_id',
+																						  'proposal_file_type_id',
+																						  'file_type_id',
+																						  'file_name',
+																						  'file_size' 
+																						  )
+									 );
+		return $select;		
+	}
+	
+	
+	/**
+	 * Finds a proposal revision File by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row in the proposal_revision_file table.
+	 * @return obj Result row from the Zend_Db framework for the proposal_revision_file table 
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('proposal_revision_file_id = ?', $id);
+		
+		return  $this->getrow($select);
+	}
+	
+	/**
+	 * Saves a dirty ProposalRevisionFile domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the ProposalRevisionFile domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+			'proposal_revision_id'	=> $obj->GetProposalRevisionId(),
+			'proposal_file_type_id' => $obj->GetProposalFileTypeId(),
+			'file_type_id'        	=> $obj->GetFile()->GetFileTypeId(),
+			'file_name'       		=> $obj->GetFile()->GetFileName(),
+			'file_data'       		=> $obj->GetFile()->GetFileData(),
+			'file_size'      			=> $obj->GetFile()->GetFileSize());
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('proposal_revision_file', $data);
+			$obj->SetProposalRevisionFileId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update('proposal_revision_file', $data, 'proposal_revision_file_id = ' . $obj->GetId());	
+		}
+	}
+	
+}
+
+?>

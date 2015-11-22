@@ -1,0 +1,20 @@
+<?php
+
+abstract class Hb_Data_Account_Account
+{
+	public $id = 0;
+
+	public $name = '';
+	
+	
+	private function __construct($id, $name)
+	{
+		$this->id = $id;
+		$this->name = $name;
+	}
+	
+	
+	abstract public static function getInstance($id, $name = '');
+	
+}
+?>

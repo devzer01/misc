@@ -1,0 +1,32 @@
+<?php
+class Hb_View_Proposal_ProposalAddContacts extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/proposal_add_contacts.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	private $value = null;
+	
+	private $contacts = array();
+	
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('value', $this->value);
+		$this->SetData('contacts', $this->contacts);
+	}
+	
+	public function setValue($value)
+	{
+		$this->value = $value;
+	}
+	
+	public function SetCotnact($contact, $key)
+	{
+		$this->contacts[$key] = $contact;
+	}
+	
+	
+}
+
+?>

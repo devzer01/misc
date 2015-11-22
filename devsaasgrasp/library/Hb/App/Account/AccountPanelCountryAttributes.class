@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * Specialized AccountPanelCountryAttribute Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account 
+ */
+
+class Hb_App_Account_AccountPanelCountryAttributes extends Hb_App_Attributes 
+{
+	
+	/**
+	 * Account Panel Country domain
+	 *
+	 * @var Hb_App_Account_AccountPanelCountry
+	 */
+	protected $account_panel_country = null;
+	
+	/**
+	 * Account Panel Country Id
+	 *
+	 * @var int
+	 */
+	protected $account_panel_country_id = null;
+	
+	/**
+	 * Add attribute into the collection
+	 *
+	 * @param Hb_App_Account_AccountPanelCountryAttribute $attribute
+	 * @throws Hb_Data_ObjectInCollectionException
+	 */
+	public function AddAttribute(Hb_App_Account_AccountPanelCountryAttribute $attribute)
+	{
+		try 
+		{
+			parent::AddAttribute($attribute);
+		}
+		catch (Hb_Data_ObjectInCollectionException $e )
+		{
+			throw new Hb_Data_ObjectInCollectionException('Attribute Already Exists In Collection For AccountPanelCountry' . $this->account_panel_country_id, 
+															HB_DATA_EXCEPTION_ATTR_IN_COLLECTION );
+		}
+	}
+	
+	/**
+	 * Returns attribute from collection for a given name
+	 *
+	 * @param string $name
+	 * @return Hb_App_Account_AccountPanelCountryAttribute
+	 * @throws Hb_Data_ObjectNotInCollectionException
+	 */
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		}
+		catch (Hb_Data_ObjectNotInCollectionException $e)
+		{
+			throw new Hb_Data_ObjectNotInCollectionException('Requested Attribute Not Found For AccountPanelCountry ' . $this->account_panel_country_id, 
+																HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	/**
+	 * Add Account Panel Country domain object
+	 *
+	 * @param Hb_App_Account_AccountPanelCountry $account_panel_country
+	 */
+	function AddAccountPanelCountry(Hb_App_Account_AccountPanelCountry $account_panel_country)
+	{
+		$this->account_panel_country = $account_panel_country;
+		$this->account_panel_country_id = $account_panel_country->GetAccountPanelCountryId();
+		
+	}
+}
+?>

@@ -1,0 +1,54 @@
+<?php 
+/**
+ * Domain Object for Study Time Line Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyTimeLineAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Objectt of Study Time Line domain
+	 *
+	 * @var Hb_App_Study_StudyTimeLine 
+	 */
+	protected $study_time_line = null;
+	
+	/**
+	 * Study Time Line Id
+	 *
+	 * @var int 
+	 */
+	protected $study_time_line_id = null;
+	
+	public function AddAttribute(Hb_App_Study_StudyTimeLineAttribute $attribute)
+	{
+		try {
+				parent::AddAttribute($attribute);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Study Time Line ". $this->study_time_line_id,	
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try { 
+			return parent::GetAttribute($name);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Study " . $this->study_time_line_id, 
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddStudyTimeLine(Hb_App_Study_StudyTimeLine $study_time_line)
+	{
+		$this->study_time_line		= $study_time_line;
+		$this->study_time_line_id	= $study_time_line->GetStudyTimeLineId();
+	}
+}
+?>

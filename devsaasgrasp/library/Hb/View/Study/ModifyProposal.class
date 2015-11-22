@@ -1,0 +1,58 @@
+<?php
+class Hb_View_Study_ModifyProposal extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/stm/vw_modify_proposal.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		$this->SetErrorHandler('stm');
+		$this->SetMessageHandler('stm');
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected  function LoadData()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+		
+		$db     = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from(array('s' => 'study'), array('study_id', 'study_name', 'account_id' => 'partner_id'));
+		
+		$select->joinLeft(array('sa_account_name' => 'study_attr'), 
+			"sa_account_name.study_id = s.study_id AND sa_account_name.study_attr = 'ACCOUNT_NAME' ", array("account_name" => "study_value"));
+			
+		$select->joinLeft(array('sa_revision_id' => 'study_attr'), 
+			"sa_revision_id.study_id = s.study_id AND sa_revision_id.study_attr = 'PROPOSAL_REVISION_ID' ", array("proposal_revision_id" => "study_value"));
+			
+		$select->where('s.study_id = ?', $request->study_id);
+		
+		$study = $db->fetchRow($select);
+	
+		$data = HBRPCCall('pgen', 'GetProposalList', array('account_id' => $study->account_id));
+	
+		$proposals = unserialize($data['data']);
+	
+		foreach ($proposals as $proposal) {
+			$prop[$proposal->proposal_revision_id] = $proposal->proposal_id . "." . $proposal->revision ." - ". $proposal->proposal_name;
+		}
+		
+		$s = array(
+			'study_id'     => $study->study_id,
+			'study_name'   => $study->study_name,
+			'account_id'   => $study->account_id,
+			'account_name' => $study->account_name,
+			'revision_id'  => $study->proposal_revision_id
+		);
+		
+		$this->SetData('proposals', $prop);
+		$this->SetData('study', $s);
+	}	
+}
+?>

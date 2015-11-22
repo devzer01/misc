@@ -1,0 +1,157 @@
+<?php
+/**
+ * Domain Object for Study Template File
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyTemplateFile extends Hb_App_Object
+{
+
+	/**
+	 * Study file type id
+	 *
+	 * @var int
+	 **/
+	protected $study_file_type_id = null;
+
+	/**
+	 * Study template file id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_file_id = null;
+	
+	/**
+	 * Study template file
+	 *
+	 * @var Hb_App_Common_File 
+	 */
+	protected $study_template_file = null;	
+	
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_id = null;
+
+	/**
+	 * Create StudyTemplateFile Object
+	 *
+	 * @param int $id Study template file id
+	 * @param int $study_file_type_id Study file type id
+	 * @param int $study_template_id Study template id
+	 * @param Hb_App_Common_File $study_template_file Study template file object
+	
+	 */
+	function __construct($id = null,
+  							   $study_file_type_id = null,
+  							   $study_template_id = null,
+								Hb_App_Common_File $study_template_file	= null	)
+	{
+		$this->study_template_file_id 	= $id;
+		$this->study_file_type_id 			= $study_file_type_id;
+		$this->study_template_id 			= $study_template_id;
+		$this->study_template_file		= $study_template_file;
+		
+		if(!is_null($this->study_template_file))
+			$this->study_template_file->RegisterFileOwner('Hb_App_Study_StudyTemplateFile');		
+
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Study file type id
+ 	* 
+	* @return int  Study file type id
+	**/
+	public function GetStudyFileTypeId()
+	{
+		return $this->study_file_type_id;
+	}
+
+	/**
+	* Returns the Study template file id
+ 	* 
+	* @return int  Study template file id
+	**/
+	public function GetStudyTemplateFileId()
+	{
+		return $this->study_template_file_id;
+	}
+
+	/**
+	* Returns the Study template id
+ 	* 
+	* @return int  Study template id
+	**/
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	 * Return the Study Template File object for the Study Template
+	 *
+	 * @return Hb_App_Common_File Instance of Hb_App_Common_File
+	 */
+	public function GetFile()
+	{
+		return $this->study_template_file;
+	}
+
+	/**
+	* Sets the Study file type id
+ 	* 
+	* @param int $study_file_type_id Study file type id
+	**/
+	public function SetStudyFileTypeId($study_file_type_id)
+	{
+		$this->study_file_type_id = $study_file_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	* Sets the Study template file id
+ 	* 
+	* @param int $study_template_file_id Study template file id
+	**/
+	public function SetStudyTemplateFileId($study_template_file_id)
+	{
+		$this->study_template_file_id = $study_template_file_id;
+		$this->__id = $study_template_file_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	* Sets the Study template id
+ 	* 
+	* @param int $study_template_id Study template id
+	**/
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study Template File for the  Study Template File
+	 * 
+	 * @param Hb_App_Common_File $study_file Instance of Hb_App_Common_File
+	 */
+	public function SetFile(Hb_App_Common_File $study_file)
+	{
+		$this->study_template_file_id	= $study_file->GetFileId();
+		$this->__id							= $study_file->GetFileId();
+		$this->study_template_file		= $study_file;
+		$this->MarkDirty();
+	}	
+
+}
+?>

@@ -1,0 +1,6 @@
+<?php
+class Hb_View_Proposal_ProposalDetailExternal extends Hb_View_Proposal_ProposalDetail 
+{
+	protected  $__template_name = 'app/pgen/ext/vw_detail.tpl';
+}
+?>

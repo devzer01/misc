@@ -1,0 +1,6 @@
+<?php
+class Hb_Db_Proposal_ProposalUser extends Hb_Util_Db_Table
+{
+	protected $_name = 'proposal_user';
+}
+?>

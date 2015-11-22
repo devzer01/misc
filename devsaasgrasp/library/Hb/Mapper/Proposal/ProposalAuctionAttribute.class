@@ -1,0 +1,114 @@
+<?php 
+/**
+ * Mapper Object for Proposal Auction Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalAuctionAttribute extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'proposal_auction_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'proposal_auction_attr';
+	
+	/**
+	 * Builds and returns the Proposal Auction Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the proposal_auction_attr table
+	 * @return object An instance of the Proposal Auction Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalAuctionAttribute($row->proposal_auction_attr_id,
+																			 $row->proposal_auction_id,
+																			 $row->proposal_auction_attr_name,
+																			 $row->proposal_auction_attr_value
+																			);
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('paa' => 'proposal_auction_attr'), array('proposal_auction_attr_id',
+																						 'proposal_auction_id',
+																						 'proposal_auction_attr_name',
+																						 'proposal_auction_attr_value')
+						  																);
+		return $select;
+	}
+	
+	/**
+	 * Finds a Proposal Auction Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the proposal_auction_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('paa.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Proposal Auction Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO proposal_auction_attr 
+							(proposal_auction_id, 
+							 proposal_auction_attr_name, 
+							 proposal_auction_attr_value ) "
+               			. "VALUES ("  . $obj->GetProposalAuctionId() . ", 
+               			 			  '" . $db->escapeString($obj->GetAttributeName()) . "', 
+               			 			  '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetProposalAuctionAttributeId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE proposal_auction_attr "
+						. "SET proposal_auction_id = " . $obj->GetProposalAuctionId() . ", "
+							. " proposal_auction_attr_name = '"  . $db->escapeString($obj->GetAttributeName()) . "', "
+							. " proposal_auction_attr_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+							. "WHERE proposal_auction_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+	
+	}
+}
+
+?>

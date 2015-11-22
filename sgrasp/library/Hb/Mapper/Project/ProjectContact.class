@@ -1,0 +1,140 @@
+<?php
+/**
+ * Project Contact Mapper
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.1
+ * @package Mapper
+ * @subpackage ProjectContact
+ */  
+
+class Hb_Mapper_Project_ProjectContact extends Hb_Mapper_Mapper 
+{ 
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = "Hb_App_Project_ProjectContact";	
+	
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__class = "Hb_Db_Project_ProjectContact";
+	
+	
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "pjm_contact_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "pjm_contact";
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Project_ProjectContact(
+																$row->pjm_contact_id, 
+																$row->email, $row->fax, 
+																$row->first_name, 
+																$row->last_name, 
+																$row->middle_initial, 
+																$row->phone, 
+																$row->pjm_id, 
+																$row->salutation);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+				
+		$select->from('pjm_contact', array(
+														'pjm_contact_id', 
+														'pjm_id', 
+														'pjm_contact_type_id', 	
+														'contact_id', 	
+														'salutation', 	
+														'first_name', 	
+														'middle_initial', 
+														'last_name',
+														'phone',
+														'fax',
+														'email'));
+	
+		return $select;
+	}
+	
+	
+	/**
+	 * Finds a ProjectContact by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */		
+	protected function doFindById($id)
+	{
+		
+		$select = $this->GetBaseSelect();        
+    	$select->where('pjm_contact_id = ?', $id);				
+             
+    	return $this->getRow($select); 				
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */			
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+						
+		$row->pjm_id 					= $obj->GetProjectId();
+		$row->pjm_contact_type_id 	= $obj->GetProjectContactTypeId();	
+		$row->salutation 				= $obj->GetSalutation();	
+		$row->first_name 				= $obj->GetFirstName();	 
+		$row->middle_initial			= $obj->GetMiddleInitial();	 
+		$row->last_name 				= $obj->GetLastName();	
+		$row->phone 					= $obj->GetPhone();	
+		$row->fax 						= $obj->GetFax();	
+		$row->email 					= $obj->GetEmail();	
+		//$row->contact_id				= $obj->GetContact();	
+				
+		$row->Save();	
+		
+		$obj->SetProjectContactId($row->pjm_contact_id); 	
+	}
+	
+	
+	
+	
+	 
+       
+} 
+
+
+
+?>

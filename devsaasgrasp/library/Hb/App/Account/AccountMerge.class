@@ -1,0 +1,179 @@
+<?php 
+/**
+ * Domain class AccountMerge
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountMerge extends Hb_App_Object
+{
+	/**
+	 * Account Merge Id
+	 *
+	 * @var int 
+	 */ 
+	protected $account_merge_id = null;
+	
+	/**
+	 * Master Account Id
+	 *
+	 * @var int 
+	 */ 	
+	protected $master_account_id = null;
+	
+	/**
+	 * Master Account
+	 *
+	 * @var object
+	 */ 	
+	protected $master_account = null;
+	
+	/**
+	 * Slave Account Id
+	 *
+	 * @var int 
+	 */
+	protected $slave_account_id = null;
+	
+	/**
+	 * Slave Account
+	 *
+	 * @var int 
+	 */
+	protected $slave_account = null;
+
+	/**
+	 * Class Constructor
+	 *
+	 * @param int $id Account Merge Id
+	 * @param int $master_account_id Master Account Id
+	 * @param object $master_account Master Account
+	 * @param int $slave_account_id Slave Account Id
+	 * @param object $slave_account Slave Account
+	 */  
+	function __construct($id = null, 
+			$master_account_id = null, 
+			$master_account = null,
+			$slave_account_id = null,
+			$slave_account = null)
+	{
+		$this->account_merge_id 	= $id;
+		$this->master_account_id 	= $master_account_id;
+		$this->master_account 		= $master_account;
+		$this->slave_account_id		= $slave_account_id;
+		$this->slave_account		= $slave_account;
+		
+		parent::__construct($id);
+	}
+
+    /**
+     * Returns Account Merge Id
+     *
+     * @return int Account Merge Id
+     */
+	public function GetAccountMergeId()
+	{
+		return $this->account_merge_id;
+	}
+
+	/**
+	 * Returns Master Account Id
+	 *
+	 * @return int Master Account Id
+	 */ 
+	public function GetMasterAccountId()
+	{
+		return $this->master_account_id;
+	}
+
+	/**
+	 * Returns Master Account
+	 *
+	 * @return Object Master Account
+	 */ 
+	public function GetMasterAccount()
+	{
+		return $this->master_account;
+	}
+	
+	/**
+	 * Returns Slave Account Id
+	 *
+	 * @return int Slave Account Id
+	 */ 
+	public function GetSlaveAccountId()
+	{
+		return $this->slave_account_id;
+	}
+	
+	/**
+	 * Returns Slave Account
+	 *
+	 * @return Object Slave Account
+	 */ 
+	public function GetSlaveAccount()
+	{
+		return $this->slave_account;
+	}
+
+	/**
+	 * Sets Account Merge Id
+	 *
+	 * @param int $account_merge_id Account Merge Id
+	 */ 
+	public function SetAccountMergeId($account_merge_id)
+	{
+		$this->account_merge_id = $account_merge_id;
+		$this->__id				= $account_merge_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Master Account Id
+	 *
+	 * @param int $master_account_id Master Account Id
+	 */ 
+	public function SetMasterAccountId($master_account_id)
+	{
+		$this->master_account_id = $master_account_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Master Account
+	 *
+	 * @param Object $master_account Master Account
+	 */ 
+	public function SetMasterAccount($master_account)
+	{
+		$this->master_account = $master_account;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Slave Account Id
+	 *
+	 * @param int $slave_account_id Slave Account Id
+	 */ 
+	public function SetSlaveAccountId($slave_account_id)
+	{
+		$this->slave_account_id = $slave_account_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Slave Account
+	 *
+	 * @param Object $slave_account Slave Account
+	 */ 
+	public function SetSlaveAccount($slave_account)
+	{
+		$this->slave_account = $slave_account;
+		$this->MarkDirty();
+	}
+}
+?>

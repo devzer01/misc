@@ -1,0 +1,211 @@
+<?php 
+/**
+ * Domain Object for Account Term
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountTerm 
+{
+	/**
+	 * Account object
+	 *
+	 * @var Hb_App_Account_Account 
+	 */
+	protected $account = null;	
+	
+	/**
+	 * Return the Credit Limit for the Account Term
+	 *
+	 * @return string Credit Limit
+	 */
+	public function GetCreditLimit()
+	{		
+		if($this->account->HasAttribute('ACM_CREDIT_LIMIT')) {
+			$attribute =  $this->account->GetAttribute('ACM_CREDIT_LIMIT');
+			
+			return $attribute->GetAttributeValue();
+		}
+		
+		return 0;		
+	}
+	
+	/**
+	 * Return the Status of Ready to be Customer  for the Account Term
+	 *
+	 * @return boolean Status of Ready to be Customer 
+	 */
+	public function isReadyToBeCustomer()
+	{
+		if($this->account->HasAttribute('ACM_READY_TO_BE_CUSTOMER')) {
+			$attribute =  $this->account->GetAttribute('ACM_READY_TO_BE_CUSTOMER');
+			
+			if($attribute->GetAttributeValue()) {
+				return true;
+			}
+		}
+				
+		return false;
+	}
+	
+	/**
+	 * Set the Credit limit amount for the  Account Term
+	 * 
+	 * @param int $credit_limit Credit limit amount
+	 */
+	public function SetCreditLimit($credit_limit, Hb_App_User_User $user)
+	{ 
+		$this->account->SetAttribute('ACM_CREDIT_LIMIT', $credit_limit);
+		$this->account->SetAttribute('ACM_CREDIT_LIMIT_SET_BY', $user->GetLogin());
+	}
+	
+	/**
+	 * Set the status of the Ready to be customer for the  Account Term
+	 *
+	 */
+	public function SetReadyToBeCustomer($user)
+	{
+		$this->account->SetAttribute('ACM_READY_TO_BE_CUSTOMER', true);
+		$this->account->SetAttribute('CREDIT_LIMIT_REVIEW_REQUESTER_ID', $user->GetLogin());		
+	}
+	
+	/**
+	 * Set the Status of the Ready to be customer to false for the Account Term
+	 * 
+	 */
+	public function UnSetReadyToBeCustomer()
+	{
+		$this->account->SetAttribute('ACM_READY_TO_BE_CUSTOMER', false);
+	}
+	
+	/**
+	 * Set the Account object for the  Account Term
+	 * 
+	 * @param Hb_App_Account_Account $account Account object
+	 */
+	public function SetAccount(Hb_App_Account_Account $account)
+	{
+		$this->account = $account;
+	}
+	
+	/**
+	 * Return status of the credit lock for invocing if credit lock set for new invoicing value for the Account Term
+	 *
+	 * @return boolean status of the credit lock for invocing
+	 */
+	public function isInvoicable()
+	{		
+		return $this->isCreditHold('GLOBAL_ACM_INVOICE_HOLD');
+	}
+	
+	/**
+	 * Return status of the credit lock for project if credit lock set for new project for the Account Term
+	 *
+	 * @return boolean status of the credit lock for project
+	 */
+	public function isProjectable()
+	{
+		return $this->isCreditHold('GLOBAL_ACM_PROJECT_HOLD');
+	}
+	
+	/**
+	 * Return status of the credit lock for proposal if credit lock set for new proposal for the Account Term
+	 *
+	 * @return boolean status of the credit lock for proposal
+	 */
+	public function isProposable()
+	{
+		return $this->isCreditHold('GLOBAL_ACM_PROPOSAL_HOLD');
+	}
+	
+	/**
+	 * Return the status of the credit hold attribute 
+	 *
+	 * @param string $attr_name credit hold attribute name
+	 * @return boolean
+	 */
+	protected function isCreditHold($attr_name){
+		if($this->account->HasAttribute($attr_name)) {
+			$attribute = $this->account->GetAttribute($attr_name);
+			
+			if($attribute->GetAttributeValue()){
+				return true;
+			}
+		}
+		
+		return false;	
+	}
+	
+	/**
+	 * Set the Credit holds for the  Account Term
+	 * 
+	 * @param boolean $proposable status of the credit lock for proposal 
+	 * @param boolean $projectable status of the credit lock for project 
+	 * @param boolean $invoicable status of the credit lock for invoice 
+	 */
+	public function SetCreditHold($proposable, $projectable, $invoicable)
+	{
+		$globle_credit_hold = true;
+		
+		if(!$projectable && !$proposable && !$invoicable) {
+			$globle_credit_hold = false;
+		}
+		
+		$credit_hold = array(
+			'GLOBAL_ACM_PROPOSAL_HOLD' => $proposable,
+			'GLOBAL_ACM_PROJECT_HOLD'	=> $projectable,
+			'GLOBAL_ACM_INVOICE_HOLD'	=> $invoicable,
+			'GLOBAL_ACM_CREDIT_HOLD'	=> $globle_credit_hold
+			);		
+		
+		$this->SetCreditHoldAttirbutes($credit_hold);
+	}
+	
+	/**
+	 * Set the Credit Hold Attributes in to the Account Attribute collection 
+	 *
+	 * @param array $credit_holds Credit hold's statuses
+	 */
+	protected function SetCreditHoldAttirbutes($credit_holds)
+	{
+		foreach ($credit_holds as $attr_name => $status) {
+			if(!$status){
+				$status = 0;
+			}								
+			$this->account->SetAttribute($attr_name, $status);
+		}	
+	}	
+	
+	/**
+	 * Return the Account global credit hold status for the Account Term
+	 *
+	 * @return boolean Account global credit hold status
+	 */
+	public function isGlobalCredidHold()
+	{
+		return $this->isCreditHold('GLOBAL_ACM_CREDIT_HOLD');
+	}
+	
+	/**
+	 * Return the Audit instance for the Account Term
+	 *
+	 * @return Hb_App_Common_Audit Audit instance
+	 */
+	public function GetLockedAudit()
+	{ 
+		if($this->isCreditHold('GLOBAL_ACM_CREDIT_HOLD')) {			
+			$attribute 	= $this->account->GetAttribute('GLOBAL_ACM_CREDIT_HOLD');								
+			$audit 		= $attribute->GetAudit();
+
+			return $audit;		
+		}
+		
+		return null;
+	}
+}
+
+?>

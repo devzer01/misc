@@ -1,0 +1,117 @@
+<?php 
+/**
+ * Domain Object for Demographic
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */ 
+class Hb_App_Account_Recruiter_Demographic extends Hb_App_Object 
+{
+	/**
+	 * Demographic Id
+	 * 
+	 * @var int
+	 */
+	protected $account_recruiter_demographic_id = null;
+
+	/**
+	 * Demographic Description
+	 * 
+	 * @var string
+	 */
+	protected $account_recruiter_demographic_description = null;	
+	
+	/**
+	 * Demographic Types Collection
+	 * 
+	 * @var Hb_App_Account_Recruiter_DemographicTypes
+	 */	
+	protected $demographic_types = null;	
+		
+	/**
+	* Contructor of the Demographic Domain
+	* 
+	* @param int $id Demographic Id
+	* @param string $account_recruiter_demographic_description Demographic Description	
+	*/		
+	function __construct(
+								$id 					  		  						 = null,	
+								$account_recruiter_demographic_description = null
+								)								
+								
+	{	
+		$this->account_recruiter_demographic_id 				= $id;
+		$this->account_recruiter_demographic_description  	= $account_recruiter_demographic_description;
+				
+		parent::__construct($id);
+	}	
+	
+	/**
+	 * Get Demographic Id
+	 *	
+	 * @return int $account_recruiter_demographic_id Demographic Id
+	 */
+	public function GetRecruiterDemographicId()
+	{
+		return $this->account_recruiter_demographic_id;
+	}
+	
+	/**
+	 * Get Demographic Description
+	 *	
+	 * @return string $account_recruiter_demographic_description Demographic Description
+	 */
+	public function GetRecruiterDemographicDescription()	
+	{
+		return $this->account_recruiter_demographic_description;
+	}
+	
+	
+	/**
+	 * Sets the Demographic Id
+	 *
+	 * @param int $account_recruiter_demographic_id Demographic Id
+	 */
+	public function SetRecruiterDemographicId($account_recruiter_demographic_id)
+	{
+		$this->account_recruiter_demographic_id = $account_recruiter_demographic_id;
+
+		$this->__id = $account_recruiter_demographic_id ;	
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Demographic Description
+	 *
+	 * @param string $account_recruiter_demographic_description Demographic Description
+	 */
+	public function SetRecruiterDemographicDescription($account_recruiter_demographic_description)
+	{
+		$this->account_recruiter_demographic_description = $account_recruiter_demographic_description;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns the Demographic Types Collection object
+	 * 
+	 * @todo  change mapper to collection mapper
+	 * @return Hb_App_Account_Recruiter_DemographicTypes
+	 */
+	public function GetDemographicTypes()
+	{
+		if (is_null($this->demographic_types)) {
+			$this->demographic_types = Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Recruiter_DemographicTypes')->FindByDemograhpicId($this->account_recruiter_demographic_id);
+		}
+		
+		return $this->demographic_types;
+	}
+	
+}	
+?>
+
+

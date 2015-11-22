@@ -1,0 +1,7 @@
+<?php
+
+abstract class Hb_Data_Object implements Hb_Data_Object_Interface 
+{
+		
+}
+?>

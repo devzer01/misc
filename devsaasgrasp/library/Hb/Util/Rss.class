@@ -1,0 +1,41 @@
+<?php
+
+class Hb_Util_Rss {
+	
+	public $content = '';
+	
+	function __construct() 
+	{
+		
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param int $id
+	 * @return Hb_Util_Rss
+	 */
+	public static function GetInstance($id)
+	{
+		$db = Hb_Db::getInstance();
+		
+		$select = $db->getSelect();
+		
+		$select->from('rss_cache', '*');
+		$select->where('rss_cache_id = ?', $id);
+		
+		$r = $db->FetchAssoc($select);
+		
+		$obj = new Hb_Util_Rss();
+		
+		if (trim($r[$id]['feed_content']) == '') {
+			$r[$id]['feed_content'] = Hb_Util_Rss_Updater::Update($id);
+		}
+		
+		$obj->content = $r[$id]['feed_content'];
+		
+		return $obj;
+	}
+	
+}
+?>

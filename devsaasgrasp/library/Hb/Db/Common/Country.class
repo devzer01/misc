@@ -1,0 +1,7 @@
+<?php
+
+class Hb_Db_Common_Country extends Hb_Util_Db_Table
+{
+	protected $_name = 'country';
+}
+?>

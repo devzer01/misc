@@ -1,0 +1,149 @@
+<?php
+/**
+ * Domain Object for Billing Report Comment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */
+ 
+class Hb_App_Billing_BillingReportComment extends Hb_App_Object
+{
+	/**
+	 * Billing comment id
+	 *
+	 * @var int
+	 **/
+	protected $armc_comment_id = null;
+
+	/**
+	 * Billing comment type id
+	 *
+	 * @var int
+	 **/
+	protected $armc_comment_type_id = null;
+
+	/**
+	 * Billing id
+	 *
+	 * @var int
+	 **/
+	protected $armc_id = null;
+	
+	/**
+	 * Comment
+	 *
+	 * @var string
+	 **/
+	protected $comment = null;
+
+	/**
+	 * Create BillingReportComment Object
+	 *
+	 * @param int $id Billing report comment id
+	 * @param int $armc_id Billing Id
+	 * @param int $armc_comment_type_id Billing comment type id
+	 * @param string $comment Comment
+	 */
+	function __construct($id = null,
+								$armc_id = null,
+								$armc_comment_type_id = null,
+  							   $comment = null )
+	{
+		$this->armc_comment_id 			= $id;
+		$this->armc_id					 	= $armc_id;
+		$this->armc_comment_type_id 	= $armc_comment_type_id;
+		$this->comment 					= $comment;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Billing comment id
+ 	* 
+	* @return int The Billing comment id
+	**/
+	public function GetArmcCommentId()
+	{
+		return $this->armc_comment_id;
+	}
+
+	/**
+	* Returns the Billing comment type id
+ 	* 
+	* @return int The Billing comment type id
+	**/
+	public function GetArmcCommentTypeId()
+	{
+		return $this->armc_comment_type_id;
+	}
+
+	/**
+	* Returns the Billing id
+ 	* 
+	* @return int The Billing id
+	**/
+	public function GetArmcId()
+	{
+		return $this->armc_id;
+	}
+
+	/**
+	* Returns the Comment
+ 	* 
+	* @return int The Comment
+	**/
+	public function GetComment()
+	{
+		return $this->comment;
+	}
+
+	/**
+	 * Sets the Billing report comment id
+ 	 * 
+	 * @param int $armc_comment_id Billing report comment id
+	 */
+	public function SetArmcCommentId($armc_comment_id)
+	{
+		$this->armc_comment_id = $armc_comment_id;
+		$this->__id = $armc_comment_id ;	
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Billing report comment type id
+ 	 * 
+	 * @param int $armc_comment_type_id Billing report comment type id
+	 */
+	public function SetArmcCommentTypeId($armc_comment_type_id)
+	{
+		$this->armc_comment_type_id = $armc_comment_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Billing report id
+ 	 * 
+	 * @param int $armc_id Billing report id
+	 */
+	public function SetArmcId($armc_id)
+	{
+		$this->armc_id = $armc_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Comment
+ 	 * 
+	 * @param string $comment Comment
+	 */
+	public function SetComment($comment)
+	{
+		$this->comment = $comment;
+		$this->MarkDirty();
+	}
+
+}
+?>

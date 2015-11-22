@@ -1,0 +1,47 @@
+<?php
+/**
+ * Mapper Object for Proposal Category Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_Mapper_Proposal_ProposalCategoryTypes extends Hb_Mapper_Proposal_ProposalCategoryType 
+{
+	/**
+	 * Find By Id
+	 * 
+	 * @param $id Proposal Sample Id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('proposal_category_id = ?', $id);		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the collection
+	 *
+	 * @param  $rows
+	 * @return Hb_App_Proposal_ProposalCategoryTypes
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Proposal_ProposalCategoryTypes');
+	}
+	
+	/**
+	 * Do Save 
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

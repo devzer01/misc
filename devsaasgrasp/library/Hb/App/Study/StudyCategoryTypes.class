@@ -1,0 +1,53 @@
+<?php 
+/**
+ * Domain Object for Study Category Types
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCategoryTypes extends Hb_App_Collection 
+{
+	/**
+	 * StudyCategoryType instance
+	 *
+	 * @var HB_App_Study_StudyCategoryType 
+	 */
+	protected $study_category_type = array();	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 */
+	public function AddItem(Hb_App_Study_StudyCategoryType $study_category_type) 
+	{
+		try {
+			
+			parent::AddItem($study_category_type);		
+			
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Category type Already Exists In Collection For Study Category Types ". $study_category_type->study_category_type_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($study_category_type_id)
+	{
+		try {
+			return parent::GetItem($study_category_type_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Category type Not Found For Study Category Types Collection" . $study_category_type_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}		
+}
+?>

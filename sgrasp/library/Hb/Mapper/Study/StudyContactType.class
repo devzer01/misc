@@ -1,0 +1,92 @@
+<?php 
+/**
+ * Mapper Object for Study Contact Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ */ 
+class Hb_Mapper_Study_StudyContactType extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_contact_type_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_contact_type';
+	
+	
+	/**
+	 * Builds and returns the Study Contact Type domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_contact_type table
+	 * @return object An instance of the Study Contact Type domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyContactType($row->study_contact_type_id,$row->study_contact_type_description);	
+	} 
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select result set from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('sct' => 'study_contact_type'), array('study_contact_type_id',
+																				    'study_contact_type_description')
+						 );
+	 	
+	 	return $select;
+	}
+	
+	
+	/**
+	 * Finds a Study Contact Type by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_contact_type table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('sct.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the study_contact_type domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyContactType   */
+		 	
+	 	$data  = array('study_contact_type_description' => $obj->GetTypeDescription());
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {
+	 		$db->insert($this->table, $data);
+	 		$obj->SetTypeId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}	
+}
+?>

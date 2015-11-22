@@ -1,0 +1,45 @@
+<?php
+
+include_once 'Zend/Controller/Plugin/Abstract.php';
+include_once 'class/Hb/Util/Security.class';
+/**
+ * Standard Security Plugin for Controller
+ *
+ */
+
+class Hb_Util_Control_Security extends Zend_Controller_Plugin_Abstract { 
+	
+	public function routeStartup() 
+	{ 
+		if (!Hb_Util_Security::isUserAuthenticated()) {
+			$this->getResponse()->setRedirect("/?invalid_login");
+		}
+	} 
+	
+	public function routeShutdown($request) 
+	{ 
+	
+	} 
+	
+	public function dispatchLoopStartup($request) 
+	{ 
+	
+	} 
+	
+	public function preDispatch($request) 
+	{ 
+	
+	} 
+	
+	public function postDispatch($request) 
+	{ 
+	
+	} 
+	
+	public function dispatchLoopShutdown() 
+	{ 
+	
+	} 
+} 
+
+?>

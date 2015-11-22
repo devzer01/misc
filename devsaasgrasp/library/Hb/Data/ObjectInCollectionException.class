@@ -1,0 +1,6 @@
+<?php
+class Hb_Data_ObjectInCollectionException extends Hb_Data_Exception 
+{
+	
+}
+?>

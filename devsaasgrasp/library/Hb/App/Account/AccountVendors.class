@@ -1,0 +1,45 @@
+<?php 
+/**
+ * Domain Object for Account Vendors
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ *
+ */ 
+class Hb_App_Account_AccountVendors extends Hb_App_Collection 
+{
+    protected $account_vendor_id = null;
+    
+    protected $account_vendor    = null;
+
+	public function AddItem(Hb_App_Account_AccountVendor $account_vendor) 
+	{
+		try {
+			parent::AddItem($account_vendor);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Account Vendor Already Exists In Collection For Account ". $account_vendor->account_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	public function GetItem($account_vendor_id)
+	{
+		try {
+			return parent::GetItem($account_vendor_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Account Vendor Not Found For Account Vendors Collection" . $account_vendor_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddAccountVendor(Hb_App_Account_AccountVendor $account_vendor)
+	{
+		$this->account_vendor		= $account_vendor;
+		$this->account_vendor_id	= $account_vendor->GetAccountVendorId();
+	}
+}
+?>

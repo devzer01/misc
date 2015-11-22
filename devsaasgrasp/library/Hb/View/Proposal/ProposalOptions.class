@@ -1,0 +1,30 @@
+<?php
+class Hb_View_Proposal_ProposalOptions extends Hb_View_View 
+{
+	protected  $__template_name = 'app/pgen/vw_options_new.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		$this->SetErrorHandler('pgen');
+		$this->SetMessageHandler('ppm');
+	}
+	
+	public function AddProposal($data)
+	{
+		$this->SetRawData('proposal', $data);
+	}
+	
+	public function AddRevision($data)
+	{
+		$this->SetRawData('revision', $data);
+	}
+	
+	public function GetBindMap()
+	{
+		$map = parent::GetBindMap();
+		return $map;
+	}
+}
+?>

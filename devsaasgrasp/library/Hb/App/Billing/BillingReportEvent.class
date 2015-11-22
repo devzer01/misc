@@ -1,0 +1,223 @@
+<?php 
+/**
+ * Domain Object for Billing Report Event
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ */  
+class Hb_App_Billing_BillingReportEvent extends Hb_App_Object 
+{
+	/**
+	 * Billing Report Event Id
+	 * 
+	 * @var int
+	 */
+	protected $billing_report_event_id = null;
+
+	/**
+	 * Billing Report Id
+	 * 
+	 * @var int
+	 */
+	protected $billing_report_id = null;
+	
+	/**
+	 * Billing Report Event Type Id
+	 * 
+	 * @var int
+	 */
+	protected $billing_report_event_type_id = null;
+		
+	/**
+	 * User agent
+	 *
+	 * @var string
+	 */
+	protected $billing_report_user_agent;
+	
+	/**
+	 * Remote Address
+	 *
+	 * @var string
+	 */
+	protected $billing_report_remote_address;
+	
+	/**
+	 * Comment
+	 *
+	 * @var string
+	 */
+	protected $billing_report_comment;
+	
+	/**
+	* Contructor of the Billing Report Event Domain
+	* 
+	* @param int $id Billing Report Event Id
+	* @param int $billing_report_id Billing Report Id
+	* @param int $billing_report_event_type_id Billing Report Event Type Id
+	*/		
+	function __construct($id 				               = null,	
+							   $billing_report_id            = null,
+							   $billing_report_event_type_id = null,
+							   $billing_report_user_agent = null,
+							   $billing_report_remote_address = null,
+							   $billing_report_comment = null
+							   )
+	{		 					
+		
+		$this->billing_report_event_id      = $id;
+		$this->billing_report_id            = $billing_report_id;
+		$this->billing_report_event_type_id = $billing_report_event_type_id ;
+		
+		// FIXME: must be able to get from SERVER
+		$this->billing_report_user_agent = $billing_report_user_agent;
+		$this->billing_report_remote_address = $billing_report_remote_address;
+		
+		$this->billing_report_comment = $billing_report_comment;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Billing Report Event Id
+	 *	
+	 * @return int $billing_report_event_id Billing Report Event Id
+	 */
+	public function GetBillingReportEventId()
+	{
+		return $this->billing_report_event_id;
+	}
+
+	
+	/**
+	 * Get Billing Report Id
+	 *	
+	 * @return int $billing_report_id Billing Report Id
+	 */
+
+	public function GetBillingReportId()	
+	{
+		return $this->billing_report_id;
+	}
+	
+	
+	/**	
+	 * Get Billing Report Event Type Id
+	 *
+	 * @return int $billing_report_event_type_id Billing Report Event Type Id
+	 */
+	public function GetBillingReportEventTypeId()
+	{
+		return $this->billing_report_event_type_id;
+	}
+
+	/**	
+	 * Get Billing Report User Agent
+	 *
+	 * @return int
+	 */
+	public function GetBillingReportUserAgent()
+	{
+		return $this->billing_report_user_agent;
+	}
+
+	/**	
+	 * Get Billing Report Remote Address
+	 *
+	 * @return string
+	 */
+	public function GetBillingReportRemoteAddress()
+	{
+		return $this->billing_report_remote_address;
+	}
+
+	/**	
+	 * Get Billing Report Comment
+	 *
+	 * @return string
+	 */
+	public function GetBillingReportComment()
+	{
+		return $this->billing_report_comment;
+	}
+	
+	/**
+	 * Sets the Billing Report Event Id
+	 *
+	 * @param int $billing_report_event_id Billing Report Event Id
+	 */
+	public function SetBillingReportEventId($billing_report_event_id)
+	{
+		$this->billing_report_event_id = $billing_report_event_id;
+
+		$this->__id = $billing_report_event_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Billing Report Id
+	 *
+	 * @param int $billing_report_id Billing Report Id
+	 */
+	public function SetBillingReportId($billing_report_id)
+	{
+		$this->billing_report_id = $billing_report_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Billing Report Event Type Id
+	 * 
+	 * @param int $billing_report_event_type_id Billing Report Event Type Id
+	 */
+	public function SetBillingReportEventTypeId($billing_report_event_type_id)
+	{
+		$this->billing_report_event_type_id = $billing_report_event_type_id;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets User Agent
+	 *
+	 * @param string $billing_report_user_agent
+	 */
+	public function SetBillingReportUserAgent($billing_report_user_agent)
+	{
+		$this->billing_report_user_agent = $billing_report_user_agent;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Remote Address
+	 *
+	 * @param string
+	 */
+	public function SetBillingReportRemoteAddress($billing_report_remote_address)
+	{
+		$this->billing_report_remote_address = $billing_report_remote_address;
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Comment
+	 *
+	 * @param string
+	 */
+	public function SetBillingReportComment($billing_report_comment)
+	{
+		$this->billing_report_remote_address = $billing_report_comment;
+		
+		$this->MarkDirty();
+	}
+	
+}	
+?>

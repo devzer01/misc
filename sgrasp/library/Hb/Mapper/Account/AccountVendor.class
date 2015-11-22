@@ -1,0 +1,103 @@
+<?php 
+/**
+ * Mapper class of AccountVendor
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountVendor extends Hb_Mapper_Mapper  
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountVendor'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_vendor_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_vendor'; 
+ 
+   /**
+    * Find by id
+    *
+    * @param int id Account Vendor id
+    * @return Hb_App_Account_AccountVendor Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('av.account_vendor_id = ?', $id);
+	  
+	  return $this->getRow($select);
+   }
+     
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('av' => 'account_vendor'), array(	'account_vendor_id', 'account_id', 
+	  																			'vendor_account_id', 'vendor_account_sub_type_id'));
+	  
+	  return $select;
+   } 
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountVendor Returns domain object
+    */ 
+   public function doBuildObject($row)
+   { 	
+   	  return new Hb_App_Account_AccountVendor($row->account_vendor_id,
+   	  			$row->account_id,   	 			
+   	  			$row->vendor_account_id,   	  			
+   	  			$row->vendor_account_sub_type_id
+   	  		);
+   } 
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountVendor
+    */ 
+   function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'account_id'						=> $obj->GetAccountId(),
+      	'vendor_account_id'				=> $obj->GetVendorAccountId(),
+      	'vendor_account_sub_type_id'	=> $obj->GetVendorAccountSubTypeId(),
+      	'status'								=> $obj->GetStatus()
+      	);
+      	
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('account_vendor', $data);
+			$obj->SetAccountVendorId($db->lastInsertId());
+	  } else {
+			$db->update('account_vendor', $data, 'account_vendor_id = ' . $obj->GetId());
+	  }
+   } 
+} 
+?>

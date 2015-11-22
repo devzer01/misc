@@ -1,0 +1,439 @@
+{literal}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>ERSP 1.0 - GLOBAL ENTERPRISE MANAGEMENT SOLUTIONS</title>
+  <link rel="STYLESHEET" type="text/css" href="dhtmlx.css">
+   <script src="dhtmlx.js" type="text/javascript"></script>
+</head>
+<body>
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+    }
+</style>
+ 
+<script>
+var dhxWins, layoutWin, dhxLayout;
+function openAccount(id) {
+	var windowname = 'account_' + id;
+	var windowtitle = 'Account ' + id;
+	var windowurl   = '/Account/view/id/' + id;
+	openRecord(windowname, windowtitle, windowurl);
+	var account_toolbar = dhxWins.window(windowname).attachToolbar();
+	account_toolbar.setIconsPath("/imgs/");
+	account_toolbar.loadXML("/index/toolbar/");
+}
+
+function openQuote(id) {
+	var windowname = 'quote_' + id;
+	var windowtitle = 'Quote ' + id;
+	var windowurl   = '/Quote/quote/id/' + id;
+	openRecord(windowname, windowtitle, windowurl);
+}
+
+function openRecord(windowname, windowtitle, windowurl)
+{
+	dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+	dhxWins.window(windowname).maximize();
+	dhxWins.window(windowname).setText(windowtitle);
+	dhxWins.window(windowname).attachURL(windowurl);
+}
+
+function openProject(id) {
+	var windowname = 'project_' + id;
+	var windowtitle = 'Project ' + id;
+	var windowurl   = '/Project/view/id/' + id;
+	openRecord(windowname, windowtitle, windowurl);
+	var project_toolbar = dhxWins.window(windowname).attachToolbar();
+	project_toolbar.setIconsPath("/imgs/");
+	project_toolbar.loadXML("/index/toolbar/");
+}
+
+function displaySchedule(id, oldid) {
+	dhxLayout.cells("b").attachObject(dhxWins.createWindow("schedule", 20, 30, 200, 400));
+	dhxWins.window("schedule").maximize();
+	dhxWins.window("schedule").setText("Schedule");
+	dhxWins.window("schedule").attachURL("/index/schedule");
+}
+
+// init layout;
+
+//function doOnLoad() {
+    dhxWins = new dhtmlXWindows();
+    dhxWins.enableAutoViewport(true);
+    //dhxWins.attachViewportTo(document.body);
+    dhxWins.setImagePath("/imgs/");
+	var w1 = dhxWins.createWindow("w1", 20, 30, 600, 400);
+	w1.maximize();
+	w1.setText("Global Enterprise Management Solutions");
+	
+	//var menu = w1.attachMenu();
+    //menu.setImagePath("/imgs/");
+    //menu.setIconsPath("/imgs/");
+    //menu.loadXML("/index/menu/");
+    var toolbar = w1.attachToolbar();
+    toolbar.setIconsPath("/imgs/");
+    toolbar.loadXML("/index/toolbar/");
+	toolbar.attachEvent("onClick", function(id){
+		switch(id) {
+			case "open":
+				dhxLayout.cells("b").attachObject(dhxWins.createWindow("fldwdw", 20, 30, 200, 400));
+				dhxWins.window("fldwdw").maximize();
+				dhxWins.window("fldwdw").setText("Open Document");
+				//folders_container
+				var fldopen = dhxWins.window("fldwdw").attachFolders();
+				fldopen.setItemType("ficon");
+    			fldopen.setUserData("icons_src_dir", "/imgs");
+    			fldopen.loadXML("/index/dir", "/ficon.xsl");
+				fldopen.enableDragAndDrop(true);
+    			fldopen.attachEvent("onBeforeDrop", function(dropType, sID, tID) {
+					var tType = this.getItem(tID).data.dataObj.getAttribute("type");
+					if (dropType == "in" && tType == "dir") {
+						this.deleteItem(sID);
+						return false;
+					} else;
+					return true;
+    			});
+				break;
+					
+		}	
+	});
+	
+    //var sb = w1.attachStatusBar();
+    //sb.setText("Simple Status Bar");
+	
+	//dhxWins.window("w1").attachObject(dhxWins.createWindow("w2", 20, 30, 600, 400));
+	dhxLayout = dhxWins.window("w1").attachLayout("2U", 'dhx_blue');
+//    dhxWins.window(id).attachToolbar();
+//    dhxWins.window(id).attachMenu();
+
+	
+
+    //dhxLayout = new dhtmlXLayoutObject(dhxWins.createWindow("w1", 20, 30, 600, 400), "3L");
+	dhxLayout.cells("a").setWidth(200);
+	dhxLayout.cells("a").setText("Navigation");
+	var dhxAcc = dhxLayout.cells("a").attachAccordion();
+	dhxLayout.cells("b").hideHeader();
+	
+	dhxAcc.addItem("navquote", "Quotes");
+	dhxAcc.addItem("item_b", "Projects");
+	dhxAcc.addItem("item_c", "Invoicing");
+	dhxAcc.addItem("item_d", "Accounts");
+	dhxAcc.addItem("navcontacts", "Contacts");
+	dhxAcc.addItem("navmessages", "Messages");
+	dhxAcc.addItem("navtasks", "Tasks");
+	dhxAcc.addItem("navinventory", "Inventory");
+	dhxAcc.addItem("item_h", "Schedule");
+
+	dhxAcc.attachEvent("onBeforeActive", function(itemId){
+		  switch (itemId) {
+		  	case 'item_d':
+		  		dhxLayout.cells("b").attachObject(dhxWins.createWindow('accounts', 20, 30, 200, 400));
+				dhxWins.window('accounts').maximize();
+				dhxWins.window('accounts').setText("Accounts");
+				dhxWins.window('accounts').attachURL("/account/index");
+			  	return true;
+			  	break; 
+		  
+		 	default: 
+			 	return true;
+			 	break;
+		  }
+		});   
+	
+	var schtree = dhxAcc.cells("item_h").attachTree();
+	schtree.setSkin('dhx_skyblue');
+	schtree.setImagePath("/imgs/");
+	schtree.enableHighlighting(true);
+	schtree.loadXML("/index/tree");
+	
+	schtree.attachEvent("onClick", displaySchedule);
+
+	var navtreequote = dhxAcc.cells("navquote").attachTree();
+	navtreequote.setSkin('dhx_skyblue');
+	navtreequote.setImagePath("/imgs/");
+	navtreequote.enableHighlighting(true);
+	navtreequote.loadXML("/quote/navtree");	
+	
+	navtreequote.attachEvent("onClick",function(id){
+		var windowurl = navtreequote.getUserData(id,"link");
+		var windowname = navtreequote.getUserData(id,"name");
+		var windowtype = navtreequote.getUserData(id,"type");
+		var windowtitle = navtreequote.getUserData(id,"title");
+		
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (windowtype == 'grid') {
+			var quotegrid = dhxWins.window(windowname).attachGrid();
+			quotegrid.setSkin("dhx_skyblue");
+			quotegrid.setImagePath("/imgs/");
+			quotegrid.loadXML(windowurl);
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+        return true;
+    });
+    
+    var navtreeinventory = dhxAcc.cells("navinventory").attachTree();
+	navtreeinventory.setSkin('dhx_skyblue');
+	navtreeinventory.setImagePath("/imgs/");
+	navtreeinventory.enableHighlighting(true);
+	navtreeinventory.loadXML("/inventory/navtree");
+
+	navtreeinventory.attachEvent("onClick",function(id){
+		var windowurl = navtreeinventory.getUserData(id,"link");
+		var windowname = navtreeinventory.getUserData(id,"name");
+		var windowtype = navtreeinventory.getUserData(id,"type");
+		var windowtitle = navtreeinventory.getUserData(id,"title");
+		
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (windowtype == 'grid') {
+			var inventorygrid = dhxWins.window(windowname).attachGrid();
+			inventorygrid.setSkin("dhx_skyblue");
+			inventorygrid.setImagePath("/imgs/");
+			inventorygrid.loadXML(windowurl);
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+        return true;
+    });
+    
+    var navcontact = dhxAcc.cells("navcontacts").attachTree();
+	navcontact.setSkin('dhx_skyblue');
+	navcontact.setImagePath("/imgs/");
+	navcontact.enableHighlighting(true);
+	navcontact.loadXML("/contact/navtree");
+
+	navcontact.attachEvent("onClick",function(id){
+		var windowurl = navcontact.getUserData(id,"link");
+		var windowname = navcontact.getUserData(id,"name");
+		var windowtype = navcontact.getUserData(id,"type");
+		var windowtitle = navcontact.getUserData(id,"title");
+		
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (windowtype == 'grid') {
+			var contactgrid = dhxWins.window(windowname).attachGrid();
+			contactgrid.setSkin("dhx_skyblue");
+			contactgrid.setImagePath("/imgs/");
+			contactgrid.loadXML(windowurl);
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+        return true;
+    });
+	
+	//messages
+	var navmessage = dhxAcc.cells("navmessages").attachTree();
+	navmessage.setSkin('dhx_skyblue');
+	navmessage.setImagePath("/imgs/");
+	navmessage.enableHighlighting(true);
+	navmessage.loadXML("/message/navtree");
+
+	navmessage.attachEvent("onClick",function(id){
+		var windowurl = navmessage.getUserData(id,"link");
+		var windowname = navmessage.getUserData(id,"name");
+		var windowtype = navmessage.getUserData(id,"type");
+		var windowtitle = navmessage.getUserData(id,"title");
+		
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (windowtype == 'grid') {
+			var messagegrid = dhxWins.window(windowname).attachGrid();
+			messagegrid.setSkin("dhx_skyblue");
+			messagegrid.setImagePath("/imgs/");
+			messagegrid.loadXML(windowurl);
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+        return true;
+    });
+	
+	//tasks
+	var navtask = dhxAcc.cells("navtasks").attachTree();
+	navtask.setSkin('dhx_skyblue');
+	navtask.setImagePath("/imgs/");
+	navtask.enableHighlighting(true);
+	navtask.loadXML("/task/navtree");
+
+	navtask.attachEvent("onClick",function(id){
+		var windowurl = navtask.getUserData(id,"link");
+		var windowname = navtask.getUserData(id,"name");
+		var windowtype = navtask.getUserData(id,"type");
+		var windowtitle = navtask.getUserData(id,"title");
+		
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (windowtype == 'grid') {
+			var grdtask = dhxWins.window(windowname).attachGrid();
+			grdtask.setSkin("dhx_skyblue");
+			grdtask.setImagePath("/imgs/");
+			grdtask.loadXML(windowurl);
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+        return true;
+    });
+	
+	//projects
+	var prjtree = dhxAcc.cells("item_b").attachTree();
+	prjtree.setSkin('dhx_skyblue');
+	prjtree.setImagePath("/imgs/");
+	prjtree.enableHighlighting(true);
+	prjtree.loadXML("/project/tree");
+	
+	prjtree.attachEvent("onClick", function(id, oldid){
+		//open add quote url	
+		//open add quote url
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addproject";
+				windowtitle = "New Project";
+				windowurl   = "/project/new";
+				break;
+			case "3":
+				windowname = "listprojects";
+				windowtitle = "Projects";
+				windowurl   = "/project/list";
+				break;
+			case "2":
+				windowname = "searchprojects";
+				windowtitle = "Search Projects";
+				windowurl   = "/project/search";
+				break;	
+			case "4":
+				windowname = "datapoints";
+				windowtitle = "Data Points";
+				windowurl   = "/project/datapoint";
+				break;
+			
+		}
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/project/list");
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+		
+		//dhxLayout.cells("b").attachObject(dhxWins.createWindow("addproject", 20, 30, 200, 400));
+		//dhxWins.window("addproject").maximize();
+		//dhxWins.window("addproject").setText("New Project");
+		//dhxWins.window("addproject").attachURL("/project/new");
+	});
+	
+	//invoices
+	var armctree = dhxAcc.cells("item_c").attachTree();
+	armctree.setSkin('dhx_skyblue');
+	armctree.setImagePath("/imgs/");
+	armctree.enableHighlighting(true);
+	armctree.loadXML("/index/tree");
+	
+	armctree.attachEvent("onClick", function(id, oldid){
+		//open add quote url	
+		//open add quote url
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addinvoice";
+				windowtitle = "New Invoice";
+				windowurl   = "/invoice/new";
+				break;
+			case "3":
+				windowname = "listinvoices";
+				windowtitle = "Invoices";
+				windowurl   = "/invoice/list";
+				break;
+			case "2":
+				windowname = "searchinvoices";
+				windowtitle = "Search Invoices";
+				windowurl   = "/invoice/search";
+				break;	
+		}
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/invoice/list");
+		} else {
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+		//dhxLayout.cells("b").attachObject(dhxWins.createWindow("addinvoice", 20, 30, 200, 400));
+		//dhxWins.window("addinvoice").maximize();
+		//dhxWins.window("addinvoice").setText("New Invoice");
+		//dhxWins.window("addinvoice").attachURL("/invoice/new");
+	});
+	
+	//accounts
+	var acmtree = dhxAcc.cells("item_d").attachTree();
+	acmtree.setSkin('dhx_skyblue');
+	acmtree.setImagePath("/imgs/");
+	acmtree.enableHighlighting(true);
+	acmtree.loadXML("/index/tree");
+	
+	acmtree.attachEvent("onClick", function(id, oldid){
+		//alert('acm' + id);
+		//open add quote url	
+		var windowname, windowtitle, windowurl;
+		switch (id) {
+			case "1":
+				windowname = "addaccount";
+				windowtitle = "New Account";
+				windowurl   = "/account/new";
+				break;
+			case "3":
+				windowname = "listaccounts";
+				windowtitle = "Accounts";
+				windowurl   = "/account/list";
+				break;
+			case "2":
+				windowname = "searchaccount";
+				windowtitle = "Search Account";
+				windowurl   = "/account/search";
+				break;	
+		}
+		//alert(windowname);
+		dhxLayout.cells("b").attachObject(dhxWins.createWindow(windowname, 20, 30, 200, 400));
+		dhxWins.window(windowname).maximize();
+		dhxWins.window(windowname).setText(windowtitle);
+		if (id == 3) {
+			var grid = dhxWins.window(windowname).attachGrid();
+			grid.setSkin("dhx_skyblue");
+    		grid.setImagePath("/imgs/");
+    		grid.loadXML("/account/list");
+		} else {
+			
+			dhxWins.window(windowname).attachURL(windowurl);
+		}
+	});
+	
+ //}
+//var dhxLayout = new dhtmlXLayoutObject(document.body, "3L");
+</script>
+<div style="position:relative;">
+    <img src="/imgs/samples_frame.gif" width="436" height="513" alt="" border="0">
+    <div id="folders_container" style="width:396px;height:400px;overflow:hidden;position:absolute;top:65px;left:20px;border:0px solid red;"></div>
+</div>
+</body>
+</html>
+{/literal}

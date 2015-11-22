@@ -1,0 +1,26 @@
+<?php
+class Hb_View_Proposal_ProposalProjectManagmentFeesLightbox extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/pgen/ui_mocks/edit_project_managment_fees_lightbox.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $data = array();
+	
+	protected  function LoadData()
+	{	
+		$this->SetData('data', $this->data);
+	}	
+	
+	public function SetDescriptin($description)
+	{
+		$this->data['description'] = $description;
+	}
+	
+	public function SetHours($hours)
+	{
+		$this->data['hours'] = $hours;
+	}
+}
+
+?>

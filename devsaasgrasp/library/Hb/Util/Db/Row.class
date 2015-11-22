@@ -1,0 +1,84 @@
+<?php
+require_once 'Zend/Db.php';
+require_once 'Zend/Db/Table.php';
+require_once 'Zend/Db/Table/Row.php';
+
+
+class Hb_Util_Db_Row extends Zend_Db_Table_Row_Abstract
+{
+	protected function _insert()	
+	{
+		$this->_data['created_by']    = 10312;
+		$this->_data['created_date']  = new Zend_Db_Expr('NOW()');
+		$this->_data['modified_by']   = 0;
+		$this->_data['modified_date'] = '0000-00-00 00:00:00';
+		$this->_data['status']        = 'A';
+	}
+	
+	protected function _update()
+	{
+		$this->_data['modified_by']   = 10312;
+		$this->_data['modified_date'] = new Zend_Db_Expr('NOW()');
+		//$this->_data['status']       = 'A';
+	}
+	
+	protected function _transformColumn($name)
+	{
+		return strtolower(preg_replace('/([a-z])([A-Z])/', "$1_$2", $name));
+//         lowercase all, underscores to spaces, and prefix with underscore.
+//         (the prefix is to keep the first letter from getting uppercased
+//         in the next statement.)
+//        $name = '_' . str_replace('_', ' ', strtolower($name));
+//
+//         uppercase words, collapse spaces, and drop initial underscore
+//        return ltrim(str_replace(' ', '', ucwords($name)), '_');
+    }
+    
+    protected function __call($method, array $args)
+    {
+
+        /**
+         * Recognize methods for Has-Many cases:
+         * findParent<Class>()
+         * findParent<Class>By<Rule>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
+         */
+        if (preg_match('/^findParent(\w+?)(?:By(\w+))?$/', $method, $matches)) {
+            $class    = $matches[1];
+            $ruleKey1 = isset($matches[2]) ? $matches[2] : null;
+            return $this->findParentRow($class, $ruleKey1);
+        }
+
+        /**
+         * Recognize methods for Many-to-Many cases:
+         * find<Class1>Via<Class2>()
+         * find<Class1>Via<Class2>By<Rule>()
+         * find<Class1>Via<Class2>By<Rule1>And<Rule2>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
+         */
+        if (preg_match('/^find(\w+?)Via(\w+?)(?:By(\w+?)(?:And(\w+))?)?$/', $method, $matches)) {
+            $class    = $matches[1];
+            $viaClass = $matches[2];
+            $ruleKey1 = isset($matches[3]) ? $matches[3] : null;
+            $ruleKey2 = isset($matches[4]) ? $matches[4] : null;
+            return $this->findManyToManyRowset($class, $viaClass, $ruleKey1, $ruleKey2);
+        }
+
+        /**
+         * Recognize methods for Belongs-To cases:
+         * find<Class>()
+         * find<Class>By<Rule>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
+         */
+        if (preg_match('/^find(\w+?)(?:By(\w+))?$/', $method, $matches)) {
+            $class    = "Hb_Db_Proposal_" . $matches[1];
+            $ruleKey1 = isset($matches[2]) ? $matches[2] : null;
+            return $this->findDependentRowset($class, $ruleKey1);
+        }
+
+        require_once 'Zend/Db/Table/Row/Exception.php';
+        throw new Zend_Db_Table_Row_Exception("Unrecognized method '$method()'");
+    }
+
+}
+?>

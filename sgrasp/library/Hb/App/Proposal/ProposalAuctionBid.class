@@ -1,0 +1,314 @@
+<?php
+/**
+ * Domain Object for StudyContact
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */ 
+class Hb_App_Proposal_ProposalAuctionBid extends Hb_App_Object
+{
+	/**
+	 * Bid Accepted
+	 *
+	 * @var int
+	 */
+	protected $bid_accepted = null;
+	
+	/**
+	 * Bid Accepted Date
+	 *
+	 * @var string
+	 */
+	protected $bid_accepted_date = null;
+	
+	/**
+	 * Cost Per Complete
+	 *
+	 * @var int
+	 */
+	protected $cost_per_complete = null;
+	
+	/**
+	 * Notify Outbid
+	 *
+	 * @var int
+	 */
+	protected $notify_outbid = null;
+	
+	/**
+	 * Notify OutBid Date
+	 *
+	 * @var string
+	 */
+	protected $notify_outbid_date = null;
+	
+	/**
+	 * Number Of Completes
+	 *
+	 * @var int
+	 */
+	protected $number_of_completes = null;
+	
+	/**
+	 * Proposal Auction Account Contact Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_auction_account_contact_id = null;
+	
+	/**
+	 * Proposal Auction Bid Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_auction_bid_id = null;
+	
+	/**
+	 * Proposal Auction Id
+	 *
+	 * @var int
+	 */
+	protected $proposal_auction_id = null;
+	/**
+	 * Create ProposalAuctionBid Object
+	 *
+	 * @param int $id Proposal Auction Bid Id
+	 * @param int $proposal_auction_id Proposal Auction Id
+	 * @param int $proposal_auction_account_contact_id Proposal Auction Account Contact Id
+	 * @param int $cost_per_complete Cost Per Complete
+	 * @param int $number_of_completes Number Of Completes
+	 * @param int $notify_outbid Notify_Outbid
+	 * @param string $notify_outbid_date Notify Outbid Date
+	 * @param int $bid_accepted Bid Accepted
+	 * @param string $bid_accepted_date Bid Accepted Date
+	 */
+	function __construct(
+							$id = null,
+							$proposal_auction_id = null,
+							$proposal_auction_account_contact_id = null,
+							$cost_per_complete = null,
+							$number_of_completes = null,
+							$notify_outbid = null,
+							$notify_outbid_date = null,
+							$bid_accepted = null,
+							$bid_accepted_date = null
+						)
+	{
+		$this->proposal_auction_bid_id = $id;
+		$this->proposal_auction_id = $proposal_auction_id;
+		$this->proposal_auction_account_contact_id = $proposal_auction_account_contact_id;
+		$this->cost_per_complete = $cost_per_complete;
+		$this->number_of_completes = $number_of_completes;
+		$this->notify_outbid = $notify_outbid;
+		$this->notify_outbid_date = $notify_outbid_date;
+		$this->bid_accepted = $bid_accepted;
+		$this->bid_accepted_date = $bid_accepted_date; 
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns The Bid Accepted
+	 *
+	 * @return int The Bid Accepted
+	 */
+	public function GetBidAccepted()
+	{
+		return $this->bid_accepted;
+	}
+	
+	/**
+	 * Returns The Bid Accepted Date
+	 *
+	 * @return string The Bid Accepted Date
+	 */
+	public function GetBidAcceptedDate()
+	{
+		return $this->bid_accepted_date;
+	}
+	
+	/**
+	 * Returns The Cost Per Complete
+	 *
+	 * @return int The Cost Per Complete
+	 */
+	public function GetCostPerComplete()
+	{
+		return $this->cost_per_complete;
+	}
+	
+	/**
+	 * Returns The Notify Outbid
+	 *
+	 * @return int The Notify Outbid
+	 */
+	public function GetNotifyOutbid()
+	{
+		return $this->notify_outbid;
+	}
+	
+	/**
+	 * Returns The Notify Outbid Date
+	 *
+	 * @return string The Notify Outbid Date
+	 */
+	public function GetNotifyOutbidDate()
+	{
+		return $this->notify_outbid_date;
+	}
+	
+	/**
+	 * Returns The Number Of Completes
+	 *
+	 * @return int The Number Of Completes
+	 */
+	public function GetNumberOfCompletes()
+	{
+		return $this->number_of_completes;
+	}
+
+	/**
+	 * Returns The Proposal Auction Account Contact Id
+	 *
+	 * @return int The Proposal Auction Account Contact Id
+	 */
+	public function GetProposalAuctionAccountContactId()
+	{
+		return $this->proposal_auction_account_contact_id;
+	}
+
+	/**
+	 * Returns The Proposal Auction Bid Id
+	 *
+	 * @return int The Proposal Auction Bid Id
+	 */
+	public function GetProposalAuctionBidId()
+	{
+		return $this->proposal_auction_bid_id;
+	}
+
+	/**
+	 * Returns The Propopsal Auction Id
+	 *
+	 * @return int The Proposal Auction Id
+	 */
+	public function GetProposalAuctionId()
+	{
+		return $this->proposal_auction_id;
+	}
+
+
+	/**
+	 * Sets The Bid Accepted 
+	 * 
+	 * @param int $bid_accepted Bid Accepted
+	 */
+	public function SetBidAccepted($bid_accepted)
+	{
+		$this->bid_accepted = (int) $bid_accepted;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Bid Accepted Date
+	 * 
+	 * @param string $bid_accepted_date The Bid Accepted Date 
+	 */
+	public function SetBidAcceptedDate($bid_accepted_date)
+	{
+		$this->bid_accepted_date = $bid_accepted_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Cost Per Complete
+	 * 
+	 * @param int $cost_per_complete The Cost Per Complete
+	 */
+	public function SetCostPerComplete($cost_per_complete)
+	{
+		$this->cost_per_complete = (int) $cost_per_complete;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Notify Outbid
+	 * 
+	 * @param int $notify_outbid The Notify Outbid
+	 */
+	public function SetNotifyOutbid($notify_outbid)
+	{
+		$this->notify_outbid = (int) $notify_outbid;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Notify Outbid Date
+	 * 
+	 * @param string $notify_outbid_date The Notify Outbid Date
+	 */
+	public function SetNotifyOutbidDate($notify_outbid_date)
+	{
+		$this->notify_outbid_date = $notify_outbid_date;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Number Of Completes
+	 * 
+	 * @param int $number_of_completes The Number Of Completes
+	 */
+	public function SetNumberOfCompletes($number_of_completes)
+	{
+		$this->number_of_completes = (int) $number_of_completes;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Auction Account Contact Id
+	 * 
+	 * @param int $proposal_auction_account_contact_id The Proposal Auction Account Contact Id
+	 */
+	public function SetProposalAuctionAccountContactId($proposal_auction_account_contact_id)
+	{
+		$this->proposal_auction_account_contact_id = (int) $proposal_auction_account_contact_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Auction Bid Id
+	 * 
+	 * @param int $proposal_auction_bid_id The Proposal Auction Bid Id
+	 */
+	public function SetProposalAuctionBidId($proposal_auction_bid_id)
+	{
+		$this->proposal_auction_bid_id = (int) $proposal_auction_bid_id;
+		$this->__id = (int) $proposal_auction_bid_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets The Proposal Auction Id
+	 * 
+	 * @param int $proposal_auction_id The Proposal Auction Id
+	 */
+	public function SetProposalAuctionId($proposal_auction_id)
+	{
+		$this->proposal_auction_id = (int) $proposal_auction_id;
+		
+		$this->MarkDirty();
+	}
+
+}
+?>

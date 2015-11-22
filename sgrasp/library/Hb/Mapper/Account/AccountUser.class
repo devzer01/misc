@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper for Account User
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ */
+class Hb_Mapper_Account_AccountUser extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Account_AccountUser';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Account_AccountUser';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "account_user_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "account_user";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountUser ($row->account_user_id,
+														   $row->account_id, 
+														   $row->product_id,
+														   $row->user_id,
+														   $row->role_id);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+          	 	 	 	 	
+		$select->from($this->table, array('account_user_id', 	
+													 'account_id', 	
+													 'product_id',
+													 'user_id', 	
+													 'role_id'
+												   ));
+		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Account User by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		$data = array('account_id'	=> $obj->GetAccountId(),
+					     'product_id' => $obj->GetProductId(),
+						  'user_id'    => $obj->GetUserId(),
+						  'role_id'    => $obj->GetRoleId(),
+		              'status' 	   => $obj->GetAudit()->GetStatus()
+					    ); 
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetAccountUserId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}
+	
+}
+?>

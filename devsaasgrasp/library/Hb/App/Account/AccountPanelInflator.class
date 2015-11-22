@@ -1,0 +1,233 @@
+<?php 
+/**
+ * Domain Object for Panel Inflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */ 
+class Hb_App_Account_AccountPanelInflator extends Hb_App_Object 
+{
+	/**
+	 * Panel Inflator Id
+	 * 
+	 * @var int
+	 */
+	protected $account_panel_inflator_id = null;
+
+	/**
+	 * Panel Cost Type Id
+	 * 
+	 * @var int
+	 */
+	protected $panel_cost_type_id = null;
+	
+	/**
+	 * Account Id Level Id
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+	
+	/**
+	 * Inflator Amount
+	 * 
+	 * @var double
+	 */
+	protected $inflator_amount = null;
+
+	/**
+	 * Effective Date
+	 * 
+	 * @var string
+	 */
+	protected $effective_date = null;
+	
+	/**
+	 * Expire Date
+	 * 
+	 * @var string
+	 */
+	protected $expire_date = null;
+	
+		
+	/**
+	* Contructor of the Panel Inflator Domain
+	* 
+	* @param int $id Panel Inflator Id
+	* @param int $panel_cost_type_id Panel Cost Type Id
+	* @param int $account_id Account Id Level Id
+	* @param double $inflator_amount Inflator Amount
+	* @param string $effective_date Effective Date
+	* @param string $expire_date Expire Date
+	*/		
+	function __construct($id 					  = null,	
+								$panel_cost_type_id = null,
+								$account_id 		  = null,
+								$inflator_amount 	  = null,	
+								$effective_date 	  = null,
+								$expire_date 		  = null )
+	{	
+		$this->account_panel_inflator_id = $id;
+		$this->panel_cost_type_id 			= $panel_cost_type_id;
+		$this->account_id 					= $account_id ;
+		$this->inflator_amount			   = $inflator_amount;
+		$this->effective_date 				= $effective_date;
+		$this->expire_date 					= $expire_date ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Panel Inflator Id
+	 *	
+	 * @return int $account_panel_inflator_id Panel Inflator Id
+	 */
+	public function GetPanelInflatorId()
+	{
+		return $this->account_panel_inflator_id;
+	}
+
+	
+	/**
+	 * Get Panel Cost Type Id
+	 *	
+	 * @return int $panel_cost_type_id Panel Cost Type Id
+	 */
+
+	public function GetPanelCostTypeId()	
+	{
+		return $this->panel_cost_type_id;
+	}
+
+	
+	/**	
+	 * Get Account Id
+	 *
+	 * @return int $account_id Panel Inflator Description	
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	
+	/**
+	 * Get Inflator Amount
+	 *	
+	 * @return double $inflator_amount Inflator Amount
+	 */
+	public function GetInflatorAmount()
+	{
+		return $this->inflator_amount;
+	}
+
+	
+	/**
+	 * Get Effective Date
+	 *	
+	 * @return string $effective_date Effective Date
+	 */
+
+	public function GetEffectiveDate()	
+	{
+		return $this->effective_date;
+	}
+
+	
+	/**	
+	 * Get Expiry Date
+	 *
+	 * @return string $expire_date Expire Date	
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+	
+	
+	/**
+	 * Sets the Panel Inflator Id
+	 *
+	 * @param int $account_panel_inflator_id Panel Inflator Id
+	 */
+	public function SetPanelInflatorId($account_panel_inflator_id)
+	{
+		$this->account_panel_inflator_id = (int) $account_panel_inflator_id;
+
+		$this->__id = (int) $account_panel_inflator_id ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Panel Cost Type Id
+	 *
+	 * @param int $panel_cost_type_id Panel Cost Type Id
+	 */
+	public function SetPanelCostTypeId($panel_cost_type_id)
+	{
+		$this->panel_cost_type_id = (int) $panel_cost_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Account Id 
+	 * 
+	 * @param int $account_id Panel Inflator Description
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int) $account_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets the Inflator Amount
+	 *
+	 * @param double $inflator_amount Inflator Amount
+	 */
+	public function SetInflatorAmount($inflator_amount)
+	{
+		$this->inflator_amount =  (float)$inflator_amount;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Effective Date
+	 *
+	 * @param string $effective_date Effective Date
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Expire Date
+	 * 
+	 * @param string $expire_date Expire Date
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		
+		$this->MarkDirty();
+	}	
+}	
+	
+
+	
+?>

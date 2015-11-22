@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper Class for AccountPricingInflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Account_AccountPricingInflator extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Account pricing inflator Id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'partner_pricing_inflator_id';
+
+	/**
+	 * Account pricing discount table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'partner_pricing_inflator';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Account_AccountPricingInflator';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Account_AccountPricingInflator';
+	
+	/**
+	 * Build the AccountPricingInflator Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Account_AccountPricingInflator
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Account_AccountPricingInflator($row->partner_pricing_inflator_id,
+																		 $row->pricing_item_id,
+																		 $row->partner_id,
+																		 $row->inflator_amount,
+																		 $row->effective_date,
+																		 $row->expire_date);
+	}
+	
+	/**
+	 * Get the base data set for AccountPricingInflator
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('ppi' => 'partner_pricing_inflator'), array('partner_pricing_inflator_id', 
+																							 'pricing_item_id',
+																							 'partner_id', 
+																							 'inflator_amount',
+																							 'effective_date', 
+																							 'expire_date'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Account Pricing Inflator Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('ppi.partner_pricing_inflator_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Account Pricing Inflator Object
+	 *
+	 * @param Hb_App_Object AccountPricingInflator
+	 * @return object Account Pricing Inflator
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'partner_pricing_inflator_id' => $obj->GetAccountPricingInflatorId(),
+							'pricing_item_id' => $obj->GetPricingItemId(),
+							'partner_id' => $obj->GetAccountId(),
+							'inflator_amount' => $obj->GetInflatorAmount(),
+							'effective_date' => $obj->GetEffectiveDate(),
+							'expire_date' => $obj->GetExpireDate()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('partner_pricing_inflator', $data);
+			$obj->SetAccountPricingInflatorId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('partner_pricing_inflator', $data, 'partner_pricing_inflator_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 

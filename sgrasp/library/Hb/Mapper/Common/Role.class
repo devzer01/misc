@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @author svithanapathirana
+ * @version 1.0
+ * @created 19-Jul-2007 1:39:00 PM
+ */
+class Hb_Mapper_Common_Role extends Hb_Mapper_Mapper
+{
+
+	protected $primary_key = 'role_id';
+	
+	protected $table       = 'role';
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('role_id = ?', $id);
+		return $this->getRow($select);
+	}
+	
+	protected function doBuildObject($row)
+	{
+		return Hb_App_Common_RoleFactory::factory($row->role_id, $row->role_description);
+	}
+
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		$select->from('role', array('role_id', 'role_description'));
+
+		return $select;
+	}
+	
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+}
+?>

@@ -1,0 +1,8 @@
+<?php
+
+class Hb_Transaction_Exception extends Hb_Exception 
+{
+	
+}
+
+?>

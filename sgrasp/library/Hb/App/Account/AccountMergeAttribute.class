@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * Account Merge Attribute Domain Object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */
+
+class Hb_App_Account_AccountMergeAttribute extends Hb_App_Attribute
+{
+	/**
+	 * account merge
+	 *
+	 * @var object Hb_App_Account_AccountMerge
+	 */
+	protected $account_merge = null;
+	
+	/**
+	 * account merge id
+	 *
+	 * @var int
+	 */
+	protected $account_merge_id = null;
+
+	/**
+	 * Creates account merge attribute object
+	 *
+	 * @param int $id
+	 * @param int $account_merge_id
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __construct($id = null, $account_merge_id = null, $name = null, $value = null)
+	{
+		$this->account_merge_id = $account_merge_id;
+		parent::__construct($id, $name, $value);
+	}
+
+	/**
+	 * Sets account merge attribute id
+	 *
+	 * @param int $id
+	 */
+	public function SetAccountMergeAttrId($id)
+	{		
+		$this->__id = $id;
+	}
+	
+	/**
+	 * Returns account merge object
+	 * 
+	 * @return object Hb_App_Account_AccountMerge
+	 */
+	public function GetAccountMerge()
+	{
+		return $this->account_merge;
+	}
+	
+	/**
+	 * Sets account merge object
+	 *
+	 * @param Hb_App_Account_AccountMerge $account_merge
+	 */
+	public function SetAccountMerge(Hb_App_Account_AccountMerge $account_merge)
+	{
+		$this->account_merge_id = $account_merge->GetAccountMergeId();
+		$this->account_merge    = $account_merge;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Returns account merge id
+	 * 
+	 * @return int account merge id
+	 */
+	public function GetAccountMergeId()
+	{
+		return $this->account_merge_id;
+	}
+	
+	/**
+	 * Sets account merge id
+	 *
+	 * @param int $account_merge_id
+	 */
+	public function SetAccountMergeId($account_merge_id)
+	{
+		$this->account_merge_id = $account_merge_id;
+	}
+
+}
+?>

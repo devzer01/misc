@@ -1,0 +1,129 @@
+<?php 
+/**
+ * Domain Object for Account Panel Country Type Country
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */  
+class Hb_App_Account_AccountPanelCountryTypeCountry extends Hb_App_Object 
+{
+	/**
+	 * Account Panel Country Type Country Id
+	 * 
+	 * @var int
+	 */
+	protected $account_panel_country_type_country = null;
+
+	/**
+	 * Account Panel Country Type Id
+	 * 
+	 * @var int
+	 */
+	protected $account_panel_country_type_id = null;
+	
+	/**
+	 * Country Code
+	 * 
+	 * @var string
+	 */
+	protected $country_code = null;
+		
+	
+	/**
+	* Contructor of the Account Panel Country Type Country Domain
+	* 
+	* @param int $id Account Panel Country Type Country Id
+	* @param int $account_panel_country_type_id Account Panel Country Type Id
+	* @param string $country_code Country Code
+	*/		
+	function __construct($id 						          = null,	
+							   $account_panel_country_type_id = null,
+							   $country_code 						 = null )
+	{		 					
+		
+		$this->account_panel_country_type_country = $id;
+		$this->account_panel_country_type_id      = $account_panel_country_type_id;
+		$this->country_code 							   = $country_code ;
+				
+		parent::__construct($id);
+	}
+	
+	
+	/**
+	 * Get Account Panel Country Type Country Id
+	 *	
+	 * @return int $account_panel_country_type_country Account Panel Country Type Country Id
+	 */
+	public function GetAccountPanelCountryTypeCountryId()
+	{
+		return $this->account_panel_country_type_country;
+	}
+
+	
+	/**
+	 * Get Account Panel Country Type Id
+	 *	
+	 * @return int $account_panel_country_type_id Account Panel Country Type Id
+	 */
+
+	public function GetAccountPanelCountryTypeId()	
+	{
+		return $this->account_panel_country_type_id;
+	}
+	
+	
+	/**	
+	 * Get Account Panel Country Type Id
+	 *
+	 * @return string $country_code Country Code	
+	 */
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	
+	/**
+	 * Sets the Account Panel Country Type Country Id
+	 *
+	 * @param int $account_panel_country_type_country Account Panel Country Type Country Id
+	 */
+	public function SetAccountPanelCountryTypeCountryId($account_panel_country_type_country)
+	{
+		$this->account_panel_country_type_country = $account_panel_country_type_country;
+
+		$this->__id = $account_panel_country_type_country ;	
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Account Panel Country Type Id
+	 *
+	 * @param int $account_panel_country_type_id Account Panel Country Type Id
+	 */
+	public function SetAccountPanelCountryTypeId($account_panel_country_type_id)
+	{
+		$this->account_panel_country_type_id = $account_panel_country_type_id;
+		
+		$this->MarkDirty();
+	}
+
+	
+	/**
+	 * Sets Country Code
+	 * 
+	 * @param string $country_code Country Code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		
+		$this->MarkDirty();
+	}	
+}	
+?>

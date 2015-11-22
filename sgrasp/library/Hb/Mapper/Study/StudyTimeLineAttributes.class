@@ -1,0 +1,87 @@
+<?php 
+/**
+ * Mapper Object for Study Time Line Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyTimeLineAttributes extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_timeline_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_timeline_attr';
+	
+	/**
+	 * Builds and returns the Study Time Line Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_timeline_attr table
+	 * @return object An instance of the Study Time Line Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTimeLineAttribute($row->study_timeline_attr_id,
+																     $row->study_timeline_id,
+																	  $row->study_timeline_attr,
+																	  $row->study_timeline_value
+																	  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('stla' => $this->table));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Study Time Line Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_timeline_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('stla.'. $this->primary_key .'= ?', $id);
+		 	
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Time Line Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{	 	
+	 	if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+																																	
+		$row->study_timeline_value			= $obj->GetAttributeValue();
+						       							
+		$row->save();			
+	}
+}
+
+?>

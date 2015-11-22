@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * MySQL Query File for Purchase Orders
+ *
+ * @todo revise base Db Class to be static
+ */
+
+class Hb_Db_MySQL_Account_PurchaseOrder 
+{
+
+	static function Get($id)
+	{
+
+		$db = new Hb_Util_Connector_Db();
+		
+		$db->SetSelect();
+		
+		$select = $db->getSelect();
+		
+		$select->from('account', array('account_id', 'account_name'));
+		
+		$select->where('status = ?', 'A');
+		$select->where('account_id = ?', $id);
+		
+		return $db->FetchAssoc($select);
+	}
+}
+
+?>

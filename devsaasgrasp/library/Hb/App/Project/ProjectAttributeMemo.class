@@ -1,0 +1,149 @@
+<?php
+
+/**
+ * Domain Object for Project Attribute Memo
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package App
+ * @subpackage Project
+ *
+ */ 
+class Hb_App_Project_ProjectAttributeMemo extends Hb_App_Object
+{
+
+	/**
+	 * Project Attribute Memo Id
+	 *
+	 * @var int
+	 */
+	protected $project_attribute_memo_id = null;
+	
+	/**
+	 * Project Attribute Name
+	 *
+	 * @var string
+	 */
+	protected $project_attribute_name = null;
+	
+	/**
+	 * Project Attribute Value
+	 *
+	 * @var string
+	 */
+	protected $project_attribute_value = null;
+	
+	/**
+	 * Project Id
+	 *
+	 * @var int
+	 */
+	protected $project_id = null;
+
+	
+	function __construct( 	$id = null,
+							$project_id = null,
+							$project_attribute_name = null,
+							$project_attribute_value = null
+						)
+	{
+		$this->project_attribute_memo_id = $id;
+		$this->project_id = $project_id;
+		$this->project_attribute_name = $project_attribute_name;
+		$this->project_attribute_value = $project_attribute_value;
+		
+		parent::__construct($id);	
+	}
+
+	/**
+	 * Returns The Project Attribute Memo Id
+	 *
+	 * @return int The Project Attribute Memo Id
+	 */
+	public function GetProjectAttributeMemoId()
+	{
+		return $this->project_attribute_memo_id;
+	}
+
+	/**
+	 * Returns The Project Attribute Name
+	 *
+	 * @return string 
+	 */
+	public function GetProjectAttributeName()
+	{
+		return $this->project_attribute_name;
+	}
+
+	/**
+	 * Returns The Project Attribute Value
+	 *
+	 * @return string The Project Attribute Memo Id
+	 */
+	public function GetProjectAttributeValue()
+	{
+		return $this->project_attribute_value;
+	}
+
+	/**
+	 * Returns The Project Id
+	 *
+	 * @return int The Project Id
+	 */
+	public function GetProjectID()
+	{
+		return $this->project_id;
+	}
+
+	/**
+	 * Sets Project Attribute Memo Id
+	 * 
+	 * @param int $project_attribute_memo_id Project Attribute Memo Id
+	 */
+	public function SetProjectAttributeMemoId($project_attribute_memo_id)
+	{
+		$this->project_attribute_memo_id = (int) $project_attribute_memo_id;
+      	$this->__id = (int) $project_attribute_memo_id;
+      	
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Attribute Name
+	 * 
+	 * @param string $project_attribute_name Project Attribute Name
+	 */
+	public function SetProjectAttributeName($project_attribute_name)
+	{
+		$this->project_attribute_name = $project_attribute_name;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Attribute Value
+	 * 
+	 * @param string $project_attribute_value Project Attribute Value
+	 */
+	public function SetProjectAttributeValue($project_attribute_value)
+	{
+		$this->project_attribute_value = $project_attribute_value;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Project Id
+	 * 
+	 * @param int $project_id Project Id
+	 */
+	public function SetProjectID($project_id)
+	{
+		$this->project_id = (int) $project_id;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

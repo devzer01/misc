@@ -1,0 +1,100 @@
+<?php
+/**
+ * Project user class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Dinesha Dayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Project
+ */ 
+
+class Hb_Mapper_Project_ProjectUser extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Table for this mapper
+	 *
+	 * @var string 
+	 */
+	protected $table       = 'pjm_user';	
+	
+	/**
+	 * Primary Key for this mapper
+	 *
+	 * @var string 
+	 */
+	
+	protected $primary_key = 'pjm_user_id';
+	
+	
+	/**
+	 * Takes a result row  and returns the domain object
+	 *
+	 * @param  $row $obj Result row from the Zend_Db framework
+	 * @return obj An instance of the relevent domain class
+	 */
+	protected function doBuildObject ($row)
+	{
+		return new Hb_App_Project_ProjectUser($row->pjm_user_id, $row->pjm_id, $row->role_id, $row->user_id); 
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect ()
+	{		
+	 	$db = Hb_Util_Db_Connection::GetInstance(); 
+    	$select = $db->select(); 
+     
+    	$select->from(array('u' => 'pjm_user'), array('pjm_user_id','pjm_id', 'role_id','user_id')); 
+     
+    	return $select; 
+	}
+	
+	
+	/**
+	 * Find the project user by Id .
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */	
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+		$select->where('u.pjm_user_id = ?', $id); 
+         
+		return $this->getRow($select); 	
+	}
+ 	
+ 	/**
+	 * Inserts/updates project user object
+	 *
+	 * @param $obj object Instance of the relevent domain class
+	 */
+ 	protected function doSave(Hb_App_Object $obj)
+ 	{	
+         
+        $row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj); 
+         
+        $row->pjm_id 	= $obj->GetProjectId();
+	 	$row->role_id 	= $obj->GetRoleId();
+	 	$row->user_id 	= $obj->GetUserId();
+	 	
+	 	$row->Save();
+	 	
+	 	$obj->SetProjectUserId($row->pjm_user_id); 
+
+	 	$obj->markSaved();
+	 	
+	 	Hb_App_ObjectMap::register($obj); 	
+ 	 	
+ 	}
+
+	
+}
+
+
+?>

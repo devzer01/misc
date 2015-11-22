@@ -1,0 +1,304 @@
+<?php
+
+class Hb_View_Proposal_Mapper_ProposalAddMapper extends Hb_Util_Mapper_Mapper 
+{	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected  function LoadData()
+	{
+		$table_proposal = new Hb_Db_Proposal_Proposal();
+		$proposal = $table_proposal->fetchRow('proposal_id = ' . $this->__primary_key);
+		$contact  = $proposal->findProposalContact()->current();
+		
+		$proposal = array_merge($contact->toArray(), $proposal->toArray());
+		
+		$list['account'] = $proposal;
+		$list['contact'] = Hb_Util_Connector_Local_Connect::GetAccountContacts($proposal['account_id']);
+
+		$meta = array('do_update' => 1, 'proposal_id' => $this->__primary_key);
+		
+		$this->MapData('proposal', $proposal);
+		$this->MapData('list', $list);
+		$this->MapData('meta', $meta);
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @return unknown
+	 */
+	protected function PreSave()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+		
+		try {
+			$session = new Hb_Util_Session_Session();
+		} catch (Zend_Session_Exception $e) {
+			$session->admin_id = $_SESSION['admin_id'];
+		}
+		
+		$user = new Hb_Data_User_User($session->admin_id);
+		$request->functional_group_id = $user->GetFunctionalGroupId();
+		$request->revision = 1;
+		$request->proposal_date = date("Y-m-d");
+		
+		$params = array(
+			"account_id" => $request->account_id, 
+			"contact_id" => $request->contact_id
+		);
+		
+		
+		$debugger = Hb_Util_Mapper_Debugger::getInstance();
+		
+		$debugger->AddData('HBRPC CALL TO ACM GetAccountDetail', $params);
+		$account = HBRPCCall("acm", "GetAccountDetail", $params);
+		$debugger->AddData('HBRPC Return From ACM GetAccountDetail', $account);
+		
+		$debugger->AddData('HBRPC CALL TO ACM GetAccountDetail', $params);
+		$contact = HBRPCCall("acm", "GetAccountContactDetails", $params);
+		$debugger->AddData('HBRPC Return From ACM GetAccountDetail', $contact);
+		
+		
+		//ACM Get ACCOUNT DETAIL
+		//get country_code, region_id, account_type_id, account_name, get account roles
+		$errors = array();
+
+		/* account type not set */
+		if (!isset($account['type']['account_type_id']) || $account['type']['account_type_id'] == '') {
+			$errors[] = 'ACM: Account Type Not Defined';
+		}
+
+		/* license level */
+		if (!isset($account['product']['license_level_id']) || $account['product']['license_level_id'] == '') {
+			$errors[] = 'ACM: License Level Not Found';
+		}
+
+		/* pricing regime */
+		if (!isset($account['product']['pricing_regime_id']) || $account['product']['pricing_regime_id'] == '') {
+			$errors[] = 'ACM: Pricing Regime Not Found';
+		}
+
+		if (!empty($errors)) {
+			$_SESSION['pgen_errors'] = $errors;
+			$_SESSION['ppm_message'] = "Unable to Add Proposal Following Errors Were Found";
+			header("Location: ?action=display_add");
+			return false;
+		}	
+		
+		$this->__data['account'] = $account;
+		$this->__data['contact'] = $contact;
+		
+		return true;
+		
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function PostSave()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+		
+		$workflow_manager = new pgen_WorkflowManager();
+		$workflow_manager->SaveState($request->proposal_id);
+		
+		$pricing_manager = new pgen_PricingManager();
+		$pricing_manager->SetExchangeRate($request->proposal_id);
+		
+		$encryption = Hb_Util_Encryption_Encryption::GetInstance();
+		
+		header("Location: ?e=". $encryption->Encrypt("action=display_add_revision&proposal_id=". $request->proposal_id));	
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function Insert()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+		
+		$account = $this->__data['account'];
+		$contact = $this->__data['contact'];
+		
+		$table_proposal = new Hb_Db_Proposal_Proposal();
+		$proposal = $table_proposal->createRow();
+		
+		$proposal->proposal_name          = $request->proposal_name;
+		$proposal->account_id             = $account['account_id'];
+		$proposal->account_name           = $account['account_name'];		
+		$proposal->account_type_id        = $account['type']['account_type_id'];
+		$proposal->license_level_id       = $account['product']['license_level_id'];
+		$proposal->pricing_regime_id      = $account['product']['pricing_regime_id'];
+		$proposal->product_id             = $account['product']['product_id'];
+		$proposal->proposal_status_id     = PPM_STATUS_IN_PROGRESS;
+		$proposal->functional_group_id    = $request->functional_group_id;
+		$proposal->region_id              = $account['region_id'];
+		$proposal->country_code           = $account['country_code'];
+		$proposal->proposal_date          = $request->proposal_date;
+		$proposal->current_revision       = $request->revision;
+		$proposal->login                  = $_SESSION['admin_id'];
+		$proposal->user_id                = $_SESSION['admin_id'];
+		$proposal->proposal_sub_status_id = 0;
+		
+		$proposal->save();
+		
+		$table_proposal_contact = new Hb_Db_Proposal_ProposalContact();
+		$proposal_contact = $table_proposal_contact->createRow();
+		
+		$proposal_contact->proposal_id = $proposal->proposal_id;
+		$proposal_contact->contact_id  = $request->contact_id;
+		$proposal_contact->first_name  = $contact['contact_first_name'];
+		$proposal_contact->last_name   = $contact['contact_last_name'];
+		$proposal_contact->email       = $contact['contact_email'];
+		
+		$proposal_contact->save();
+
+		$table_proposal_user = new Hb_Db_Proposal_ProposalUser();
+
+		for ($i=0; $i < count($account['user']); $i++) 
+		{
+			$proposal_user = $table_proposal_user->createRow();
+			
+			$proposal_user->proposal_id = $proposal->proposal_id;
+			$proposal_user->role_id     = $account['user'][$i]['role_id'];
+			$proposal_user->user_id     = $account['user'][$i]['user_id'];
+			$proposal_user->login       = $account['user'][$i]['user_id'];
+			
+			$proposal_user->save();
+		}
+
+		$table_proposal_attr = new Hb_Db_Proposal_ProposalAttr();
+		
+		for ($i=0; $i < count($account['attr']); $i++) 
+		{
+			$proposal_attr = $table_proposal_attr->createRow();
+			$proposal_attr->proposal_id         = $proposal->proposal_id;
+			$proposal_attr->proposal_attr_name  = $account['attr'][$i]['account_attr_name'];
+			$proposal_attr->proposal_attr_value = $account['attr'][$i]['account_attr_value'];
+
+			$proposal_attr->save();
+		}
+		
+		$request->proposal_id = $proposal->proposal_id;
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected function Update()
+	{
+			$request = Hb_Util_Request_Request::GetInstance();
+			
+			$account = $this->__data['account'];
+			$contact = $this->__data['contact'];
+			
+			$table_proposal = new Hb_Db_Proposal_Proposal();;
+			$where = $table_proposal->getAdapter->quoteInto('proposal_id = ?', $request->proposal_id);			
+			
+			$proposal = $table_proposal->fetchRow($where);
+			
+			$proposal->proposal_name          = $request->proposal_name;
+			$proposal->account_id             = $account['account_id'];
+			$proposal->account_name           = $account['account_name'];		
+			$proposal->account_type_id        = $account['type']['account_type_id'];
+			$proposal->license_level_id       = $account['product']['license_level_id'];
+			$proposal->pricing_regime_id      = $account['product']['pricing_regime_id'];
+			$proposal->product_id             = $account['product']['product_id'];
+			$proposal->proposal_status_id     = PPM_STATUS_IN_PROGRESS;
+			$proposal->functional_group_id    = $request->functional_group_id;
+			$proposal->region_id              = $account['region_id'];
+			$proposal->country_code           = $account['country_code'];
+			$proposal->login                  = $_SESSION['admin_id'];
+			$proposal->user_id                = $_SESSION['admin_id'];
+			
+			$proposal->save();
+			
+			$table_proposal_contact = new Hb_Db_Proposal_ProposalContact();
+			$proposal_contact = $table_proposal_contact->fetchRow($where);
+			
+			$proposal_contact->contact_id = $request->contact_id;
+			$proposal_contact->first_name = $contact['contact_first_name'];
+			$proposal_contact->last_name  = $contact['contact_last_name'];
+			$proposal_contact->email      = $contact['contact_email'];
+			
+			$proposal_contact->save();
+			
+			
+			$table_proposal_user = new Hb_Db_Proposal_ProposalUser();
+			$proposal_users = $table_proposal_user->fetchAll($where);		
+
+			$i = 0; //updating existing records
+			foreach ($proposal_users as $proposal_user)
+			{
+				if (!isset($account['user'][$i])) 
+				{
+					$proposal_user->delete();
+				}
+				
+				$proposal_user->role_id = $account['user'][$i]['role_id'];
+				$proposal_user->user_id = $account['user'][$i]['user_id'];
+				$proposal_user->login   = $account['user'][$i]['user_id'];
+				
+				$proposal_user->save();
+				$i++;
+			}
+			
+			//see if we need to add any new
+			if (count($account['user']) > count($proposal_users)) 
+			{
+				
+				$offset = (count($account['user']) - count($proposal_users)) - 1;
+				for ($i=$offset; $i < count($account['user']); $i++ ) 
+				{
+					$proposal_user = $table_proposal_user->createRow();
+					
+					$proposal_user->proposal_id = $request->proposal_id;
+					$proposal_user->role_id = $account['user'][$i]['role_id'];
+					$proposal_user->user_id = $account['user'][$i]['user_id'];
+					$proposal_user->login   = $account['user'][$i]['user_id'];
+				
+					$proposal_user->save();
+					
+				}
+			}
+			
+			$table_proposal_attr = new Hb_Db_Proposal_ProposalAttr();
+			$proposal_attrs = $table_proposal_attr->fetchAll($where);
+			
+			$i=0;
+			foreach ($proposal_attrs as $proposal_attr)
+			{
+				if (!isset($account['attr'][$i])) {
+					$proposal_attr->delete();
+				}
+				
+				$proposal_attr->proposal_attr_name  = $account['attr'][$i]['account_attr_name'];
+				$proposal_attr->proposal_attr_value = $account['attr'][$i]['account_attr_value'];				
+				$proposal_attr->save();
+				$i++;
+			}
+			
+			//see if we need to add any new
+			if (count($account['attr']) > count($proposal_attrs)) 
+			{
+				
+				$offset = (count($account['attr']) - count($proposal_attrs)) - 1;
+				for ($i=$offset; $i < count($account['attr']); $i++ ) 
+				{
+					$proposal_attr = $table_proposal_attr->createRow();
+					
+					$proposal_attr->proposal_id         = $request->proposal_id;
+					$proposal_attr->proposal_attr_name  = $account['attr'][$i]['account_attr_name'];
+					$proposal_attr->proposal_attr_value = $account['attr'][$i]['account_attr_value'];				
+					$proposal_attr->save();
+					
+				}
+			}
+	}
+}
+?>

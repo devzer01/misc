@@ -1,0 +1,36 @@
+<?php
+/**
+ * Service Configuration File Reader Utility
+ *
+ * @package  Util
+ * @subpackage  Service
+ */
+
+class Hb_Util_Service_AddressValidation_ConfigReader
+{
+	/**
+	 * Reads the Service Configuration from configuration file 
+	 *
+	 * @param string $config_file 
+	 * @param string $country_code
+	 * @return  Zend_Config
+	 */
+	public static function Read($config_file, $country_code)
+	{		
+		if (!is_file($config_file)) {
+			throw new Hb_Util_Service_AddressValidation_Exception_ConfigFileNotFoundException("Service Config File Not Found " , 
+				EXCEPTION_UTIL_SERVICE_ADDRESSVALIDATION_CONFIG_FILE_NOT_FOUND);
+		}	
+				
+		try  {			
+			$config = Hb_Util_Config_Config::GetInstance($config_file, $country_code);
+		} catch (Zend_Config_Exception $e)  {			
+				throw new Hb_Util_Service_AddressValidation_Exception_ConfigurationNotFoundException("Service configuration section not set in service config", 
+					EXCEPTION_UTIL_SERVICE_ADDRESSVALIDATION_CONFIG_NOT_FOUND);			
+		}
+		
+		return $config;
+	}
+
+}
+?>

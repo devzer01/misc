@@ -1,0 +1,210 @@
+<?php 
+/**
+ * Domain class for ProposalRevisionComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_App_Proposal_ProposalRevisionComment extends Hb_App_Object
+{  
+	/**
+	 * Proposal Revision Comment Id
+	 *
+	 * @var int 
+	 */	
+	protected $proposal_revision_comment_id = null;
+	
+	/**
+	 * Proposal Revision Comment Type Id
+	 *
+	 * @var int 
+	 */	
+	protected $proposal_revision_comment_type_id = null;
+
+	/**
+	 * Proposal Revision Comment Type
+	 *
+	 * @var Object 
+	 */	
+	protected $proposal_revision_comment_type = null;
+	
+	/**
+	 * Proposal Revision Id
+	 *
+	 * @var int 
+	 */	
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Proposal Revision
+	 *
+	 * @var Object 
+	 */	
+	protected $proposal_revision = null;
+
+	/**
+	 * Revision Comments
+	 *
+	 * @var string
+	 */	
+	protected $comment = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param int revision_comment_id Revision Comment Id
+	 * @param int revision_id Revision Id
+	 * @param Object revision Revision Object
+	 * @param int revision_comment_type_id Revision Comment Type Id
+	 * @param Object revision_comment_type Revision Comment Type
+	 * @param string comment Revision Comment
+	 */ 
+	function __construct($id = null,
+				$revision_id = null,
+				$revision = null,
+				$revision_comment_type_id = null,
+				$revision_comment_type = null,
+				$comment = null
+				)
+	{
+		$this->proposal_revision_comment_id 		= $id;
+		$this->proposal_revision_id					= $revision_id;
+		$this->proposal_revision					= $revision;
+		$this->proposal_revision_comment_type_id 	= $revision_comment_type_id;
+		$this->proposal_revision_comment_type		= $revision_comment_type;
+		$this->comment								= $comment;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Get Comment
+	 *
+	 * @return string Revision Comment
+	 */ 
+	public function GetComment()
+	{
+		return $this->comment;
+	}
+
+	/**
+	 * Get Proposal Revision Comment Id
+	 *
+	 * @return int Revision Comment Id
+	 */ 
+	public function GetProposalRevisionCommentId()
+	{
+		return $this->proposal_revision_comment_id;
+	}
+
+	/**
+	 * Get Proposal Revision Comment Type Id
+	 *
+	 * @return int Revision Comment Type Id
+	 */ 
+	public function GetProposalRevisionCommentTypeId()
+	{
+		return $this->proposal_revision_comment_type_id;
+	}
+
+	/**
+	 * Get Proposal Revision Comment Type
+	 *
+	 * @return Object Revision Comment Type
+	 */ 
+	public function GetProposalRevisionCommentType()
+	{
+		return $this->proposal_revision_comment_type;
+	}
+	
+	/**
+	 * Get Proposal Revision Id
+	 *
+	 * @return int Proposal Revision Id
+	 */ 
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+	
+	/**
+	 * Get Proposal Revision
+	 *
+	 * @return Object Proposal Revision
+	 */ 
+	public function GetProposalRevision()
+	{
+		return $this->proposal_revision;
+	}
+
+	/**
+	 * Set Comment
+	 * 
+	 * @param string $comment Proposal Revision Comment
+	 */
+	public function SetComment($comment)
+	{
+		$this->comment = $comment;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Proposal Revision Comment Id
+	 * 
+	 * @param int $revision_comment_id Proposal Revision Comment Id
+	 */
+	public function SetProposalRevisionCommentId($revision_comment_id)
+	{
+		$this->proposal_revision_comment_id = (int)$revision_comment_id;
+		$this->__id 						= (int)$revision_comment_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Proposal Revision Comment Type Id
+	 * 
+	 * @param int $revision_comment_type_id Proposal Revision Comment Type Id
+	 */
+	public function SetProposalRevisionCommentTypeId($revision_comment_type_id)
+	{
+		$this->proposal_revision_comment_type_id = (int)$revision_comment_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set Proposal Revision Comment Type
+	 * 
+	 * @param Object $revision_comment_type Proposal Revision Comment Type
+	 */
+	public function SetProposalRevisionCommentType($revision_comment_type)
+	{
+		$this->proposal_revision_comment_type = $revision_comment_type;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Proposal Revision Id
+	 * 
+	 * @param int $revision_id Proposal Revision Id
+	 */
+	public function SetProposalRevisionId($revision_id)
+	{
+		$this->proposal_revision_id = (int)$revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Proposal Revision
+	 * 
+	 * @param Object $revision Proposal Revision
+	 */
+	public function SetProposalRevision($revision)
+	{
+		$this->proposal_revision = $revision;
+		$this->MarkDirty();
+	}
+} 
+?>

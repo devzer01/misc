@@ -1,0 +1,59 @@
+<?php
+/**
+ * Domain for Billing Report Comments Collection
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */
+require_once ('class/Hb/App/Collection.class') ;
+
+class Hb_App_Billing_BillingReportComments extends Hb_App_Collection 
+{
+	
+	protected $billing_report_comment = array();
+	
+	protected $billing_report_comment_id = null;
+	
+	/**
+	 * 
+	 */
+	public function __construct () {
+		parent::__construct () ;
+	
+	}
+	
+	public function AddItem(Hb_App_Billing_BillingReportComment $billing_report_comment)
+	{
+		try 
+		{
+			parent::AddItem($billing_report_comment);
+		}
+		catch (Hb_Data_ObjectInCollectionException $e)
+		{
+			throw new Hb_Data_ObjectInCollectionException(
+								"Comment Already Exists In Collection For BillingReportComments " . $billing_report_comment->GetId(),
+								HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}	
+	}
+	
+	public function GetItem($billing_report_comment_id)
+	{
+		try 
+		{
+			return parent::GetItem($billing_report_comment_id);
+		}
+		catch (Hb_Data_ObjectNotInCollectionException $e)
+		{
+			throw new Hb_Data_ObjectNotInCollectionException(
+								"Comment Does Not Exist In Collection For BillingReportComments " . $billing_report_comment_id,
+								HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+}
+
+?>

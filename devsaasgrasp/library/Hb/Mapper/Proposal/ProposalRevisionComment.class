@@ -1,0 +1,104 @@
+<?php 
+/**
+ * Mapper class ProposalRevisionComment
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Administrator
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */  
+class Hb_Mapper_Proposal_ProposalRevisionComment extends Hb_Mapper_Mapper
+{  
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Proposal_ProposalRevisionComment'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'proposal_revision_comment_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'proposal_revision_comment';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Proposal Revision Comment Id
+    * @return Hb_App_Proposal_ProposalRevisionComment Returns domain object
+    */ 
+   protected function doFindById($id) 
+   { 
+	  if (Hb_App_ObjectMap::hasObject('Hb_App_Proposal_ProposalRevisionComment', $id)) {
+			return Hb_App_ObjectMap::getObject('Hb_App_Proposal_ProposalRevisionComment', $id);	
+		}
+	  
+	  $select = $this->GetBaseSelect();	
+	  $select->where('prc.proposal_revision_comment_id = ?', $id);
+	  
+	  return $this->getRow($select);
+
+   }
+
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+      $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  $select = $db->select();
+	  $select->from(array('prc' => 'proposal_revision_comment'), array('proposal_revision_comment_id', 
+	  'proposal_revision_id', 'proposal_revision_comment_type_id', 'comment'));
+	  
+	  return $select;
+   }
+   
+   /**
+    * Save
+    * 
+    * @param $obj object Instance of the Hb_App_Proposal_ProposalRevisionComment
+    */ 
+   protected function doSave(Hb_App_Object $obj) 
+   {
+   	  $row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+	 
+	  $row->proposal_revision_id					= $obj->GetProposalRevisionId();
+	  $row->proposal_revision_comment_type_id		= $obj->GetProposalRevisionCommentTypeId();
+	  $row->comment									= $obj->GetComment();
+	
+	  $row->Save();
+		
+	  $obj->SetProposalRevisionCommentId($row->proposal_revision_comment_id);
+   }
+
+   /**
+    * Builds Hb_App_Object object from the provided row member of Hb_Util_Db_Table object
+    *
+    * @param row $row 
+    * @return Hb_App_Object
+    */ 
+   protected function doBuildObject($row) 
+   {
+   	  return new Hb_App_Proposal_ProposalRevisionComment($row->proposal_revision_comment_id,
+   	  		$row->proposal_revision_id,
+   	  		null,
+   	  		$row->proposal_revision_comment_type_id,
+   	  		null,
+   	  		$row->comment
+   	  		);
+   }
+} 
+?>

@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * Mapper object of Hb_App_Study_StudyTemplateAttribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */
+
+class Hb_Mapper_Study_StudyTemplateAttribute extends Hb_Mapper_Mapper 
+{
+
+	/**
+	 * Primary key for study_template_attr table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'study_template_attr_id';
+	
+	/**
+	 * Table name study_template_attr
+	 *
+	 * @var string
+	 */
+	protected $table = 'study_template_attr';
+	
+	/**
+	 * Builds the StudyTemplateAttribute Object
+	 *
+	 * @param Zend/Db select Object $row
+	 * @return object Hb_App_Study_StudyTemplateAttribute
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTemplateAttribute($row->study_template_attr_id,
+																	  $row->study_template_id,
+																	  $row->study_attr,
+																	  $row->study_value
+																	 );
+	}
+	
+	/**
+	 * Returns the base select for Hb_App_Study_StudyTemplateAttribute
+	 *
+	 * @return Zend/DB select Object
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		
+		$select->from(
+						array('sta' => 'study_template_attr'),
+						array(
+								'study_template_attr_id' , 
+								'study_template_id' , 
+								'study_attr' , 
+								'study_value'
+							)
+						);
+						
+		return $select;
+	}
+
+	/**
+	 * Find the Study template attrbute by Id
+	 *
+	 * @param int $id
+	 * @return Zend/DB row Object
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sta.study_template_attr_id = ?', $id);
+		
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Save Hb_App_Study_StudyTemplateAttribute Object
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		require_once('class/Hb/Util/Db/Query.class');
+		
+		$db = Hb_Util_Db_Query::getInstance();
+
+		if (is_null($obj->GetId())) 
+		{
+			$query = "INSERT INTO study_template_attr 
+							(study_template_id, 
+							 study_attr, 
+							 study_value ) "
+               			. "VALUES (" . $obj->GetStudyTemplateId() . ", 
+               			 			  '" . $db->escapeString($obj->GetAttributeName()) . "', 
+               			 			  '" . $db->escapeString($obj->GetAttributeValue()) . "')";
+			
+			$db->q($query);
+			
+			$obj->SetStudyTemplateAttrId($db->getLastInsertId());			
+			
+		} 
+		else
+		{
+			$query = "UPDATE study_template_attr "
+						. "SET study_template_id = " . $obj->GetStudyTemplateId() . ", "
+							. " study_attr = '" 	. $db->escapeString($obj->GetAttributeName()) . "', "
+							. " study_value = '" . $db->escapeString($obj->GetAttributeValue()) . "' "
+							. "WHERE study_template_attr_id = " . $obj->GetId();
+
+			$db->q($query);
+		}
+
+	}
+
+}
+?>

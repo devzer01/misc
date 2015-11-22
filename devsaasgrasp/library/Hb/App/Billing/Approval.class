@@ -1,0 +1,430 @@
+<?php
+/**
+  * Domain Object for Hb_App_Billing_Approval
+  * 
+  * @copyright 2007 Global Market Insite Inc
+  * @author harsha
+  * @version 1.0
+  * @package App
+  * @subpackage Billing
+  *
+  */  
+class Hb_App_Billing_Approval 
+{
+	/**
+	 * Billing Report Id
+	 *
+	 * @var int 
+	 */
+	private $billing_id = null;
+	
+	/**
+	 * Billing Report Instance
+	 *
+	 * @var Hb_App_Billing_BillingReport 
+	 */
+	private $billing = null;
+	
+	/**
+	 * Satate class instance
+	 *
+	 * @var Hb_App_Billing_State_BRState 
+	 */
+	private $next_status = null;
+	
+	/**
+	 * BR line is new line
+	 *
+	 * @var boolean
+	 */
+	private $new_lines = null;
+	
+	/**
+	 * Get Approval Button Status
+	 *
+	 * @var boolean 
+	 */
+	private $get_approval = null;
+	
+	/**
+	 * Constructore of the Approval Domain
+	 * 
+	 * @param $new_lines Boolean New line status
+	 */
+	function __construct($new_line = null, $get_approval = null) {		
+		$this->new_lines 		= $new_line;
+		$this->get_approval 	= $get_approval;
+	}
+	
+	/**
+	 * Return the next Approve status of the BR 
+	 *
+	 * @return int next Approve status of the BR
+	 */
+	public function RequireApproval()
+	{ 
+		//pick the right State to get the next state
+		switch ($this->billing->GetBillingReportStatusID()) {
+			case ARMC_STATUS_EDIT:				
+				$data = new Hb_App_Billing_State_DataState($this);
+				$this->next_status = $data->GetNextState();				
+				break;
+				
+			case ARMC_STATUS_AM_APPROVAL:				
+				$data = new Hb_App_Billing_State_AMState($this);
+				$this->next_status = $data->GetNextState();
+				break;
+				
+			case ARMC_STATUS_AE_APPROVAL:
+				$data = new Hb_App_Billing_State_AEState($this);
+				$this->next_status = $data->GetNextState();
+				break;
+				
+			case ARMC_STATUS_ACCT_APPROVAL:
+				$data = new Hb_App_Billing_State_ACCTState($this);
+				$this->next_status = $data->GetNextState();
+				break;
+		}
+		
+		//set the next billing report status id
+		$this->billing->SetBillingReportStatusID($this->next_status);
+	}
+	
+	/**
+	 * Return the new line status for the Approval
+	 *
+	 * @return boolean new line status
+	 */
+	public function GetNewLines()
+	{		
+		return $this->new_lines;
+	}
+	
+	/**
+	 * Return the Get Approval Button status for the Approval
+	 *
+	 * @return boolean Get Approval status
+	 */
+	public function GetApprovalStatus()
+	{
+		return $this->get_approval;
+	}
+	
+	/**
+	 * Set the Billing instance for the  Approval
+	 * 
+	 * @param Hb_App_Billing_BillingReport $billing Billing instance
+	 */
+	public function SetBilling(Hb_App_Billing_BillingReport $billing)
+	{ 		
+		$this->billing 		= $billing;
+		$this->billing_id 	= $billing->GetBillingReportID();
+		$this->next_status 	= $billing->GetBillingReportStatusID();
+		
+	}
+	
+	/**
+	 * Return the Billing Report Instance for the Approval
+	 *
+	 * @return Hb_App_Billing_BillingReport Billing Report Instance
+	 */
+	public function GetBillingReport()
+	{
+		return $this->billing;
+	}
+		
+	/**
+	 * Return the status if user allowed to skipped from the br setting and the Credit memo is set for the Approval
+	 *
+	 * @return boolean status if user allowed to skipped from the br setting and the Credit memo is set
+	 */
+	public function IsUserAllowedToSkipWithCreditMemo()
+	{ 
+		if($this->IsCreditMemoBillingReportType() && $this->IsUserAllowedToSkipApproval()){
+			//write on the Billing event log
+			$armc_event = new Hb_App_Billing_BillingReportEvent(null, $this->billing->GetBillingReportID(), ARMC_EVENT_TYPE_APPROVAL_SKIPPED, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'], 'User allowed to skip approvals');
+			return true;
+		}		
+		return false;
+	}
+	
+	/**
+	 * Return the status of result if User allowed to skip and if BR type in BR Settings for the Approval
+	 *
+	 * @return boolean status of result if User allowed to skip and if BR type in BR Settings
+	 */
+	public function IsUserAllowedToSkipWithBRType()
+	{
+		$billing_report_settings = $this->GetBillingReportSetting('SKIP_APPROVAL_ALLOWED_GROUPS');
+		
+		if($this->IsBillingReportTypeInBillingReportSetting() && $this->IsUserMemeberOfSecurityGroup($billing_report_settings)){			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Return the Status if the BR type is in the BR settings for the Approval
+	 *
+	 * @return boolean Status if the BR type is in the BR settings
+	 */
+	protected function IsBillingReportTypeInBillingReportSetting()
+	{
+		$billing_report_settings = $this->GetBillingReportSetting('SKIP_APPROVAL_ALLOWED_ARMC_TYPES');
+		
+		foreach ($billing_report_settings as $billing_report_type_id) {				
+			switch ($billing_report_type_id) {
+				case -1:
+					return true;
+					break;
+				
+				case 0:
+					return false;
+					break;
+				
+				default:
+					if ($this->billing->GetBillingReportTypeID() == $billing_report_type_id) {
+						return true;
+					}
+					break;
+			}		
+		}
+	}
+	
+	/**
+	 * Return the Credit Memo status for the Approval
+	 *
+	 * @return boolean Credit Memo status
+	 */
+	protected function IsCreditMemoBillingReportType()
+	{
+		$armc_type_id = $this->billing->GetBillingReportTypeID();	
+		
+		return
+			(($armc_type_id == ARMC_TYPE_CM_STUDY) ||
+			($armc_type_id == ARMC_TYPE_CM_TR) ||
+			($armc_type_id == ARMC_TYPE_CM_LI) ||
+			($armc_type_id == ARMC_TYPE_CM_SB) ||
+			($armc_type_id == ARMC_TYPE_CM_OT) ||
+			($armc_type_id == ARMC_TYPE_VAP_CM) ||
+			($armc_type_id == ARMC_TYPE_ERS_CM) ||
+			($armc_type_id == ARMC_TYPE_RSA_CM) ||
+			($armc_type_id == ARMC_TYPE_ISS_CM) ||
+			($armc_type_id == ARMC_TYPE_EFP_CM) ||
+			($armc_type_id == ARMC_TYPE_EFS_CM));
+	}
+	
+	/**
+	 * Return the Status when the user is allow to skip approval status from BR settings for the Approval
+	 *
+	 * @return boolean Status when the user is allow to skip approval status from BR settings
+	 */
+	protected function IsUserAllowedToSkipApproval()
+	{
+		$billing_report_settings = $this->GetBillingReportSetting('SKIP_APPROVAL_ALLOWED_GROUPS');
+			
+		if($this->IsUserMemeberOfSecurityGroup($billing_report_settings)) {
+			return true;
+			
+		}
+		return false;		
+	}
+	
+	/**
+	 * Return the Billing setting array for the Approval
+	 *
+	 * @return array Billing setting array
+	 * @param $name String Billing Report Setting Name
+	 */
+	protected function GetBillingReportSetting($name)
+	{
+		$billing_report_setting = Hb_App_Billing_BillingReportSetting::GetSetting($name);		
+		return  explode(',',$billing_report_setting);
+	}
+	
+	/**
+	 * Return the Satus of the User whether he is in the Secrity group for the Approval
+	 *
+	 * @return boolean Satus of the User whether he is in the Secrity group
+	 * @param $settings Array Billing Report Settings Array
+	 */
+	protected function IsUserMemeberOfSecurityGroup($settings)
+	{ 
+		//get the Billing Report Audit instance
+		$audit = $this->billing->GetAudit();		
+		//get the Billing Report Created user instance
+		$user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($audit->GetCreatedBy());
+		//check whether created user is in the Security Group
+		if($user->IsUserMemberOfSecurityGroup($settings)) {			
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Return the Status of the Study costs whether they are approved/rejected or not and Billing report budget line is approved or not for the Approval
+	 *
+	 * @return boolean Status of the Study costs whether they are approved/rejected or not and Billing report budget line is approved or not
+	 */
+	protected function IsARMCLineAndStudyApproved($action_type)
+	{
+		if($this->billing->GetBillingReportTypeID() == ARMC_TYPE_BR_STUDY) {
+			
+			$study_id = $this->billing->GetStudyId();
+			
+			$study_costs = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_Study')->Find($study_id)->GetStudyCostsActive();
+		       
+		   foreach($study_costs AS $cost) {                        	               
+		      if (!($cost->IsAMApproved() || $cost->IsAMRejected())) {                        	
+		         return false;                                
+		      }
+		   }
+		}
+		
+		$config = Hb_Util_Config_SystemConfigReader::Read();
+     
+	  	$cfg['base_dir'] = $config->base_dir;
+	  
+	  	require_once ($_SERVER['DOCUMENT_ROOT'] . '/include/config.inc');
+	  	require_once ($cfg['base_dir'] . '/class/dbConnect.php');
+	  	require_once ($cfg['base_dir'] . '/class/dbClass/atmDB.class');	
+	  	
+	  	$atmDB = new atmDB();
+		
+		$rst = $atmDB->GetARMCLines($this->billing->GetBillingReportID());
+		
+      while ($line = mysql_fetch_assoc($rst)) {           	       	         	
+         if (!$atmDB->ARMCLineIsApproved($line["armc_budget_line_item_id"], $action_type)) {            	        	
+            return false;
+         }
+      }         		
+       	
+		return true;
+	}
+	
+	/**
+	 * Return the Status by checking few satus which should be approved by the ACCT for the Approval
+	 *
+	 * @return boolean Status by checking few satus which should be approved by the ACCT
+	 */
+	public function ARMCIsApprovedByACCT()
+	{
+		if($this->ARMCIsApproved(ARMC_ACTION_TYPE_ACCT_APPROVED_HEADER) && $this->ARMCIsApproved(ARMC_ACTION_TYPE_ACCT_APPROVED_INVOICE)){
+			return $this->IsARMCLineAndStudyApproved(ARMC_ACTION_TYPE_ACCT_APPROVED_LINE);		
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Return the Status by checking few status which should be approved by the AM for the Approval
+	 *
+	 * @return boolean Status whether Billing Report is Approved by the AM
+	 */
+	public function ARMCIsApprovedByAM()
+	{	
+		if($this->ARMCIsApproved(ARMC_ACTION_TYPE_AM_APPROVED_HEADER) && $this->ARMCIsApproved(ARMC_ACTION_TYPE_AM_APPROVED_INVOICE)){						
+			return $this->IsARMCLineAndStudyApproved(ARMC_ACTION_TYPE_AM_APPROVED_LINE);			
+		}
+		return false;
+	}
+	
+	/**
+	 * Return the Status by checking few status which should be approved by the AE for the Approval
+	 *
+	 * @return boolean Status by checking few status which should be approved by the AE
+	 */
+	public function ARMCIsApprovedByAE()
+	{
+		if($this->ARMCIsApproved(ARMC_ACTION_TYPE_AE_APPROVED_HEADER) && $this->ARMCIsApproved(ARMC_ACTION_TYPE_AE_APPROVED_INVOICE)){
+			return $this->IsARMCLineAndStudyApproved(ARMC_ACTION_TYPE_AE_APPROVED_LINE);
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Return the Status when the Billing Report Action is set in the table for the Approval
+	 *
+	 * @return boolean Status when the Billing Report Action is set in the table
+	 */
+	protected  function ARMCIsApproved($action_type)
+	{ 
+		$billing_report_aciton = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportAction')->FindByActionType($this->billing->GetBillingReportID(), $action_type);
+		
+		if($billing_report_aciton->GetBillingReportActionId() != null) {
+			return true;
+		}
+		return false;	
+	}
+	
+	/**
+	 * Return if the Billing Report Attribute is set and the AE User is valid for the Approval
+	 *
+	 * @return boolean
+	 */
+	public  function ARMCRequiresAEApproval()
+	{ 
+		try {			
+			//getting ARMC Types that require AE Approval
+			if($this->billing->GetAccountAttributeByName('AMRC_AE_APPROVAL_REQUIRED') && $this->billing->isAEValidUser()) {				
+				return true;
+			}
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			return false;
+		}		
+		return false;		
+	}
+	
+	/**
+	 * Return the Status if the Billing Report Attribute and Billing settings are set  for the Approval
+	 *
+	 * @return boolean
+	 */
+	public function ARMCRequiresACCTApproval()
+	{ 
+		try {
+			//getting ARMC Types that require ACCT Approval
+			$billing_report_setting = $this->GetBillingReportSetting('ARMC_TYPES_REQUIRE_ACCT_APPROVAL');
+		
+			//Check whether ACCT Apprival required for the ARMC Or check ARMC Type is in the Billing Setting types
+			if($this->billing->GetAccountAttributeByName('AMRC_ACCT_APPROVAL_REQUIRED') || in_array($this->billing->GetBillingReportTypeID(), $billing_report_setting) ) {				
+				return true;
+			}
+			
+			//Check whether AE Apprival Required for the ARMC and the AE user is not a valid user
+			if($this->billing->GetAccountAttributeByName('AMRC_AE_APPROVAL_REQUIRED') && !$this->billing->isAEValidUser()) {
+				return true;
+			}			
+		}catch (Hb_Data_ObjectNotInCollectionException $e){			
+			return false;
+		}
+		return false;		
+	}
+	
+	/**
+	 * Return the array of Billing Report BR Prefix types
+	 *
+	 * @return array
+	 */
+	private function GetBRPrefixTypes()
+	{ 
+		return array(ARMC_TYPE_BR_STUDY, ARMC_TYPE_BR_SB, ARMC_TYPE_BR_LI, ARMC_TYPE_BR_TR, ARMC_TYPE_BR_OT);
+	}	
+	
+	/**
+	 * Return if the billing report is a BR Prefix type
+	 *
+	 * @return boolean
+	 */
+	public function IsTypeBRPrefix()
+	{ 
+		if(in_array($this->billing->GetBillingReportTypeID(), $this->GetBRPrefixTypes())){
+			return true;
+		}
+		return false;
+	}	
+	
+}
+
+?>

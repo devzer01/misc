@@ -1,0 +1,82 @@
+/*
+------------------------------
+	Impromptu's
+------------------------------
+*/
+.jqifade{
+	position: absolute;
+	background-color: #333333;
+}
+div.jqi{
+	position: absolute;
+	background-color: #ffffff;
+	padding: 10px; 
+	width: 350px;
+	text-align: left;
+	border: solid #000000 1px;
+}
+div.jqi .jqicontainer{
+	background-color: #ffffff;
+	padding: 5px; 
+	color: #000000;
+	border: solid #000000 1px;	
+}
+div.jqi .jqimessage{
+	background-color: #ffffff;
+	padding: 10px;
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif; 
+	FONT-SIZE: 8pt;	
+}
+div.jqi .jqibuttons{
+	text-align: center;
+	padding: 5px 0 0 0;
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif; 
+	FONT-SIZE: 8pt;
+}
+div.jqi button{
+	padding: 3px 10px 3px 10px;
+	margin: 0 10px;
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif; 
+	FONT-SIZE: 8pt;
+}
+/* columns prefix example */
+.colsJqifade{
+	position: absolute;
+	background-color: #ffffff;
+}
+div.colsJqi{
+    position: absolute;
+	background-color: #d0dEb6;
+	padding: 10px; 
+	width: 400px;
+	text-align: left;
+}
+div.colsJqi .colsJqicontainer{
+	background-color: #e0eEc6;
+	padding: 5px; 
+	color: #ffffff;	
+	height: 160px;
+}
+div.colsJqi .colsJqimessage{
+	background-color: #c0cEa6;
+	padding: 10px;
+	width: 280px;
+	height: 140px;
+	float: left;
+}
+div.colsJqi .jqibuttons{
+	text-align: center;
+	padding: 5px 0 0 0;
+}
+div.colsJqi button{
+	background: url(../images/button_bg.jpg) top left repeat-x #ffffff;
+	border: solid #000000 1px;
+	FONT-FAMILY: Verdana,Arial,Helvetica,sans-serif; 
+	FONT-SIZE: 8pt;
+	padding: 3px 10px 3px 10px;
+	margin: 5px 5px 5px 10px;
+	width: 75px;
+}
+div.colsJqi button:hover{
+	border: solid #aaaaaa 1px;
+}

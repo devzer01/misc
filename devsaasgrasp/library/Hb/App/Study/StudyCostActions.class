@@ -1,0 +1,70 @@
+<?php 
+/**
+ * Domain Object for Study Cost Actions
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCostActions extends Hb_App_Collection 
+{
+	/**
+	 * Study Cost Action instance
+	 *
+	 * @var HB_App_Study_StudyCostActions 
+	 */
+	protected $study_cost_action = null;
+	
+	/**
+	 * Study Cost Action Id
+	 *
+	 * @var int 
+	 */
+	protected $study_cost_action_id	= null;
+	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 */
+	public function AddItem(Hb_App_Study_StudyCostAction $study_cost_action) 
+	{
+		try {
+			parent::AddItem($study_cost_action);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Cost Action Already Exists In Collection For StudyCostActions ". $study_cost_action->study_cost_action_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($study_cost_action_id)
+	{
+		try {
+			return parent::GetItem($study_cost_action_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Cost Not Found For Study Cost Actions Collection" . $study_cost_action_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Add Study Cost Action values to the Properties
+	 *
+	 */
+	public function AddStudyCostAction(Hb_App_Study_StudyCostAction $study_cost_action)
+	{
+		$this->study_cost_action		= $study_cost_action;
+		$this->study_cost_action_id	= $study_cost_action->GetStudyCostActionId();
+	}	
+}
+?>

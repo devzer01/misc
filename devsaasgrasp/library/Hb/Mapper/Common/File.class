@@ -1,0 +1,71 @@
+<?php
+/**
+ * Common File mapper  
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Common
+ */ 
+
+class Hb_Mapper_Common_File implements Hb_Mapper_Common_FileInterface 
+{
+	private $field_map = array(
+											"proposal_revision_file_data" => "file_data"
+										);
+		
+	/**
+	* Retrieves and returns file data
+	* 
+	* @param int $id File Id
+	* @param object $mapper_obj Instance of a mapper object
+	*/					
+	public function GetFileData($id, $mapper_obj)
+	{	
+		$db = Hb_Util_Db_Query::getInstance();
+		
+		$field_name = $mapper_obj->GetTableName(). "_data";
+		
+		$sql = "SELECT ".$field_name." FROM ". $mapper_obj->GetTableName(). " WHERE ". $mapper_obj->GetPrimaryKey(). " = ". $id;
+		
+		try 
+		{		
+			$data = $db->getAssoc($db->q($sql));
+		} 
+		catch (Exception $e) //assume the file data field name is invalid; fall back to the workaround
+		{
+			$field_name = self::GetMappedField($mapper_obj->GetTableName()."_data") ;
+						
+			$sql = "SELECT ".$field_name. " FROM ". $mapper_obj->GetTableName(). " WHERE ". $mapper_obj->GetPrimaryKey(). " = ". $id;
+			$data = $db->getAssoc($db->q($sql));
+		}
+		
+		return $data[$field_name];
+		
+	
+	}
+	
+	/**
+	* Returns a valid mapped field name from a list. 
+	* Primarily written as a workaround for inconsistent naming conventions in the _file tables
+	* 
+	* @todo Rewrite the internal implementation of this function to pull the data off a xml file/db table later
+	* @param string $for_field The field name that was 'expected' to be there in the persistence layer
+	* @return string The name of the valid field name in the persistence layer
+	* 
+	*/						
+	private function GetMappedField($for_field)
+	{
+		if( isset( $this->field_map[$for_field]) )
+			return $this->field_map[$for_field];
+	}
+	
+	
+	public function Save(Hb_App_Object $obj) {
+		
+	}
+
+	
+}
+?>

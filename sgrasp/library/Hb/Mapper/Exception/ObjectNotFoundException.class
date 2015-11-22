@@ -1,0 +1,6 @@
+<?php
+class Hb_Mapper_Exception_ObjectNotFoundException extends Exception
+{
+
+}
+?>

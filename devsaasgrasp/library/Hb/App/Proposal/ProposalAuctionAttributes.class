@@ -1,0 +1,56 @@
+<?php 
+/**
+ * Domain Object for Proposal Auction Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_ProposalAuctionAttributes extends Hb_App_Attributes 
+{
+	/**
+	 * Proposal Auction instance
+	 *
+	 * @var HB_App_Proposal_Proposal Auction 
+	 */
+	protected $proposal_auction = null;
+	
+	/**
+	 * Proposal Auction Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_auction_id	= null;
+	
+	public function AddAttribute(Hb_App_Proposal_ProposalAuctionAttribute $attribute) 
+	{
+		try {
+			parent::AddAttribute($attribute);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Attribute Already Exists In Collection For Proposal Auction ". $this->proposal_auction_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	public function GetAttribute($name)
+	{
+		try {
+			return parent::GetAttribute($name);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Attribute Not Found For Proposal Auction " . $this->proposal_auction_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	public function AddProposalAuction(Hb_App_Proposal_ProposalAuction $proposal_auction)
+	{
+		$this->proposal_auction		= $proposal_auction;
+		$this->proposal_auction_id	= $proposal_auction->GetProposalAuctionId();
+	}
+	
+}
+
+?>

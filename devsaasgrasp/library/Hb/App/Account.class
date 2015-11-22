@@ -1,0 +1,71 @@
+<?php
+
+class Hb_App_Account {
+	
+	public $id = 0;
+	
+	private $__contacts = array();
+	
+	/**
+	* __construct()
+	*
+	* @param
+	* @param 
+	* @return
+	* @since  - 13:00:12
+	*/
+	function __construct($id)
+	{
+		$this->id = (int) $id;
+	}
+	
+	/**
+	* AddContact()
+	*
+	* @param Hb_App_Contact $contact
+	* @return Hb_App_Contact
+	* @since  - 16:54:20
+	*/
+	function AddContact($contact)
+	{
+		$db = Hb_Db::getInstance();
+
+		$db->Insert(
+			'account_contact',
+			array(
+				'account_id' => $this->id, 
+				'contact_id' => $contact->id
+			)
+		);
+		
+		$this->__contacts[] = $contact;
+	}
+	
+	function GetPurchaseOrders()
+	{
+		$po = Hb_Transaction_Account_PurchaseOrder::Get($this->id);
+		return $po;
+	}
+	
+	
+	/**
+	 * Returns an Account Data Object Instance
+	 *
+	 * @param int $id Account Id
+	 * @return Hb_App_Account
+	 * @access static
+	 */
+	public static function getInstance($id) 
+	{
+		static $_store = array();
+		
+		if (isset($_store[$id])) return $_store[$id];
+		
+		$obj = new Hb_App_Account($id);
+		
+		$_store[$id] = $obj;
+		
+		return $obj;
+	}
+}
+?>

@@ -1,0 +1,146 @@
+<?php
+/**
+ * Mapper for City 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Common
+ */
+class Hb_Mapper_Common_City extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Common_City';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Common_City';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "city_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "city";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_City($row->city_id,
+												$row->city_description, 
+												$row->state,
+											   $row->province,
+												$row->county,
+												$row->postal_code,
+												$row->country_code
+											  );		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('city_id', 	
+													 'city_description', 	
+													 'state',
+													 'province',
+													 'county',
+													 'postal_code',
+													 'country_code'													 
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a City  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		/* @var $obj Hb_App_City */
+				
+		$data = array('city_description' => $obj->GetCityDescription(),
+					     'state'    			=> $obj->GetState(),
+					     'province' 			=> $obj->GetProvince(),
+					     'county'				=> $obj->GetCountry(),
+					     'postal_code'   	=> $obj->GetPostalCode(),
+					     'country_code'		=> $obj->GetCountryCode(),
+					    );
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetCityId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}	
+	
+	public function findByStatePostalCode($state,$postal_code)
+	{		
+		$select = $this->GetBaseSelect();         
+    	$select->where('state = ?', $state);
+    	$select->where('postal_code = ?', $postal_code);	
+		$rows  = $this->getRows($select);
+		
+		$count = count($rows);
+		
+		if ($count > 0) 
+		{
+     		return true ;
+		} 
+		else 
+		{
+    		return false ;
+		}
+	}
+}
+?>

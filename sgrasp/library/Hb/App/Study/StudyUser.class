@@ -1,0 +1,186 @@
+<?php
+/**
+ * Domain for Study User
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ */
+class Hb_App_Study_StudyUser extends Hb_App_Object
+{
+	/**
+	 * Study user id
+	 *
+	 * @var int
+	 */   
+	protected $study_user_id = null;
+
+	/**
+	 * Study Id
+	 *
+	 * @var int
+	 */   	
+	protected $study_id = null;
+	
+	/**
+	 * Login id
+	 *
+	 * @var int
+	 */  	
+	protected $login = null;
+	
+	/**
+	 * Role id
+	 *
+	 * @var int
+	 */  	
+	protected $role_id = null;
+	
+	/**
+	 * Ticket recipient
+	 *
+	 * @var int
+	 */  	
+	protected $tcm_recipient = null;
+
+	/**
+	 * Create a Study User 
+	 *
+	 * @param int $id Study user id
+	 * @param int $study_id Study id
+	 * @param int $login Login id
+	 * @param int $role_id Role id
+	 * @param int $tcm_recipient Ticket recipient id
+	 */	
+	function __construct(
+								$id = null,
+								$study_id = null,
+								$login = null,
+								$role_id = null,
+								$tcm_recipient = null
+								)
+	{
+		$this->study_user_id 	= $id;
+		$this->study_id 			= $study_id;
+		$this->login 				= $login;
+		$this->role_id 			= $role_id;
+		$this->tcm_recipient 	= $tcm_recipient;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Sets study id
+	 *
+	 * @param int $study_user_id Study user id
+	 */
+	public function SetStudyUserId($study_user_id)
+	{
+		$this->study_user_id = $study_user_id;
+		$this->__id = $study_user_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set study id
+	 *
+	 * @param int $study_user_id Study id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets login
+	 *
+	 * @param int $login Login id
+	 */
+	public function SetLoginId($login)
+	{
+		$this->login = $login;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets role id
+	 *
+	 * @param int $login Login id
+	 */
+	public function SetRoleId($role_id)
+	{
+		$this->role_id = $role_id;
+
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets tcm recipient
+	 *
+	 * @param int $login Login id
+	 */
+	public function SetTcmRecipientId($tcm_recipient)
+	{
+		$this->tcm_recipient = $tcm_recipient;
+
+		$this->MarkDirty();
+	}
+	
+
+	/**
+	 * Get study user id
+	 *
+	 * @return int The study user id
+	 */
+	public function GetStudyUserId()
+	{
+		return $this->study_user_id;
+	}
+
+	/**
+	 * Get study id
+	 *
+	 * @return int The study id
+	 */
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	 * Get login id
+	 *
+	 * @return int The login id
+	 */
+	public function GetLoginId()
+	{
+		return $this->login;
+	}
+	
+	/**
+	 * Get role id
+	 *
+	 * @return int The role id
+	 */
+	public function GetRoleId()
+	{
+		return $this->role_id;
+	}
+
+	/**
+	 * Get tcm recipient id
+	 *
+	 * @return int The tcm recipient id
+	 */
+	public function GetTcmRecipientId()
+	{
+		return $this->tcm_recipient;
+	}
+
+
+}
+?>

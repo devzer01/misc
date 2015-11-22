@@ -1,0 +1,129 @@
+<?php
+/**
+ * Mapper for Country 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Common
+ */
+class Hb_Mapper_Common_Countries extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Common_Country';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Common_Country';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "country_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "country";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Common_Country($row->country_id,
+												$row->country_code, 
+												$row->country_description,
+											   $row->region_id												
+											  );		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('country_id', 	
+													 'country_code', 	
+													 'country_description',
+													 'region_id'
+																										 
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Country  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRows($select); 						
+	}
+	
+	protected function doFindAll()
+	{
+		$select = $this->GetBaseSelect();
+		$select .= ' ORDER BY sort_order';
+		return $this->getRows($select); 	
+	}
+	
+	protected function doFindByName($str)
+	{
+		$select = $this->GetBaseSelect();
+		$select .= ' Where country_description LIKE \''. $str .'%\' ';
+		$select .= ' ORDER BY sort_order';		
+		return $this->getRows($select);
+	}
+	
+	public function FindByName($str)
+	{
+		$result = $this->doFindByName($str);
+		return $this->BuildCollection($result, 'Hb_App_Common_Countries');
+	}
+	
+	public function FindAll()
+	{
+		$result = $this->doFindAll();
+		return $this->BuildCollection($result, 'Hb_App_Common_Countries');
+	}
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		
+	}	
+	
+}
+?>

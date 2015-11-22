@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Exception class for handling the Oracle Bind error
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Ora/Exception
+ */
+
+require_once ('class/Hb/Util/Db/Ora/Exception/OracleException.class');
+
+/**
+ * Oracle Bind error exception
+ *
+ */
+class Hb_Util_Db_Ora_Exception_ExecuteException extends Hb_Util_Db_Ora_Exception_OracleException 
+{
+	
+}
+
+?>

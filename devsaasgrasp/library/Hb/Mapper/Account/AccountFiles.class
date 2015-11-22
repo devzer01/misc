@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Mapper object for AccountFiles
+ * 
+ * @copyright 2008 Global Market Insite Inc
+ * @author Jon
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ *
+ */
+
+
+class Hb_Mapper_Account_AccountFiles extends Hb_Mapper_Mapper
+{
+	protected $primary_key = 'account_file_id';
+	
+	protected $table       = 'account_file';
+	
+	/**
+	 * Protected method to do the work of finding by account ID
+	 *
+	 * @param int $id Account Id
+	 * @return Hb_App_Account_AccountFiles
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		
+		$select->where('account_id = ?', $id);
+		$select->where('status = ? ', 'A');
+		
+		return $this->getRows($select);
+	}
+
+	protected function doBuildObject($row)
+	{
+		$account_file = new Hb_App_Common_File($row->account_file_id,
+                                               $row->file_type_id,
+                                               $row->account_file_name,
+                                               $row->account_file_title,
+                                               $row->account_file_size );
+                                               
+		return new Hb_App_Account_AccountFile($row->account_file_id,
+                                              $row->account_id,
+                                              $account_file );
+	}
+	
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_AccountFiles');
+	}
+	
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from($this->table);
+		
+		return $select;
+	}
+
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	}
+
+	
+}
+?>

@@ -1,0 +1,148 @@
+<?php
+/**
+ * Mapper Class for StudyQuotaSummary
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyQuotaSummary extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study quota summary
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_quota_summary_id';
+
+	/**
+	 * Study quota summary table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_quota_summary';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyQuotaSummary';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyQuotaSummary';
+	
+	/**
+	 * Build the StudyQuotaSummary Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyQuotaSummary
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyQuotaSummary($row->study_quota_summary_id,
+																$row->study_id,
+														 		$row->study_quota_summary_date,
+														   	$row->completed_non_panel,
+														 		$row->invited_panel,
+														 		$row->invited_non_panel,
+														   	$row->started_panel,
+														   	$row->started_non_panel,
+														 		$row->incomplete_panel,
+														 		$row->incomplete_non_panel,
+														 		$row->screened_panel,
+														 		$row->screened_non_panel,
+														 		$row->completed_panel,
+														 		$row->routed_panel,
+														   	$row->routed_non_panel);
+	}
+	
+	/**
+	 * Get the base data set for StudyQuotaSummary
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('sqs' => $this->table), array('study_quota_summary_id',
+																		  'study_id',
+																    	  'study_quota_summary_date',  
+																 	 	  'completed_non_panel',
+																    	  'invited_panel',
+																    	  'invited_non_panel',  
+																 	 	  'started_panel',
+																 	 	  'started_non_panel',
+																    	  'incomplete_panel',
+																    	  'incomplete_non_panel',
+																    	  'screened_panel',
+																    	  'screened_non_panel',
+																    	  'completed_panel',
+																    	  'routed_panel',
+																    	  'routed_non_panel'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study quota summary
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('sqs.'. $this->primary_key . '= ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study quota summary
+	 *
+	 * @param Hb_App_Object StudyQuotaSummary
+	 * @return object Study quota summary
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_id'						=> $obj->GetStudyId(),
+							'study_quota_summary_date' => $obj->GetStudyQuotaSummaryDate(),
+							'completed_non_panel' 		=> $obj->GetCompletedNonPanel(),
+							'invited_panel' 				=> $obj->GetInvitedPanel(),
+							'invited_non_panel' 			=> $obj->GetInvitedNonPanel(),
+							'started_panel' 				=> $obj->GetStartedPanel(),
+							'started_non_panel' 			=> $obj->GetStartedNonPanel(),
+							'incomplete_panel' 			=> $obj->GetIncompletePanel(),
+							'incomplete_non_panel' 		=> $obj->GetIncompleteNonPanel(),
+							'screened_panel' 				=> $obj->GetScreenedPanel(),
+							'screened_non_panel' 		=> $obj->GetScreenedNonPanel(),
+							'completed_panel' 			=> $obj->GetCompletedPanel(),
+							'routed_panel' 				=> $obj->GetRoutedPanel(),
+							'routed_non_panel' 			=> $obj->GetRoutedNonPanel()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyQuotaSummaryId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

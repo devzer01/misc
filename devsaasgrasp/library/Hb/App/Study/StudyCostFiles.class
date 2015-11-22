@@ -1,0 +1,72 @@
+<?php 
+/**
+ * Domain Object for Study Cost Files
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyCostFiles extends Hb_App_Collection 
+{
+	/**
+	 * Study Cost File instance
+	 *
+	 * @var HB_App_Study_StudyCostFiles 
+	 */
+	protected $study_cost_file = null;
+	
+	/**
+	 * Study Cost File Id
+	 *
+	 * @var int 
+	 */
+	protected $study_cost_file_id	= null;
+	
+	
+	/**
+	 *  Add Item to the Collection
+	 * 
+	 * @var obj Hb_App_Study_StudyCostFile
+	 */
+	public function AddItem(Hb_App_Study_StudyCostFile $study_cost_file) 
+	{
+		try {
+			parent::AddItem($study_cost_file);
+		} catch (Hb_Data_ObjectInCollectionException $e) {
+			throw new Hb_Data_ObjectInCollectionException("Study Cost File Already Exists In Collection For StudyCostFiles ". $study_cost_file->study_cost_file_id,
+				HB_DATA_EXCEPTION_ATTR_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Get Item from the Collection
+	 *
+	 * @return the relevant domain object
+	 */
+	public function GetItem($study_cost_file_id)
+	{
+		try {
+			return parent::GetItem($study_cost_file_id);
+		}catch (Hb_Data_ObjectNotInCollectionException $e) {
+			throw new Hb_Data_ObjectNotInCollectionException("Requested Study Cost File Not Found For Study Cost Files Collection" . $study_cost_file_id,
+				HB_DATA_EXCEPTION_ATTR_NOT_IN_COLLECTION);
+		}
+	}
+	
+	
+	/**
+	 * Add Study Cost File values to the Properties
+	 * 
+	 * @var obj Hb_App_Study_StudyCostFile
+	 */
+	public function AddStudyCostFile(Hb_App_Study_StudyCostFile $study_cost_file)
+	{
+		$this->study_cost_file		= $study_cost_file;
+		$this->study_cost_file_id	= $study_cost_file->GetStudyCostFileId();
+	}	
+}
+?>

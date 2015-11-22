@@ -1,0 +1,142 @@
+<?php 
+/**
+ * Domain Object for Campaign Demographic
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package App
+ * @subpackage Account
+ */ 
+class Hb_App_Account_Recruiter_CampaignDemographic extends Hb_App_Object 
+{
+	/**
+	 * Campaign Demographic Id
+	 * 
+	 * @var int
+	 */
+	protected $account_recruiter_campaign_demographic_id = null;
+
+	/**
+	 * Account Id
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;	
+	
+	/**
+	 * Campaign Demographic Type Id
+	 * 
+	 * @var int
+	 */
+	protected $account_recruiter_demographic_type_id = null;	
+	
+	/**
+	 * Campaign Demographic Type status
+	 * 
+	 * @var char
+	 */	
+	protected $status = null;
+		
+	/**
+	* Contructor of the Campaign Demographic Domain
+	* 
+	* @param int $id Campaign Demographic Id
+	* @param int $campaign_id Campaign Id	
+	* @param int $account_recruiter_demographic_type_id Campaign Demographic Type Id	
+	*/		
+	function __construct($id 					  		  					= null,	
+								$account_id									   = null,
+								$account_recruiter_demographic_type_id = null
+							   )								
+								
+	{	
+		$this->account_recruiter_campaign_demographic_id = $id;
+		$this->account_id										  	 = $account_id;
+		$this->account_recruiter_demographic_type_id  	 = $account_recruiter_demographic_type_id;
+				
+		parent::__construct($id);
+	}	
+	
+	/**
+	 * Get Campaign Demographic Id
+	 *	
+	 * @return int $account_recruiter_campaign_demographic_id Campaign Demographic Id
+	 */
+	public function GetRecruiterCampaignDemographicId()
+	{
+		return $this->account_recruiter_campaign_demographic_id;
+	}
+	
+	/**
+	 * Get Account Id
+	 *	
+	 * @return int $account_id Account Id
+	 */
+	public function GetRecruiterAccountId()	
+	{
+		return $this->account_id;
+	}
+	
+	/**
+	 * Get Campaign Demographic Type Id
+	 *	
+	 * @return int $account_recruiter_demographic_type_id Campaign Demographic Type Id
+	 */
+	public function GetRecruiterCampaignDemographicTypeId()	
+	{
+		return $this->account_recruiter_demographic_type_id;
+	}
+	
+	
+	/**
+	 * Sets the Campaign Demographic Id
+	 *
+	 * @param int $account_recruiter_campaign_demographic_id Campaign Demographic Id
+	 */
+	public function SetRecruiterCampaignDemographicId($account_recruiter_campaign_demographic_id)
+	{
+		$this->account_recruiter_campaign_demographic_id = $account_recruiter_campaign_demographic_id;
+
+		$this->__id = $account_recruiter_campaign_demographic_id ;	
+		
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Sets Account Id
+	 *
+	 * @param int $account_id Account Id
+	 */
+	public function SetRecruiterAccountId($account_id)
+	{
+		$this->account_id = $account_id;
+		
+		$this->MarkDirty();
+	}	
+	
+	/**
+	 * Sets Campaign Id
+	 *
+	 * @param int $account_recruiter_demographic_type_id Campaign Demographic Type Id
+	 */
+	public function SetRecruiterCampaignDemographicTypeId($account_recruiter_demographic_type_id)
+	{
+		$this->account_recruiter_demographic_type_id = $account_recruiter_demographic_type_id;
+		
+		$this->MarkDirty();
+	}
+	
+	public function SetStatus($status)
+	{
+		$this->status	= $status;
+		$this->MarkDirty();
+	}
+	
+	public function GetStatus()
+	{
+		return $this->status;
+	}
+}	
+?>
+

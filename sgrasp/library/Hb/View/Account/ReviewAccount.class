@@ -1,0 +1,37 @@
+<?php
+class Hb_View_Account_ReviewAccount extends Hb_Util_View_View 
+{
+	protected $__template_name = 'app/acm/email_review_account.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $account = null;
+	
+	protected $user_requested_review = null;
+
+	protected $reason_for_review = null;
+
+	protected  function LoadData() 
+   {        
+      $this->SetData('account', $this->account); 
+	   $this->SetData('user_requested_review', $this->user_requested_review); 
+	   $this->SetData('reason_for_review', $this->reason_for_review);     	               
+  	}
+		
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetUserRequestedReview($user_requested_review)
+	{
+		$this->user_requested_review = $user_requested_review;
+	}
+
+	public function SetReasonforReview($reason_for_review)
+	{
+		$this->reason_for_review = $reason_for_review;
+	}
+}
+?>

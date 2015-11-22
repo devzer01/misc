@@ -1,0 +1,113 @@
+<?php
+/**
+ * @author svithanapathirana
+ * @version 1.0
+ */
+class Hb_Mapper_Account_Recruiter_CampaignComment extends Hb_Mapper_Mapper
+{
+	
+	protected $primary_key = 'account_recruiter_campaign_comment_id';
+	
+	protected $table 		  = 'account_recruiter_campaign_comment';
+	
+	/**
+	 * Builds and returns the Hb_App_Account_Recruiter_CampaignComment domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the account_recruiter_campaign_comment table
+	 * @return object An instance of the Hb_App_Account_Recruiter_CampaignComment domain object 
+	 */ 
+	protected function doBuildObject($row)
+	{
+	 return new Hb_App_Account_Recruiter_CampaignComment(
+	 		  $row->account_recruiter_campaign_comment_id,
+	        $row->account_recruiter_campaign_id,
+	        $row->account_recruiter_comment_type_id,
+	        $row->comment
+	        															);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 		$db   		= Hb_Util_Db_Connection::GetInstance();
+	 		$select  	= $db->select();
+			$select->from($this->table, array('account_recruiter_campaign_comment_id', 	
+											 			 'account_recruiter_campaign_id', 	
+											 			 'account_recruiter_comment_type_id',
+											 			 'comment'
+														));	
+	  
+	  return $select;
+	}
+	
+	/**
+	 * Finds a Hb_App_Account_Recruiter_CampaignComment by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the account_recruiter_campaign_comment table
+	 */ 
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where($this->primary_key .'= ?', $id);
+		
+		return $this->getRow($select);
+	}
+	
+	public function FindByCommentType($id, $type)
+	{
+		$result = $this->doFindByCommentType($id, $type);
+		
+		if (!$result) {
+			return false;
+		}
+		
+		return $this->doBuildObject($result);
+	}
+	
+	protected function doFindByCommentType($id, $type)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('account_recruiter_campaign_id = ?', $id);
+		$select->where('account_recruiter_comment_type_id = ?', $type);		
+		
+		
+		return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Hb_App_Account_Recruiter_CampaignComment domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		/* @var $obj Hb_App_Account_Recruiter_CampaignComment   */
+		
+		$data  = array(
+		'account_recruiter_campaign_id'   	=> $obj->GetAccountRecruiterCampaignId(),
+		'account_recruiter_comment_type_id'	=> $obj->GetAccountRecruiterCommentTypeId(),
+		'comment'   								=> $obj->GetComment(),
+		);
+	  
+	  $db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  if(is_null($obj->GetId())) {
+	  	$data['created_by'] 		= ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+	 	$data['created_date'] 	= date("Y-m-d h:i:s");
+	   $db->insert($this->table, $data);
+	   $obj->SetAccountRecruiterCampaignCommentId($db->lastInsertId());
+	  }else {
+	  	$data['modified_by'] = ($_SESSION["admin_id"] ? $_SESSION["admin_id"] : SYSTEM_USER);
+	 	$data['modified_date'] = date("Y-m-d h:i:s");
+	   $db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	  }
+	}
+	
+	
+}
+?>

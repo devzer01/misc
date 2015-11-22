@@ -1,0 +1,149 @@
+<?php
+/**
+ * Domain Object for Study TimeLine Log
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+class Hb_App_Study_StudyTimeLineLog extends Hb_App_Object 
+{
+	/**
+	 * Login
+	 *
+	 * @var int 
+	 */
+	protected $login = null;
+	
+	/**
+	 * Study timeline id
+	 *
+	 * @var int 
+	 */
+	protected $study_timeline_id = null;
+	
+	/**
+	 * Study timeline log id
+	 *
+	 * @var int 
+	 */
+	protected $study_timeline_log_id = null;
+	
+	/**
+	 * Task due date
+	 *
+	 * @var string 
+	 */
+	protected $task_due_date = null;
+
+	/**
+	 * Create Study TimeLine Log Object
+	 *
+	 * @param int $id Study timeline log id
+	 * @param int $login Login
+	 * @param int $study_timeline_id Study timeline id
+	 * @param string $task_due_date Task due date
+	 */
+	function __construct($id 						= null,
+								$login 					= null,
+								$study_timeline_id 	= null,
+								$task_due_date 		= null)
+	{
+		$this->study_timeline_log_id	= $id;
+		$this->study_timeline_id		= $study_timeline_id;
+		$this->login						= $login;
+		$this->task_due_date				= $task_due_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Login  for the Study Timeline Log
+	 *
+	 * @return int Login 
+	 */
+	public function GetLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	 * Return the Study timeline id for the Study Timeline Log
+	 *
+	 * @return int Study timeline id
+	 */
+	public function GetStudyTimeLineId()
+	{
+		return $this->study_timeline_id;
+	}
+
+	/**
+	 * Return the Study timeline log id for the Study Timeline Log
+	 *
+	 * @return int Study timeline log id
+	 */
+	public function GetStudyTimeLineLogId()
+	{
+		return $this->study_timeline_log_id;
+	}
+
+	/**
+	 * Return the Task due date for the Study Timeline Log
+	 *
+	 * @return string Task due date
+	 */
+	public function GetTaskDueDate()
+	{
+		return $this->task_due_date;
+	}
+
+	/**
+	 * Set the Login for the  Study Timeline Log
+	 * 
+	 * @param int $login Login
+	 */
+	public function SetLogin($login)
+	{
+		$this->login = $login;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study timeline id for the  Study Timeline Log
+	 * 
+	 * @param int $study_timeline_id Study timeline id
+	 */
+	public function SetStudyTimeLineId($study_timeline_id)
+	{
+		$this->study_timeline_id = $study_timeline_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Study timeline log id for the  Study Timeline Log
+	 * 
+	 * @param int $study_timeline_log_id Study timeline log id
+	 */
+	public function SetStudyTimeLineLogId($study_timeline_log_id)
+	{
+		$this->study_timeline_log_id 	= $study_timeline_log_id;
+		$this->__id							= $study_timeline_log_id;
+		$this->MarkDirty(); 
+	}
+
+	/**
+	 * Set the Task due date for the  Study Timeline Log
+	 * 
+	 * @param string $task_due_date Task due date
+	 */
+	public function SetTaskDueDate($task_due_date)
+	{
+		$this->task_due_date = $task_due_date;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Is thrown when The Country code is not provided 
+ *
+ * @package  Util
+ * @subpackage  Service
+ */
+class Hb_Util_Service_AddressValidation_Exception_CountryCodeNotProvidedException extends Hb_Exception 
+{
+	
+}
+?>

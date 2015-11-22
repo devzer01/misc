@@ -1,0 +1,490 @@
+<?php
+/**
+ * Domain Object for Study Quota Summary
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyQuotaSummary extends Hb_App_Object
+{
+	/**
+	 * Completed non panel
+	 *
+	 * @var int
+	 **/
+	protected $completed_non_panel = null;
+	
+	/**
+	 * Completed panel
+	 *
+	 * @var int
+	 **/
+	protected $completed_panel = null;
+	
+	/**
+	 * Incomplete non panel
+	 *
+	 * @var int
+	 **/
+	protected $incomplete_non_panel = null;
+
+	/**
+	 * Incomplete panel
+	 *
+	 * @var int
+	 **/
+	protected $incomplete_panel = null;
+	
+	/**
+	 * Invited non panel
+	 *
+	 * @var int
+	 **/
+	protected $invited_non_panel = null;
+	
+	/**
+	 * Invited panel
+	 *
+	 * @var int
+	 **/
+	protected $invited_panel = null;
+
+	/**
+	 * Routed non panel
+	 *
+	 * @var int
+	 **/
+	protected $routed_non_panel = null;
+	
+	/**
+	 * Routed panel
+	 *
+	 * @var int
+	 **/
+	protected $routed_panel = null;
+	
+	/**
+	 * Screened non panel
+	 *
+	 * @var int
+	 **/
+	protected $screened_non_panel = null;
+	
+	/**
+	 * Screened panel
+	 *
+	 * @var int
+	 **/
+	protected $screened_panel = null;
+	
+	/**
+	 * Started non panel
+	 *
+	 * @var int
+	 **/
+	protected $started_non_panel = null;
+	
+	/**
+	 * Started panel
+	 *
+	 * @var int
+	 **/
+	protected $started_panel = null;
+	
+	/**
+	 * Study id
+	 *
+	 * @var int
+	 **/
+	protected $study_id = null;
+	
+	/**
+	 * Study quota summary date
+	 *
+	 * @var string
+	 **/
+	protected $study_quota_summary_date = null;
+	
+	/**
+	 * Study quota summary id
+	 *
+	 * @var int
+	 **/
+	protected $study_quota_summary_id = null;
+
+	/**
+	 * Create StudyTemplateContact Object
+	 *
+	 * @param int $id Study quota summary id
+	 * @param int $study_id Study id
+	 * @param string $study_quota_summary_date Study quota summary date
+	 * @param int $completed_non_panel Complated non panel
+	 * @param int $invited_panel Invited panel
+	 * @param int $invited_non_panel Invited non panel
+	 * @param int $started_panel Started panel
+	 * @param int $started_non_panel Started non panel
+	 * @param int $incomplete_panel Incomplete panel
+	 * @param int $incomplete_non_panel Incomplete non panel
+	 * @param int $screened_panel Screened panel	 
+	 * @param int $screened_non_panel Screened non panel
+	 * @param int $completed_panel Completed panel
+	 * @param int $routed_panel Routed panel
+	 * @param int $routed_non_panel routed non panel
+	 */
+	function __construct($id = null,
+  							   $study_id = null,
+  							   $study_quota_summary_date = null,
+  							   $completed_non_panel = null,
+  							   $invited_panel = null,
+  							   $invited_non_panel = null,
+  							   $started_panel = null,
+  							   $started_non_panel = null,
+  							   $incomplete_panel = null,
+  							   $incomplete_non_panel = null,
+								$screened_panel = null,
+  							   $screened_non_panel = null,
+  							   $completed_panel = null,
+  							   $routed_panel = null,
+  							   $routed_non_panel = null)
+	{
+		$this->study_quota_summary_id 	= $id;
+		$this->study_id 						= $study_id;
+		$this->study_quota_summary_date 	= $study_quota_summary_date;
+		$this->completed_non_panel			= $completed_non_panel;		
+		$this->invited_panel 				= $invited_panel;
+		$this->invited_non_panel 			= $invited_non_panel;
+		$this->started_panel					= $started_panel;		
+		$this->started_non_panel 			= $started_non_panel;
+		$this->incomplete_panel 			= $incomplete_panel;
+		$this->incomplete_non_panel		= $incomplete_non_panel;		
+		$this->screened_panel 				= $screened_panel;		
+		$this->screened_non_panel			= $screened_non_panel;
+		$this->completed_panel 				= $completed_panel;
+		$this->routed_panel 					= $routed_panel;
+		$this->routed_non_panel				= $routed_non_panel;
+		parent::__construct($id);
+	}
+
+	/**
+	* Returns the Completed non panel
+ 	* 
+	* @return int Completed non panel
+	**/
+	public function GetCompletedNonPanel()
+	{
+		return $this->completed_non_panel;
+	}
+
+	/**
+	* Returns the Completed panel
+ 	* 
+	* @return int Completed panel
+	**/
+	public function GetCompletedPanel()
+	{
+		return $this->completed_panel;
+	}
+
+	/**
+	* Returns the Incomplete non panel
+ 	* 
+	* @return int Incomplete non panel
+	**/
+	public function GetIncompleteNonPanel()
+	{
+		return $this->incomplete_non_panel;
+	}
+
+	/**
+	* Returns the Incomplete panel
+ 	* 
+	* @return int Incomplete panel
+	**/
+	public function GetIncompletePanel()
+	{
+		return $this->incomplete_panel;
+	}
+
+	/**
+	* Returns the Invited non panel
+ 	* 
+	* @return int Invited non panel
+	**/
+	public function GetInvitedNonPanel()
+	{
+		return $this->invited_non_panel;
+	}
+
+	/**
+	* Returns the Invited panel
+ 	* 
+	* @return int Invited panel
+	**/
+	public function GetInvitedPanel()
+	{
+		return $this->invited_panel;
+	}
+
+	/**
+	* Returns the Get route non panel
+ 	* 
+	* @return int Get route non panel
+	**/
+	public function GetRoutedNonPanel()
+	{
+		return $this->routed_non_panel;
+	}
+
+	/**
+	* Returns the Routed panel
+ 	* 
+	* @return int Routed panel
+	**/
+	public function GetRoutedPanel()
+	{
+		return $this->routed_panel;
+	}
+
+	/**
+	* Returns the Screened non panel
+ 	* 
+	* @return int Screened non panel
+	**/
+	public function GetScreenedNonPanel()
+	{
+		return $this->screened_non_panel;
+	}
+
+	/**
+	* Returns the Screened panel
+ 	* 
+	* @return int Screened panel
+	**/
+	public function GetScreenedPanel()
+	{
+		return $this->screened_panel;
+	}
+
+	/**
+	* Returns the Started non panel
+ 	* 
+	* @return int Started non panel
+	**/
+	public function GetStartedNonPanel()
+	{
+		return $this->started_non_panel;
+	}
+
+	/**
+	* Returns the Started panel
+ 	* 
+	* @return int Started panel
+	**/
+	public function GetStartedPanel()
+	{
+		return $this->started_panel;
+	}
+
+	/**
+	* Returns the Study id
+ 	* 
+	* @return int Study id
+	**/
+	public function GetStudyId()
+	{
+		return $this->study_id;
+	}
+
+	/**
+	* Returns the Study quota summary date
+ 	* 
+	* @return string  Study quota summary date
+	**/
+	public function GetStudyQuotaSummaryDate()
+	{
+		return $this->study_quota_summary_date;
+	}
+
+	/**
+	* Returns the Study quota summary id
+ 	* 
+	* @return int Study quota summary id
+	**/
+	public function GetStudyQuotaSummaryId()
+	{
+		return $this->study_quota_summary_id;
+	}
+
+	/**
+	 * Sets the Completed non panel
+ 	 * 
+	 * @param int $completed_non_panel Middle initial
+	 */
+	public function SetCompletedNonPanel($completed_non_panel)
+	{
+		$this->completed_non_panel = $completed_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Completed panel
+ 	 * 
+	 * @param int $completed_panel Completed panel
+	 */
+	public function SetCompletedPanel($completed_panel)
+	{
+		$this->completed_panel = $completed_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Middle initial
+ 	 * 
+	 * @param int $incomplete_non_panel Middle initial
+	 */
+	public function SetIncompleteNonPanel($incomplete_non_panel)
+	{
+		$this->incomplete_non_panel = $incomplete_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Incomplete panel
+ 	 * 
+	 * @param int $incomplete_panel Incomplete panel
+	 */
+	public function SetIncompletePanel($incomplete_panel)
+	{
+		$this->incomplete_panel = $incomplete_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Invited non panel
+ 	 * 
+	 * @param int $invited_non_panel Invited non panel
+	 */
+	public function SetInvitedNonPanel($invited_non_panel)
+	{
+		$this->invited_non_panel = $invited_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Invited panel
+ 	 * 
+	 * @param int $invited_panel Invited panel
+	 */
+	public function SetInvitedPanel($invited_panel)
+	{
+		$this->invited_panel = $invited_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Routed non panel
+ 	 * 
+	 * @param int $routed_non_panel Routed non panel
+	 */
+	public function SetRoutedNonPanel($routed_non_panel)
+	{
+		$this->routed_non_panel = $routed_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Routed panel
+ 	 * 
+	 * @param int $routed_panel Routed panel
+	 */
+	public function SetRoutedPanel($routed_panel)
+	{
+		$this->routed_panel = $routed_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Screened non panel
+ 	 * 
+	 * @param int $screened_non_panel Screened non panel
+	 */
+	public function SetScreenedNonPanel($screened_non_panel)
+	{
+		$this->screened_non_panel = $screened_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Screened panel
+ 	 * 
+	 * @param int $screened_panel Screened panel
+	 */
+	public function SetScreenedPanel($screened_panel)
+	{
+		$this->screened_panel = $screened_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Started non panel
+ 	 * 
+	 * @param int $started_non_panel Started non panel
+	 */
+	public function SetStartedNonPanel($started_non_panel)
+	{
+		$this->started_non_panel = $started_non_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Started panel
+ 	 * 
+	 * @param int $started_panel Started panel
+	 */
+	public function SetStartedPanel($started_panel)
+	{
+		$this->started_panel = $started_panel;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study id
+ 	 * 
+	 * @param int $study_id Study id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id = $study_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quota summary date
+ 	 * 
+	 * @param string $study_quota_summary_date Study quota summary date
+	 */
+	public function SetStudyQuotaSummaryDate($study_quota_summary_date)
+	{
+		$this->study_quota_summary_date = $study_quota_summary_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study quota summary id
+ 	 * 
+	 * @param int $study_quota_summary_id Study quota summary id
+	 */
+	public function SetStudyQuotaSummaryId($study_quota_summary_id)
+	{
+		$this->study_quota_summary_id = $study_quota_summary_id;
+		$this->__id = $study_quota_summary_id;
+		$this->MarkDirty();		
+	}
+
+}
+?>

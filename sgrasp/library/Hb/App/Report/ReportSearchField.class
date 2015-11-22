@@ -1,0 +1,46 @@
+<?php
+
+require_once ('class/Hb/App/Report/ReportField.class') ;
+
+class Hb_App_Report_ReportSearchField extends Hb_App_Report_ReportField 
+{
+	protected $table = null;
+	
+	protected $value_list_name = null;
+	
+	protected $form_name = null;
+	
+	/**
+	 * 
+	 */
+	public function __construct($name = null, $description = null, 
+								$table = null, $value_list_name = null)
+	{
+		parent::__construct($name, $description);
+		$this->table = $table;
+		$this->value_list_name = $value_list_name;
+	}
+	
+	public function GetTable()
+	{
+		return $this->table;
+	}
+	
+	public function GetFormName()
+	{
+		if (is_null($this->form_name)) {
+			$this->form_name = md5($this->table . "-" . $this->name);
+		}
+		return $this->form_name; 
+	}
+	
+	public function GetValueList()
+	{
+		if (is_null($this->value_list_name)) {
+			return null;
+		}
+		return Hb_App_List_ListFactory::factory($this->value_list_name);
+	}
+}
+
+?>

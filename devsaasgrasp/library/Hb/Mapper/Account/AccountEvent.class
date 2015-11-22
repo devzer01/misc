@@ -1,0 +1,117 @@
+<?php
+/**
+ * Mapper for Account Contact Comment File
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Account_AccountEvent extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Account_AccountEvent';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Account_AccountEvent';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "account_event_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "account_event";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountEvent($row->account_event_id,$row->account_id,$row->account_event_type_id,
+											 $row->remote_address , $row->user_agent,$row->comment);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('account_event', array(
+													'account_event_id', 	
+													'account_id',
+													'account_event_type_id',
+													'remote_address',
+													'user_agent',
+													'comment'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Account Event File by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('account_event_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'account_id' => $obj->GetAccountId(),
+					'account_event_type_id' => $obj->GetAccountEventTypeId(),
+					'remote_address' => $obj->GetRemoteAddress(),
+					'user_agent' => $obj->GetUserAgent(),
+					'comment' => $obj->GetComment());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('account_event', $data);
+			$obj->SetAccountEventId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('account_event', $data, 'account_event_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

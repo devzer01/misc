@@ -1,0 +1,27 @@
+<?php
+
+class Hb_View_Study_StudyCostComment extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/stm/vw_study_cost_comments.html';
+	
+	protected $__handler = 'Smarty';
+	
+	private $study_id = null;
+			
+	protected  function LoadData()
+	{	
+		$study = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_Study')->Find($this->study_id);						
+
+		$this->SetData('study_object', $study);		
+	}
+	
+	public function SetStudyID($study_id)
+	{
+		$this->study_id = $study_id;		
+	}
+	
+		
+
+
+}
+?>

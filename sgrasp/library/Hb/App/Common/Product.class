@@ -1,0 +1,91 @@
+<?php
+/**
+ * @author svithanapathirana
+ * @version 1.0
+ */
+class Hb_App_Common_Product extends Hb_App_Object 
+{
+
+	protected $__product_id = null;
+	
+	protected $description 	= null;
+	
+	protected $vendor_id 	= null;
+
+	function __construct($id = null, $description = null, $vendor_id = null)
+	{ 
+		$this->__product_id 	= $id;
+		$this->description 	= $description;
+		$this->vendor_id 		= $vendor_id;
+		
+		parent::__construct($id);	
+	}
+	
+	/**	
+	 * Get Product Id
+	 *
+	 * @return string $__product_id Product Id
+	 */
+	public function GetProductId()
+	{
+		return $this->__product_id;
+	}	
+	
+	/**
+	 * Sets Product Id
+	 *
+	 * @param int $id Product Id
+	 */
+	public function SetProductId($id)
+	{
+		$this->__product_id = $id;
+		parent::__construct($id);	
+		$this->MarkDirty();
+	}
+
+	/**	
+	 * Get Product Description
+	 *
+	 * @return string $description Description
+	 */
+	public function GetDescription()
+	{
+		return $this->description;
+	}	
+	
+	/**
+	 * Sets Product Description
+	 *
+	 * @param int $description Product Description
+	 */
+	public function SetDescription($description)
+	{
+		$this->description = $description;
+		
+		$this->MarkDirty();
+	}
+	
+	/**	
+	 * Get Product Vendor Id
+	 *
+	 * @return int $vendor_id Vendor Id
+	 */
+	public function GetVendorId()
+	{
+		return $this->vendor_id;
+	}	
+	
+	/**
+	 * Sets Product Description
+	 *
+	 * @param int $id Product Description
+	 */
+	public function SetVendorId($id)
+	{
+		$this->vendor_id = $id;
+		
+		$this->MarkDirty();
+	}	
+	
+}
+?>

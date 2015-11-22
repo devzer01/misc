@@ -1,0 +1,124 @@
+<?php
+/**
+ * Mapper for Billing Report Event 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Account
+ */
+class Hb_Mapper_Billing_BillingReportEvent extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Billing_BillingReportEvent';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Billing_BillingReportEvent';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "armc_event_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "armc_event";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Billing_BillingReportEvent($row->armc_event_id,
+														   		$row->armc_id, 
+																	$row->armc_event_type_id,
+																	$row->armc_event_user_agent,
+																	$row->armc_event_remote_address,
+																	$row->armc_event_comment																
+																	);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('armc_event_id', 	
+													 'armc_id', 	
+													 'armc_event_type_id',
+													 'user_agent',
+													 'remote_address',
+													 'comment'
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Billing Report Event  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		/* @var $obj Hb_App_BillingReportEvent */
+		
+		$data = array('armc_id'            => $obj->GetBillingReportId(),
+					     'armc_event_type_id' => $obj->GetBillingReportEventTypeId(),
+						  'user_agent' => $obj->GetBillingReportUserAgent(),
+						  'remote_address' => $obj->GetBillingReportRemoteAddress(),
+						  'comment' => $obj->GetBillingReportComment()
+					    );
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetBillingReportEventId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}	
+}
+?>

@@ -1,0 +1,373 @@
+<?php 
+/**
+ * Domain Object for Study Term
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+class Hb_App_Study_StudyTerm
+{
+	/**
+	 * Study Id
+	 *
+	 * @var int 
+	 */
+	private $study_id	= null;
+		
+	/**
+	 * Study Category types
+	 *
+	 * @var Hb_App_Study_StudyCategoryTypes 
+	 */
+	private $study_category_types = null;
+	
+	/**
+	 * Study Category Type
+	 *
+	 * @var Hb_App_Study_StudyCategoryType
+	 */
+	private $study_category_type = null;
+	
+	/**
+	 * Proposal Revision ID
+	 *
+	 * @var int 
+	 */
+	private $proposal_revision_id = null;
+	
+	/**
+	 * Proposal revision Study Classification
+	 *
+	 * @var Hb_App_Proposal_ProposalRevisionStudyClassification 
+	 */
+	private $proposal_revision_study_classification = null;
+	
+	/**
+	 * Level 2 categroeis
+	 *
+	 * @var Hb_App_Study_StudyCategoryTypes 
+	 */
+	private $level_2_categories = null;
+	
+	/**
+	 * Level 1 categroeis
+	 *
+	 * @var Hb_App_Study_StudyCategoryTypes 
+	 */
+	private $level_1_categories = null;
+	
+	/**
+	 * Parent Categroy 
+	 *
+	 * @var Hb_App_Proposal_ProposalRevisionStudyClassification 
+	 */
+	private $parent_category = null;
+	
+	/**
+	 * Level 0 Study Category ID
+	 *
+	 * @var int 
+	 */
+	private $level_0_study_category_id = null;
+	
+	/**
+	 * Level 1 Study Category ID
+	 *
+	 * @var int 
+	 */
+	private $level_1_study_category_id = null;
+		
+	
+	/**
+	 * Level 2 Study Category ID
+	 *
+	 * @var int 
+	 */
+	private $level_2_study_category_id = null;
+	
+	/**
+	 * study Classification Decription
+	 *
+	 * @var string 
+	 */
+	private $study_category_description = null;
+	
+	/**
+	 * Study Classification
+	 *
+	 * @var Hb_App_Study_StudyStudyClassification 
+	 */
+	private $study_classificaiton = null;
+	
+	function __construct()
+	{		
+	}
+	
+	/**
+	 * Return the Proposal Revision ID for the Study Term
+	 *
+	 * @return int Proposal Revision ID
+	 */
+	public function GetProposalRevisionID()
+	{
+		return $this->proposal_revision_id;
+	}
+	
+	/**
+	 * Set the Proposal Revision ID for the  Study Term
+	 * 
+	 * @param int $proposal_revision_id Proposal Revision ID
+	 */
+	public function SetProposalRevisionID($proposal_revision_id)
+	{
+		$this->proposal_revision_id	= $proposal_revision_id;
+		
+	}
+	
+	/**
+	 * Set the Study Id for the  Study Term
+	 * 
+	 * @param int $study_id Study Id
+	 */
+	public function SetStudyId($study_id)
+	{
+		$this->study_id	= $study_id;
+	}
+	
+	/**
+	 * Return the Study Category types
+	 * 
+	 * @return Hb_App_Study_StudyCategoryTypes 
+	 */
+	public function GetStudyCategoryTypes()
+	{
+		if(is_null($this->study_category_types)) {
+			$this->study_category_types	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCategoryTypes')->FindAllLevel1();
+		}
+		
+		return $this->study_category_types;
+	}
+
+	private function doGetProposalRevisionStudyCategoryType()
+	{
+		if(is_null($this->proposal_revision_study_classification)) {
+			$this->proposal_revision_study_classification	= Hb_App_ObjectHelper::GetMapper('Hb_App_Proposal_ProposalRevisionStudyClassification')->FindByRevisionId($this->proposal_revision_id);			
+		}
+		
+		return $this->proposal_revision_study_classification;
+	}
+	
+	public function GetProposalRevisionStudyCategoryType()
+	{
+		return $this->doGetProposalRevisionStudyCategoryType();
+	}
+	
+	
+	private function GetStudyCategoryTypeByID($id)
+	{		
+		 $this->study_category_type	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCategoryType')->Find($id);			
+		 return $this->study_category_type;						
+	}
+		
+	private function SetLevelCategories()
+	{
+		//get the Selected Study Category for the revision
+		$study_category_type = $this->doGetProposalRevisionStudyCategoryType();
+		
+		if(!$study_category_type)
+			$study_category_type = $this->doGetStudyCategoryType();
+		
+		//Set level 2 study category ID
+		$this->level_2_study_category_id	= $study_category_type->GetStudyCategoryTypeID();
+		
+		//Get the Level 2 Study Category Type object
+		$level2_study_category_type = $this->GetStudyCategoryTypeByID($this->level_2_study_category_id);
+		//Set the Level 1 Study category id
+		$this->level_1_study_category_id		= $level2_study_category_type->GetParentStudyCategoryTypeID();		
+		$this->study_category_description	= $level2_study_category_type->GetStudyCategoryTypeDescription();
+		//Load the Level 2 Study Category Types collection
+		if(is_null($this->level_2_categories)) {
+			$this->level_2_categories	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCategoryTypes')->FindAllByParentId($this->level_1_study_category_id);
+		}			
+		
+		//get the Level 1 Study Category Type object
+		$level1_study_category_type = $this->GetStudyCategoryTypeByID($this->level_1_study_category_id);
+		//set the Level 0 Study Category type ID
+		$this->level_0_study_category_id		= $level1_study_category_type->GetParentStudyCategoryTypeID();
+		$this->study_category_description	= $level1_study_category_type->GetStudyCategoryTypeDescription().':'.$this->study_category_description;
+		//Load the Level 1 Study Category Types collection
+		if(is_null($this->level_1_categories)) {
+			$this->level_1_categories	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyCategoryTypes')->FindAllByParentId($this->level_0_study_category_id);
+		}		
+		
+		//get the level 0 study Category type object
+		$level0_study_category_type = $this->GetStudyCategoryTypeByID($this->level_0_study_category_id);
+		$this->study_category_description	= $level0_study_category_type->GetStudyCategoryTypeDescription().':'.$this->study_category_description;
+	}
+	
+	public function GetLevel1Categories()
+	{
+		if(is_null($this->level_1_categories)) {
+			$this->SetLevelCategories();
+		}
+		
+		return $this->level_1_categories;
+	}
+	
+	public function GetLevel2Categories()
+	{
+		if(is_null($this->level_2_categories)) {
+			$this->SetLevelCategories();
+		}
+		
+		return $this->level_2_categories;
+	}
+	
+	/**
+	 * Return the Level 0 Study Category Type id for the Study Term
+	 *
+	 * @return int Level 0 Study Category Type id
+	 */
+	public function GetLevelZeroStudyCategoryTypeID()
+	{
+		if(is_null($this->level_0_study_category_id)) {
+			$this->SetLevelCategories();
+		}
+		
+		return $this->level_0_study_category_id;
+	}
+	
+	/**
+	 * Return the Level 1 Study Category Type ID  for the Study Term
+	 *
+	 * @return int Level 1 Study Category Type ID 
+	 */
+	public function GetLevelOneStudyCategoryTypeID()
+	{
+		if(is_null($this->level_1_study_category_id)) {
+			$this->SetLevelCategories();
+		}
+		return $this->level_1_study_category_id;
+	}
+	
+	/**
+	 * Return the Level 2 Study Category Type ID for the Study Term
+	 *
+	 * @return int Level 2 Study Category Type ID
+	 */
+	public function GetLevelTwoStudyCategoryTypeId()
+	{
+		if(is_null($this->level_2_study_category_id)) {
+			$this->SetLevelCategories();
+		}
+		return $this->level_2_study_category_id;
+	}
+	
+	/**
+	 * check whether Revision has a Study Category type
+	 *
+	 * @return boolean
+	 */
+	public function HasStudyCategoryType()
+	{
+		$proposal_revision_study_category_type = $this->doGetProposalRevisionStudyCategoryType();
+		
+		if($proposal_revision_study_category_type) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private function doGetStudyCategoryType()
+	{
+		if(is_null($this->study_classificaiton)) {
+			$this->study_classificaiton	= Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyStudyClassification')->FindByStudyId($this->study_id);			
+		}
+
+		return $this->study_classificaiton;
+	}
+	
+	/**
+	 * Check whether Study has a study categroy tpye
+	 * 
+	 */
+	public function HasStudyClassification()
+	{	
+		if($this->doGetStudyCategoryType()) {			
+			return true;
+		}		
+		
+		
+		return false;
+	}
+	
+	public function SetStudyClassification($value)
+	{ 
+		if($this->HasStudyClassification()){			
+			$study_classificaiton = $this->doGetStudyCategoryType();
+			$study_classificaiton->SetStudyCategoryTypeID($value);			
+		}else{			
+			$new_study_classification = new Hb_App_Study_StudyStudyClassification(null, $this->study_id, $value);	
+			$new_study_classification->SetStatus('A');		
+		}
+	}
+	
+	
+	/**
+	 * Return the Study Category Description for the Study Term
+	 *
+	 * @return string Study Category Description
+	 */
+	public function GetStudyCategoryDescription()
+	{
+		if($this->HasStudyCategoryType()) {
+			if(is_null($this->study_category_description)) {
+				$this->SetLevelCategories();
+			}
+		}
+		
+		return $this->study_category_description;
+	}
+	
+	public function IsProposalCategoryTypeSet($proposal_category_type_id)
+	{
+		$study_categories = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_StudyProposalCategories')->Find($this->study_id);
+		
+		foreach ($study_categories as $study_category) {
+			if($proposal_category_type_id == $study_category->GetProposalCategoryTypeID()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Get the Study Category Type object by Proposal Revision ID
+	 *
+	 * @param int $id
+	 * @return Hb_App_Study_StudyCategoryType
+	 */
+	public function GetStudyCategoryTypeByProposalRevisionID()
+	{		
+		if(!is_null($this->proposal_revision_id)) {
+			$proposal_revision_study_category 	= $this->doGetProposalRevisionStudyCategoryType($this->proposal_revision_id);
+			if(!$proposal_revision_study_category) {
+				return false;
+			}
+			
+			$this->study_category_type 			=  $this->GetStudyCategoryTypeByID($proposal_revision_study_category->GetStudyCategoryTypeID());
+			return $this->study_category_type;
+		}
+		return false;
+		
+	}
+	
+}
+
+?>

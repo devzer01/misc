@@ -1,0 +1,150 @@
+<?php
+/**
+ * Domain Object for Service
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ *
+ */ 
+class Hb_App_Proposal_Service extends Hb_App_Object 
+{
+	/**
+	 * Pricing item group id
+	 *
+	 * @var int 
+	 */
+	protected $pricing_item_group_id = null;
+	
+	/**
+	 * Service description
+	 *
+	 * @var string 
+	 */
+	protected $service_description = null;
+	
+	/**
+	 * Service id
+	 *
+	 * @var int 
+	 */
+	protected $service_id = null;
+	
+	/**
+	 * Sort order
+	 *
+	 * @var int 
+	 */
+	protected $sort_order = null;
+
+	/**
+	 * Create Service Object
+	 *
+	 * @param int $id service id
+	 * @param string $service_description Service description
+	 * @param int $pricing_item_group_id Pricing item group id
+	 * @param int $sort_order Sort order
+	 */
+	function __construct($id 							= null,
+								$service_description 	= null,
+								$pricing_item_group_id 	= null,
+								$sort_order 				= null
+								)
+	{
+		$this->service_id					= $id;
+		$this->service_description		= $service_description;
+		$this->pricing_item_group_id	= $pricing_item_group_id;
+		$this->sort_order					= $sort_order;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Return the Pricing item group id for the Service
+	 *
+	 * @return int Pricing item group id
+	 */
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	/**
+	 * Return the Service description for the Service
+	 *
+	 * @return string Service description
+	 */
+	public function GetServiceDescription()
+	{
+		return $this->service_description;
+	}
+
+	/**
+	 * Return the Service id for the Service
+	 *
+	 * @return int Service id
+	 */
+	public function GetServiceId()
+	{
+		return $this->service_id;
+	}
+
+	/**
+	 * Return the Sort order for the Service
+	 *
+	 * @return int Sort order
+	 */
+	public function GetSortOrder()
+	{
+		return $this->sort_order;
+	}
+
+	/**
+	 * Set the Pricing item group id for the  Service
+	 * 
+	 * @param int $pricing_item_group_id Pricing item group id
+	 */
+	public function SetPricingItemGroupId($pricing_item_group_id)
+	{
+		$this->pricing_item_group_id = $pricing_item_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Service description for the  Service
+	 * 
+	 * @param string $service_description Service description
+	 */
+	public function SetServiceDescription($service_description)
+	{
+		$this->service_description = $service_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Service id for the  Service
+	 * 
+	 * @param int $service_id Service id
+	 */
+	public function SetServiceId($service_id)
+	{
+		$this->service_id = $service_id;
+		$this->__id			= $service_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Sort order for the  Service
+	 * 
+	 * @param int $sort_order Sort order
+	 */
+	public function SetSortOrder($sort_order)
+	{
+		$this->sort_order = $sort_order;
+		$this->MarkDirty();
+	}
+
+}
+?>

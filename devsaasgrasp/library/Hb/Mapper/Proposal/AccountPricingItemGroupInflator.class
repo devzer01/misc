@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper Class for AccountPricingItemGroupInflator
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Proposal
+ */
+
+class Hb_Mapper_Proposal_AccountPricingItemGroupInflator extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Account pricing item group inflator Id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'partner_pricing_item_group_inflator_id';
+
+	/**
+	 * Account pricing item group inflator table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'partner_pricing_item_group_inflator';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_AccountPricingItemGroupInflator';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Proposal_AccountPricingItemGroupInflator';
+	
+	/**
+	 * Build the AccountPricingItemGroupInflator Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Proposal_AccountPricingItemGroupInflator
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Proposal_AccountPricingItemGroupInflator($row->partner_pricing_item_group_inflator_id,
+																					  $row->pricing_item_group_id,
+																					  $row->partner_id,
+																					  $row->inflator_amount,
+																					  $row->effective_date,
+																					  $row->expire_date);
+	}
+	
+	/**
+	 * Get the base data set for AccountPricingItemGroupInflator
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('m' => 'partner_pricing_item_group_inflator'), array('partner_pricing_item_group_inflator_id', 
+																										 'pricing_item_group_id',
+																										 'partner_id', 
+																										 'inflator_amount', 
+																										 'effective_date', 
+																										 'expire_date'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Account Pricing Item Group Inflator Id
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('m.partner_pricing_item_group_inflator_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Account Pricing Item Group Inflator Object
+	 *
+	 * @param Hb_App_Object AccountPricingItemGroupInflator
+	 * @return object Account Pricing Item Group Inflator
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'partner_pricing_item_group_inflator_id' => $obj->GetAccountPricingItemGroupInflatorId(),
+							'pricing_item_group_id' => $obj->GetPricingItemGroupId(),
+							'partner_id' => $obj->GetAccountId(),
+							'inflator_amount' => $obj->GetInflatorAmount(),
+							'effective_date' => $obj->GetEffectiveDate(),
+							'expire_date' => $obj->GetExpireDate()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('partner_pricing_item_group_inflator', $data);
+			$obj->SetAccountPricingItemGroupInflatorId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('partner_pricing_item_group_inflator', $data, 'partner_pricing_item_group_inflator_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 

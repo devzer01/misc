@@ -1,0 +1,31 @@
+<?php
+
+abstract class Hb_Data_Attribute
+{
+	private $__attribute_name;
+
+	private $__attribute_value;
+	
+	public function __construct($name, $value)
+	{
+		$this->__attribute_name = $name;
+		
+		$this->__attribute_value = $value;
+	}
+	
+	public function GetAttributeName()
+	{
+		return $this->__attribute_name;
+	}
+	
+	public function GetAttributeValue()
+	{
+		return $this->__attribute_value;
+	}
+	
+	public function SetAttributeValue($value)
+	{
+		$this->__attribute_value = $value;
+	}
+}
+?>

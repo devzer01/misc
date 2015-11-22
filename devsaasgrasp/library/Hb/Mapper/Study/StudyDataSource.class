@@ -1,0 +1,109 @@
+<?php
+/**
+ * Mapper Class for StudyDataSource
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyDataSource extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the Study datasource id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'study_datasource_id';
+
+	/**
+	 * Study datasource table
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_datasource';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Study_StudyDataSource';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Study_StudyDataSource';
+	
+	/**
+	 * Build the StudyDataSource Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Study_StudyDataSource
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyDataSource($row->study_datasource_id,
+															 $row->study_datasource_description);
+	}
+	
+	/**
+	 * Get the base data set for StudyDataSource
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('sdc' => 'study_datasource'), array('study_datasource_id', 
+																	    		  'study_datasource_description'));
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given Study datasource
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('sdc.study_datasource_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Study datasource
+	 *
+	 * @param Hb_App_Object StudyDataSource
+	 * @return object Study datasource
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'study_datasource_description' 	=> $obj->GetStudyDataSourceDescription()
+						 );
+				 
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_datasource', $data);
+			$obj->SetStudyDataSourceId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_datasource', $data, 'study_datasource_id = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

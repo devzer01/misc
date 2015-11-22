@@ -1,0 +1,275 @@
+<?php 
+/**
+ * Domain class for ProposalBudgetLineItem
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Sujith T
+ * @version 1.0
+ * @package App 
+ * @subpackage Proposal
+ */   
+
+class Hb_App_Proposal_ProposalBudgetLineItem extends Hb_App_Object
+{
+	/**
+	 * Proposal Budgetline Item Id
+	 *
+	 * @var int 
+	 */
+	protected $proposal_budget_line_item_id = null;
+	
+	/**
+	 * Proposal Budgetline Item Description
+	 *
+	 * @var string 
+	 */
+	protected $proposal_budget_line_item_description = null;
+	
+	/**
+	 * PDF Display
+	 *
+	 * @var int 
+	 */
+	protected $display_on_pdf = null;
+	
+	/**
+	 * Precision
+	 *
+	 * @var int 
+	 */
+	protected $precision = null;
+	
+	/**
+	 * Pricing Item Group ID
+	 *
+	 * @var int 
+	 */
+	protected $pricing_item_group_id = null;
+
+	/**
+	 * Pricing Item Group
+	 *
+	 * @var Object 
+	 */
+	protected $pricing_item_group = null;
+
+	/**
+	 * Sort Order
+	 *
+	 * @var int 
+	 */
+	protected $sort_order = null;
+	
+	/**
+	 * Value Type
+	 *
+	 * @var string 
+	 */
+	protected $value_type = null;
+	
+
+	/**
+	 * Constructor for the ProposalBudgetLineItem
+	 *
+	 * @param int $id Proposal Budgetline Item Id
+	 * @param string $proposal_budget_line_item_description Proposal Budgetline Item Description
+	 * @param int $pricing_item_group_id Pricing Item Group Id
+	 * @param Object $pricing_item_group Pricing Item Group
+	 * @param int $precision Precision
+	 * @param int $display_on_pdf Display PDF
+	 * @param int $sort_order Sorting Order
+	 * @param string $value_type Value Type
+	 */ 
+	function __construct($id = null,
+								$proposal_budget_line_item_description = null,
+								$pricing_item_group_id = null,
+								$pricing_item_group = null,
+								$precision = null,
+								$display_on_pdf = null,
+								$sort_order = null,
+								$value_type = null
+								)
+	{
+		$this->proposal_budget_line_item_id 			= $id;
+		$this->proposal_budget_line_item_description 	= $proposal_budget_line_item_description;
+		$this->pricing_item_group_id 					= $pricing_item_group_id;
+		$this->pricing_item_group						= $pricing_item_group;
+		$this->precision								= $precision;
+		$this->display_on_pdf							= $display_on_pdf;
+		$this->sort_order								= $sort_order;
+		$this->value_type								= $value_type;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Get Proposal Budgetline Item Id
+	 * 
+	 * @return int Proposal Budgetline Item Id
+	 */ 
+	public function GetProposalBudgetLineItemId()
+	{
+		return $this->proposal_budget_line_item_id;
+	}
+
+	/**
+	 * Get Proposal Budgetline Item Description
+	 * 
+	 * @return string Proposal Budgetline Item Description
+	 */ 
+	public function GetProposalBudgetLineItemDescription()
+	{
+		return $this->proposal_budget_line_item_description;
+	}
+
+	/**
+	 * Get Display on Pdf
+	 * 
+	 * @return int Display on Pdf
+	 */ 
+	public function GetDisplayOnPdf()
+	{
+		return $this->display_on_pdf;
+	}
+
+	/**
+	 * Get Precision
+	 * 
+	 * @return int Precision
+	 */ 
+	public function GetPrecision()
+	{
+		return $this->precision;
+	}
+
+	/**
+	 * Get Pricing Item Group Id
+	 * 
+	 * @return int Pricing Item Group Id
+	 */
+	public function GetPricingItemGroupId()
+	{
+		return $this->pricing_item_group_id;
+	}
+
+	/**
+	 * Get Pricing Item Group
+	 * 
+	 * @return object Pricing Item Group
+	 */
+	public function GetPricingItemGroup()
+	{
+		return $this->pricing_item_group;
+	}
+	
+	/**
+	 * Get Sort Order
+	 * 
+	 * @return int Sort Order
+	 */
+	public function GetSortOrder()
+	{
+		return $this->sort_order;
+	}
+
+	/**
+	 * Get Value Type
+	 * 
+	 * @return string Value Type
+	 */
+	public function GetValueType()
+	{
+		return $this->value_type;
+	}
+	
+	/**
+	 * Set Proposal Budgetline Item Id
+	 * 
+	 * @param int $budget_line_item_id Proposal Budgetline Item Id
+	 */
+	public function SetProposalBudgetLineItemId($budget_line_item_id)
+	{
+		$this->proposal_budget_line_item_id = (int)$budget_line_item_id;
+		$this->__id 						= (int)$budget_line_item_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set Proposal Budgetline Item Description
+	 * 
+	 * @param string $description Proposal Budgetline Item Description
+	 */
+	public function SetProposalBudgetLineItemDescription($description)
+	{
+		$this->proposal_budget_line_item_description = $description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Display on Pdf
+	 * 
+	 * @param int $display_on_pdf Display on Pdf
+	 */
+	public function SetDisplayOnPdf($display_on_pdf)
+	{
+		$this->display_on_pdf = (int)$display_on_pdf;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Precision
+	 * 
+	 * @param int $precision Precision
+	 */
+	public function SetPrecision($precision)
+	{
+		$this->precision = (int)$precision;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Pricing Item Group Id
+	 * 
+	 * @param int $item_group_id Pricing Item Group Id
+	 */
+	public function SetPricingItemGroupId($item_group_id)
+	{
+		$this->pricing_item_group_id = (int)$item_group_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set Pricing Item Group
+	 * 
+	 * @param Object $item_group Pricing Item Group Object
+	 */
+	public function SetPricingItemGroup($item_group)
+	{
+		$this->pricing_item_group = $item_group;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Sort Order
+	 * 
+	 * @param int $sort_order Sort Order
+	 */
+	public function SetSortOrder($sort_order)
+	{
+		$this->sort_order = (int)$sort_order;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set Value Type
+	 * 
+	 * @param string $value_type Value Type
+	 */
+	public function SetValueType($value_type)
+	{
+		$this->value_type = $value_type;
+		$this->MarkDirty();
+	}
+
+}
+?>

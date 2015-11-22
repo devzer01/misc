@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mapper class for Hb_App_Study_StudyEventLog object
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Study
+ */
+
+class Hb_Mapper_Study_StudyEventLog extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key for this table
+	 *
+	 * @var string
+	 */
+	protected $primary_key = 'study_event_log_id';
+	
+	/**
+	 * Table name for this table
+	 *
+	 * @var string
+	 */
+	protected $table = 'study_event_log';
+	
+	/**
+	 * Build the Hb_App_Study_StudyEventLog object
+	 *
+	 * @param Zend Db Table Row $row
+	 * @return Hb_App_Study_StudyEventLog object
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyEventLog(
+											$row->study_event_log_id,
+											$row->study_id,
+											$row->study_event_id,
+											$row->login,
+											$row->remote_address,
+											$row->user_agent
+										);
+		
+	}
+
+	/**
+	 * Get the base select object for Hb_App_Study_StudyEventLog
+	 *
+	 * @return Zend Db Table Row
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select();
+		$select->from(
+						array('sel' => 'study_event_log'),
+						array(
+								'study_event_log_id', 
+								'study_id',
+								'study_event_id', 
+								'login', 
+								'remote_address', 
+								'user_agent'
+							)
+					);
+					
+		return $select;
+	}
+	
+	/**
+	 * Find the Hb_App_Study_StudyEventLog by Id
+	 *
+	 * @param int $id
+	 * @return Zend Db Table row 
+	 */
+	protected function doFindbyId($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('sel.study_event_log_id = ?', $id);
+		
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Save the Hb_App_Study_StudyEventLog object to persistant layer
+	 *
+	 * @param Hb_App_Object $obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+						'study_id' => $obj->GetStudyId(), 
+						'study_event_id' => $obj->GetStudyEventId(),
+						'login' => $obj->GetLogin(), 
+						'remote_address' => $obj->GetRemoteAddress(), 
+						'user_agent' => $obj->GetUserAgent()
+					);
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		if (is_null($obj->GetId())) {
+		
+			$db->Insert($this->table, $data);
+			$obj->SetStudyEventLogId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->Update($this->table, $data, $this->primary_key . '=' . $obj->GetId());
+		}
+		
+	}
+}
+?>

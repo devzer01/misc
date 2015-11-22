@@ -1,0 +1,85 @@
+<?php 
+/**
+ * Mapper Object for Account Product Attributes
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_AccountProductAttributes extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'account_product_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'account_product_attr';
+	
+	/**
+	 * Builds and returns the Account Product Attribute domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the account_product_attr table
+	 * @return object An instance of the Account Product Attribute domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Account_AccountProductAttribute($row->account_product_attr_id,
+																		  $row->account_product_id,
+																		  $row->account_product_attr_name,
+																		  $row->account_product_attr_value
+																		  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+		$db 		= Hb_Util_Db_Connection::GetInstance();
+		$select 	= $db->select();
+	 	$select->from(array('apa' => $this->table));
+	 	
+	 	return $select;
+	}
+	
+	/**
+	 * Finds a Account Product Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the account_product_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where('apa.account_product_id= ?', $id);
+		 	
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Account Product Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+//	 	if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);																																	
+//		$row->account_product_attr_value	= $obj->GetAttributeValue();						       							
+//		$row->save();	
+	}
+	
+}
+
+?>

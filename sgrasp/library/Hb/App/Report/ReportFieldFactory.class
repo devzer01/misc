@@ -1,0 +1,35 @@
+<?php
+
+class Hb_App_Report_ReportFieldFactory
+{
+	/**
+	 * @return Field
+	 */
+	function GetField($name)
+	{
+		$desc = array(
+			'account_id'   => 'Account ID',
+			'account_name' => 'Account Name'
+		);
+			
+		return new Hb_App_Common_ReportField($name, $desc[$name]);
+	}
+	
+	function GetConditionFields()
+	{
+		return array(
+			new Hb_App_Common_ReportField('account_id', 'Account ID'),
+			new Hb_App_Common_ReportField('account_name', 'Account Name')
+		);
+	}
+	
+	function GetColumnFields()
+	{
+		return array(
+			new Hb_App_Common_ReportField('account_id', 'Account ID'),
+			new Hb_App_Common_ReportField('account_name', 'Account Name')
+		);
+	}
+}
+
+?>

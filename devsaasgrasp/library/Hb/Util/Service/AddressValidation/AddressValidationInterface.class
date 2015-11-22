@@ -1,0 +1,24 @@
+<?php
+/**
+ * Interface for Address Validation
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Util
+ * @subpackage Service
+ *
+ */ 
+interface  Hb_Util_Service_AddressValidation_AddressValidationInterface
+{	
+	public  function IsValid() ;	
+
+	public  function GetRecommendedAddresses();	
+	
+	public  function GetStatusCode();	
+	
+	public  function GetStatusDescription();	
+	
+	public function SetAddress($address);
+}
+?>

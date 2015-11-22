@@ -1,0 +1,169 @@
+<?php 
+/**
+ * Mapper Object for Study Cost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyCost extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_cost_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_cost';
+	
+	
+	/**
+	 * Builds and returns the Study Cost domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_cost table
+	 * @return object An instance of the Study Cost domain object 
+	 */	
+	protected function doBuildObject($row)
+	{	
+		
+		return new Hb_App_Study_StudyCost($row->study_cost_id,
+													 $row->account_id,
+													 $row->account_name,
+													 $row->actual_quantity,
+													 $row->actual_rate,
+													 $row->proposed_quantity,
+													 $row->proposed_rate,
+													 $row->contact_email, 
+													 $row->contact_name,
+													 $row->reference_number,
+													 $row->study_cost_type_id,
+													 $row->study_id,
+													 $row->study_cost_po_number,													
+													 $row->status,
+													 $row->invoice_rate,
+													 $row->invoice_quantity
+													 );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 	$db 		= Hb_Util_Db_Connection::GetInstance();
+	 	$select 	= $db->select();
+	 	
+	 	$select->from(array('sc' => $this->table), array('study_cost_id',
+																		 'study_id',
+																		 'study_cost_type_id',
+																		 'reference_number',
+																		 'account_id',
+																		 'account_name',
+																		 'contact_name',
+																		 'contact_email',
+																		 'proposed_rate',
+																		 'proposed_quantity',
+																		 'actual_rate',
+																		 'actual_quantity',
+																		 'study_cost_po_number',
+																		 'invoice_rate',
+																		 'invoice_quantity',
+																		 'status')
+									 );
+		return $select;
+	}
+	
+	/**
+	 * Finds a Study Cost by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_cost table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+	 	$select->where('sc.'. $this->primary_key .'= ?', $id);
+	 		 	
+	 	return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Cost domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyCost  */
+	 	
+	 	$data = array(
+			'study_id' 				=> $obj->GetStudyId(),
+			'study_cost_type_id' => $obj->GetStudyCostTypeId(),
+			'reference_number'	=> $obj->GetReferenceNumber(),
+			'account_id' 			=> $obj->GetAccountId(),
+			'account_name' 		=> $obj->GetAccountName(),
+			'contact_name' 		=> $obj->GetContactName(),
+			'contact_email'		=> $obj->GetContactEmail(),
+			'proposed_rate'		=> $obj->GetProposedRate(),
+			'proposed_quantity'	=> $obj->GetProposedQuantity(),
+			'actual_rate'			=> $obj->GetActualRate(),
+			'actual_quantity'		=> $obj->GetActualQuantity(),
+			'study_cost_po_number' => $obj->GetStudyCostPONumber(),
+			'invoice_rate'			=> $obj->GetInvoiceRate(),
+			'invoice_quantity'	=> $obj->GetInvoiceQuantity(),
+	 	   'status'             => $obj->GetStatus()
+	 	);	 		 
+	 
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())) {	 		
+	 		$data['created_by'] = $_SESSION["admin_id"];
+	 		$data['created_date'] = date("Y-m-d h:i:s");
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyCostId($db->lastInsertId());
+	 	}else {
+         $data['modified_by'] = $_SESSION["admin_id"];
+         $data['modified_date'] = date("Y-m-d h:i:s");
+	 		$db->update($this->table, $data, $this->primary_key. '='. $obj->GetId());
+	 	}
+	}
+	
+	/**
+	 * Find ByVendorPONumber
+	 *
+	 * @param String $vendor_po_number Vendor PO Number
+	 * @return Hb_App_Study_StudyCost instance of Hb_App_Study_StudyCost
+	 */ 
+	function FindByVendorPONumber($vendor_po_number)
+	{ 
+		$row = $this->doFindByVendorPONumber($vendor_po_number);
+	 	
+		return $this->doBuildObject($row);
+	}
+	
+	/**
+	 * Returns row based on PO Number
+	 *
+	 * @param String $vendor_po_number Vendor PO Number
+	 * @return Row
+	 */ 
+	protected function doFindByVendorPONumber($vendor_po_number) 
+	{ 
+		$select = $this->GetBaseSelect();
+	 	$select->where("sc.study_cost_po_number = ?", $vendor_po_number);
+	 		 	
+	 	return $this->getRow($select);
+	}
+}
+?>

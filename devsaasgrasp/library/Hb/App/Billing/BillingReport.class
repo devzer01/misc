@@ -1,0 +1,521 @@
+<?php
+require_once ('BillingReportType.class');
+require_once ('MergedBillingReport.class');
+
+/**
+ * Domain object for the Billing Report
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jvonica
+ * @version 1.0
+ * @package App 
+ * @subpackage Billing
+ */ 
+class Hb_App_Billing_BillingReport extends Hb_App_Object 
+{
+	/**
+	 * Billing Report Data
+	 *
+	 * @var string 
+	 */ 
+	protected $armc_date = null;
+	
+	/**
+	 * Merged Billing Report Number
+	 *
+	 * @var int 
+	 */
+	protected $armc_group_id = null;
+	
+	/**
+	 * Billing Report Number
+	 *
+	 * @var int 
+	 */
+	protected $armc_id = null;
+	
+	/**
+	 * Billing Report Status Identifier
+	 *
+	 * @var int 
+	 */
+	protected $armc_status_id = null;
+
+	/**
+	 * Billing Report Type Identifier
+	 *
+	 * @var int 
+	 */
+	protected $armc_type_id = null;
+	
+	/**
+	 * Product Identifier
+	 *
+	 * @var int 
+	 */
+	protected $product_id = null;
+	
+	/**
+	 * Invoice Date
+	 *
+	 * @var string 
+	 */
+	protected $transaction_date = null;
+	
+	/**
+	 * Invoice Number
+	 *
+	 * @var int 
+	 */
+	protected $transaction_number = null;
+	
+	/**
+	 * Billing report attributes
+	 *
+	 * @var Hb_App_Billing_BillingReportAttributes 
+	 */
+	protected $attributes = null;
+	
+	/**
+	 * BillingReportComments object
+	 *
+	 * @var Hb_App_Billing_BillingReportComments
+	 */
+	protected $billing_report_comments = null;
+	
+	/**
+	 * Billing Report Account object
+	 *
+	 * @var Hb_App_Account_Account
+	 */
+	protected $account = null;
+	
+	/**
+	 * Constructor for the BillingReport
+	 *
+	 * @param int $id billing report id
+	 * @param string $armc_date billing report date
+	 * @param int $armc_group_id merged billing report number	 
+	 * @param int $armc_status_id billing report status id
+	 * @param int $armc_type_id billing report type id
+	 * @param int $product_id product id
+	 * @param string $transaction_date invoice date
+	 * @param int $transaction_number invoice number
+	 */	
+	function __construct($id = null,
+								$armc_date = null,
+								$armc_group_id = null,								
+								$armc_status_id = null,
+								$armc_type_id = null,
+								$product_id = null,
+								$transaction_date = null,
+								$transaction_number = null
+								)
+	{
+		$this->armc_id 				= $id;
+		$this->armc_date				= $armc_date;
+		$this->armc_group_id			= $armc_group_id;		
+		$this->armc_status_id		= $armc_status_id;
+		$this->armc_type_id			= $armc_type_id;
+		$this->product_id				= $product_id;
+		$this->transaction_date		= $transaction_date;
+		$this->transaction_number	= $transaction_number;
+		
+		parent::__construct($id);
+	}
+	
+	/**
+	 * Return the Billing report attributes collection object for the Billing Report 
+	 *
+	 * @return Hb_App_Billing_BillingReportAttributes Billing report attributes collection object
+	 */
+	public function GetAttributes()
+	{
+		if(is_null($this->attributes)) {
+			if (is_null($this->armc_id)) {
+				throw new Hb_App_Billing_Exception_BillingReportNotFoundException('Billing report id is not set');
+			}
+			$this->attributes = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportAttributes')->Find($this->armc_id);
+		}	
+		
+		return $this->attributes;
+	}
+	
+	/**
+	 * Return the Billing Report attribte object for the Billing Report
+	 *
+	 * @return Hb_App_Billing_BillingReportAttribute Billing Report attribte object
+	 */
+	protected function doGetAttributeByName($name)
+	{		
+		return $this->GetAttributes()->GetAttribute($name);
+	}
+
+	/**
+	 * Return the Billing report amount for the Billing Report
+	 *
+	 * @return float Billing report amount
+	 */
+	public function GetAmount()
+	{
+		return $this->doGetAttributeByName('AMOUNT')->GetAttributeValue();
+	}	
+	
+	/**
+	 * Returns STUDY_ID for this Billing Report
+	 *
+	 * @author msilva
+	 * 
+	 * @return int
+	 */
+	public function GetStudyId()
+	{
+		return $this->doGetAttributeByName('STUDY_ID')->GetAttributeValue();
+	}
+	
+	/**
+	 * Returns PROPOSAL_ID for this Billing Report
+	 *
+	 * @author msilva
+	 * 
+	 * @return int
+	 */
+	public function GetProposalId()
+	{
+		return $this->doGetAttributeByName('PROPOSAL_ID')->GetAttributeValue();
+	}
+	
+	/**
+	 * Returnt the Account id for this Billing Report
+	 * 
+	 *
+	 */
+	public function GetAccountId()
+	{
+		return $this->doGetAttributeByName('ACCOUNT_ID')->GetAttributeValue();
+	}
+
+	/**
+	 * Returns PROPOSAL_REVISION_ID for this Billing Report
+	 *
+	 * @author msilva
+	 * 
+	 * @return int
+	 */
+	public function GetProposalRevisionId()
+	{
+		return $this->doGetAttributeByName('PROPOSAL_REVISION_ID')->GetAttributeValue();
+	}
+	
+	public function GetAttributeByName($name)
+	{
+		return $this->doGetAttributeByName($name)->GetAttributeValue();
+	}
+
+	
+	/**
+	 * Return  billing report date for the Billing Report
+	 *	 
+	 * @return string billing report date
+	 */
+	public function GetBillingReportDate()
+	{
+		return $this->armc_date;
+	}
+
+	/**
+	 * Return the billing report id for the Billing Report
+	 *	 
+	 * @return int billing report id
+	 */
+	public function GetBillingReportID()
+	{
+		return $this->armc_id;
+	}
+	
+	/**
+	 * Return the billing report status id for the Billing Report
+	 *	 
+	 * @return int billing report status id
+	 */
+	public function GetBillingReportStatusID()
+	{
+		return $this->armc_status_id;
+	}
+	
+	/**
+	 * Return the Billing Report type id for the Billing Report type
+	 *	 
+	 * @return int billing report type id
+	 */
+	public function GetBillingReportTypeID()
+	{
+		return $this->armc_type_id;
+	}
+
+	/**
+	 * Return the transaction date for Billing Report
+	 *
+	 * @return string billing report transaction date
+	 */
+	public function GetInvoiceDate()
+	{
+		return $this->transaction_date;
+	}
+
+	/**
+	 * Return the billing report transaction number for the Billing Report
+	 *	 
+	 * @return int billing report transaction number
+	 */
+	public function GetInvoiceNumber()
+	{
+		return $this->transaction_number;
+	}
+
+	/**
+	 * Return Merged Id for the Billing Report
+	 *	 
+	 * @return int merged billing report id
+	 */
+	public function GetMergedBillingReportID()
+	{
+		return $this->armc_group_id;
+	}
+	
+	/**
+	 * Return Product id for the Billing Report
+	 *	 
+	 * @return int product id
+	 */
+	public function GetProductID()
+	{
+		return $this->product_id;
+	}
+
+	/**
+	 * Set Billing Report Date for the 
+	 * 
+	 * @param string $armc_date billing report date
+	 */
+	public function SetBillingReportDate($armc_date)
+	{
+		$this->armc_date = $armc_date;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Billing Report Id
+	 *
+	 * @param int $armc_id billing report id	 
+	 */
+	public function SetBillingReportID($armc_id)
+	{
+		$this->armc_id = (int) $armc_id;
+		$this->__id = (int) $armc_id;
+		
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Status Identifier
+	 * 
+	 * @param int $armc_status_id billing report status identifier
+	 */
+	public function SetBillingReportStatusID($armc_status_id)
+	{
+		$this->armc_status_id = $armc_status_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Billing Report Type Identifier
+	 * 
+	 * @param int $armc_type_id billing report type identifier
+	 */
+	public function SetBillingReportTypeID($armc_type_id)
+	{
+		$this->armc_type_id = $armc_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Invoice Date of the billing report
+	 * 
+	 * @param string $transaction_date invoice date of the billing report
+	 */
+	public function SetInvoiceDate($transaction_date)
+	{
+		$this->transaction_date = $transaction_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Invoice Number
+	 * 
+	 * @param int $transaction_number invoice number
+	 */
+	public function SetInvoiceNumber($transaction_number)
+	{
+		$this->transaction_number = $transaction_number;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Merged Billing Report ID
+	 *  
+	 * @param int $armc_group_id merged billing report Id
+	 */
+	public function SetMergedBillingReportID($armc_group_id)
+	{
+		$this->armc_group_id = $armc_group_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Set the Product Identifier
+	 * 
+	 * @param int $product_id product identifier
+	 */
+	public function SetProductID($product_id)
+	{		
+		$this->product_id = $product_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Get the Commens for this BillingReport
+	 * 
+	 * @author msilva
+	 *
+	 * @return Hb_App_Billing_BIllingReportComments object
+	 */
+	public function GetComments()
+	{
+		if (is_null($this->billing_report_comments)) {
+			$this->billing_report_comments = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportComments')->Find($this->armc_id);
+		}
+		
+		return $this->billing_report_comments;
+	}
+
+	// Custom looksups
+	
+	/**
+	 * protected fn() to see if required comment type is set in the Billing Report Comments collection
+	 * 
+	 * @author msilva
+	 *
+	 * @param int $comment_type_id
+	 * @return mixed
+	 */	
+	protected function hasBillingReportCommentType($comment_type_id)
+	{
+		// populate comments collection
+		$this->GetComments();
+		
+		foreach ($this->billing_report_comments as $billing_report_comment) {
+			if ($billing_report_comment->GetArmcCommentTypeId() == $comment_type_id) {
+				return $billing_report_comment->GetArmcCommentId();
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * To see if, Proposal to invoice adjustment has the client approval comment is set
+	 * 
+	 * @author msilva
+	 *
+	 * @return boolean
+	 */
+	public function HasProposalToInvoiceAdjustmentApproval()
+	{
+		return $this->hasBillingReportCommentType(ARMC_COMMENT_TYPE_INVOICE_ADJUSTMENT_APPROVAL)? true : false;
+	}
+	
+	/**
+	 * This fn() check the Billing Amount to Proposed Amount varience
+	 * 
+	 * @author msilva
+	 * TODO: Improve this
+	 * 
+	 * @return boolean
+	 */
+	public function isProposedAmountDifferent()
+	{
+		
+		try 
+		{
+			$proposal_amount = Hb_App_ObjectHelper::GetMapper('Hb_App_Study_Study')->Find($this->GetStudyId())->GetStudyQuotedValue();
+			
+			$setting_value =  Hb_App_Billing_BillingReportSetting::GetSetting('PROPOSAL_AMOUNT_MARGIN');
+			
+			// find out the % difference between billing amount to proposed value
+			// FIXME: (float)preg_replace("/[^0-9\.]/i","",$proposal_amount) why?, had $999,999.99 coming from study domain
+			$diff_percentage = ((((float)$this->GetAmount() - (float)preg_replace("/[^0-9\.]/i","",$proposal_amount)) / (float)$this->GetAmount()) * 100);
+			
+			return ($diff_percentage > $setting_value);
+			
+		}
+		catch (Hb_Data_ObjectNotInCollectionException $e)
+		{
+			return false;
+		}
+
+	}
+
+	/**
+	 * This is to see if this BR require a Study
+    *
+    * @author msilva
+    * 
+    * @return boolean
+    */
+	public function isRequireStudy()
+	{
+		return ($this->armc_type_id == ARMC_TYPE_BR_STUDY);
+	}
+	
+	/**
+	 * Return the Status of the AE User for the Billing Report
+	 *
+	 * @return boolean Status of the AE User
+	 */
+	public function isAEValidUser()
+	{
+		//Billing Report User instance get by using the armc_id and the User role id
+		$users = Hb_App_ObjectHelper::GetMapper('Hb_App_Billing_BillingReportUsers')->FindByRole($this->armc_id, ROLE_PRIMARY_ACCT_EXEC);
+		
+		//check whether Billing repoert users are valid
+		foreach ($users as $billing_user ) {			
+			$user = Hb_App_ObjectHelper::GetMapper('Hb_App_User_User')->FindByLogin($billing_user->GetLogin());				
+			if($user->GetAudit()->GetStatus() == 'A') {								
+				return true;
+			}
+		}		
+		
+		//Write on Billing Report Event saying that 'Account Executive user is Inactive'.
+		$armc_event = new Hb_App_Billing_BillingReportEvent(null, $this->GetBillingReportID(), ARMC_EVENT_TYPE_APPROVAL_SKIPPED, $_SERVER['HTTP_USER_AGENT'], $_SERVER['REMOTE_ADDR'], 'Account Executive Inactive');
+		return false;
+	}
+	
+	/**
+	 * Return the Account Attribute for the Billing Report
+	 *
+	 * @param string $name
+	 */
+	public function GetAccountAttributeByName($name)
+	{
+		//get the Account for this Billing Report
+		if($this->account == null) {
+			$this->account	= Hb_App_ObjectHelper::GetMapper('Hb_App_Account_Account')->Find($this->GetAccountId());
+		}
+		
+		return $this->account->GetAttribute($name)->GetAttributeValue();		
+	}
+	
+}
+
+?>

@@ -1,0 +1,98 @@
+<?php 
+/**
+ * Mapper class of Account Attribute Definition
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.0
+ * @package Mapper 
+ * @subpackage Account
+ */  
+class Hb_Mapper_Account_AccountAttributeDefinition extends Hb_Mapper_Mapper
+{ 
+  /**
+   * Domain object class name
+   *
+   * @var string 
+   */ 
+   protected static $__domain = 'Hb_App_Account_AccountAttributeDefinition'; 
+
+  /**
+   * primary key of the table
+   *
+   * @var string 
+   */
+   protected $primary_key = 'account_attr_def_id';
+   
+  /**
+   * table name
+   *
+   * @var string 
+   */  
+   protected $table = 'account_attr_def';
+   
+   /**
+    * Find by id
+    *
+    * @param int id Account Attribute Definition Id
+    * @return Hb_App_Account_AccountAttributeDefinition Returns domain object
+    */ 
+   protected function doFindById($id) 
+   {
+   	$select = $this->GetBaseSelect();	
+	  	$select->where('account_attr_name = ?', $id);
+	  	
+	  	return $this->getRow($select);
+   } 
+
+   /**
+    * Prepare basic select statement
+    * 
+    * @return select returns select member of db connection object
+    */ 
+   protected function GetBaseSelect() 
+   { 
+    	$db = Hb_Util_Db_Connection::GetInstance();
+	  
+	  	$select = $db->select();
+	  	$select->from(array('aad' => 'account_attr_def'), array('account_attr_def_id', 'account_attr_name', 
+	  																						'account_attr_description'));
+	  
+	  	return $select;
+   }
+   
+   /**
+    * Builds the domain object from the provided row
+    *
+    * @param Object $row Table row
+    * @return Hb_App_Account_AccountAttributeDefinition Returns domain object
+    */ 
+   protected function doBuildObject($row)
+   { 
+   	return new Hb_App_Account_AccountAttributeDefinition($row->account_attr_def_id, 
+   																		  $row->account_attr_name, 
+   																		  $row->account_attr_description);
+   }
+   
+   /**
+    * Save
+    *
+    * @param $obj object Instance of the Hb_App_Account_AccountAttributeDefinition
+    */ 
+   protected function doSave(Hb_App_Object $obj)
+   { 
+      $data = array(
+      	'account_attr_name'			=> $obj->GetAttributeName(),
+      	'account_attr_description'	=> $obj->GetAttributeDescription());
+    
+      $db = Hb_Util_Db_Connection::GetInstance(); 
+      
+      if (is_null($obj->GetId())) {
+			$db->insert('account_attr_def', $data);
+			$obj->SetAttributeDefinitionId($db->lastInsertId());
+	  	} else {
+			$db->update('account_attr_def', $data, 'account_attr_def_id = ' . $obj->GetId());
+	  	}
+   }  
+}
+?>

@@ -1,0 +1,76 @@
+<?php
+
+include_once 'class/Hb/Util/Session/Session.class';
+include_once 'class/Hb/Util/Control/Security.class';
+include_once 'class/Hb/Util/Config/SystemConfigReader.class';
+include_once 'Zend/Controller/Front.php';
+include_once 'class/Hb/Util/Control.class';
+include_once 'class/Hb/Util/Log/Logger.class';
+include_once 'class/Hb/App/ObjectHelper.class';
+include_once 'class/Hb/App/ObjectWatcher.class';
+include_once 'class/Hb/App/ObjectMap.class';
+include_once 'class/Hb/App/Object.class';
+include_once 'class/Hb/Util/Lang/Class.class';
+include_once 'class/Hb/Exception.class';
+include_once 'class/Hb/Mapper/Mapper.class';
+
+
+require_once 'include/constant.inc';
+require_once 'include/config.inc';
+
+/**
+ * Standard Web Front Controller Utility
+ * @package  Util
+ * @subpackage  Control
+ */
+class Hb_Util_Control_Front
+{
+	/**
+	 * Run the Controller
+	 *
+	 */
+	public static function run()
+	{
+		//$session = new Hb_Util_Session_Session();
+
+		$config  = new Hb_Util_Session_Session('Config');
+		
+		$config->config = Hb_Util_Config_SystemConfigReader::Read();
+		
+		$router  = new Hb_Util_Control();
+
+		$controller = Zend_Controller_Front::getInstance();
+		
+		$controller->throwExceptions(true);
+
+		$controller->returnResponse(true);
+
+		$controller->registerPlugin(new Hb_Util_Control_Security());
+
+		$controller->setRouter($router);
+
+		$controller->setBaseUrl('/app');
+
+		$controller->setControllerDirectory($config->config->control_dir);
+		
+		//$logger = Hb_Util_Log_Logger::GetInstance('System');
+		
+		
+
+		$controller->setParam('noViewRenderer', true);
+		
+//		try {
+			$controller->dispatch();
+
+			Hb_App_ObjectWatcher::commit();
+			
+			echo $controller->getResponse();
+
+//		} catch (Exception $e) {
+	//		$logger->LogException($e);
+		//}
+
+	}
+}
+
+?>

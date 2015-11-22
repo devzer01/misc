@@ -1,0 +1,142 @@
+<?php 
+/**
+ * Domain Object for FrontPageModuleUser
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ *
+ */ 
+class Hb_App_Common_FrontPageModuleUser extends Hb_App_Object {
+	
+	/**
+	 * Front Page Module User Id
+	 *
+	 * @var int 
+	 */
+	private $frontpage_module_user_id = null;
+	
+	/**
+	 * Front Page Module ID
+	 *
+	 * @var int 
+	 */
+	private $frontpage_module_id = null;
+	
+	/**
+	 * User ID
+	 *
+	 * @var int
+	 */
+	private $user_id = null;
+	
+	/**
+	 * User Column prefer
+	 *
+	 * @var array 
+	 */
+	private $user_column_prefer = null;
+	
+	function __construct($id = null,
+								$frontpage_module_id = null,
+								$user_id	= null,
+								$user_column_prefer	= null)
+	{
+		$this->frontpage_module_user_id	= $id;
+		$this->frontpage_module_id	= $frontpage_module_id;
+		$this->user_id	= $user_id;
+		$this->user_column_prefer	= $user_column_prefer;
+
+		parent::__construct($id);	
+	}
+	
+	/**
+	 * Return the Front page module user id for the Front Page Module User
+	 *
+	 * @return int Front page module user id
+	 */
+	public function GetFrontPageModuleuserID()
+	{
+		return $this->frontpage_module_user_id;
+	}
+	
+	/**
+	 * Return the Front page module id for the Front Page Module User
+	 *
+	 * @return int Front page module id
+	 */
+	public function GetFrontPageModuleID()
+	{
+		return $this->frontpage_module_id;
+	}
+	
+	/**
+	 * Return the User ID for the Front Page Module User
+	 *
+	 * @return int User ID
+	 */
+	public function GetUserID()
+	{
+		return $this->user_id;
+	}
+	
+	/**
+	 * Return the User Column Prefer for the Front Page Module User
+	 *
+	 * @return array User Column Prefer
+	 */
+	public function GetUserColumnPrefer()
+	{
+		return $this->user_column_prefer;
+	}
+	
+	/**
+	 * Set the FrontPage Module user Id for the  Front Page Module User
+	 * 
+	 * @param int $frontpage_module_user_id FrontPage Module user Id
+	 */
+	public function SetFrontPageModuleUserID($frontpage_module_user_id)
+	{
+		$this->frontpage_module_user_id	= $frontpage_module_user_id;
+		$this->__id								= $frontpage_module_user_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Front Page Module ID for the  Front Page Module User
+	 * 
+	 * @param int $frontpage_module_id Front Page Module ID
+	 */
+	public function SetFrontPageModuleID($frontpage_module_id)
+	{
+		$this->frontpage_module_id	= $frontpage_module_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the User iD for the  Front Page Module User
+	 * 
+	 * @param int $user_id User iD
+	 */
+	public function SetUserID($user_id)
+	{
+		$this->user_id	= $user_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the User Column Prefer for the  Front Page Module User
+	 * 
+	 * @param array $user_column_prefer User Column Prefer
+	 */
+	public function SetUserColumnPrefer($user_column_prefer)
+	{
+		$this->user_column_prefer	= $user_column_prefer;
+		$this->MarkDirty();
+	}
+
+}
+
+?>

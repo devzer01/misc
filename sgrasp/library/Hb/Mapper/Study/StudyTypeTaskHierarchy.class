@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mapper for Study Type Task Hiearchy 
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author ddayananda
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Study
+ */
+class Hb_Mapper_Study_StudyTypeTaskHierarchy extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Domain object class name
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Study_StudyTypeTaskHiearchy';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Study_StudyTypeTaskHiearchy';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_type_task_hieararchy_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_type_task_hiearchy";
+	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param record set $row  Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTypeTaskHierarchy($row->study_type_task_hieararchy_id,
+														   		  $row->parent_study_type_task_id, 
+																	  $row->child_study_type_task_id);		
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select Selected Result Set from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		$db     = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();           	 	 	 	 	
+		$select->from($this->table, array('study_type_task_hieararchy_id', 	
+													 'parent_study_type_task_id', 	
+													 'child_study_type_task_id'
+												   ));		         
+      return $select; 				
+	}
+	
+	
+	/**
+	 * Finds a Study Type Task Hiearchy  by it's Id
+	 *
+	 * @param  int $id The record identifier that uniquely identifies the row.
+	 * @return  Result Row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where($this->primary_key . '= ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	
+	/**
+	 * Saves domain object
+	 *
+	 * @param Hb_App_Object $obj Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{	
+		/* @var $obj Hb_App_Study_StudyTypeTaskHiearchy */
+		
+		$data = array('parent_study_type_task_id'=> $obj->GetParentStudyTypeTaskId(),
+					     'child_study_type_task_id' => $obj->GetChildStudyTypeTaskId(),
+					    );
+		
+		$db = Hb_Util_Db_Connection::GetInstance();
+						
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetStudyTypeTaskHierarchyId($db->lastInsertId());
+		} 
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . '=' . $obj->GetId());	
+		}	
+	}	
+}
+?>

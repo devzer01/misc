@@ -1,0 +1,10 @@
+<?php
+
+require_once ('class/Hb/App/List/Item.class') ;
+
+class Hb_App_List_Country extends Hb_App_List_Item 
+{
+
+}
+
+?>

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Exception class for handling the Oracle Specific Errors
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Ora/Exception
+ */
+
+require_once ('class/Hb/Exception.class');
+
+/**
+ * Oracle Connect error exception
+ *
+ */
+class Hb_Util_Db_Ora_Exception_OracleException extends Hb_Exception 
+{
+	
+}
+
+?>

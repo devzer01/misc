@@ -1,0 +1,1084 @@
+<?php
+/**
+ * Domain Object for ProposalRevisionOption
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Propsal
+ */
+
+class Hb_App_Proposal_ProposalRevisionOption extends Hb_App_Object
+{
+	/**
+	 * Proposal revision option Id
+	 *
+	 * @var int
+	 **/
+	protected $proposal_revision_option_id = null;	
+
+	
+	/**
+	 * Average words per open end
+	 *
+	 * @var int 
+	 **/	
+	protected $avg_words_per_open_end = null;
+	
+	/**
+	 * Client portal programming hours
+	 *
+	 * @var int
+	 **/	
+	protected $client_portal_programming_hours = null;
+	
+	/**
+	 * Completes
+	 *
+	 * @var int 
+	 **/		
+	protected $completes = null;
+	
+	/**
+	 * Country code
+	 *
+	 * @var string
+	 **/	
+	protected $country_code = null;
+
+	/**
+	 * Data export hours
+	 *
+	 * @var int
+	 **/		
+	protected $data_export_hours = null;
+
+	/**
+	 * Data import hours
+	 *
+	 * @var int
+	 **/
+	protected $data_import_hours = null;
+	
+	/**
+	 * Data recording hours
+	 *
+	 * @var int
+	 **/	
+	protected $data_recording_hours = null;
+	
+	/**
+	 * Data tab hours
+	 *
+	 * @var int
+	 **/	
+	protected $data_tab_hours = null;
+	
+	/**
+	 * Incidence of open end
+	 *
+	 * @var int
+	 **/	
+	protected $incidence_of_open_end = null;
+	
+	/**
+	 * Incidence rate
+	 *
+	 * @var int
+	 **/	
+	protected $incidence_rate = null;
+	
+	/**
+	 * Open end questions
+	 *
+	 * @var int
+	 **/	
+	protected $open_end_questions = null;
+	
+	/**
+	 * Open end text coding hours
+	 * 
+	 * @var int
+	 **/
+	protected $open_end_text_coding_hours = null;
+	
+	/**
+	 * Option Cpc
+	 *
+	 * @var int
+	 **/	
+	protected $option_cpc = null;
+	
+	/**
+	 * Option number
+	 *
+	 * @var int
+	 * 
+	 **/	
+	protected $option_number = null;
+	
+	/**
+	 * Option total
+	 *
+	 * @var int
+	 **/	
+	protected $option_total = null;
+	
+	/**
+	 * Overlay
+	 *
+	 * @var int
+	 **/	
+	protected $overlay = null;
+	
+	/**
+	 * Overlay language code
+	 *
+	 * @var string
+	 **/	
+	protected $overlay_language_code = null;
+
+	/**
+	 * Panel cost per interview
+	 *
+	 * @var int
+	 **/
+	protected $panel_cost_per_interview = null;
+
+	/**
+	 * Panel import hours
+	 *
+	 * @var int
+	 **/
+	protected $panel_import_hours = null;
+	
+	/**
+	 * Panel total
+	 *
+	 * @var int
+	 **/
+	protected $panel_total = null;
+	
+	/**
+	 * Programming
+	 *
+	 * @var int
+	 **/
+	protected $programming = null;
+	
+	/**
+	 * Proposal revision Id
+	 *
+	 * @var int
+	 **/
+	protected $proposal_revision_id = null;
+	
+	/**
+	 * Questions per interview
+	 *
+	 * @var int
+	 **/
+	protected $questions_per_interview = null;
+
+	/**
+	 * Questions per screener
+	 *
+	 * @var int
+	 **/
+	protected $questions_per_screener = null;
+	
+	/**
+	 * Questions programmed
+	 *
+	 * @var int
+	 **/
+	protected $questions_programmed = null;
+	
+	/**
+	 * Respondent portal programming hours
+	 *
+	 * @var int
+	 **/
+	protected $respondent_portal_programming_hours = null;
+	
+	/**
+	 * Respondent portal type Id
+	 *
+	 * @var int
+	 **/
+	protected $respondent_portal_type_id = null;
+	
+	/**
+	 * Sort order
+	 *
+	 * @var int
+	 **/
+	protected $sort_order = null;
+	
+	/**
+	 * Study datasource Id
+	 *
+	 * @var int
+	 **/
+	protected $study_datasource_id = null;
+	
+	/**
+	 * Study programming type Id
+	 *
+	 * @var int
+	 **/
+	protected $study_programming_type_id = null;
+	
+	/**
+	 * Sub group description
+	 *
+	 * @var string
+	 **/	
+	protected $sub_group_description = null;
+	
+	/**
+	 * Translation
+	 *
+	 * @var int
+	 **/
+	protected $translation = null;
+	
+	/**
+	 * Translation language code
+	 *
+	 * @var string
+	 **/
+	protected $translation_language_code = null;
+
+
+	/**
+	* Constructor for the ProposalRevisionOption
+	* @param int $avg_words_per_open_end Average words per open end
+	* @param int $client_portal_programming_hours Client portal programming hours
+	* @param int $completes Completes
+	* @param string $country_code Country code
+	* @param int $data_export_hours Data export hours
+	* @param int $data_import_hours Data import hours
+	* @param int $data_recording_hours Data recording hours
+	* @param int $data_tab_hours Data tab hours
+	* @param int $incidence_of_open_end Incidence of open end
+	* @param int $incidence_rate Incidence rate
+	* @param int $open_end_questions Open end questions
+	* @param int $open_end_text_coding_hours Open end text coding hours
+	* @param int $option_cpc Option Cpc
+	* @param int $option_number Option number
+	* @param int $option_total Option total
+	* @param int $overlay Overlay
+	* @param int $overlay_language_code Overlay language code
+	* @param int $panel_cost_per_interview Panel cost per interview
+	* @param int $panel_import_hours Panel import hours
+	* @param int $panel_total Panel total
+	* @param int $programming Programming
+	* @param int $proposal_revision_id Proposal revision Id
+	* @param int $account_panel_country_type_id Account panel country type Id
+	* @param int $questions_per_interview Questions per interview
+	* @param int $questions_per_screener Questions per screener
+	* @param int $questions_programmed Questions programmed
+	* @param int $respondent_portal_programming_hours Respondent portal programming hours
+	* @param int $respondent_portal_type_id Respondent portal type Id
+	* @param int $sample_search_type_id Sample search type Id	
+	* @param int $sort_order Sort order
+	* @param int $study_datasource_id Study datasource Id
+	* @param int $study_programming_type_id Study programming type Id
+	* @param string $sub_group_description Sub group description
+	* @param int $translation Translation
+	* @param string $translation_language_code Translation language code
+	*/
+	function __construct(	$id = null,
+							$avg_words_per_open_end = null,
+							$client_portal_programming_hours = null,
+							$completes  = null,
+							$country_code  = null,
+							$data_export_hours = null, 
+							$data_import_hours = null,
+							$data_recording_hours = null,
+							$data_tab_hours = null,
+							$incidence_of_open_end = null,
+							$incidence_rate = null,
+							$open_end_questions = null,
+							$open_end_text_coding_hours = null, 
+							$option_cpc = null,
+							$option_number = null,
+							$option_total = null,
+							$overlay = null,
+							$overlay_language_code = null,
+							$panel_cost_per_interview = null,
+							$panel_import_hours = null,
+							$panel_total = null,
+							$programming = null,
+							$proposal_revision_id = null,
+							$questions_per_interview = null,
+							$questions_per_screener = null,
+							$questions_programmed = null,
+							$respondent_portal_programming_hours = null,
+							$respondent_portal_type_id = null,
+							$sort_order = null,
+							$study_datasource_id = null,
+							$study_programming_type_id = null,
+							$sub_group_description = null,
+							$translation = null,
+							$translation_language_code = null
+						)
+	{
+		$this->proposal_revision_option_id   = $id;
+		$this->avg_words_per_open_end = $avg_words_per_open_end;
+		$this->client_portal_programming_hours = $client_portal_programming_hours;
+		$this->completes = $completes;
+		$this->country_code = $country_code;
+		$this->data_export_hours = $data_export_hours;
+		$this->data_import_hours = $data_import_hours;
+		$this->data_recording_hours = $data_recording_hours;
+		$this->data_tab_hours = $data_tab_hours;
+		$this->incidence_of_open_end = $incidence_of_open_end;
+		$this->incidence_rate = $incidence_rate;
+		$this->open_end_questions = $open_end_questions ;
+		$this->open_end_text_coding_hours = $open_end_text_coding_hours ;
+		$this->option_cpc = $option_cpc ;
+		$this->option_number = $option_number ;
+		$this->option_total = $option_total ;
+		$this->overlay = $overlay ;
+		$this->overlay_language_code = $overlay_language_code ;
+		$this->panel_cost_per_interview = $panel_cost_per_interview ;
+		$this->panel_import_hours = $panel_import_hours ;
+		$this->panel_total = $panel_total ;
+		$this->programming = $programming ;
+		$this->proposal_revision_id = $proposal_revision_id ;
+		$this->questions_per_interview = $questions_per_interview ;
+		$this->questions_per_screener = $questions_per_screener ;
+		$this->questions_programmed = $questions_programmed ;
+		$this->respondent_portal_programming_hours = $respondent_portal_programming_hours ;
+		$this->respondent_portal_type_id = $respondent_portal_type_id ;
+		$this->sort_order =$sort_order ;
+		$this->study_datasource_id = $study_datasource_id ;
+		$this->study_programming_type_id = $study_programming_type_id ;
+		$this->sub_group_description = $sub_group_description ;
+		$this->translation = $translation ;
+		$this->translation_language_code = $translation_language_code ;
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns the Average words per open end for Proposal Revision Option
+	 * 
+	 * @return int $avg_words_per_open_end Average words per open end
+	 **/
+	public function GetAvgWordsPerOpenEnd()
+	{
+		return $this->avg_words_per_open_end;
+	}
+
+	/**
+	 * Returns the Client portal programming hours for Proposal Revision Option
+	 *
+	 * @return int $client_portal_programming_hours Client portal programming hours 
+	 **/
+	public function GetClientPortalProgrammingHours()
+	{
+		return $this->client_portal_programming_hours;
+	}
+
+	/**
+	 * Return the Completes for Proposal Revision Option
+	 *
+	 * @return int $completes Completes
+	 **/
+	public function GetCompletes()
+	{
+		return $this->completes;
+	}
+
+	/**
+	 * Returns Country code for Proposal Revision Option
+	 *
+	 * @return string $country_code Country code
+	 **/
+	public function GetCountryCode()
+	{
+		return $this->country_code;
+	}
+
+	/**
+	 * Returns the Data export hours for Proposal Revision Option
+	 *
+	 * @return int $data_export_hours Data export hours
+	 **/
+	public function GetDataExportHours()
+	{
+		return $this->data_export_hours;
+	}
+
+	/**
+	 * Returns the Data import hours for Proposal Revision Option
+	 *
+	 * @return int $data_import_hours Data import hours
+	 **/
+	public function GetDataImportHours()
+	{
+		return $this->data_import_hours;
+	}
+
+	/**
+	 * Returns Data recording hours for Proposal Revision Option
+	 *
+	 * @return int $data_recording_hours Data recording hours
+	 **/
+	public function GetDataRecordingHours()
+	{
+		return $this->data_recording_hours;
+	}
+
+	/**
+	 * Returns the Data tab hours for Proposal Revision Option
+	 *
+	 * @return int $data_tab_hours Data tab hours
+	 **/
+	public function GetDataTabHours()
+	{
+		return $this->data_tab_hours;
+	}
+
+	/**
+	 * Returns the Incidence of open end for Proposal Revision Option
+	 *
+	 * @return int $incidence_of_open_end Incidence of open end
+	 **/
+	public function GetIncidenceOfOpenEnd()
+	{
+		return $this->incidence_of_open_end;
+	}
+
+	/**
+	 * Returns the Incidence rate for Proposal Revision Option
+	 *
+	 * @return int $incidence_rate Incidence rate
+	 **/
+	public function GetIncidenceRate()
+	{
+		return $this->incidence_rate;
+	}
+	
+	/**
+	 * Returns Open end questions for Proposal Revision Option
+	 *
+	 * @return int $open_end_questions Open end questions
+	 **/
+	public function GetOpenEndQuestions()
+	{
+		return $this->open_end_questions;
+	}
+
+	/**
+	 * Returns the Open end text coding hours for Proposal Revision Option
+	 *
+	 * @return int $open_end_text_coding_hours Open end text coding hours
+	 **/
+	public function GetOpenEndTextCodingHours()
+	{
+		return $this->open_end_text_coding_hours;
+	}
+
+	/**
+	 * Returns the Option Cpc for Proposal Revision Option
+	 *
+	 * @return int $option_cpc Option Cpc
+	 **/
+	public function GetOptionCpc()
+	{
+		return $this->option_cpc;
+	}
+
+	/**
+	 * Returns the Option number for Proposal Revision Option
+	 *
+	 * @return int $option_number Option Number
+	 **/
+	public function GetOptionNumber()
+	{
+		return $this->option_number;
+	}
+
+	/**
+	 * Returns the Option total for Proposal Revision Option
+	 *
+	 * @return int $option_total Option total
+	 **/
+	public function GetOptionTotal()
+	{
+		return $this->option_total;
+	}
+
+	/**
+	 * Returns the Overlay for Proposal Revision Option
+	 *
+	 * @return int $overlay Overlay
+	 **/
+	public function GetOverlay()
+	{
+		return $this->overlay;
+	}
+
+	/**
+	 * Return the Overlay language code for Proposal Revision Option
+	 *
+	 * @return string $overlay_language_code Overlay language code
+	 **/
+	public function GetOverlayLanguageCode()
+	{
+		return $this->overlay_language_code;
+	}
+
+	/**
+	 * Returns the Panel cost per interview for Proposal Revision Option
+	 *
+	 * @return int $panel_cost_per_interview Panel cost per interview
+	 **/
+	public function GetPanelCostPerInterview()
+	{
+		return $this->panel_cost_per_interview;
+	}
+
+	/**
+	 * Returns Panel import hours for Proposal Revision Option
+	 *
+	 * @return int $panel_import_hours Panel import hours
+	 **/
+	public function GetPanelImportHours()
+	{
+		return $this->panel_import_hours;
+	}
+
+	/**
+	 * Returns the Panel total for Proposal Revision Option
+	 *
+	 * @return int $panel_total Panel total
+	 **/
+	public function GetPanelTotal()
+	{
+		return $this->panel_total;
+	}
+
+	/**
+	 * Returns Programming panel_total for Proposal Revision Option
+	 *
+	 * @return int $programming Programming
+	 **/
+	public function GetProgramming()
+	{
+		return $this->programming;
+	}
+
+	/**
+	 * Returns Proposal revision Id for Proposal Revision Option
+	 *
+	 * @return int $proposal_revision_id Proposal revision Id
+	 **/
+	public function GetProposalRevisionId()
+	{
+		return $this->proposal_revision_id;
+	}
+
+	/**
+	 * Returns the Proposal revision option Id for Proposal Revision Option
+	 *
+	 * @return int $proposal_revision_option_id Proposal revision option Id
+	 **/
+	public function GetProposalRevisionOptionId()
+	{
+		return $this->proposal_revision_option_id;
+	}
+
+	/**
+	 * Returns Questions per interview for Proposal Revision Option
+	 * 
+	 * @return int $questions_per_interview Questions per interview
+	 **/
+	public function GetQuestionsPerInterview()
+	{
+		return $this->questions_per_interview;
+	}
+
+	/**
+	 * Returns Questions per screener for Proposal Revision Option
+	 * 
+	 * @return int $questions_per_screener Questions per screener
+	 **/
+	public function GetQuestionsPerScreener()
+	{
+		return $this->questions_per_screener;
+	}
+
+	/**
+	 * Returns Questions programmed for Proposal Revision Option
+	 *
+	 * @return int $questions_programmed Questions programmed
+	 **/
+	public function GetQuestionsProgrammed()
+	{
+		return $this->questions_programmed;
+	}
+
+	/**
+	 * Returns Respondent portal programming hours for Proposal Revision Option
+	 *
+	 * @return int $respondent_portal_programming_hours Respondent portal programming hours
+	 **/
+	public function GetRespondentPortalProgrammingHours()
+	{
+		return $this->respondent_portal_programming_hours;
+	}
+
+	/**
+	 * Returns Repondent portal type Id for Proposal Revision Option
+	 *
+	 * @return int $respondent_portal_type_id Respondent portal type Id
+	 **/
+	public function GetRespondentPortalTypeId()
+	{
+		return $this->respondent_portal_type_id;
+	}
+
+	/**
+	 * Returns Sort order for Proposal Revision Option
+	 *
+	 * @return int $sort_order Sort order
+	 **/
+	public function GetSortOrder()
+	{
+		return $this->sort_order;
+	}
+
+	/**
+	 * Returns Study datasource Id for Proposal Revision Option
+	 *
+	 * @return int $study_datasource_id Study datasource Id
+	 **/
+	public function GetStudyDatasourceId()
+	{
+		return $this->study_datasource_id;
+	}
+
+	/**
+	 * Returns study programming type Id for Proposal Revision Option
+	 *
+	 * @return int $study_programming_type_id Study programming type Id
+	 **/
+	public function GetStudyProgrammingTypeId()
+	{
+		return $this->study_programming_type_id;
+	}
+
+	/**
+	 * Returns the Sub group description for Proposal Revision Option
+	 *
+	 * @return string $sub_group_description Sub group description
+	 **/
+	public function GetSubGroupDescription()
+	{
+		return $this->sub_group_description;
+	}
+
+	/**
+	 * Returns the Translation for Proposal Revision Option
+	 *
+	 * @return int $translation Translation
+	 **/
+	public function GetTranslation()
+	{
+		return $this->translation;
+	}
+
+	/**
+	 * Returns Translation language code for Proposal Revision Option
+	 *
+	 * @return string $translation_language_code Translation language code
+	 **/
+	public function GetTranslationLanguageCode()
+	{
+		return $this->translation_language_code;
+	}
+	
+	/**
+	 * Sets the Average words per open end for Proposal Revision Option
+	 * 
+	 * @param int $avg_words_per_open_end Average words per open end
+	 */
+	public function SetAvgWordsPerOpenEnd($avg_words_per_open_end)
+	{
+		$this->avg_words_per_open_end = $avg_words_per_open_end;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Cilent portal programming hours for Proposal Revision Option
+	 *
+	 * @param int $client_portal_programming_hours Cilent portal programming hours
+	 */
+	public function SetClientPortalProgrammingHours($client_portal_programming_hours)
+	{
+		$this->client_portal_programming_hours = $client_portal_programming_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Completes for Proposal Revision Option
+	 *
+	 * @param int $completes Completes
+	 */
+	public function SetCompletes($completes)
+	{
+		$this->completes = $completes;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Country code for Proposal Revision Option
+	 *
+	 * @param string $country_code Country code
+	 */
+	public function SetCountryCode($country_code)
+	{
+		$this->country_code = $country_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Data export hours for Proposal Revision Option
+	 * 
+	 * @param int $data_export_hours Data exporty hours
+	 */
+	public function SetDataExportHours($data_export_hours)
+	{
+		$this->data_export_hours = $data_export_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Data import hours for Proposal Revision Option
+	 * 
+	 * @param int $data_import_hours Data import hours
+	 */
+	public function SetDataImportHours($data_import_hours)
+	{
+		$this->data_import_hours = $data_import_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Data recording hours for Proposal Revision Option
+	 *
+	 * @param int $data_recording_hours Data recording hours
+	 */
+	public function SetDataRecordingHours($data_recording_hours)
+	{
+		$this->data_recording_hours = $data_recording_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Data tab hours for Proposal Revision Option
+	 *
+	 * @param int $data_tab_hours Data tab hours
+	 */
+	public function SetDataTabHours($data_tab_hours)
+	{
+		$this->data_tab_hours = $data_tab_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Incidence of open end for Proposal Revision Option
+	 *
+	 * @param int $incidence_of_open_end Incidence of open end
+	 */
+	public function SetIncidenceOfOpenEnd($incidence_of_open_end)
+	{
+		$this->incidence_of_open_end = $incidence_of_open_end;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Incidence rate for Proposal Revision Option
+	 *
+	 * @param int $incidence_rate Incidence rate
+	 */
+	public function SetIncidenceRate($incidence_rate)
+	{
+		$this->incidence_rate = $incidence_rate;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Open end questions for Proposal Revision Option
+	 *
+	 * @param int $open_end_questions Open end questions
+	 */
+	public function SetOpenEndQuestions($open_end_questions)
+	{
+		$this->open_end_questions = $open_end_questions;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Open end text coding hours for Proposal Revision Option
+	 *
+	 * @param int $open_end_text_coding_hours Open end text coding hours
+	 */
+	public function SetOpenEndTextCodingHours($open_end_text_coding_hours)
+	{
+		$this->open_end_text_coding_hours = $open_end_text_coding_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Option Cpc for Proposal Revision Option
+	 *
+	 * @param int $option_cpc Option Cpc
+	 */
+	public function SetOptionCpc($option_cpc)
+	{
+		$this->option_cpc = $option_cpc;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Option number for Proposal Revision Option
+	 *
+	 * @param int $option_number Option number
+	 */
+	public function SetOptionNumber($option_number)
+	{
+		$this->option_number = $option_number;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Option total for Proposal Revision Option
+	 *
+	 * @param int $option_total Option total
+	 */
+	public function SetOptionTotal($option_total)
+	{
+		$this->option_total = $option_total;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Overlay for Proposal Revision Option
+	 *
+	 * @param int $overlay Overlay 
+	 */
+	public function SetOverlay($overlay)
+	{
+		$this->overlay = $overlay;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Overlay language code for Proposal Revision Option
+	 *
+	 * @param int $overlay_language_code Overlay language code
+	 */
+	public function SetOverlayLanguageCode($overlay_language_code)
+	{
+		$this->overlay_language_code = $overlay_language_code;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Panel cost per interview for Proposal Revision Option
+	 *
+	 * @param int $panel_cost_per_interview Panel cost per interview
+	 */
+	public function SetPanelCostPerInterview($panel_cost_per_interview)
+	{
+		$this->panel_cost_per_interview = $panel_cost_per_interview;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Panel Import Hours for Proposal Revision Option
+	 *
+	 * @param int $panel_import_hours Panel import hours
+	 */
+	public function SetPanelImportHours($panel_import_hours)
+	{
+		$this->panel_import_hours = $panel_import_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Panel total for Proposal Revision Option
+	 *
+	 * @param int $panel_total Panel total
+	 */
+	public function SetPanelTotal($panel_total)
+	{
+		$this->panel_total = $panel_total;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Programming for Proposal Revision Option
+	 *
+	 * @param int $programming Programming
+	 */
+	public function SetProgramming($programming)
+	{
+		$this->programming = $programming;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Revision Id for Proposal Revision Option
+	 *
+	 * @param int $proposal_revision_id Proposal revision Id
+	 */
+	public function SetProposalRevisionId($proposal_revision_id)
+	{
+		$this->proposal_revision_id = $proposal_revision_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal revision option Id for Proposal Revision Option
+	 *
+	 * @param int $proposal_revision_option_id Proposal revision option Id
+	 */
+	public function SetProposalRevisionOptionId($proposal_revision_option_id)
+	{
+		$this->proposal_revision_option_id =(int) $proposal_revision_option_id;
+		
+		$this->__id = (int) $proposal_revision_option_id;
+		$this->MarkDirty();
+		
+	}
+
+	/**
+	 * Sets the Questions per Interview for Proposal Revision Option
+	 *
+	 * @param int $questions_per_interview Questions per interview
+	 */
+	public function SetQuestionsPerInterview($questions_per_interview)
+	{
+		$this->questions_per_interview = $questions_per_interview;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Questions per screener for Proposal Revision Option
+	 *
+	 * @param int $questions_per_screener Questions per screener
+	 */
+	public function SetQuestionsPerScreener($questions_per_screener)
+	{
+		$this->questions_per_screener = $questions_per_screener;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Questions Programmed for Proposal Revision Option
+	 *
+	 * @param int $questions_programmed Questions programmed
+	 */
+	public function SetQuestionsProgrammed($questions_programmed)
+	{
+		$this->questions_programmed = $questions_programmed;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Respondent portal programming hours for Proposal Revision Option
+	 *
+	 * @param int $respondent_portal_programming_hours Respondent portal programming hours
+	 */
+	public function SetRespondentPortalProgrammingHours($respondent_portal_programming_hours)
+	{
+		$this->respondent_portal_programming_hours = $respondent_portal_programming_hours;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Respondent Portal Type Id for Proposal Revision Option
+	 *
+	 * @param int $respondent_portal_type_id Respondent portal type Id
+	 */
+	public function SetRespondentPortalTypeId($respondent_portal_type_id)
+	{
+		$this->respondent_portal_type_id = $respondent_portal_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sort order for Proposal Revision Option
+	 *
+	 * @param int $sort_order Sort order
+	 */
+	public function SetSortOrder($sort_order)
+	{
+		$this->sort_order = $sort_order;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the study datasource Id for Proposal Revision Option
+	 *
+	 * @param int $study_datasource_id Study datasource Id
+	 */
+	public function SetStudyDatasourceId($study_datasource_id)
+	{
+		$this->study_datasource_id = $study_datasource_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study programming type Id for Proposal Revision Option
+	 *
+	 * @param int $study_programming_type_id Study programming type Id
+	 */
+	public function SetStudyProgrammingTypeId($study_programming_type_id)
+	{
+		$this->study_programming_type_id = $study_programming_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Sub group description for Proposal Revision Option
+	 *
+	 * @param int $sub_group_description Sub group description
+	 */
+	public function SetSubGroupDescription($sub_group_description)
+	{
+		$this->sub_group_description = $sub_group_description;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Translation for Proposal Revision Option
+	 *
+	 * @param int $translation Translation
+	 */
+	public function SetTranslation($translation)
+	{
+		$this->translation = $translation;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Translation Language code for Proposal Revision Option
+	 *
+	 * @param int $translation_language_code Translation language code
+	 */
+	public function SetTranslationLanguageCode($translation_language_code)
+	{
+		$this->translation_language_code = $translation_language_code;
+		$this->MarkDirty();
+	}
+	
+}
+?>

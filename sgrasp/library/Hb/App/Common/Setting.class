@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * Common Settings domain class 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @package App
+ * @subpackage Common
+ */ 
+
+abstract class Hb_App_Common_Setting extends Hb_App_Object  
+{
+	protected $setting_id = null;
+	protected $setting_name = null;
+	protected $setting_value = null;
+	protected $setting_description = null;
+	
+	public function __construct(
+											$id = null, 
+											$setting_name = null,
+											$setting_value = null,
+											$setting_description = null
+										)
+	{
+		
+		$this->setting_id = $id;
+		$this->setting_name = $setting_name;
+		$this->setting_value = $setting_value;
+		$this->setting_description = $setting_description;
+		
+		parent::__construct($id);
+	}
+		
+	public function GetSettingId()
+	{
+		return $this->setting_id;		
+	}
+	
+	public function GetSettingName()
+	{
+		return $this->setting_name;		
+	}
+	
+	public function GetSettingValue()
+	{
+		return $this->setting_value;		
+	}
+	
+	public function GetSettingDescription()
+	{
+		return $this->setting_description;		
+	}
+	
+
+	public function SetSettingId($id)
+	{
+		$this->setting_id= $id;
+		$this->__id = $id;
+		
+		$this->MarkDirty();
+	}
+	
+	public function SetSettingName($name)
+	{
+		$this->setting_name = $name;		
+		
+		$this->MarkDirty();
+	}
+	
+	public function SetSettingValue($value)
+	{
+		$this->setting_value = $value;		
+		
+		$this->MarkDirty();
+	}
+	
+	public function SetSettingDescription($description)
+	{
+		$this->setting_description = $description;		
+		
+		$this->MarkDirty();
+	}
+	
+	abstract public static function GetSetting($setting_name);
+	
+}
+
+
+
+
+?>

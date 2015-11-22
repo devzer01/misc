@@ -1,0 +1,117 @@
+<?php 
+/**
+ * Mapper Object for Study Time Line
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Study
+ *
+ */ 
+class Hb_Mapper_Study_StudyTimeLine extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'study_timeline_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'study_timeline';
+	
+	/**
+	 * Builds and returns the Study Time Line domain object for this mapper
+	 *
+	 * @param $row $object Result row from the Zend_Db framework for the study_timeline table
+	 * @return object An instance of the Study Time Line domain object 
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyTimeLine($row->study_timeline_id,
+														  $row->estimated_complete_date_updated,
+														  $row->functional_group_id,
+														  $row->login,
+														  $row->revision_number,
+														  $row->sort_order,
+														  $row->study_id,
+														  $row->study_task_id,
+														  $row->task_duration
+														  );
+	} 
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $select object Result Select object from the Zend_Db framework 
+	 */
+	protected function GetBaseSelect()
+	{
+	 	$db 		= Hb_Util_Db_Connection::GetInstance();
+	 	$select 	= $db->select();
+	 	$select->from(array('stl' => $this->table), array('study_timeline_id',
+																        'study_id',
+																		  'study_task_id',
+																		  'task_duration',
+																		  'revision_number',
+																		  'functional_group_id',
+																		  'login',
+																		  'sort_order',
+																		  'estimated_complete_date_updated')
+						 );
+		return $select;
+	 	
+	}
+	
+	/**
+	 * Finds a Study Time Line by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the study_timeline table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+	 	$select->where('stl.'. $this->primary_key .'= ?', $id);
+	 	
+	 	return $this->getRow($select);
+	}
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Study Time Line domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+	 	/* @var $obj Hb_App_Study_StudyTimeLine  */
+	 	$data = array(
+			'study_id' 									=> $obj->GetStudyId(),
+			'study_task_id' 							=> $obj->GetStudyTaskId(),
+			'task_duration'							=> $obj->GetTaskDuration(),
+			'revision_number'							=> $obj->GetRevisionNumber(),
+			'functional_group_id'					=> $obj->GetFunctionalGroupId(),
+			'login'										=> $obj->GetLogin(),
+			'sort_order'								=> $obj->GetSortOrder(),
+			'estimated_complete_date_updated'	=> $obj->GetEstimatedCompleteDateUpdated()
+	 	);
+	 	
+	 	$db = Hb_Util_Db_Connection::GetInstance();
+	 	
+	 	if(is_null($obj->GetId())){
+	 		$db->insert($this->table, $data);
+	 		$obj->SetStudyTimeLineId($db->lastInsertId());
+	 	}else {
+	 		$db->update($this->table, $data, $this->primary_key. '=' .$obj->GetId());
+	 	}
+	}
+	
+	
+}
+
+?>

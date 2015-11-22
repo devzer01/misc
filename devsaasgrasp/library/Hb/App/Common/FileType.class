@@ -1,0 +1,29 @@
+<?php
+/**
+ * Domain Object for FileType
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @package App
+ * @subpackage Common
+ */
+
+class Hb_App_Common_FileType extends Hb_App_Common_Type
+{
+	/**
+	 * Create FileType Object
+	 *
+	 * @param int $id File Type Id
+	 * @param string $description file type description
+	 */ 
+	public function __construct(
+											$id 				= null,
+									   	$description 	= null
+									   )
+   {
+   	parent::__construct($id, $description);	   	
+   }
+   
+}
+?>

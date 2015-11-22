@@ -1,0 +1,219 @@
+<?php
+/**
+ * Domain Object for ProposalAuctionAccount
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author krathnayake
+ * @version 1.0
+ * @created 22-Aug-2007 12:00:14 PM
+ * @subpackage Propsal
+ */ 
+
+class Hb_App_Proposal_ProposalAuctionAccount extends Hb_App_Object
+{
+	/**
+	 * Account Id 
+	 * 
+	 * @var int
+	 */
+	protected $account_id = null;
+
+	/**
+	 * Account Name
+	 * 
+	 * @var string
+	 */
+	protected $account_name = null;
+	
+	/**
+	 * Invited
+	 * 
+	 * @var int
+	 */
+	protected $invited =  null;
+	
+	/**
+	 * Proposal Auction Account Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_auction_account_id = null;
+
+	/**
+	 * Proposal Auction Id
+	 * 
+	 * @var int
+	 */
+	protected $proposal_auction_id = null;
+
+	/**
+	 * Proposed Completes
+	 * 
+	 * @var int
+	 */
+	protected $proposed_completes = null;
+	
+	/**
+	 * Create an ProposalAuctionAccount Object
+	 * 
+	 * @author krathnayake
+	 * @param int $id Proposal Auction Account Id
+	 * @param int $account_id Account Id
+	 * @param string $account_name Account Name
+	 * @param int $invited Invited
+	 * @param int $proposal_auction_id Proposal Aution Id
+	 * @param int $proposed_completes Proposal Completes
+	 */	
+
+	function __construct($id = null, 
+								$account_id = null,
+								$account_name = null,
+								$invited = null,
+								$proposal_auction_id = null,
+								$proposed_completes = null)
+	{
+		$this->proposal_auction_account_id 				= $id;
+		$this->account_id 				= $account_id;
+		$this->account_name 				= $account_name;
+		$this->invited = $invited;
+		$this->proposal_auction_id = $proposal_auction_id;
+		$this->proposed_completes = $proposed_completes;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Account Id
+	 * 
+	 * @return int AccountId
+	 */
+	public function GetAccountId()
+	{
+		return $this->account_id;
+	}
+
+	/**
+	 * Returns Account Name
+	 * 
+	 * @return string Account Name
+	 */
+	public function GetAccountName()
+	{
+		return $this->account_name;
+	}
+	
+	/**
+	 * Returns Invited
+	 * 
+	 * @return int Invited
+	 */
+	public function GetInvited()
+	{
+		return $this->invited;
+	}
+
+	/**
+	 * Returns ProposalAuctionAccountId
+	 * 
+	 * @return int Proposal Auction Account Id
+	 */
+	public function GetProposalAuctionAccountId()
+	{
+		return $this->proposal_auction_account_id;
+	}
+
+	/**
+	 * Returns Proposal Auction Id
+	 * 
+	 * @return int  Proposal Auction Id
+	 */
+	public function GetProposalAuctionId()
+	{
+		return $this->proposal_auction_id;
+	}
+
+	/**
+	 * Returns ProposedCompletes
+	 * 
+	 * @return int ProposedCompletes
+	 */
+	public function GetProposedCompletes()
+	{
+		return $this->proposed_completes;
+	}
+
+	/**
+	 * Sets the Account Id
+	 * 
+	 * @param int $account_id Account Id
+	 */
+	public function SetAccountId($account_id)
+	{
+		$this->account_id = (int)$account_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Account Name
+	 * 
+	 * @param string $account_name Account Name
+	 */
+	public function SetAccountName($account_name)
+	{
+		$this->account_name = $account_name;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Invited
+	 * 
+	 * @param int $invited Invited
+	 */
+	public function SetInvited($invited)
+	{
+		$this->invited = (int)$invited;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Proposal Auction Account Id
+	 * 
+	 * @param int $proposal_auction_account_id Proposal Auction Account Id
+	 */
+	public function SetProposalAuctionAccountId($proposal_auction_account_id)
+	{
+		$this->proposal_auction_account_id = (int)$proposal_auction_account_id;
+		$this->__id = (int)$proposal_auction_account_id;
+		$this->MarkDirty();
+		
+	}
+
+	/**
+	 * Sets Proposal Auction Id
+	 * 
+	 * @param int $proposal_auction_id  Proposal Auction Id
+	 */
+	public function SetProposalAuctionId($proposal_auction_id)
+	{
+		$this->proposal_auction_id = (int)$proposal_auction_id;
+
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets ProposedCompletes
+	 * 
+	 * @param int $proposed_completes ProposedCompletes
+	 */
+	public function SetProposedCompletes($proposed_completes)
+	{
+		$this->proposed_completes = (int)$proposed_completes;
+
+		$this->MarkDirty();
+	}
+
+}
+?>

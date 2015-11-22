@@ -1,0 +1,457 @@
+<?php
+/**
+ * Class component to store document data.
+ * @author - krathnayake
+ * @since  - Thu May 31 06:49:27 IST 2007
+ **/
+
+class db_atm_armc_FileManager extends db 
+{
+	/**
+	 * InsertARMCFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 06:53:17 IST 2007
+	 **/
+	function InsertARMCFile($data)
+	{
+		$param['armc_file_type_id']		= mysql_real_escape_string($data['armc_file_type_id']);
+		$param['armc_id']						= mysql_real_escape_string($data['armc_id']);
+		$param['armc_file_name']			= mysql_real_escape_string($data['armc_file_name']);
+		$param['armc_file_title']			= mysql_real_escape_string($data['armc_file_title']);
+		//$param['armc_file_data']			= mysql_real_escape_string($data['armc_file_data']);
+		$param['armc_file_data']			= $data['armc_file_data'];
+		$param['armc_file_size']			= mysql_real_escape_string($data['armc_file_size']);
+	
+		$param['status']						= 'A';
+				
+		$this->__InsertARMCFileData($param);
+		return $this->last_insert_id; 	
+	} 
+	
+	protected function __InsertARMCFileData($param)
+	{
+		$table = 'armc_file';
+		$this->__Insert($table, $param);
+	} 
+	
+	/**
+	 * UpdateARMCFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 06:55:24 IST 2007
+	 **/
+	function UpdateARMCFile($armc_file_id, $data)
+	{
+		$param['armc_file_id']				=	$armc_file_id;
+
+		$fields['armc_file_type_id']  	= mysql_real_escape_string($data['armc_file_type_id']);
+		$fields['armc_id']  					= mysql_real_escape_string($data['armc_id']);
+		$fields['armc_file_name']  		= mysql_real_escape_string($data['armc_file_name']);
+		$fields['armc_file_title']  		= mysql_real_escape_string($data['armc_file_title']);
+//		$fields['armc_file_data']  		= mysql_real_escape_string($data['armc_file_data']);
+		$fields['armc_file_data']  		= $data['armc_file_data'];
+		$fields['armc_file_size']  		= mysql_real_escape_string($data['armc_file_size']);
+		
+		$fields['status']						= 'A';
+   	   	
+		$this->__UpdateARMCFile($param, $fields);
+		
+		return $this->affected_rows;
+   }
+
+   protected function __UpdateARMCFile($param, $fields)
+   {
+   	$table = 'armc_file';
+		
+ 		if (isset($param['armc_file_id']))
+ 		{
+			$where = $this->db->quoteInto('armc_file_id = ?', $param['armc_file_id'] );
+ 		}
+ 		$this->__Update($table, $fields, $where);		
+   }
+   
+	/**
+	 * DeleteARMCFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 06:56:02 IST 2007
+	 **/
+	function DeleteARMCFile($armc_file_id, $data)
+	{
+		$param['armc_file_id']				=	$armc_file_id;
+
+		$fields['status']						= 'D';
+   	   	
+		$this->__UpdateARMCFile($param, $fields);
+		return $this->affected_rows;
+	} 
+				
+	/**
+	 * GetARMCFile($armc_id, $armc_type_id=0)()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 06:56:42 IST 2007
+	 **/
+	function GetARMCFile($armc_id, $armc_file_type_id)
+	{
+	 	 	//get id, title, name for that ID. 
+   	$param['armc_id']						= $armc_id;
+ 	  	$param['armc_file_type_id']		= $armc_type_file_id;
+     	
+    	$attr['fetch_row']          		= 0;
+  	
+	  	return $this->__GetARMCFile( $param, $attr );
+	} 
+	
+	protected function __GetARMCFile( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('af'=>'armc_file'), array('armc_file_id', 'armc_file_name', 'armc_file_title'));
+				
+		if( isset( $param['armc_id'] ) ) 
+		{
+			$this->select->where('armc_id = ?', $param['armc_id']);
+		}
+		
+		if( isset($param['armc_file_type_id']) && $param['armc_file_type_id'] != 0) 
+		{
+			$this->select->where('armc_file_type_id = ?', $param['armc_file_type_id']);
+		}
+		
+		$this->select->where('status = ?', 'A');
+		
+		if( isset($attr['fetch_row']) && $attr['fetch_row'] == 1 ) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	} 
+	
+	/**
+	 * GetARMCFileDetails($armc_file_id)()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 06:58:37 IST 2007
+	 **/
+	function GetARMCFileDetails($armc_file_id)
+	{
+	 //get name, title, size and data for that ID. 
+   	$param['armc_file_id'] 				= $armc_file_id;
+     	
+     	$attr['fetch_row']          		= 1;
+  	
+	  	return $this->__GetARMCFileDetails( $param, $attr );   	
+ 	} 
+ 	
+	protected function __GetARMCFileDetails( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('af' => 'armc_file'), array('armc_file_name', 'armc_file_title', 'armc_file_data', 'armc_file_size'));
+				
+		if (isset( $param['armc_file_id'] ) ) 
+		{
+			$this->select->where('armc_file_id = ?', $param['armc_file_id']);
+		}
+		$this->select->where('status = ?', 'A');
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	} 		
+		
+	/**
+	 * InsertARMCGroupFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:46:21 IST 2007
+	 **/
+	function InsertARMCGroupFile($data)
+	{
+	 	$param['armc_file_type_id']		= mysql_real_escape_string($data['armc_file_type_id']);
+		$param['armc_group_id']				= mysql_real_escape_string($data['armc_group_id']);
+		$param['armc_group_file_name']	= mysql_real_escape_string($data['armc_group_file_name']);
+		$param['armc_group_file_title']	= mysql_real_escape_string($data['armc_group_file_title']);
+		//$param['armc_group_file_data']	= mysql_real_escape_string($data['armc_group_file_data']);
+		$param['armc_group_file_data']	= $data['armc_group_file_data'];
+		$param['armc_group_file_size']	= mysql_real_escape_string($data['armc_group_file_size']);
+	
+		$param['status']						= 'A';
+				
+		$this->__InsertARMCGroupFileData($param);
+		
+		return $this->last_insert_id; 	
+	}
+
+	protected function __InsertARMCGroupFileData($param)
+	{
+		$table = 'armc_group_file';
+		$this->__Insert($table, $param);
+	} 
+	
+	/**
+	 * UpdateARMCGroupFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:46:52 IST 2007
+	 **/
+	function UpdateARMCGroupFile($armc_group_file_id, $data)
+	{
+		$param['armc_group_file_id']		=	$armc_group_file_id;
+		
+		$fields['armc_file_type_id']  	= mysql_real_escape_string($data['armc_file_type_id']);
+		$fields['armc_group_id']  			= mysql_real_escape_string($data['armc_group_id']);
+		$fields['armc_group_file_name'] 	= mysql_real_escape_string($data['armc_group_file_name']);
+		$fields['armc_group_file_title']	= mysql_real_escape_string($data['armc_group_file_title']);
+//		$fields['armc_group_file_data'] 	= mysql_real_escape_string($data['armc_group_file_data']);
+		$fields['armc_group_file_data'] 	= $data['armc_group_file_data'];
+		$fields['armc_group_file_size'] 	= mysql_real_escape_string($data['armc_group_file_size']);
+		
+		$fields['status']						= 'A';
+   	   	
+		$this->__UpdateARMCGroupFile($param, $fields);
+		
+		return $this->affected_rows;
+   }
+
+   protected function __UpdateARMCGroupFile($param, $fields)
+   {
+   	$table = 'armc_group_file';
+	
+ 		if (isset($param['armc_group_file_id']))
+ 		{
+			$where = $this->db->quoteInto('armc_group_file_id = ?', $param['armc_group_file_id'] );
+ 		}
+ 		$this->__Update($table, $fields, $where);		
+   }
+
+   /**
+	 * DeleteARMCGroupFile()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:47:39 IST 2007
+	 **/
+	function DeleteARMCGroupFile($armc_group_file_id, $data)
+	{
+		$param['armc_group_file_id']		=	$armc_group_file_id;
+
+		$fields['status']						= 'D';
+   	   	
+		$this->__UpdateARMCGroupFile($param, $fields);
+		return $this->affected_rows;
+	} 
+	
+	/**
+	 * GetARMCGroupFile($armc_group_id, $armc_type_id=0)
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:48:06 IST 2007
+	 **/
+	function GetARMCGroupFile($armc_group_id, $armc_file_type_id)
+	{
+	 	//get id, title, name for that ID. 
+   	$param['armc_group_id']			= $armc_group_id;
+ 	  	$param['armc_file_type_id']	= $armc_file_type_id;
+     	
+    	$attr['fetch_row']        		= 0;
+  	
+	  	return $this->__GetARMCGroupFile( $param, $attr );   	
+	} 
+	
+	protected function __GetARMCGroupFile( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('agf' => 'armc_group_file'), array('armc_group_file_id', 'armc_group_file_name', 'armc_group_file_title'));
+				
+		if( isset( $param['armc_group_id'] ) ) 
+		{
+			$this->select->where('armc_group_id = ?', $param['armc_group_id']);
+		}
+		
+		if( isset( $param['armc_file_type_id'] ) && $param['armc_file_type_id'] != 0 ) 
+		{
+			$this->select->where('armc_file_type_id = ?', $param['armc_file_type_id']);
+		}
+		
+		$this->select->where('status = ?', 'A');		
+		
+		if( isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	} 
+	/**
+	 * GetARMCGroupFileDetails($armc_group_file_id)
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:48:59 IST 2007
+	 **/
+	function GetARMCGroupFileDetails($armc_group_file_id)
+	{
+	 	 //get name, title, size and data for that ID. 
+   	$param['armc_group_file_id']		= $armc_group_file_id;
+    	
+     	$attr['fetch_row']          		= 1;
+  	
+	  	return $this->__GetARMCGroupFileDetails( $param, $attr );   	
+ 	} 
+ 	
+	protected function __GetARMCGroupFileDetails( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('agf' => 'armc_group_file'), array('armc_group_file_name', 'armc_group_file_title', 'armc_group_file_data', 'armc_group_file_size'));
+				
+		if (isset( $param['armc_group_file_id'] ) ) 
+		{
+			$this->select->where('armc_group_file_id = ?', $param['armc_group_file_id']);			
+		}
+		
+		$this->select->where('status = ?', 'A');		
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	} 
+	
+	/**
+	 * InsertARMCFileType()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:49:27 IST 2007
+	 **/
+	function InsertARMCFileType($data)
+	{
+		$param['armc_file_type_description']	= mysql_real_escape_string($data['armc_file_type_description']);
+	
+		$param['status']								= 'A';
+				
+		$this->__InsertARMCFileTypeData($param);
+		
+		return $this->last_insert_id; 	
+	} 
+	
+	protected function __InsertARMCFileTypeData($param)
+	{
+		$table = 'armc_file_type';
+		$this->__Insert($table, $param);
+	} 
+	
+	/**
+	 * UpdateARMCFileType()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:52:06 IST 2007
+	 **/
+	function UpdateARMCFileType($armc_file_type_id, $data)
+	{
+		$param['armc_file_type_id']				=	$armc_file_type_id;
+		$fields['armc_file_type_description'] 	= mysql_real_escape_string($data['armc_file_type_description']);
+		
+		$fields['status']								= 'A';
+   	   	
+		$this->__UpdateARMCFileType($param, $fields);
+		
+		return $this->affected_rows;
+   }
+
+   protected function __UpdateARMCFileType($param, $fields)
+   {
+   	$table = 'armc_file_type';
+		
+ 		if (isset($param['armc_file_type_id']))
+ 		{
+			$where = $this->db->quoteInto('armc_file_type_id = ?', $param['armc_file_type_id'] );
+ 		}
+ 		$this->__Update($table, $fields, $where);		
+   }
+
+	/**
+	 * GetARMCFileType()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:53:01 IST 2007
+	 **/
+	function GetARMCFileType($armc_file_type_id)
+	{
+		$param['armc_file_type_id']		= $armc_file_type_id;
+    	
+     	$attr['fetch_row']          		= 1;
+  	
+	  	return $this->__GetARMCFileType( $param, $attr );   	
+ 	} 
+ 	
+	protected function __GetARMCFileType( $param = array(), $attr = array() )
+ 	{
+ 	  	$this->SetSelect();
+						
+		$this->select->from(array('aft' => 'armc_file_type'), array('armc_file_type_description'));
+				
+		if (isset( $param['armc_file_type_id'] ) ) 
+		{
+			$this->select->where('armc_file_type_id = ?', $param['armc_file_type_id'] );
+		}
+		
+		$this->select->where('status = ?', 'A');
+		
+		if (isset($attr['fetch_row']) && $attr['fetch_row'] == 1) 
+		{
+			return $this->db->fetchRow($this->select);	
+		}
+		else 
+		{
+			return $this->db->fetchAssoc($this->select);
+		}
+	} 
+	
+	/**
+	 * DeleteARMCFileType()
+	 *
+	 * @param 
+	 * @author - krathnayake
+	 * @since  - Thu May 31 07:53:17 IST 2007
+	 **/
+	function DeleteARMCFileType($armc_file_type_id, $data)
+	{
+		$param['armc_file_type_id']				=	$armc_file_type_id;
+
+		$fields['status']								= 'D';
+   	   	
+		$this->__UpdateARMCFileType($param, $fields);
+		return $this->affected_rows;
+	} 
+}
+?>

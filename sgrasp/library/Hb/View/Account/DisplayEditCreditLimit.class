@@ -1,0 +1,21 @@
+<?php 
+class Hb_View_Account_DisplayEditCreditLimit extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/vw_edit_credit_limit.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account = null;
+	
+	protected function LoadData()
+	{
+		$this->SetData('account', $this->account);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+}
+
+?>

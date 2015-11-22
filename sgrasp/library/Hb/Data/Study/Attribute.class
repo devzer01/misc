@@ -1,0 +1,8 @@
+<?php
+
+class Hb_Data_Study_Attribute extends Hb_Data_Attribute
+{
+	private $__study_id;
+	
+}
+?>

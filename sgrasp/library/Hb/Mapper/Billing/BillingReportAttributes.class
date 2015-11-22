@@ -1,0 +1,53 @@
+<?php 
+/**
+ * Mapper Object for Billing Report Attribute
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Billing
+ *
+ */ 
+class Hb_Mapper_Billing_BillingReportAttributes extends Hb_Mapper_Billing_BillingReportAttribute  
+{
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'armc_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */
+	protected $table = 'armc_attr';
+	
+	/**
+	 * Finds a Billing Report Attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework for the armc_attr table
+	 */	
+	protected function doFindById($id)
+	{
+	 	$select = $this->GetBaseSelect();
+		$select->where($this->primary_key .'= ?', $id);
+		 	
+		return $this->getRows($select);
+	}	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param Hb_App_Object $obj object Instance of the Billing Report Attribute domain object
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+	}
+}
+
+?>

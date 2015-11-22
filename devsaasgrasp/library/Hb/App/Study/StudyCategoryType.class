@@ -1,0 +1,146 @@
+<?php 
+/**
+ * Domain Object for Study Category Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */ 
+
+class Hb_App_Study_StudyCategoryType extends Hb_App_Object 
+{
+	/**
+	 * Study category type ID
+	 *
+	 * @var int 
+	 */
+	private $study_category_type_id = null;
+
+	/**
+	 * Parent Study Category type ID
+	 *
+	 * @var int 
+	 */
+	private $parent_study_category_type_id = null;
+
+	/**
+	 * Study Category Description
+	 *
+	 * @var string 
+	 */
+	private $study_category_type_description = null;
+	
+	/**
+	 * Study Category Type in MARSC code
+	 *
+	 * @var string 
+	 */
+	private $marsc_code = null;
+	
+	function __construct($id = null,
+								$parent_study_category_type_id 	= null,
+								$study_category_type_description = null,
+								$marsc_code = null)
+	{
+		$this->marsc_code								= $marsc_code;
+		$this->study_category_type_id				= $id;		
+		$this->parent_study_category_type_id	= $parent_study_category_type_id;
+		$this->study_category_type_description	= $study_category_type_description;
+
+		
+		parent::__construct($id);		
+		
+	}
+	
+	/**
+	 * Return the MARSC Code  for the Study Category Type
+	 *
+	 * @return string MARSC Code 
+	 */
+	public function GetMARSCCode()
+	{
+		return $this->marsc_code;
+	}
+	
+	/**
+	 * Set the MARSC Code for the  Study Category Type
+	 * 
+	 * @param string $marsc_code MARSC Code
+	 */
+	public function SetMARSCCode($marsc_code)
+	{
+		$this->marsc_code	= $marsc_code;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study Category Type ID for the  Study Category Type
+	 * 
+	 * @param int $study_category_type_id Study Category Type ID
+	 */
+	public function SetStudyCategoryTypeId($study_category_type_id)
+	{
+		$this->study_category_type_id	= $study_category_type_id;
+		$this->__id							= $study_category_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Parent Study Category Type id for the  Study Category Type
+	 * 
+	 * @param int $parent_study_category_type_id Parent Study Category Type id
+	 */
+	public function SetParentStudyCategoryTypeID($parent_study_category_type_id)
+	{
+		$this->parent_study_category_type_id	= $parent_study_category_type_id;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Set the Study Category Type Description for the  Study Category Type
+	 * 
+	 * @param string $study_category_type_description Study Category Type Description
+	 */
+	public function SetStudyCategoryTypeDescription($study_category_type_description)
+	{
+		$this->study_category_type_description	= $study_category_type_description;
+		$this->MarkDirty();
+	}
+	
+	/**
+	 * Return the Study Category Type ID for the Study Category Type
+	 *
+	 * @return int Study
+	 */
+	public function GetStudyCategoryTypeID()
+	{
+		return $this->study_category_type_id;
+	}
+	
+	/**
+	 * Return the Parent Study Category Type ID for the Study Category Type
+	 *
+	 * @return int Parent Study Category Type ID
+	 */
+	public function GetParentStudyCategoryTypeID()
+	{
+		return $this->parent_study_category_type_id;
+	}
+	
+	/**
+	 * Return the Study Category Type Description for the Study Category Type
+	 *
+	 * @return string Study Category Type Description
+	 */
+	public function GetStudyCategoryTypeDescription()
+	{
+		return $this->study_category_type_description;
+	}
+
+
+}
+
+?>

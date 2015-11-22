@@ -1,0 +1,40 @@
+<?php 
+/**
+ * Domain Object for InvoiceState
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author harsha
+ * @version 1.0
+ * @package App
+ * @subpackage Billing
+ *
+ */ 
+class Hb_App_Billing_State_InvoceState implements Hb_App_Billing_State_BillingReportStateReference 
+{
+	/**
+	 * approval instance
+	 *
+	 * @var Hb_App_Billing_BillingReport 
+	 */
+	private $approval = null;	
+	
+	/**
+	 * Constructor for the Domain DataState
+	 *
+	 * @param Hb_App_Billing_Approval $approval
+	 */
+	function __construct(Hb_App_Billing_Approval $approval) {
+		$this->approval = $approval;
+	}
+	
+	/**
+	 * Return the Next Status instance for the DataState
+	 *
+	 * @return Object Next Status instance
+	 */
+	public function GetNextState()
+	{			
+		return $this->approval->GetBillingReport()->GetBillingReportStatusID();
+	}
+}
+?>

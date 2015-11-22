@@ -1,0 +1,47 @@
+<?php
+/**
+ * Mapper Object for Recruiter comment Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author svithanapathirana
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Account
+ *
+ */ 
+class Hb_Mapper_Account_Recruiter_Campaigns extends Hb_Mapper_Account_Recruiter_Campaign  
+{
+	/**
+	 * Find the Campaigns and retutn the all campaigns row object
+	 * 
+	 * @param id
+	 */
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();		
+		$select->where('rc.account_id = ?', $id);
+		$select->where('rc.status = ?', 'A');
+		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Build the Collection class of campaigns
+	 *
+	 * @param Row Object $rows
+	 * @return 
+	 */
+	protected function BuildCollection($rows)
+	{
+		return parent::BuildCollection($rows, 'Hb_App_Account_Recruiter_Campaigns');
+	}
+	/**
+	 * 
+	 * @param obj
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+			
+	}
+}
+?>

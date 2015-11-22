@@ -1,0 +1,5 @@
+<?php
+class Hb_Maint_Account_Exception extends Exception {
+	
+}
+?>

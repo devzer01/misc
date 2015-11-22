@@ -1,0 +1,126 @@
+<?php
+/**
+ * project element class
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author Dinesha Dayananda
+ * @version 1.1
+ * @package Mapper
+ * @subpackage Project
+ */ 
+
+class Hb_Mapper_Project_ProjectElement extends Hb_Mapper_Mapper 
+{
+	
+	/**
+	 * Table for this mapper
+	 *
+	 * @var string 
+	 */
+	protected $table       = 'pjm_element';	
+	
+	/**
+	 * Primary Key for this mapper
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'pjm_element_id';
+	
+	
+	/**
+	 * Takes a result row  and returns the domain object
+	 *
+	 * @param  $row $obj Result row from the Zend_Db framework
+	 * @return obj An instance of the relevent domain class
+	 */
+	protected function doBuildObject ($row)
+	{
+		return new Hb_App_Project_ProjectElement($row->pjm_element_id,$row->pjm_element_reference_description,
+												 $row->pjm_element_reference_id, $row->pjm_element_type_id, $row->pjm_id); 
+	}
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect ()
+	{		
+	 	$db = Hb_Util_Db_Connection::GetInstance(); 
+    	$select = $db->select(); 
+     
+    	$select->from(array('e' => 'pjm_element'), array('pjm_element_id','pjm_element_reference_description', 'pjm_element_reference_id'
+    						,'pjm_element_type_id','pjm_id')); 
+     
+    	return $select; 
+	}
+	
+	
+	/**
+	 * Find the project element by Id .
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */	
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+		$select->where('e.pjm_element_id = ?', $id); 
+         
+		return $this->getRow($select); 	
+	}
+	
+ 	
+ 	/**
+	 * Inserts/updates project element object
+	 *
+	 * @param  Hb_App_Object Instance of the relevent domain class
+	 */
+ 	protected function doSave(Hb_App_Object $obj)
+ 	{   
+        $row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj); 
+         
+        $row->pjm_id 								= $obj->GetProjectId();
+		$row->pjm_element_type_id 					= $obj->GetProjectElementTypeId();
+		$row->pjm_element_reference_id 				= $obj->GetProjectElementReferenceId();
+		$row->pjm_element_reference_description 	= $obj->GetProjectElementReferenceDescription();
+	 	
+	 	$row->Save();
+	 	
+	 	$obj->SetProjectElementId($row->pjm_element_id);      
+
+	 	$obj->markSaved();
+	 	
+	 	Hb_App_ObjectMap::register($obj); 	
+ 	 	
+ 	} 	
+ 	
+ 	
+ 	
+	/**
+	 * Inserting the Project Element row
+	 *
+	 * @param Hb_App_Object $obj Instance of the HB app class 
+	 */
+	protected function Insert(Hb_App_Object $obj)
+	{
+		$db    = new Hb_Util_Db_Table(array('name' => 'pjm_element'));	
+			
+		return $db->createRow();		
+	}
+	
+	/**
+
+	 * @param Hb_App_Object $obj Instance of the HB app class	
+	 */
+	protected function Update(Hb_App_Object $obj)
+	{
+		$db    = new Hb_Util_Db_Table(array('name' => 'pjm_element'));	
+		return  $db->fetchRow("pjm_element_id = " . $obj->GetId());		
+	}
+	
+}
+
+
+?>

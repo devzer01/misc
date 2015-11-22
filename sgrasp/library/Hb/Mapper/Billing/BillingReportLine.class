@@ -1,0 +1,124 @@
+<?php
+/**
+ * Mapper Class for Billing Report Line
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage Billing
+ */
+
+class Hb_Mapper_Billing_BillingReportLine extends Hb_Mapper_Mapper
+{
+	
+	/**
+	 * Primary Key field for the Armc Budget Line Item
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'armc_budget_line_item_id';
+
+	/**
+	 * Armc Buget Line Item table
+	 *
+	 * @var string 
+	 */		
+	protected $table = 'armc_budget_line_item';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Billing_BillingReportLine';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_Billing_BillingReportLine';
+	
+	/**
+	 * Build the BillingReportLine Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_Billing_BillingReportLine
+	 */
+	protected function doBuildObject($row)
+	{		
+		return new Hb_App_Billing_BillingReportLine($row->armc_budget_line_item_id,
+																								$row->actual_quantity,
+																								$row->actual_rate,
+																								$row->actual_rate_i18n,
+																								$row->armc_budget_line_item_def_id,
+																								$row->armc_id,
+																								$row->group_description,
+																								$row->proposed_quantity,
+																								$row->proposed_rate,
+																								$row->proposed_rate_i18n);
+	}
+	
+	/**
+	 * Get the base data set for BillingReportLine
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+		$select = $db->select(); 
+         
+		$select->from(array('a' => 'armc_budget_line_item'), array('armc_budget_line_item_id',
+																															 'armc_id', 
+																															 'armc_budget_line_item_def_id', 
+																															 'group_description', 
+																															 'proposed_rate', 
+																															 'proposed_rate_i18n',
+																															 'proposed_quantity', 
+																															 'actual_rate',
+																															 'actual_rate_i18n', 
+																															 'actual_quantity'));
+		return $select;	
+	}
+	
+	/**
+	 * Get a particular Resultset
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('armc_budget_line_item_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the Billing Report Line Object
+	 *
+	 * @param int $id Armc Budget line item Id
+	 * @return object billing report line
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{		 
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+				
+		$row->actual_quantity 							= $obj->GetActualQuantity();
+		$row->actual_rate 									= $obj->GetActualRate();
+		$row->actual_rate_i18n 							= $obj->GetActualRateI18N();
+		$row->armc_id 											= $obj->GetBillingReportID();
+		$row->armc_budget_line_item_def_id 	= $obj->GetBillingReportItemID();
+		$row->group_description 						= $obj->GetGroupDescription();
+		$row->proposed_quantity 						= $obj->GetProposedQuantity();
+		$row->proposed_rate 								= $obj->GetProposedRate();
+		$row->proposed_rate_i18n 						= $obj->GetProposedRateI18N();
+
+		$row->Save();		
+		
+	  $obj->SetBillingReportLineID($row->armc_budget_line_item_id);
+	}
+}
+?>

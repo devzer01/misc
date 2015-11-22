@@ -1,0 +1,47 @@
+<?php 
+class Hb_View_Account_AccountVendor extends Hb_Util_View_View 
+{
+	protected $__template_name = "app/acm/popup_study_vendors.tpl";
+	
+	protected $__handler = "Smarty";
+	
+	protected $account 				= null;
+	
+	protected $vendors 				= null;
+	
+	protected $vendor_sub_types 	= null;
+	
+	protected $account_vendors 	= null;
+	
+	
+	protected function LoadData()
+	{
+		$this->SetData('account', $this->account);
+		$this->SetData('vendors_array', $this->vendors);
+		$this->SetData('vendor_subtypes', $this->vendor_sub_types);
+		$this->SetData('study_vendors', $this->account_vendors);
+	}
+	
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetVendors($vendors)
+	{
+		$this->vendors = $vendors;
+	}
+	
+	public function SetVendorSubTypes($vendor_sub_types)
+	{
+		$this->vendor_sub_types = $vendor_sub_types;
+	}
+	
+	public function SetAccountVendors($account_vendors)
+	{
+		$this->account_vendors = $account_vendors;
+	}
+	
+}
+
+?>

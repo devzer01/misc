@@ -1,0 +1,216 @@
+<?php
+
+
+/**
+ * Domain Object for PanelCost
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author msilva
+ * @version 1.0
+ * @package App
+ * @subpackage Proposal
+ */
+class Hb_App_Proposal_PanelCost extends Hb_App_Object 
+{
+
+	/**
+	 * Country Tier Id
+	 *
+	 * @var int
+	 */
+	protected $country_tier_id = null;
+	
+	/**
+	 * Effective Date
+	 *
+	 * @var string
+	 */
+	protected $effective_date = null;
+	
+	/**
+	 * Exipre Date
+	 *
+	 * @var string
+	 */
+	protected $expire_date = null;
+	
+	/**
+	 * Panel Cost Id
+	 *
+	 * @var int
+	 */
+	protected $panel_cost_id = null;
+	
+	/**
+	 * Panel Cost Type Id
+	 *
+	 * @var int
+	 */
+	protected $panel_cost_type_id = null;
+	
+	/**
+	 * Pricing Regime Id
+	 *
+	 * @var int
+	 */
+	protected $pricing_regime_id = null;
+
+	/**
+	 * Create Proposal Panel Cost object
+	 *
+	 * @param int $id
+	 * @param int $panel_cost_type_id
+	 * @param int $pricing_regime_id
+	 * @param int $country_tier_id
+	 * @param string $effective_date
+	 * @param string $expire_date
+	 */
+	function __construct(
+							$id = null,
+							$panel_cost_type_id = null,
+							$pricing_regime_id = null,
+							$country_tier_id = null,
+							$effective_date = null,
+							$expire_date = null
+						)
+	{
+		
+		$this->panel_cost_id = $id;
+		$this->panel_cost_type_id = $panel_cost_type_id;
+		$this->pricing_regime_id = $pricing_regime_id;
+		$this->country_tier_id = $country_tier_id;
+		$this->effective_date = $effective_date;
+		$this->expire_date = $expire_date;
+		
+		parent::__construct($id);
+	}
+
+	/**
+	 * Returns Country Tier Id
+	 *
+	 * @return int
+	 */
+	public function GetCountryTierId()
+	{
+		return $this->country_tier_id;
+	}
+
+	/**
+	 * Returns Effective Date
+	 *
+	 * @return string
+	 */
+	public function GetEffectiveDate()
+	{
+		return $this->effective_date;
+	}
+
+	/**
+	 * Returns Expire Date
+	 *
+	 * @return string
+	 */
+	public function GetExpireDate()
+	{
+		return $this->expire_date;
+	}
+
+	/**
+	 * Returns Panel Cost Id
+	 *
+	 * @return int
+	 */
+	public function GetPanelCostId()
+	{
+		return $this->panel_cost_id;
+	}
+
+	/**
+	 * Returns Panel Cost Type Id
+	 *
+	 * @return int
+	 */
+	public function GetPanelCostTypeId()
+	{
+		return $this->panel_cost_type_id;
+	}
+
+	/**
+	 * Returns Pricing Regime Id
+	 *
+	 * @return int
+	 */
+	public function GetPricingRegimeId()
+	{
+		return $this->pricing_regime_id;
+	}
+
+	/**
+	 * Sets Country Tier Id
+	 * 
+	 * @param int
+	 */
+	public function SetCountryTierId($country_tier_id)
+	{
+		$this->country_tier_id = (int) $country_tier_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Effective Date
+	 * 
+	 * @param string
+	 */
+	public function SetEffectiveDate($effective_date)
+	{
+		$this->effective_date = $effective_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Exipire Date
+	 * 
+	 * @param string
+	 */
+	public function SetExpireDate($expire_date)
+	{
+		$this->expire_date = $expire_date;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Panel Cost Id
+	 * 
+	 * @param int
+	 */
+	public function SetPanelCostId($panel_cost_id)
+	{
+		$this->panel_cost_id = (int) $panel_cost_id;
+		$this->__id = (int) $panel_cost_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Panel Cost Type Id
+	 * 
+	 * @param int
+	 */
+	public function SetPanelCostTypeId($panel_cost_type_id)
+	{
+		$this->panel_cost_type_id = (int) $panel_cost_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets Pricing Regime Id
+	 * 
+	 * @param int
+	 */
+	public function SetPricingRegimeId($pricing_regime_id)
+	{
+		$this->pricing_regime_id = (int) $pricing_regime_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

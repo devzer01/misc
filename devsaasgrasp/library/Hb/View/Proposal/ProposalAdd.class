@@ -1,0 +1,50 @@
+<?php
+include_once 'class/Hb/Util/Request/Request.class';
+include_once 'class/Hb/Util/View/View.class';
+
+class Hb_View_Proposal_ProposalAdd extends Hb_Util_View_View  
+{
+	protected  $__template_name = 'app/pgen/vw_add_basic.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	public function __construct()
+	{
+		$this->SetErrorHandler('pgen');
+		$this->SetMessageHandler('ppm');
+	}
+	
+	/**
+	 * Enter description here...
+	 *
+	 */
+	protected  function LoadData()
+	{
+		$request = Hb_Util_Request_Request::GetInstance();
+		
+		if (!$request->proposal_id) {
+			$this->SetData('action', 'save_proposal');
+			return;
+		}
+		
+		$mapper   = new Hb_App_Proposal_Mapper_ProposalMapper();
+		$do_proposal = $mapper->Load($request->proposal_id);
+		
+		$proposal = array(
+			'proposal_id'   => $do_proposal->proposal_id, 
+			'proposal_name' => $do_proposal->proposal_name,
+			'account_id'    => $do_proposal->account_id,
+			'account_name'  => $do_proposal->account_name,
+			'contact_id'    => $do_proposal->GetContact()->contact_id
+			);
+		
+		
+		$list['account'] = $proposal;
+		$list['contact'] = Hb_Util_Connector_Local_Connect::GetAccountContacts($do_proposal->account_id);
+
+		$this->SetData('action', 'update_proposal');
+		$this->SetData('proposal', $proposal);
+		$this->SetData('list', $list);		
+	}
+}
+?>

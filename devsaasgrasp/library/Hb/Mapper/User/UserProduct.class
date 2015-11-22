@@ -1,0 +1,115 @@
+<?php
+/**
+ * Mapper Class for UserProduct
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.1
+ * @package Mapper 
+ * @subpackage User
+ */
+
+class Hb_Mapper_User_UserProduct extends Hb_Mapper_Mapper
+{
+	/**
+	 * Primary Key field for the User product id
+	 *
+	 * @var string 
+	 */	
+	protected $primary_key = 'user_product_id';
+
+	/**
+	 * User product
+	 *
+	 * @var string 
+	 */
+	protected $table = 'user_product';
+	
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_User_UserProduct';
+
+	/**
+	 * Gateway class description
+	 *
+	 * @var string 
+	 */		
+	protected $__gateway = 'Hb_Db_User_UserProduct';
+	
+	/**
+	 * Build the UserProduct Object
+	 *
+	 * @param Zend_Db_Table $row
+	 * @return Hb_App_User_UserProduct
+	 */
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_User_UserProduct($row->user_product_id,
+													  $row->user_id,
+													  $row->product_id,
+												 	  $row->identifier);
+	}
+	
+	/**
+	 * Get the base data set for UserProduct
+	 *
+	 * @return Zend_Db_Select
+	 */
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		$select = $db->select(); 
+         
+		$select->from(array('up' => 'user_product'), array('user_product_id',
+																			'user_id',
+																			'product_id',
+														    		  		'identifier'));
+																    		  		 
+		return $select;	
+	}
+	
+	/**
+	 * Returns a tuple by given User product
+	 *
+	 * @return object
+	 */
+	protected function doFindById($id)
+	{		
+		$select = $this->GetBaseSelect();        
+		$select->where('up.user_product_id = ?', $id);				
+
+		return $this->getRow($select);		
+	}
+	
+	/**
+	 * Return the User product
+	 *
+	 * @param Hb_App_Object UserProduct
+	 * @return object User product
+	 */
+	protected function doSave(Hb_App_Object $obj)
+	{
+		$data = array(
+							'user_id' 		=> $obj->GetUserId(),
+							'product_id' 	=> $obj->GetProductId(),
+							'identifier' 	=> $obj->GetIdentifier()
+						 );
+		$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert($this->table, $data);
+			$obj->SetUserProductId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update($this->table, $data, $this->primary_key . ' = ' . $obj->GetId());
+		} 
+	  
+	}
+
+} 
+?>

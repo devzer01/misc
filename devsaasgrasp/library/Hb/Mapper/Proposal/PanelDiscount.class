@@ -1,0 +1,121 @@
+<?php
+/**
+ * Mapper for Panel Discount
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Proposal_PanelDiscount extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_PanelDiscount';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_Proposal_PanelDiscount';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "panel_discount_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "panel_discount";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PanelDiscount(	$row->panel_discount_id,$row->panel_cost_type_id,$row->pricing_discount_type_id,
+													$row->license_level_id , $row->discount_amount,$row->effective_date,$row->expire_date);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('panel_discount', array(
+													'panel_discount_id', 	
+													'panel_cost_type_id',
+													'pricing_discount_type_id',
+													'license_level_id',
+													'discount_amount',
+													'effective_date',
+													'expire_date'
+													));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Panel Discount by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('panel_discount_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'panel_cost_type_id' => $obj->GetPanelCostTypeId(),
+					'pricing_discount_type_id' => $obj->GetPricingDiscountTypeId(),
+					'license_level_id' => $obj->GetLicenseLevelId(),
+					'discount_amount' => $obj->GetDiscountAmount(),
+					'effective_date' => $obj->GetEffectiveDate(),
+					'expire_date' => $obj->GetExpireDate()
+				 );
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('panel_discount', $data);
+			$obj->SetPanelDiscountId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('panel_discount', $data, 'panel_discount_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

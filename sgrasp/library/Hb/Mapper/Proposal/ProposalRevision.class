@@ -1,0 +1,157 @@
+<?php
+/**
+ * Mapper for ProposalRevision
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 13-Aug-2007 08:50:50 AM
+ */
+class Hb_Mapper_Proposal_ProposalRevision extends Hb_Mapper_Mapper
+{
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */	
+	protected static $__domain = 'Hb_App_Proposal_ProposalRevision';
+	
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_Proposal_ProposalRevision';
+		
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "proposal_revision_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "proposal_revision";
+			
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_ProposalRevision(
+																	 $row->proposal_revision_id , 
+																	 $row->login , 
+																	 $row->max_amount , 
+																	 $row->min_amount , 
+																	 $row->number_of_countries , 
+																	 $row->number_of_options , 
+																	 $row->pricing_type_id , 
+																	 $row->proposal_id , 
+																	 $row->proposal_option_type_id , 
+																	 $row->proposal_revision_status_id , 
+																	 $row->proposal_revision_text , 
+																	 $row->proposal_type_id , 
+																	 $row->revision , 
+																	 $row->sent_date , 
+																	 $row->study_data_processing_duration_id , 
+																	 $row->study_fieldwork_duration_id , 
+																	 $row->study_interview_type_id, 
+																	 $row->study_setup_duration_id , 
+																	 $row->user_id
+																 );																					 	
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+		
+		$db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select(); 
+  		
+		$select->from(array('a' =>'proposal_revision'), array('proposal_revision_id',
+																				'proposal_id',
+																				'revision',
+																				'study_interview_type_id',
+																				'study_setup_duration_id',
+																				'study_fieldwork_duration_id',
+																				'study_data_processing_duration_id',
+																				'proposal_option_type_id',
+																				'proposal_type_id',
+																				'number_of_countries',
+																				'number_of_options',
+																				'login',
+																				'user_id',
+																				'proposal_revision_status_id',
+																				'pricing_type_id',
+																				'min_amount',
+																				'max_amount',
+																				'sent_date',
+																				'proposal_revision_text'));
+		
+		return $select; 								
+	}
+	
+	/**
+	 * Finds a proposal revision by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */				
+	protected function doFindById($id)
+	{
+
+		$select = $this->GetBaseSelect();        
+    	$select->where('proposal_revision_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+		
+	}
+	
+	
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */				
+	protected function doSave(Hb_App_Object $obj)
+	{
+		
+		$row = (is_null($obj->GetId())) ? $this->Insert($obj) : $this->Update($obj);
+		
+		$row->login 										= $obj->GetLogin();
+		$row->max_amount									= $obj->GetMaxAmount();
+		$row->min_amount									= $obj->GetMinAmount();
+		$row->number_of_countries						= $obj->GetNumberOfCountries();
+		$row->number_of_options							= $obj->GetNumberOfOptions();
+		$row->pricing_type_id							= $obj->GetPricingTypeId();
+		$row->proposal_id									= $obj->GetProposalId();
+		$row->proposal_option_type_id 				= $obj->GetproposalOptionTypeId();
+		$row->proposal_revision_status_id 			= $obj->GetProposalRevisionStatusId();
+		$row->proposal_revision_text 					= $obj->GetProposalRevisionText();
+		$row->proposal_type_id 							= $obj->GetProposalTypeId();
+		$row->revision 									= $obj->GetRevision();
+		$row->sent_date 									= $obj->GetSentDate();
+		$row->study_data_processing_duration_id	= $obj->GetStudyDataProcessingDurationId();
+		$row->study_fieldwork_duration_id			= $obj->GetStudyFieldWorkDurationId();
+		$row->study_interview_type_id					= $obj->GetStudyInterviewTypeId();
+		$row->study_setup_duration_id					= $obj->GetStudySetupDurationId();
+		$row->user_id										= $obj->GetUserId();
+		
+		$row->Save();
+		
+		$obj->SetProposalRevisionId($row->proposal_revision_id);			
+	}
+
+}
+?>

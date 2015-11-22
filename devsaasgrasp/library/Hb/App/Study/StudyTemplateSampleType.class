@@ -1,0 +1,92 @@
+<?php
+/**
+ * Domain Object for Study Template Sample Type
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author cediriweera
+ * @version 1.0
+ * @package App
+ * @subpackage Study
+ *
+ */
+ 
+class Hb_App_Study_StudyTemplateSampleType extends Hb_App_Common_Type
+{
+	/**
+	 * Study template id
+	 *
+	 * @var int
+	 **/
+	protected $study_template_id = null;
+
+	/**
+	 * Sample type id
+	 *
+	 * @var int
+	 **/
+	protected $sample_type_id  = null;
+
+	/**
+	 * Create StudyTemplateSampleType Object
+	 *
+	 * @param int $id Study template sample type id
+	 * @param int $study_template_id Study template id
+	 * @param string $sample_type_id Sample type id
+	 * @param $description Study template sample type description
+	 */
+	function __construct($id = null,
+  							   $study_template_id = null,
+  							   $sample_type_id = null,
+  							   $description = null)
+	{
+		$this->study_template_sample_type_id 	= $id;
+		$this->study_template_id 					= $study_template_id;
+		$this->sample_type_id 						= $sample_type_id;
+		
+		parent::__construct($id, $description);
+	}
+
+	/**
+	* Returns the Sample type id
+ 	* 
+	* @return int The Sample type id
+	**/
+	public function GetSampleTypeId()
+	{
+		return $this->sample_type_id;
+	}
+
+	/**
+	* Returns the Study template id
+ 	* 
+	* @return int The Study template id
+	**/	
+	public function GetStudyTemplateId()
+	{
+		return $this->study_template_id;
+	}
+
+	/**
+	 * Sets the Sample type id
+ 	 * 
+	 * @param int $sample_type_id Sample type id
+	 */
+	public function SetSampleTypeId($sample_type_id)
+	{
+		$this->sample_type_id = $sample_type_id;
+		$this->MarkDirty();
+	}
+
+	/**
+	 * Sets the Study template id
+ 	 * 
+	 * @param int $study_template_id Study template id
+	 */
+	public function SetStudyTemplateId($study_template_id)
+	{
+		$this->study_template_id = $study_template_id;
+		$this->MarkDirty();
+	}
+
+}
+?>

@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * Session object wrapping Zend_Session to provide backward compatibility..
+ *
+ *  @package  Util
+ *  @subpackage  Session
+ *  @version  2.0.1
+ *  @author  nayana
+ *  @copyright  2007 Global Market Insite
+ *  @todo  Need to implement sync back to the default name space when session values are added 
+ */
+
+
+/**
+ *  Zend_Session
+ */
+require_once 'Zend/Session/Namespace.php';
+
+/**
+ *  Zend_Config_Ini
+ */
+require_once 'Zend/Config/Ini.php';
+
+class Hb_Util_Session_Session extends Zend_Session_Namespace
+{
+//	/**
+//	 * Create a Session Object
+//	 *
+//	 * @param string $namespace Name of the name space for session
+//	 * @param bool $singleInstance Designates if another instance for the same name space can be created or not
+//	 * @param Zend_Session_Core $core
+//	 */
+//	public function __construct($namespace = 'Default', $singleInstance = false, Zend_Session_Core $core = null)
+//	{
+//		parent::__construct($namespace, $singleInstance, $core);
+//		
+//		/* Backward compatibility Hack , we are going to write all elements currently resides in the level 1 of _SESSION to the default name space*/
+//		if ($namespace == 'Default') {
+//			
+//			foreach ($_SESSION as $key => $value){
+//				
+//				if (!is_array($value) && !is_object($value)) {
+//					$this->$key = $value;
+//				}
+//				
+//			}
+//		}
+//	}
+//	
+//	public static function getInstance()
+//	{
+//		if (is_null(self::$__instance)) {
+//			self::$__instance = new Hb_Util_Session_Session();
+//		}
+//		
+//		return self::$__instance;
+//	}
+}
+?>

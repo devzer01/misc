@@ -1,0 +1,51 @@
+<?php
+class Hb_View_Account_AccountBasicContact extends Hb_Util_View_View 
+{
+	protected  $__template_name = 'app/acm/vw_basic_account_contact.tpl';
+	
+	protected $__handler = 'Smarty';
+	
+	protected $account = null;
+
+	protected $list = array();
+	
+	protected $countries = null;
+	
+	protected $account_term = null;
+	
+	protected $display = array('view_credit_hold_status' => 0);
+	
+	
+	protected  function LoadData()
+	{				
+		$this->list['title'] = array('MR.', 'MRS.', 'MS.');
+				
+		$this->SetData('countries', $this->countries);
+		$this->SetData('list', $this->list);
+		$this->SetData('account', $this->account);	
+		$this->SetData('account_term', $this->account_term);		
+		$this->SetData('display', $this->display);
+	}	
+
+	public function SetAccount($account)
+	{
+		$this->account = $account;
+	}
+	
+	public function SetCountries($countries)
+	{
+		$this->countries = $countries;
+	}
+	
+	public function SetAccountTerm($account_term)
+	{
+		$this->account_term = $account_term;
+	}
+	
+	public function SetDisplay($flag)
+	{
+		$this->display[$flag] = 1;
+	}	
+	
+}
+?>

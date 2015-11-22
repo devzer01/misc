@@ -1,0 +1,88 @@
+<?php
+/**
+ * Mapper Panel Cost Attributes
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ */
+
+class Hb_Mapper_Proposal_PanelCostAttributes extends Hb_Mapper_Mapper
+{
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = 'panel_cost_attr_id';
+	
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */		
+	protected $table       = 'panel_cost_attr';
+	
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */		
+	protected function GetBaseSelect()
+	{
+		$db = Hb_Util_Db_Connection::GetInstance();
+		
+		$select = $db->select();
+		
+		$select->from('panel_cost_attr');
+		
+		return $select;	
+	}
+	
+	
+	/**
+	 * Finds a panel cost attribute by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */				
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();
+		$select->where('panel_cost_attr_id = ?', $id);
+		
+		return $this->getRows($select);
+	}
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */		
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Proposal_PanelCostAttribute($row->panel_cost_attr_id, $row->panel_cost_attr_name, $row->panel_cost_attr_value);
+	}
+
+	/**
+	 * Saves a dirty domain object to the persistence layer
+	 *
+	 * @param $obj object Instance of the relevent domain object
+	 */					
+	protected function doSave(Hb_App_Object $obj)
+	{
+		if (is_null($obj->GetId())) $row = $this->Insert($obj); else $row = $this->Update($obj);
+																																	
+		$row->panel_cost_attr_value			= $obj->GetAttributeValue();
+						       							
+		$row->save();				
+	}
+	
+	
+	
+}
+
+?>

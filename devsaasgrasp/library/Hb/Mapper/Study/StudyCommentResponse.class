@@ -1,0 +1,115 @@
+<?php
+/**
+ * Mapper for Study Comment Response
+ *
+ * @copyright 2007 Global Market Insite Inc
+ * @author wfernando
+ * @version 1.1
+ * @updated 23-Aug-2007 19:48:12 AM
+ */
+
+class Hb_Mapper_Study_StudyCommentResponse extends Hb_Mapper_Mapper 
+{
+	/**
+	 * Class description
+	 *
+	 * @var string 
+	 */
+	protected $__gateway = 'Hb_Db_StudyCommentResponse';
+
+	/**
+	 * Domain for this mapper
+	 *
+	 * @var string 
+	 */		
+	protected static $__domain  = 'Hb_App_StudyCommentResponse';
+
+	/**
+	 * Primary key
+	 *
+	 * @var string 
+	 */
+	protected $primary_key = "study_comment_response_id";
+
+	/**
+	 * Table name
+	 *
+	 * @var string 
+	 */	
+	protected $table = "study_comment_response";	
+	
+	/**
+	 * Builds and returns the relevent domain object for this mapper
+	 *
+	 * @param $row $obj Result row from the Zend_Db framework 
+	 * @return obj An instance of the relevent domain object
+	 */	
+	protected function doBuildObject($row)
+	{
+		return new Hb_App_Study_StudyCommentResponse($row->study_comment_response_id,$row->study_comment_id,$row->notes,
+											 $row->response_reported , $row->response_reported_date);
+	}
+	
+	/**
+	 * Builds and returns a Zend_Db Select object
+	 *
+	 * @return $row object Result Select object from the Zend_Db framework 
+	 */	
+	protected function GetBaseSelect()
+	{
+	  $db = Hb_Util_Db_Connection::GetInstance(); 
+      $select = $db->select();
+      $select->from('study_comment_response', array(
+													'study_comment_response_id', 	
+													'study_comment_id',
+													'notes',
+													'response_reported',
+													'response_reported_date'));
+		return $select;													
+	 
+	}
+	
+	/**
+	 * Finds a Study Comment Response by it's Id
+	 *
+	 * @param $id int The record identifier that uniquely identifies the row.
+	 * @return obj Result row from the Zend_Db framework 
+	 */			
+	protected function doFindById($id)
+	{
+		$select = $this->GetBaseSelect();        
+    	$select->where('study_comment_response_id = ?', $id);				
+             
+    	return $this->getRow($select); 						
+	}
+	
+	/**
+	* Saves a dirty domain object to the persistence layer
+	*
+	* @param $obj object Instance of the relevant domain object
+	*/
+	protected function doSave(Hb_App_Object $obj)
+	{
+	
+	$data = array(
+					'study_comment_id' => $obj->GetStudyCommentId(),
+					'notes' => $obj->GetNotes(),
+					'response_reported' => $obj->GetResponseReported(),
+					'response_reported_date' => $obj->GetResponseReportedDate());
+				 
+	$db = Hb_Util_Db_Connection::GetInstance();
+	
+		if (is_null($obj->GetId())) 
+		{
+			$db->insert('study_comment_response', $data);
+			$obj->SetStudyCommentResponseId($db->lastInsertId());
+		}
+		else 
+		{
+			$db->update('study_comment_response', $data, 'study_comment_response_id = ' . $obj->GetId());
+		} 
+		
+	}
+	
+}
+?>

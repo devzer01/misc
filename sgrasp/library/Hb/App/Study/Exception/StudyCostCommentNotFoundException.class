@@ -1,0 +1,9 @@
+<?php 
+require_once('class/Hb/Exception.class');
+
+class Hb_App_Study_Exception_StudyCostCommentNotFoundException extends Hb_Exception 
+{
+	
+}
+
+?>

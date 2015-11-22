@@ -1,0 +1,16 @@
+<?php
+/**
+ * Common File mapper interface 
+ * 
+ * @copyright 2007 Global Market Insite Inc
+ * @author jsadique
+ * @version 1.0
+ * @package Mapper
+ * @subpackage Common
+ */ 
+
+interface Hb_Mapper_Common_FileInterface
+{		
+	public function GetFileData($id, $mapper_obj);
+}
+?>
